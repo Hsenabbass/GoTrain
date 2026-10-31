@@ -92,8 +92,12 @@ python3 scripts/backup.py cache-data \
 This retrieves the exact four public archives named by the committed inspection
 record and verifies their recorded SHA-256 values. It copies opaque bytes without
 opening ZIP contents, inspecting test samples or installing ML dependencies. It
-reuses matching files, writes a cache manifest, reserves 5 GiB and caps transfer at
-900 seconds with a 30-second network read timeout. Checksum failures stop the copy.
+reuses matching files, resumes partial copies when the server supports byte ranges,
+and transfers at most four archives concurrently, with up to four byte ranges per
+archive (16 connections maximum). This addresses the observed slow individual
+connection rate; only the final whole-file SHA-256 establishes a valid cache. It writes a cache manifest only
+after all four pass, reserves 5 GiB and caps transfer at 3,600 seconds with a
+30-second network read timeout. Checksum failures stop the copy.
 Other custodians can choose their own external directory; do not put it inside Git.
 
 ## Restore after session or environment loss

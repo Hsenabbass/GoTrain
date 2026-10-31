@@ -314,7 +314,8 @@
           "note": "Deterministic diagnostic subset; not fitted normalization statistics."
         }
       },
-      "materialized_train_valid_files": 3000
+      "materialized_train_valid_files": 3000,
+      "archive_bytes": 275741001
     },
     {
       "name": "m-pv4ger-seg",
@@ -462,7 +463,8 @@
           "empty_masks": 1
         }
       },
-      "materialized_train_valid_files": 3403
+      "materialized_train_valid_files": 3403,
+      "archive_bytes": 299530281
     },
     {
       "name": "m-brick-kiln",
@@ -747,7 +749,8 @@
           "note": "Deterministic diagnostic subset; not fitted normalization statistics."
         }
       },
-      "materialized_train_valid_files": 16062
+      "materialized_train_valid_files": 16062,
+      "archive_bytes": 1583611808
     },
     {
       "name": "m-chesapeake",
@@ -915,7 +918,8 @@
           "empty_masks": 20
         }
       },
-      "materialized_train_valid_files": 4000
+      "materialized_train_valid_files": 4000,
+      "archive_bytes": 1251055405
     }
   ],
   "channel_mapping_source_commit": "17cac9b7bd0d506866d8356f5817b88d173d2891",

@@ -169,7 +169,10 @@ for verification. A run record owns the exact numeric score.
 **Last updated:** 2026-10-31.
 **Current state:** tasks 1.1 and 1.2 are complete. Required access passed; the four
 selected archives are verified and train/validation inspection is documented in
-[data contracts](../data.md). No training or engine implementation has started.
+[data contracts](../data.md). Approved recovery snapshots and sealed archive
+caching follow [storage/recovery](../storage.md); actual transfer/verification
+status is maintained in [resources](../RESOURCES.md#recovery-verification).
+No training or engine implementation has started.
 **Constraints:** preserve the active JupyterLab session and official splits; test
 payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
 The verification venv inherits existing conflicts; task 1.4 owns application
@@ -177,8 +180,8 @@ dependencies. Quotas and judging/presentation details remain pending.
 **Next action:** task 1.3: finalize metrics, Chesapeake no-data/class inclusion and
 explicit conservative budgets before reference runs. Use corrected multispectral
 channel orders and observed scales; do not fit preprocessing on validation.
-**Pending synchronization:** none after this change is published and task 1.2 is
-closed on GitHub.
+**Pending synchronization:** backup workflow publication and dataset cache completion
+are tracked in the resource record. Task 1.2 remains complete; task 1.3 has not started.
 
 ## Completion
 

@@ -1,6 +1,7 @@
 """Create/verify recovery snapshots and cache sealed dataset ZIPs; standard library only."""
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 import hashlib
 import io
@@ -124,28 +125,62 @@ def cache_data(root, destination):
     if {task['name'] for task in record['tasks']} != expected or len(record['tasks']) != 4:
         raise ValueError('Expected exactly the four selected tasks')
     destination.mkdir(parents=True, exist_ok=True, mode=0o700)
-    records = []
-    deadline = time.monotonic() + 900
-    for task in record['tasks']:
+    if shutil.disk_usage(destination).free < 2 * record['download_total_bytes'] + 5 * 2**30:
+        raise ValueError('Insufficient space for dataset cache plus 5 GiB reserve')
+    deadline = time.monotonic() + 3600
+
+    def copy_task(task):
         name = safe_name(task['benchmark'] + '/' + task['name'] + '.zip')
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
         if not target.exists() or sha256(target) != task['archive_sha256']:
-            if shutil.disk_usage(destination).free < record['download_total_bytes'] - sum(item['bytes'] for item in records) + 5 * 2**30:
-                raise ValueError('Insufficient space for dataset cache plus 5 GiB reserve')
             url = 'https://huggingface.co/datasets/' + record['repo'] + '/resolve/' + record['revision'] + '/' + str(name)
             temporary = target.with_suffix('.partial')
-            # Public source only: no credentials, local execution, or sample decoding.
-            with urllib.request.urlopen(url, timeout=30) as response, temporary.open('wb') as stream:
-                for block in iter(lambda: response.read(1024 * 1024), b''):
-                    if time.monotonic() > deadline:
-                        raise TimeoutError('Dataset cache exceeded 900 seconds')
-                    stream.write(block)
-            if sha256(temporary) != task['archive_sha256']:
-                raise ValueError('Dataset archive checksum mismatch: ' + str(name))
+            if not temporary.exists() or sha256(temporary) != task['archive_sha256']:
+                offset = temporary.stat().st_size if temporary.exists() else 0
+                total = task['archive_bytes']
+                if offset >= total:
+                    raise ValueError('Oversized or corrupt partial archive requires review')
+
+                def transfer(start, end, path, resume=False):
+                    existing = path.stat().st_size if resume and path.exists() else 0
+                    if existing == end - start + 1:
+                        return path
+                    request = urllib.request.Request(url, headers={'Range': 'bytes=' + str(start + existing) + '-' + str(end)})
+                    with urllib.request.urlopen(request, timeout=30) as response:
+                        prefix = 'bytes ' + str(start + existing) + '-' + str(end) + '/'
+                        if response.status != 206 or not response.headers.get('Content-Range', '').startswith(prefix):
+                            raise ValueError('Server did not honor requested archive byte range')
+                        with path.open('ab' if existing else 'wb') as stream:
+                            for block in iter(lambda: response.read(1024 * 1024), b''):
+                                if time.monotonic() > deadline:
+                                    raise TimeoutError('Dataset cache exceeded 3600 seconds')
+                                stream.write(block)
+                    if path.stat().st_size != end - start + 1:
+                        raise ValueError('Incomplete archive byte range')
+                    return path
+
+                # Four bounded ranges per archive avoid the observed slow single
+                # connection rate. Existing opaque prefix bytes are preserved.
+                length = (total - offset + 3) // 4
+                ranges = [(start, min(start + length, total) - 1) for start in range(offset, total, length)]
+                chunks = [(start, end, temporary.with_name(temporary.name + '.range-' + str(start) + '-' + str(end))) for start, end in ranges]
+                with ThreadPoolExecutor(max_workers=4) as ranges_pool:
+                    list(ranges_pool.map(lambda args: transfer(*args, resume=True), chunks))
+                with temporary.open('ab') as stream:
+                    for start, end, chunk in chunks:
+                        with chunk.open('rb') as part:
+                            shutil.copyfileobj(part, stream, length=1024 * 1024)
+                if sha256(temporary) != task['archive_sha256']:
+                    raise ValueError('Dataset archive checksum mismatch; retain partial for review: ' + str(name))
+                for start, end, chunk in chunks:
+                    chunk.unlink()
             temporary.replace(target)
-        records.append({'path': str(name), 'bytes': target.stat().st_size, 'sha256': task['archive_sha256']})
         print('VERIFIED', str(name), flush=True)
+        return {'path': str(name), 'bytes': target.stat().st_size, 'sha256': task['archive_sha256']}
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        records = list(pool.map(copy_task, record['tasks']))
     (destination / 'manifest.json').write_text(json.dumps({'repo': record['repo'], 'revision': record['revision'], 'files': records}, indent=2) + '\n')
 
 
