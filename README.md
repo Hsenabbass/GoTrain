@@ -8,6 +8,7 @@ Built for the AUB ACM × RASID hackathon, 31 October–1 November 2026.
 
 - **[Project plan](docs/PROJECT_PLAN.md):** our goals, approach, five milestones, dependencies, and when to use each tool.
 - **[Repository workflow](docs/WORKFLOW.md):** folder conventions and how plans, code, evidence, and documentation stay consistent.
+- **[Manual training](docs/training.md):** verified run commands, guardrails and record format.
 - **[Storage and recovery](docs/storage.md):** teammate data access, verified backups, and restore steps.
 - **[GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones):** milestone progress and implementation tasks.
 - **[Challenge brief](GoTrain%20Challenge.pdf):** the source of the hackathon requirements.
@@ -39,9 +40,12 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
-**Tasks 1.1–1.3 are complete; no autonomous engine, training pipeline, or UI is implemented yet.** SageMaker GPU execution, Bedrock/Strands response and tool use, and storage across a browser reload have passed initial checks. SageMaker GitHub clone/push also passed; operating agreements and remaining limits are documented; see the [verification record](docs/setup.md).
+**Tasks 1.1–1.4 are complete.** The shared manual training/validation foundation
+passed its safety/metric checks and classification/segmentation smoke runs,
+including fresh-process checkpoint reloads. See the [training guide](docs/training.md).
+No accepted reference model, autonomous engine or UI exists yet.
 
-[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). The four selected datasets are downloaded and train/validation inspection is complete; see the [data contracts and findings](docs/data.md). Test payloads remain sealed. [Evaluation contracts and measured budgets](docs/data.md#evaluation-and-checkpoint-rules-13) are fixed. Task 1.4 is next; only bounded capacity calibration has run, with no reference training.
+[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). The four selected datasets are downloaded and train/validation inspection is complete; see the [data contracts and findings](docs/data.md). Test payloads remain sealed. [Evaluation contracts and measured budgets](docs/data.md#evaluation-and-checkpoint-rules-13) are fixed. Task 1.5 is next; reference training belongs to 1.5/1.6. Current training results are smoke checks only.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 

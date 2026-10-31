@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / 'src'))
 from gotrain.data import DevelopmentData, fit_normalization, joint_transform, prepare
 from gotrain.metrics import Confusion
 from gotrain.runtime import Budget, Guard, validate_recipe
-from gotrain.training import checkpoint, run_with_watchdog
+from gotrain.training import checkpoint, run_with_watchdog, main
 
 
 class FoundationChecks(unittest.TestCase):
@@ -32,6 +32,10 @@ class FoundationChecks(unittest.TestCase):
             for split in ('test', 'all', None, 'validation'):
                 with self.assertRaises(ValueError):
                     DevelopmentData('/not-present', 'm-eurosat', split, self.contracts, {})
+
+    def test_other_checkout_cannot_create_an_independent_gpu_budget(self):
+        with patch('gotrain.training.ROOT', Path('/not-the-execution-checkout')):
+            with self.assertRaises(RuntimeError): main()
 
     def test_joint_spatial_transform_keeps_mask_alignment(self):
         x = torch.arange(9).reshape(1, 3, 3).float(); y = x[0].long()

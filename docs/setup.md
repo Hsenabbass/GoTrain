@@ -108,10 +108,32 @@ reference. Validation/saving reserves (30 seconds classification, 60 segmentatio
 exceed these measured full-validation estimates by at least fourfold. Memory limits
 (10 GiB allocated/12 GiB reserved) and a 15 GiB disk reserve leave substantial
 headroom over the measured probes. The defaults fit four reference jobs plus smoke,
-revalidation and failure allowance; task 1.4 implements and verifies enforcement.
+revalidation and failure allowance; the [manual foundation](training.md) implements and verifies enforcement.
 Actual job durations, including this probe, must be charged; caps are project
 allocations, not a claim of verified organizer quotas. Recalibrate changed recipes
 within the remaining allocation and stop if complete validation cannot fit.
+
+## Manual foundation verification (1.4)
+
+On 2026-10-31, **11 focused checks passed** on the provided verification venv:
+split rejection before I/O, fixed scaling/label checks, paired transforms,
+train-only fitted moments, analytical global metrics including ignored/absent
+classes, caps/lock/accounting/retry checks, a real watchdog termination and
+preservation of an existing checkpoint after a simulated failed write.
+
+Two bounded smoke runs then completed training, subset validation and automatic
+fresh-process checkpoint reloads: EuroSAT in **10.15 seconds**, PV4GER-Seg in
+**12.35 seconds**, with two successful optimizer updates each. Both reload primary
+score deltas were **0**; prediction hashes matched and probability sums passed.
+These are smoke diagnostics, not reference scores. [Raw foundation evidence](foundation.json)
+owns run IDs, configs, versions, normalization, memory, checksums and settled budget
+charges. [Training guide](training.md) owns verified commands/record format.
+
+[requirements.txt](../requirements.txt) records all ten observed direct versions.
+No packages were installed or upgraded for 1.4. The provided GPU image and overlay
+venv remain in use; inherited conflicts were not repaired. These checks establish
+the used ResNet18/FCN-ResNet50 paths, not every installed vision operator or a
+universal clean environment. No pretrained weight or Bedrock request was made.
 
 ## Recovery
 
@@ -134,13 +156,13 @@ User clarification on 2026-10-31 is the current operational agreement:
   will relay them. Record updates when available; do not invent requirements.
 - **Quotas:** exact GPU/runtime and Bedrock limits remain unknown because the role
   cannot read quotas. This is an accepted recorded limitation of access verification.
-  Task 1.3 has set [conservative explicit caps](../configs/m1.json); task 1.4 must enforce them before reference runs;
+  Task 1.3 has set [conservative explicit caps](../configs/m1.json); the manual runner now enforces them before reference runs;
   do not treat unknown quotas as unlimited resources.
 
 Technical access acceptance is satisfied. Follow-up work belongs to its planned
 scope: task 1.2 has verified selected-task downloads/versions and recorded source terms in [data contracts](data.md);
-task 1.3 has frozen [metrics/budgets](data.md#evaluation-and-checkpoint-rules-13); reconcile organizer updates when received; task 1.4 establishes
-the minimal application dependency set. Recipe-specific weight downloads and
+task 1.3 has frozen [metrics/budgets](data.md#evaluation-and-checkpoint-rules-13); reconcile organizer updates when received; task 1.4 has recorded the [tested direct dependency set](../requirements.txt)
+and verified the manual runner. Recipe-specific weight downloads and
 licenses are checked when models are selected in tasks 1.5/1.6. Imports and endpoint
 access alone do not establish full training compatibility. Task 1.7 reviews all
 required evidence; M5 checks the eventual submission/presentation requirements.

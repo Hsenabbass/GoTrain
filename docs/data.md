@@ -159,8 +159,8 @@ sanitized result record is committed here so completion is reviewable.
 IDs, source revision, default partition, tensor sizes, scales and scoring rules.
 M1 accepts a registered task ID, task-description string, pinned dataset reference,
 seed and explicit budget no larger than [M1 caps](../configs/m1.json). Arbitrary
-uploads, external paths and new dataset adapters belong later. Task 1.4 implements
-and tests enforcement before reference runs; the settings alone are not enforcement.
+uploads, external paths and new dataset adapters belong later. The [manual foundation](training.md) implements and tests enforcement before
+reference runs; the settings alone are not enforcement.
 
 - **Input:** float32 `N×C×H×W`, all channels in corrected storage order, original
   patch sizes. Divide EuroSAT channels by 10,000; Brick-Kiln's first ten by 10,000
@@ -257,7 +257,7 @@ one logged transient retry per failed run, within the total budget; an OOM retry
 halves the batch under a new run ID. Permission, test-guard, label, non-finite-loss
 and checksum failures require diagnosis, not automatic retries. Stop and surface
 the tradeoff if four complete validation records cannot fit; never drop tasks or
-substitute subsets. Task 1.4 must enforce these rules before tasks 1.5/1.6 run.
+substitute subsets. The [manual runner](training.md) enforces these rules for tasks 1.5/1.6.
 
 Reserve at least two hours before the user-confirmed **2026-11-01 15:00 Asia/Beirut**
 submission for final evaluation/presentation/submission. Admit no development job

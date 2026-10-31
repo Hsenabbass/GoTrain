@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** in progress; tasks 1.1–1.3 completed 2026-10-31; tasks 1.4–1.7 not started.
+**Status:** in progress; tasks 1.1–1.4 completed 2026-10-31; tasks 1.5–1.7 not started.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -80,7 +80,7 @@ counts are assigned. Choose recipes after actual data/capacity checks.
 
 The [versioned caps](../../configs/m1.json) now define the M1 allocation and
 per-run/resource/retry limits, based on [bounded calibration](../setup.md#capacity-calibration-and-m1-budgets).
-Exact organizer quotas remain unknown. Task 1.4 must implement and test enforcement
+Exact organizer quotas remain unknown. The [manual foundation](../training.md) now implements and tests enforcement
 before reference runs; no settings file by itself enforces a budget.
 
 | Required setting | How to settle it |
@@ -163,7 +163,7 @@ for verification. A run record owns the exact numeric score.
 | Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
 | Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
 | Evaluation and budget contracts (1.3) | Versioned official metric sources; four-task bounded T4 calibration, no test access | Complete 2026-10-31; frozen primary/diagnostic rules and explicit caps; judging metrics still pending | [Data/evaluation contracts](../data.md), [capacity](../setup.md#capacity-calibration-and-m1-budgets), [task settings](../../configs/tasks.json), [caps](../../configs/m1.json) |
-| Shared foundation (1.4) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
+| Shared foundation (1.4) | 11 focused SageMaker checks; two bounded smoke jobs and fresh-process checkpoint reloads | Complete 2026-10-31; two optimizer updates per task, reload score delta 0; no reference results | [Manual guide](../training.md), [raw evidence](../foundation.json), [dependencies](../../requirements.txt) |
 | EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
@@ -173,21 +173,22 @@ for verification. A run record owns the exact numeric score.
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** tasks 1.1–1.3 are complete. Required access passed; the four
+**Current state:** tasks 1.1–1.4 are complete. Required access passed; the four
 selected archives are verified and train/validation inspection is documented in
 [data contracts](../data.md). Approved recovery snapshots and sealed archive
 caching follow [storage/recovery](../storage.md); actual transfer/verification
 status is maintained in [resources](../RESOURCES.md#recovery-verification).
-Bounded capacity calibration passed; no reference training or autonomous engine exists.
+Capacity calibration and the manual foundation checks/smoke reloads passed;
+no accepted reference model or autonomous engine exists.
 **Constraints:** preserve the active JupyterLab session and official splits; test
 payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
-The verification venv inherits existing conflicts; task 1.4 owns application
-dependencies. Quotas and judging/presentation details remain pending.
-**Next action:** task 1.4: build the shared train/validation foundation and enforce
-the frozen task/metric/resource contracts before references. Calibration models
-are random-weight cost proxies, not selected recipes or reference results.
-**Pending synchronization:** none after this completion change is published,
-calibration evidence is independently backed up and task 1.3 is closed on GitHub.
+The verification venv inherits existing conflicts; direct versions and tested
+paths are recorded in the setup/training guides. Quotas and judging/presentation details remain pending.
+**Next action:** task 1.5: freeze classification recipes, verify any selected
+weights and record full-validation EuroSAT/Brick-Kiln references under the existing
+caps. Segmentation references remain 1.6; no agent orchestration is added here.
+**Pending synchronization:** none after this completion change and small evidence
+backup are published/verified and task 1.4 is closed on GitHub.
 
 ## Completion
 

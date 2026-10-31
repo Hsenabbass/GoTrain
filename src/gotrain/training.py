@@ -229,6 +229,8 @@ def run_with_watchdog(args, seconds, log, env=None):
 
 
 def main():
+    if ROOT != Path('/home/sagemaker-user/GoTrain').resolve():
+        raise RuntimeError('Use the canonical SageMaker GoTrain checkout so GPU lock and budget stay shared')
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
     train = sub.add_parser('train'); train.add_argument('--recipe', type=Path, required=True); train.add_argument('--retry-of')
@@ -266,9 +268,9 @@ def main():
         git = lambda *a: subprocess.check_output(['git', '-C', str(ROOT), *a], timeout=15).decode().strip()
         if git('ls-files', '--others', '--exclude-standard'):
             raise ValueError('Commit untracked source before starting a recorded run')
-        patch = git('diff', '--binary', 'HEAD')
+        patch = subprocess.check_output(['git', '-C', str(ROOT), 'diff', '--binary', 'HEAD'], timeout=15).decode()
         if patch:
-            (run / 'source.patch').write_text(patch + '\n')
+            (run / 'source.patch').write_text(patch)
         record = {'run_id': run_id, 'status': 'created', 'created_utc': stamp, 'recipe': recipe,
                   'source_commit': git('rev-parse', 'HEAD'), 'dirty': bool(patch), 'seed': 2026,
                   'data_revision': contracts['dataset_revision'], 'partition_sha256': next(t['partition_sha256'] for t in read(ROOT / 'docs/data-inspection.json')['tasks'] if t['name'] == recipe['task']),

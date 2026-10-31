@@ -37,7 +37,9 @@ verification only copy/hash files; they do not run training or inspect samples.
 5. Share source through Git; refer to run IDs and storage paths for large outputs.
    Use separate run directories and initially schedule GPU jobs sequentially.
    Coordinate Git updates; do not change branches in another teammate's active
-   working checkout. Separate clones can share the verified dataset read-only.
+   working checkout. Separate clones can share the verified dataset read-only for inspection; manual
+   training uses only the canonical `/home/sagemaker-user/GoTrain` execution checkout
+   so its GPU lock and budget ledger remain shared.
 
 ## Creating a recovery snapshot
 
