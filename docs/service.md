@@ -214,7 +214,10 @@ in an isolated temporary directory.
 
 ## 4.2 step 2: shared worker routing
 
-Implemented, CPU verification pending. `M4Runner` resolves only registered frozen
+Source 9397fa4 passed 75 SageMaker CPU checks (eight new M4 runner cases) in
+3.472 s. Independent snapshot verification/restored evidence passed. No GPU
+execution: the actual training path remains for live acceptance. `M4Runner`
+resolves only registered frozen
 data, builds reviewed M3-compatible numerical recipes, and launches the existing
 training worker through its watchdog using the supervisor-owned M4 reservation.
 The worker checks parent/trial/job identity, frozen-request hash, dataset contract

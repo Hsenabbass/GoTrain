@@ -233,7 +233,7 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
 | Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
-| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Admission/accounting CPU-verified; runner/supervisor integration pending | Keep 4.2 open |
+| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Admission/worker routing CPU-verified; supervisor/live GPU acceptance pending | Keep 4.2 open |
 | Usable workspace / 4.3 | Real browser walkthrough, downloaded-package prediction and independent backup verification | Unverified | Record during implementation |
 
 ## Handoff
@@ -303,6 +303,9 @@ disabled. Next: propose step 2 custom-data runner integration for confirmation. 
 
 User authorized focused custom-data runner integration. Added an M4 path to the
 existing worker and a small trusted runner wrapper; shared training/evaluation
-code is reused. CPU verification pending. No GPU/Bedrock execution, new service
-or dependency; live training remains disabled. Durable agent/supervisor state
+code is reused. CPU verification passed at 9397fa4: all 75 tests (eight new runner cases),
+3.472 s. Real ledger hashes were unchanged, no real M4 reservation was created,
+and no GPU/Bedrock/test access occurred. The actual GPU training path remains
+unverified until live acceptance. Independent 79-file snapshot/member verification
+and evidence restoration passed. No new service or dependency; training stays disabled. Durable agent/supervisor state
 and stop/reconnect are step 3, package wiring step 4, live acceptance step 5.

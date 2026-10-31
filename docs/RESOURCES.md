@@ -182,3 +182,18 @@ source `e96e01b13dd0586eea5f4b82f188d810567502e0`. Receiver directory:
 SHA-256 `775fe9ae849c8fed98010c1dd461a894958f6d5f4d45c50fb85c2fd4753a9cbc` matched sender/receiver/sidecar and all members verified.
 Restored evidence JSON SHA-256 `756be885797ce03c8784c11638d08c73dd0d99b511fb1da7734ae8d87bbbaf88` matched.
 This is source/CPU-check recovery, not live worker restart verification.
+
+
+## M4 custom-data worker routing (4.2 step 2)
+
+Source 9397fa4 passed 75 SageMaker CPU checks (eight new M4 runner cases).
+Real M1–M3 ledgers stayed unchanged; no real M4 reservation, GPU/Bedrock job or
+test access. GPU training remains unverified/disabled. See the
+[service contract](service.md) and [M4 evidence](m4-evidence.json).
+
+Independent snapshot `20261031T233646515450Z-recovery.tar.gz`: 4,735,785 bytes, 79 files,
+source `9397fa461f53054ae1e2296fe932d936ca9365ae`, under
+`C:/Users/moham/Documents/ChatGPT/GoTrain-backups/snapshots/`.
+SHA-256 `5651f4f095a493b80e72a40adb420fa1af56400c7a1ebfbbb320419140dcdd95` matched sender/receiver/sidecar; all members verified.
+Restored evidence JSON SHA-256 `972759602f50107a3b213f80a7f044e54ea72a8b40abe1bf983b14fdb8886cb4` matched.
+This covers source and CPU checks, not a live training/reconnect run.
