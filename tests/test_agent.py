@@ -91,6 +91,36 @@ class AgentChecks(unittest.TestCase):
         with self.assertRaises(ValueError):self.c.train_candidate({}, 'third', self.c.state['best'])
         with self.assertRaises(ValueError):self.c.train_candidate({}, 'retry', self.c.state['best'], self.c.state['best'])
 
+    def test_transport_retry_counts_requests_and_never_replays_partial_output(self):
+        import asyncio
+        from strands.models import BedrockModel
+        from botocore.exceptions import ConnectionClosedError
+        model = agent.create_agent(self.c).model
+        calls = []
+        async def empty_then_ok(*args, **kwargs):
+            calls.append(1)
+            if len(calls) == 1:raise ConnectionClosedError(endpoint_url='https://example.invalid')
+            yield {'metadata': {'usage': {'inputTokens': 1, 'outputTokens': 1}}}
+        async def consume():
+            return [event async for event in model.stream([])]
+        with patch.object(BedrockModel, 'stream', empty_then_ok):
+            self.assertEqual(len(asyncio.run(consume())), 1)
+        self.assertEqual(self.c.state['model_requests'], 2)
+        self.assertEqual(len(self.c.state['service_retries']), 1)
+        async def partial(*args, **kwargs):
+            calls.append(1)
+            yield {'messageStart': {'role': 'assistant'}}
+            raise ConnectionClosedError(endpoint_url='https://example.invalid')
+        calls.clear();self.c.state['model_requests'] = 0
+        with patch.object(BedrockModel, 'stream', partial):
+            with self.assertRaises(ConnectionClosedError):asyncio.run(consume())
+        self.assertEqual(len(calls), 1)
+        calls.clear();self.c.state['model_requests'] = 11
+        with patch.object(BedrockModel, 'stream', empty_then_ok):
+            with self.assertRaises(RuntimeError):asyncio.run(consume())
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(self.c.state['model_requests'], 12)
+
     def test_strands_schema(self):
         from strands import tool
         built = agent.create_agent(self.c)

@@ -151,14 +151,29 @@ def create_agent(controller):
     from strands import Agent, tool
     from strands.models import BedrockModel
     from botocore.config import Config
+    from botocore.exceptions import ConnectionClosedError
     class BoundedModel(BedrockModel):
         async def stream(self, *args, **kwargs):
-            controller.bound('model_requests')
-            async for event in super().stream(*args, **kwargs):
-                if 'metadata' in event:
-                    controller.state['usage'].append(event['metadata'])
+            for attempt in range(2):
+                controller.bound('model_requests')
+                received = False
+                try:
+                    async for event in super().stream(*args, **kwargs):
+                        received = True
+                        if 'metadata' in event:
+                            controller.state['usage'].append(event['metadata'])
+                            controller.save()
+                        yield event
+                    return
+                except ConnectionClosedError:
+                    # A stale connection after a long tool call may close before
+                    # any response. Retry once, counting the new wire request.
+                    if attempt or received:
+                        raise
+                    controller.state.setdefault('service_retries', []).append({
+                        'error_type': 'ConnectionClosedError',
+                        'after_model_request': controller.state['model_requests']})
                     controller.save()
-                yield event
 
     def wrap(method):
         # Preserve the method signature/docstring for Strands' tool schema.
