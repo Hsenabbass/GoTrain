@@ -94,3 +94,29 @@ The two training runs consumed **745.49 s**; fresh-process revalidation consumed
 calibration and foundation smoke work, is **860.08 / 3,600 s**, with no active
 reservation. This is the 1.5 evidence snapshot; `artifacts/m1-budget.json` remains
 the live authority for subsequent work. Task **1.6** is next; M1 remains open.
+
+## Frozen segmentation recipes (1.6)
+
+Frozen before either measured run: [PV4GER-Seg](../configs/reference-m-pv4ger-seg.json),
+then [Chesapeake](../configs/reference-m-chesapeake.json). Use the calibrated
+FCN-ResNet50 with random initialization (`weights=None`, `weights_backbone=None`),
+no auxiliary head or imported weights. Torchvision's BSD-3-Clause implementation
+and existing verified environment are unchanged. PV4GER keeps its RGB stem and
+2-class head; Chesapeake uses a newly initialized 4-input stem (including NIR)
+and a 7-class head. All output logits match native mask resolution.
+
+Use batch 4, unweighted cross-entropy, SGD momentum 0.9, learning rate 0.01,
+weight decay 0.0001, constant schedule, seed 2026 and float16 AMP (initial scale
+1024). Apply fixed channel divisors, then mean/std fitted on all training images
+only. Native 320×320 / 256×256 inputs: no resizing, cropping or mask interpolation;
+paired train-only flips/90-degree rotations preserve alignment and integer IDs.
+Keep all classes, including background and Chesapeake target 0; no ignored ID or
+threshold tuning. Global full-validation macro IoU selects the best checkpoint,
+with earliest checkpoint on ties. Report PV foreground IoU/F1 and Chesapeake's
+separate target-0-ignored land diagnostic; neither selects the model. Empty/tiny
+foreground and globally absent-class behavior follow the verified shared checks.
+
+Use the existing 10-epoch / 5,000-step / 600-second first-hit cap per run, with
+60 seconds reserved for full validation/saving. Fresh-process full-validation
+revalidation must reproduce the selected score within 1e-6. No tuning search or
+test access. Segmentation results and independent model backups remain pending.
