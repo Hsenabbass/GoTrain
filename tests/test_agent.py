@@ -93,6 +93,8 @@ class AgentChecks(unittest.TestCase):
 
     def test_strands_schema(self):
         from strands import tool
+        built = agent.create_agent(self.c)
+        self.assertIsNotNone(built)
         for name in ('inspect_task', 'train_candidate', 'read_result', 'verify_prediction', 'select_candidate'):
             wrapped = tool(getattr(self.c, name))
             self.assertTrue(wrapped.tool_spec['inputSchema'])

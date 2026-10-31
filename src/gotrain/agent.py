@@ -147,12 +147,10 @@ class Controller:
                 return {'error': str(exc), 'best': self.state['best']}
 
 
-def run_agent(folder):
+def create_agent(controller):
     from strands import Agent, tool
     from strands.models import BedrockModel
     from botocore.config import Config
-    controller = Controller(folder)
-
     class BoundedModel(BedrockModel):
         async def stream(self, *args, **kwargs):
             controller.bound('model_requests')
@@ -179,9 +177,15 @@ def run_agent(folder):
                   ('inspect_task', 'train_candidate', 'read_result', 'verify_prediction', 'select_candidate')],
                   callback_handler=None, load_tools_from_directory=False,
                   system_prompt='You run bounded geospatial experiments. Use only supplied tools. Inspect first, train a starting recipe, read evidence, run one justified configuration change, and select both candidates. Keep prior best if changes fail. Explain hypotheses and decisions. Never access test. Stop on exhausted budget or fatal failure; at most one eligible retry. Verify prediction on the selected best at the end.')
+    return agent
+
+
+def run_agent(folder):
+    controller = Controller(folder)
+    agent = create_agent(controller)
     try:
         result = agent('Complete one EuroSAT improvement cycle without asking routine human questions.')
-        controller.state.update(status='completed', response=str(result))
+        controller.state.update(status='agent_returned', response=str(result))
     except BaseException as exc:
         controller.state.update(status='failed', error=str(exc))
         raise

@@ -107,3 +107,44 @@ Follow [storage/recovery](storage.md) for snapshots. For 1.4, the independent ba
 includes source, test/run/reload/timing records and a settled-ledger copy, **not the
 large reproducible random-initialized smoke weights**. Restore the ledger copy to
 `artifacts/m1-budget.json` only after confirming there is no active job. All four accepted reference checkpoints now have verified independent backups; see [receipts](RESOURCES.md#recovery-verification).
+
+## Bounded agent (2.1)
+
+The configuration-only controller in `src/gotrain/agent.py` wraps this runner.
+Claude has five typed tools: inspect EuroSAT, train a candidate, read its result,
+reload/predict, and select by full-validation score. Preparation, validation and
+storage stay inside the runner. There is no shell or code/file-edit tool. The
+controller registers its own run IDs and starts with the retained M1 reference;
+failed/incomplete candidates cannot replace it, and ties keep the prior best.
+
+`configs/m2.json` owns M2 caps. It inherits M1's resource/run guard structure;
+legacy keys containing `m1` describe the same guard fields, with M2 values.
+`--allocation m2` selects `artifacts/m2-budget.json`, starting at zero. M1's
+ledger remains unchanged. Both use the same existing GPU lock and reject an
+unsettled reservation from either ledger. The M2 ledger also caps two normal
+training attempts and one eligible retry across invocations; restarting the agent
+does not reset GPU usage or these allowances. Each invocation separately bounds
+LLM/tool calls and wall time. An interrupted reservation requires operator review.
+
+On the canonical SageMaker checkout, using the existing verification Python:
+
+```python
+# In JupyterLab's Python console; no terminal/session dependency after launch.
+import subprocess
+repo = '/home/sagemaker-user/GoTrain'
+py = '/home/sagemaker-user/gotrain-access-check/venv/bin/python'
+with open(repo + '/artifacts/agent-launch.log', 'a') as log:
+    job = subprocess.Popen([py, 'scripts/agent.py'], cwd=repo,
+                           stdin=subprocess.DEVNULL, stdout=log,
+                           stderr=subprocess.STDOUT, start_new_session=True)
+print(job.pid)
+```
+
+This command performs the real cycle and belongs to **2.2**. Inspect
+`artifacts/agent/<UTC>/session.json` for run lineage, hypotheses, keep/reject
+results, request/tool counts and Bedrock usage metadata; `runner.log` preserves
+worker errors. `artifacts/agent/agent.log` retains agent output. The outer watchdog
+bounds the invocation; GPU admission reserves enough remaining invocation time
+for a bounded job to finish. `agent_returned` means Claude returned, not that M2
+acceptance passed. Confirm the full cycle, checkpoint reload and backup before
+accepting 2.2. No broad restart guarantee or agent code-edit sandbox is claimed.
