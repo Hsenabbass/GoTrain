@@ -81,6 +81,14 @@ The organizers provide SageMaker/Bedrock access according to the brief, but neit
 
 The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent preparation can overlap, but each completion check depends on evidence from the preceding milestone. Capture documentation and demo evidence throughout.
 
+| GitHub milestone | Overview issue | Depends on |
+| --- | --- | --- |
+| [M1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/milestone/1) | [#1](https://github.com/Hsenabbass/GoTrain/issues/1) | Organizer access and team access. |
+| [M2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/milestone/2) | [#2](https://github.com/Hsenabbass/GoTrain/issues/2) | M1. |
+| [M3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/milestone/3) | [#3](https://github.com/Hsenabbass/GoTrain/issues/3) | M2. |
+| [M4. Make results usable](https://github.com/Hsenabbass/GoTrain/milestone/4) | [#4](https://github.com/Hsenabbass/GoTrain/issues/4) | M3; design may start after M2 interfaces stabilize. |
+| [M5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/milestone/5) | [#5](https://github.com/Hsenabbass/GoTrain/issues/5) | M3 evidence and M4 packages/demo. |
+
 ### M1. Establish the foundation
 
 **Prerequisites:** organizer JupyterLab link and provided permissions; challenge brief; GitHub team access.

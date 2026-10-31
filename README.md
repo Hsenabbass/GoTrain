@@ -22,11 +22,11 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 | Milestone | Outcome |
 | --- | --- |
-| 1. Establish the foundation | Verified tools, understood data, and working reference recipes. |
-| 2. Build the autonomous engine | Claude completes a measured improvement cycle through reliable tools. |
-| 3. Demonstrate reliable improvement | The agent works across all four tasks with trustworthy comparisons. |
-| 4. Make results usable | Versioned model packages and an interface for running and using them. |
-| 5. Finalize the submission | One final test evaluation per task, complete evidence, and a rehearsed demo. |
+| [1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/issues/1) | Verified tools, understood data, and working reference recipes. |
+| [2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/issues/2) | Claude completes a measured improvement cycle through reliable tools. |
+| [3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/issues/3) | The agent works across all four tasks with trustworthy comparisons. |
+| [4. Make results usable](https://github.com/Hsenabbass/GoTrain/issues/4) | Versioned model packages and an interface for running and using them. |
+| [5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/issues/5) | One final test evaluation per task, complete evidence, and a rehearsed demo. |
 
 ## Rules we build around
 
