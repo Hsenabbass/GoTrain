@@ -40,6 +40,8 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 **Planning only: no agent, training pipeline, or UI is implemented yet.** SageMaker, Bedrock, GPU capacity, and storage permissions still need verification.
 
+[M1 is planned](docs/milestones/m1-foundation.md), with implementation tasks linked from [overview #1](https://github.com/Hsenabbass/GoTrain/issues/1). Execution has not started.
+
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 
 Reusable access routes and storage references belong in the [resource index](docs/RESOURCES.md). Codex follows [AGENTS.md](AGENTS.md); detailed milestone plans will live in `docs/milestones/` as each milestone is planned.

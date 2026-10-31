@@ -7,8 +7,8 @@ model/region requirements, and research references. See the
 
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
-| GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local repository and GitHub issue read access observed 2026-10-31; team write and SageMaker clone/push workflow unverified. |
-| Milestones and overview issues | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [overview index](PROJECT_PLAN.md#five-milestones) | Five milestones and overview issues established; implementation breakdown pending. |
+| GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; other teammates' access and SageMaker clone/push workflow unverified. |
+| Milestones and overview issues | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [overview index](PROJECT_PLAN.md#five-milestones) | Five milestones and overview issues established; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created, execution not started. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Unverified; do not store the access link here. |
 | Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Invocation, quotas, and smoke test unverified. |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | Download access, exact versions, and local paths unverified. |

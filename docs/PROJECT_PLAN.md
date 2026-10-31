@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** agreed direction; implementation has not started. We will detail each milestone when we reach it. No owners, dates, UI framework, or experiment counts are assigned yet.
+**Status:** agreed direction; [M1 is planned](milestones/m1-foundation.md), and implementation has not started. Later milestones will be detailed when we reach them. No owners, dates, UI framework, or experiment counts are assigned yet.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -90,6 +90,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 | [M5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/milestone/5) | [#5](https://github.com/Hsenabbass/GoTrain/issues/5) | M3 evidence and M4 packages/demo. |
 
 ### M1. Establish the foundation
+
+**Detailed plan:** [M1 foundation plan](milestones/m1-foundation.md), including implementation issues, decision gates, evidence requirements, and current handoff.
 
 **Prerequisites:** organizer JupyterLab link and provided permissions; challenge brief; GitHub team access.
 
