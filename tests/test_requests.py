@@ -159,7 +159,8 @@ class RequestChecks(unittest.TestCase):
         self.assertEqual(second['dataset_id'], 'm-eurosat')
         self.assertEqual(first['limits'], second['limits'])
         self.assertEqual(second['model_requests'], 2)
-        self.assertEqual(len(second['messages']), 2)
+        self.assertEqual(len(second['messages']), 3)
+        self.assertEqual(second['messages'][1]['role'], 'assistant')
         self.assertEqual(second['status'], 'ready_for_review')
 
     def test_four_wire_calls_are_a_persistent_cap_even_on_failure(self):

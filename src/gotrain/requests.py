@@ -77,6 +77,8 @@ def validate_manifest(value):
                 raise RequestError('Invalid task.' + key)
         if spec['classes'] < 2:
             raise RequestError('At least two class IDs are required')
+        if spec['channels'] * spec['height'] * spec['width'] * 4 > 128 * 2**20:
+            raise RequestError('One decoded sample exceeds 128 MiB; prepare smaller fixed-size windows')
         names = spec['band_names']
         if not isinstance(names, list) or len(names) != spec['channels'] or any(not isinstance(n, str) or not n or len(n) > 80 for n in names) or len(set(names)) != len(names):
             raise RequestError('Declare unique band_names in storage order')
@@ -125,6 +127,21 @@ def full_image_validation(manifest):
     for split in ('train', 'valid'):
         data = ManifestData(manifest, split)
         for index in range(len(data)):
+            row = data.rows[index]
+            for key in ('image', 'mask'):
+                if key not in row:
+                    continue
+                path = data.resolve(row[key])
+                if path.suffix.lower() in ('.tif', '.tiff'):
+                    import rasterio
+                    with rasterio.open(path) as image:
+                        dimensions, channels = (image.width, image.height), image.count
+                else:
+                    from PIL import Image
+                    with Image.open(path) as image:
+                        dimensions, channels = image.size, len(image.getbands())
+                if dimensions != (data.spec['width'], data.spec['height']) or channels != (1 if key == 'mask' else data.spec['channels']):
+                    raise RequestError('Image/mask shape or channel count differs from the manifest')
             data[index]  # Validates actual shape, channel count, targets and alignment.
 
 
@@ -373,6 +390,8 @@ class Requests:
             questions.append('Describe the desired model output.')
         record.update(dataset_id=dataset_id, questions=questions, goal=decision['goal'], proposed_limits=limits,
                       status='needs_input' if questions else 'ready_for_review')
+        if questions:
+            record['messages'].append({'role': 'assistant', 'content': '\n'.join(questions)})
         if not questions:
             record['summary'] = {'dataset_id': dataset_id, 'dataset_version': data['sha256'],
                                  'task': data['task'], 'counts': data['counts'], 'goal': decision['goal'],

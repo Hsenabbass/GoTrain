@@ -80,6 +80,19 @@ function showRecord(record) {
     text('p', 'Request prepared. Training is not enabled yet; no GPU work has started.');
   }
   text('small', `${record.model_requests} model request(s) used. Validation only; test data stays sealed.`);
+  if (record.status !== 'checking') {
+    const reset = text('button', 'New request');
+    reset.type = 'button';
+    reset.className = 'new-request';
+    reset.addEventListener('click', () => {
+      session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
+      dataset.value = '';
+      message.value = '';
+      panel.hidden = true;
+      status.textContent = '';
+      showAttachment(); persist(); updateSend(); message.focus();
+    });
+  }
   persist();
 }
 
