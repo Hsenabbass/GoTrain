@@ -119,6 +119,12 @@ with stable GitHub link destinations. Milestone documents hold acceptance outcom
 issues were retired as not planned, then deleted with explicit user approval. This supersedes the earlier overview-issue
 convention, with no change to M1 scope or completion requirements.
 
+Storage decision, 2026-10-31: the user approved Git-based source sharing, SageMaker
+working data/artifacts, and independent local recovery copies. Follow the shared
+[storage guide](../storage.md); verified backup locations/status belong in the
+[resource index](../RESOURCES.md#recovery-verification). This does not advance task
+1.3 or change test isolation.
+
 ## Documentation and deliverables
 
 Follow the [repository workflow](../WORKFLOW.md): create these implementation files

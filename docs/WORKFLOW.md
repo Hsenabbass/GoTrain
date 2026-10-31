@@ -17,6 +17,7 @@ once acceptance checks pass. Add complexity only to solve a demonstrated need.
 | `README.md` | Short introduction, navigation, and truthful high-level status. |
 | `docs/PROJECT_PLAN.md` | Shared goals, constraints, approach, and five milestone outcomes. |
 | `docs/WORKFLOW.md` | Repository conventions and update rules. |
+| `docs/storage.md` | Backup cadence, team access and recovery procedures; actual locations/status stay in the resource index. |
 | `docs/RESOURCES.md` | Reusable operational links, access instructions, and data/artifact locations. |
 | `docs/milestones/m<N>-<short-name>.md` | One milestone's detailed plan, evidence, decisions, and handoff. |
 | `docs/milestones/TEMPLATE.md` | Reusable starting point for a milestone document. |
@@ -72,7 +73,9 @@ Preserve uncertainty explicitly instead of silently choosing a convenient value.
    command/check, environment, outcome, and evidence location. Distinguish a local
    check from a SageMaker/GPU/Bedrock check. An unchecked result stays unverified.
 4. **Handoff:** update the milestone's short current-state/blocker/next-action
-   section before ending substantial work. Update GitHub issue state when connected
+   section before ending substantial work. For valuable untracked evidence or
+   important completed runs, follow [storage and recovery](storage.md): create and
+   transfer a snapshot, verify it on the receiving machine, then update resources. Update GitHub issue state when connected
    and authorized; if synchronization is pending, say exactly what remains to sync.
 5. **Complete:** check each outcome against evidence in the milestone document,
    close the completed task issues and milestone, and promote lasting instructions into shared docs. Update README
@@ -115,3 +118,7 @@ No generator, documentation service, or extra tracking database is needed.
   model files in persistent storage. Link the run ID and durable path from the
   milestone. Verify persistence before trusting it; ignored local files are not a
   backup. Model packages should reference their originating run and version.
+
+Storage and backup operations follow [storage.md](storage.md). A snapshot on the
+same SageMaker volume is staging, not a completed independent backup. Record the
+receiving location and verification result before claiming recovery coverage.

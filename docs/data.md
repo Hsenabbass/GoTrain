@@ -145,5 +145,7 @@ timeout 900 /home/sagemaker-user/gotrain-access-check/venv/bin/python \
 Download is restricted to the four allowlisted archives (under 4 GB compressed)
 and stops if free disk falls below 15 GiB. Logs, full download manifest, inspection
 summary, status and train/valid segmentation previews remain in the evidence
-directory. Large datasets, archives and previews do not belong in Git. A small
+directory. Large datasets, archives and previews do not belong in Git.
+Follow [storage and recovery](storage.md) for teammate access, sealed archive
+caching and reconstruction after environment loss. A small
 sanitized result record is committed here so completion is reviewable.

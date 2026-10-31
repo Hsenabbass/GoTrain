@@ -8,6 +8,7 @@ Built for the AUB ACM × RASID hackathon, 31 October–1 November 2026.
 
 - **[Project plan](docs/PROJECT_PLAN.md):** our goals, approach, five milestones, dependencies, and when to use each tool.
 - **[Repository workflow](docs/WORKFLOW.md):** folder conventions and how plans, code, evidence, and documentation stay consistent.
+- **[Storage and recovery](docs/storage.md):** teammate data access, verified backups, and restore steps.
 - **[GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones):** milestone progress and implementation tasks.
 - **[Challenge brief](GoTrain%20Challenge.pdf):** the source of the hackathon requirements.
 

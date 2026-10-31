@@ -78,6 +78,13 @@ Logs, constraints, an environment snapshot, base dependency-conflict report and
 metadata-access evidence are saved beside `evidence.json`. The snapshot records
 the inherited environment; a minimal application lock belongs with implementation.
 
+## Recovery
+
+Follow [storage and recovery](storage.md) for independent snapshots, dataset
+caches and fresh-environment restoration. Browser expiry/restart persistence is
+still unverified; saved scripts and files, rather than console memory, are the
+recovery source. Recreate credentials privately; they are excluded from backups.
+
 ## Operating agreements and follow-ups
 
 User clarification on 2026-10-31 is the current operational agreement:

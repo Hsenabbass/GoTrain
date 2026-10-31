@@ -14,6 +14,12 @@ model/region requirements, and research references. See the
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
 | Persistent data and artifacts | SageMaker `/home/sagemaker-user`; check artifacts in `gotrain-access-check/`. | Data inspection logs/previews at `/home/sagemaker-user/GoTrain/artifacts/data-inspection/`. Capacity/writes and browser-reload continuity verified 2026-10-31; restart/expiry persistence and S3 permissions unverified. See [setup evidence](setup.md). |
 
+| Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Implementation/initial transfers in progress; do not assume coverage until the verification record below is complete. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
+
+## Recovery verification
+
+Initial cache and snapshot verification pending implementation.
+
 Add a row only when useful. For a verified resource, record a stable safe link/path,
 what was checked and when, and a link to the setup instructions or milestone
 evidence. Keep credential values in private storage; record only the retrieval

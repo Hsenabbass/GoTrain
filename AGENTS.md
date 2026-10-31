@@ -24,6 +24,7 @@ milestone document, when one exists, and its linked GitHub issues.
   experiment code. Preserve official splits; test each final pipeline once at the end.
 - Keep secrets, datasets, and large artifacts out of Git. Follow the resource and
   storage conventions in `docs/WORKFLOW.md`.
+- After valuable evidence or important completed runs, follow [storage and recovery](docs/storage.md): create a snapshot, transfer it outside SageMaker, verify checksums, and update the resource record. Never call a staging archive a completed backup.
 - Run checks appropriate to the change and report what was actually verified.
   All agent/training execution belongs on the provided SageMaker environment.
 
