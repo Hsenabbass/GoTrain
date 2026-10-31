@@ -1,0 +1,14 @@
+{
+  "task": "m-pv4ger-seg",
+  "description": "Frozen M1 segmentation reference: random-initialized FCN-ResNet50, all channels; no tuning search",
+  "model": "fcn_resnet50",
+  "smoke": false,
+  "epochs": 10,
+  "steps": 5000,
+  "wall_seconds": 600,
+  "batch_size": 4,
+  "lr": 0.01,
+  "weight_decay": 0.0001,
+  "augment": true,
+  "normalization": "train_standardize"
+}

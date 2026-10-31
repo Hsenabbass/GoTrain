@@ -1,0 +1,66 @@
+{
+  "contract_version": 1,
+  "submission_deadline_local": "2026-11-01T15:00:00",
+  "timezone": "Asia/Beirut",
+  "final_submission_reserve_seconds": 7200,
+  "job_concurrency": 1,
+  "m1_total_gpu_job_wall_seconds": 1500,
+  "allocation_caps_seconds": {
+    "four_reference_runs": 1200,
+    "checkpoint_revalidation": 180,
+    "failure_reserve": 600
+  },
+  "reference_run": {
+    "max_wall_seconds": 600,
+    "max_epochs": 10,
+    "max_train_steps": 5000,
+    "validation_reserve_seconds": {
+      "classification": 30,
+      "segmentation": 60
+    },
+    "full_validation_required": true
+  },
+  "resources": {
+    "gpu_allocated_limit_gib": 10,
+    "gpu_reserved_limit_gib": 12,
+    "disk_free_reserve_gib": 15,
+    "per_run_artifact_limit_gib": 2,
+    "m1_retained_artifact_limit_gib": 20,
+    "cpu_threads": 2,
+    "loader_workers": 0,
+    "max_checkpoints_per_run": 2,
+    "persist_full_probability_maps": false
+  },
+  "retries": {
+    "max_retries_per_failed_run": 1,
+    "transient_only": true,
+    "oom_retry": "one_new_run_with_half_batch_after_recording_failure",
+    "no_automatic_retry": [
+      "permissions",
+      "test_guard",
+      "invalid_labels",
+      "nonfinite_loss",
+      "checksum_failure"
+    ]
+  },
+  "reproducibility": {
+    "seed": 2026,
+    "cudnn_benchmark": false,
+    "deterministic_algorithms_warn_only": true,
+    "checkpoint_metric_absolute_tolerance": 1e-06
+  },
+  "weight_retrieval": {
+    "max_wall_seconds": 120,
+    "max_retries": 1
+  },
+  "budget_enforcement_owner": "2.1",
+  "calibration_evidence": "docs/calibration.json",
+  "agent": {
+    "max_training_runs": 2,
+    "max_retries": 1,
+    "max_model_requests": 12,
+    "max_tool_calls": 20,
+    "max_output_tokens": 2048,
+    "max_wall_seconds": 1800
+  }
+}

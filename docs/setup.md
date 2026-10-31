@@ -15,7 +15,7 @@ link privately; never commit access URLs or credentials.
 | GPU | Tesla T4, 15360 MiB VRAM; NVIDIA driver 595.91.07. |
 | Python | 3.12.15. |
 | PyTorch / CUDA | torch 2.8.0, CUDA 12.9; CUDA available; an 8×8 ones matrix multiplication returned sum 512.0. |
-| Vision library | torchvision 0.24.0 imports successfully; broader operator/training compatibility remains untested. |
+| Vision library | torchvision 0.24.0 imports passed at access check; relevant training/operator paths subsequently passed the foundation checks and [four reference runs](references.md). |
 | Agent SDK | strands-agents 0.3.0; boto3 1.43.106. These are observed versions, not a complete project dependency lock. |
 | Memory | MemTotal 16164852 kB; available memory varies. |
 | Working volume | `/home/sagemaker-user`: about 99.9 GiB total, 99.2 GiB free at initial check. |
@@ -23,7 +23,7 @@ link privately; never commit access URLs or credentials.
 | GEO-Bench | Installed geobench 1.1.0 in a separate verification venv with inherited system packages. Imports passed with rasterio 1.4.3, NumPy 1.26.4, torch 2.8.0 and torchvision 0.24.0. No dataset samples downloaded during 1.1; [1.2 subsequently completed selected-task inspection](data.md). |
 | Bedrock response | Required model `eu.anthropic.claude-sonnet-5-5`, region `eu-central-1`, through Strands returned `GOTRAIN_ACCESS_OK`. No new key configured. |
 | Tool execution | A fixed-marker `access_probe` tool returned `GOTRAIN_TOOL_OK`: two model calls, one tool call. |
-| Weight endpoint | The installed torchvision ResNet18 default weight URL returned HTTP 206 and 1024 sampled bytes. Full weight download, integrity, license suitability and model selection remain pending. |
+| Weight endpoint | The installed torchvision ResNet18 default weight URL returned HTTP 206 and 1024 sampled bytes. Only endpoint access was checked; [M1 references](references.md) use random initialization and imported no weight files. |
 | Storage / browser reload | Marker file and existing kernel state survived a page reload. Detached 60-second heartbeat started at 11:39:12 UTC and read `20` after reconnect at 11:39:32 UTC, demonstrating progress across browser reconnection. This does not verify instance restart or session expiry. |
 | Dataset metadata access | The installed package points to `recursix/geo-bench-1.0` on Hugging Face; metadata retrieval passed, reporting public/ungated access and `cc-by-sa-4.0`. Actual selected-task downloads and per-task terms remain for dataset inspection. |
 | Dependency health | Provided environment has 17 pre-existing `pip check` conflicts. Verification venv inherits those packages; imports passed, but this is not a clean project dependency lock. No attempt made to repair unrelated preinstalled software. |
@@ -78,6 +78,63 @@ Logs, constraints, an environment snapshot, base dependency-conflict report and
 metadata-access evidence are saved beside `evidence.json`. The snapshot records
 the inherited environment; a minimal application lock belongs with implementation.
 
+## Capacity calibration and M1 budgets
+
+Task [1.3](https://github.com/Hsenabbass/GoTrain/issues/8), 2026-10-31: one bounded
+four-task probe completed on the provided T4 in **12.98 seconds** (240-second
+internal cap, 300-second watchdog). [Raw evidence](calibration.json) records code
+hash, environment, memory and sample-load counts; [probe script](../scripts/calibrate.py)
+reproduces it. No pretrained weights or Bedrock calls were used, no checkpoint or
+reference score was produced, and no test dataset was instantiated.
+
+| Task | Proxy, batch | Train seconds/batch | Valid seconds/batch | Estimated full train epoch / validation (s) | Peak CUDA reserved MiB |
+| --- | --- | --- | --- | --- | --- |
+| `m-eurosat` | resnet18_random, 32 | 0.131 | 0.156 | 8.23 / 4.98 | 176 |
+| `m-brick-kiln` | resnet18_random, 32 | 0.140 | 0.180 | 65.70 / 5.76 | 164 |
+| `m-pv4ger-seg` | fcn_resnet50_random, 4 | 0.113 | 0.049 | 84.55 / 4.94 | 1230 |
+| `m-chesapeake` | fcn_resnet50_random, 4 | 0.084 | 0.031 | 62.98 / 7.80 | 862 |
+
+The probe used synchronous loading (zero workers), two CPU threads, fixed input
+scales, float16 autocast/GradScaler, eight train steps (three warmup) and four valid
+steps (one warmup) per task. Finite losses and output shapes passed. Samples cycle
+within the first 64 train/valid items, so estimates reflect a small warm-cache
+probe and exclude metric/checkpoint overhead; they are not guarantees of full-data
+or other-model throughput. No preprocessing statistics were fitted. Free working
+volume space was **81.73 GiB**.
+
+[Numeric M1 caps](../configs/m1.json) allocate one GPU job at a time, 3,600 seconds
+of total M1 GPU-job wall time and 600 seconds/10 epochs/5,000 train steps per
+reference. Validation/saving reserves (30 seconds classification, 60 segmentation)
+exceed these measured full-validation estimates by at least fourfold. Memory limits
+(10 GiB allocated/12 GiB reserved) and a 15 GiB disk reserve leave substantial
+headroom over the measured probes. The defaults fit four reference jobs plus smoke,
+revalidation and failure allowance; the [manual foundation](training.md) implements and verifies enforcement.
+Actual job durations, including this probe, must be charged; caps are project
+allocations, not a claim of verified organizer quotas. Recalibrate changed recipes
+within the remaining allocation and stop if complete validation cannot fit.
+
+## Manual foundation verification (1.4)
+
+On 2026-10-31, **12 focused checks passed** on the provided verification venv:
+split rejection before I/O, fixed scaling/label checks, paired transforms,
+train-only fitted moments, analytical global metrics including ignored/absent
+classes, caps/lock/accounting/retry checks, a real watchdog termination and
+preservation of an existing checkpoint after a simulated failed write.
+
+Two bounded smoke runs then completed training, subset validation and automatic
+fresh-process checkpoint reloads: EuroSAT in **10.15 seconds**, PV4GER-Seg in
+**12.35 seconds**, with two successful optimizer updates each. Both reload primary
+score deltas were **0**; prediction hashes matched and probability sums passed.
+These are smoke diagnostics, not reference scores. [Raw foundation evidence](m1-evidence.json)
+owns run IDs, configs, versions, normalization, memory, checksums and settled budget
+charges. [Training guide](training.md) owns verified commands/record format.
+
+[requirements.txt](../requirements.txt) records all ten observed direct versions.
+No packages were installed or upgraded for 1.4. The provided GPU image and overlay
+venv remain in use; inherited conflicts were not repaired. These checks establish
+the used ResNet18/FCN-ResNet50 paths, not every installed vision operator or a
+universal clean environment. No pretrained weight or Bedrock request was made.
+
 ## Recovery
 
 Follow [storage and recovery](storage.md) for independent snapshots, dataset
@@ -99,13 +156,13 @@ User clarification on 2026-10-31 is the current operational agreement:
   will relay them. Record updates when available; do not invent requirements.
 - **Quotas:** exact GPU/runtime and Bedrock limits remain unknown because the role
   cannot read quotas. This is an accepted recorded limitation of access verification.
-  Task 1.3 must set conservative, explicit experiment caps before reference runs;
+  Task 1.3 has set [conservative explicit caps](../configs/m1.json); the manual runner now enforces them before reference runs;
   do not treat unknown quotas as unlimited resources.
 
 Technical access acceptance is satisfied. Follow-up work belongs to its planned
 scope: task 1.2 has verified selected-task downloads/versions and recorded source terms in [data contracts](data.md);
-task 1.3 settles metrics/budgets and applies organizer updates; task 1.4 establishes
-the minimal application dependency set. Recipe-specific weight downloads and
+task 1.3 has frozen [metrics/budgets](data.md#evaluation-and-checkpoint-rules-13); reconcile organizer updates when received; task 1.4 has recorded the [tested direct dependency set](../requirements.txt)
+and verified the manual runner. Recipe-specific weight downloads and
 licenses are checked when models are selected in tasks 1.5/1.6. Imports and endpoint
 access alone do not establish full training compatibility. Task 1.7 reviews all
 required evidence; M5 checks the eventual submission/presentation requirements.

@@ -10,6 +10,17 @@ and documentation proportional to the task, and avoid speculative layers or
 repeated checks. Time-box investigations, report concrete blockers early, and stop
 once acceptance checks pass. Add complexity only to solve a demonstrated need.
 
+## Plan for fast delivery
+
+Use a few outcome-sized issues, normally 2–3 per milestone. Group complementary
+implementation, checks and documentation; do not make each file, check or handoff
+its own issue. Start with the shortest path to a useful working result. Reuse
+verified code, contracts and evidence; repeat checks only for changed behavior,
+failures or a concrete unresolved concern. Time-box investigation and cut optional
+scope before adding infrastructure or abstractions. Stop when acceptance passes.
+Create a file only when an existing home cannot hold the content clearly; keep
+related milestone evidence together. Preserve evaluation integrity and backups.
+
 ## Where things belong
 
 | Location | Purpose |
@@ -30,9 +41,9 @@ once acceptance checks pass. Add complexity only to solve a demonstrated need.
 | `data/` | Ignored local datasets and caches, or an external location documented in the resource index. |
 | `artifacts/` | Ignored run records, logs, checkpoints, predictions, and exports, or verified external storage. |
 
-The code, configuration, test, and runtime folders above are reserved conventions,
-not implemented components. Add package/dependency metadata when implementation
-begins; pin verified versions then. Add UI or other top-level folders only when
+The locations above are conventions; a listed component is implemented only when
+its code exists. Add package/dependency metadata with the shared application
+foundation; pin verified versions then. Add UI or other top-level folders only when
 their scope is known. Do not create empty directory trees or duplicate utilities
 per milestone. Promote shared logic to `src/gotrain/` when reuse is demonstrated.
 

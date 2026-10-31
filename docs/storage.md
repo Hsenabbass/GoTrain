@@ -37,14 +37,17 @@ verification only copy/hash files; they do not run training or inspect samples.
 5. Share source through Git; refer to run IDs and storage paths for large outputs.
    Use separate run directories and initially schedule GPU jobs sequentially.
    Coordinate Git updates; do not change branches in another teammate's active
-   working checkout. Separate clones can share the verified dataset read-only.
+   working checkout. Separate clones can share the verified dataset read-only for inspection; manual
+   training uses only the canonical `/home/sagemaker-user/GoTrain` execution checkout
+   so its GPU lock and budget ledger remain shared.
 
 ## Creating a recovery snapshot
 
 Use the standard-library [backup utility](../scripts/backup.py). Commit source
 first, stop writers to the selected completed outputs, and review included files
 for private information. By default it includes tracked source plus inspection
-evidence; select completed runs explicitly rather than recursively copying home
+evidence; `--include artifacts/calibration` selects capacity-probe evidence.
+Select completed runs explicitly rather than recursively copying home
 or the entire artifacts directory.
 
 On SageMaker, from the repository root:
@@ -118,7 +121,7 @@ Other custodians can choose their own external directory; do not put it inside G
    newer runs. If GitHub is unavailable, `payload/` also holds the tracked source
    snapshot (without Git history).
 3. Recreate the verified environment from [setup](setup.md); the original environment
-   inherits package conflicts, and task 1.4 still owns the application dependency set.
+   inherits package conflicts, and the verified application dependencies are recorded in `requirements.txt` and the training guide.
 4. Copy the cached ZIPs to the matching `data/geo-bench/archives/<benchmark>/` paths,
    or retrieve them from the pinned public source using the data instructions.
    Run the documented download/inspection stages: metadata and checksums are

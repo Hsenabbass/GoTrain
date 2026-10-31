@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** agreed direction; [M1 is in progress](milestones/m1-foundation.md): tasks 1.1 and 1.2 are complete, with [access verification](setup.md) and [data inspection evidence](data.md). Task 1.3 is next; agent/training implementation has not started. Later milestones will be detailed when we reach them. No owners, dates, UI framework, or experiment counts are assigned yet.
+**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. Later milestones remain unplanned in detail; test evaluation and the UI remain pending.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -110,6 +110,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M2. Build the autonomous engine
 
+**Detailed plan:** [M2 engine plan](milestones/m2-engine.md). Two outcome-sized issues; reuse M1 and demonstrate one configuration-only cycle on EuroSAT before expanding.
+
 **Depends on:** M1's task contract, working recipes, evaluation definitions, and verified runtime.
 
 **Cover:** turn inspection, preparation, training, validation, prediction, and storage into tools. Connect Claude through Strands. Add bounded experiments, protected evaluation, persistent records, checkpointing, and basic failure recovery. Complete one autonomous improvement cycle without routine human decisions.
@@ -119,6 +121,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 **Done when:** the agent independently inspects one task, trains, reads validation evidence, proposes and runs a change, and records whether to keep it. A rejected change leaves the best prior pipeline available.
 
 ### M3. Demonstrate reliable improvement
+
+**Detailed plan:** [M3 improvement plan](milestones/m3-improvement.md). Three issues cover reusable image-task preparation/model choices, bounded search/tuning, and four-task verification. Add a local manifest adapter in M3 to avoid benchmark-only logic; broad import UX stays in M4.
 
 **Depends on:** M2's functioning loop, trusted evaluator, and complete experiment records.
 

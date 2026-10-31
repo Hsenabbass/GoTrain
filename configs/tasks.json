@@ -1,0 +1,163 @@
+{
+  "contract_version": 1,
+  "dataset_repository": "recursix/geo-bench-1.0",
+  "dataset_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+  "partition": "default",
+  "development_splits": [
+    "train",
+    "valid"
+  ],
+  "tasks": {
+    "m-eurosat": {
+      "kind": "classification",
+      "channels": 13,
+      "height": 64,
+      "width": 64,
+      "classes": 10,
+      "channel_selection": "all_in_storage_order",
+      "input_dtype": "float32",
+      "input_divisors": [
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000
+      ],
+      "class_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_dtype": "int64",
+      "primary_metric": "accuracy",
+      "direction": "maximize",
+      "ignore_index": null,
+      "supplementary_metrics": [
+        "macro_f1",
+        "per_class_recall"
+      ],
+      "batch_size_ceiling": 32
+    },
+    "m-pv4ger-seg": {
+      "kind": "segmentation",
+      "channels": 3,
+      "height": 320,
+      "width": 320,
+      "classes": 2,
+      "channel_selection": "all_in_storage_order",
+      "input_dtype": "float32",
+      "input_divisors": [
+        255,
+        255,
+        255
+      ],
+      "class_ids": [
+        0,
+        1
+      ],
+      "target_dtype": "int64",
+      "primary_metric": "macro_iou",
+      "direction": "maximize",
+      "ignore_index": null,
+      "supplementary_metrics": [
+        "foreground_iou",
+        "foreground_f1"
+      ],
+      "batch_size_ceiling": 4
+    },
+    "m-brick-kiln": {
+      "kind": "classification",
+      "channels": 13,
+      "height": 64,
+      "width": 64,
+      "classes": 2,
+      "channel_selection": "all_in_storage_order",
+      "input_dtype": "float32",
+      "input_divisors": [
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        10000,
+        255,
+        255,
+        255
+      ],
+      "class_ids": [
+        0,
+        1
+      ],
+      "target_dtype": "int64",
+      "primary_metric": "accuracy",
+      "direction": "maximize",
+      "ignore_index": null,
+      "supplementary_metrics": [
+        "positive_precision",
+        "positive_recall",
+        "positive_f1",
+        "macro_f1",
+        "per_class_recall"
+      ],
+      "batch_size_ceiling": 32
+    },
+    "m-chesapeake": {
+      "kind": "segmentation",
+      "channels": 4,
+      "height": 256,
+      "width": 256,
+      "classes": 7,
+      "channel_selection": "all_in_storage_order",
+      "input_dtype": "float32",
+      "input_divisors": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "class_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "target_dtype": "int64",
+      "primary_metric": "macro_iou",
+      "direction": "maximize",
+      "ignore_index": null,
+      "supplementary_metrics": [
+        "land_macro_iou_target_0_ignored"
+      ],
+      "batch_size_ceiling": 4
+    }
+  },
+  "prediction": "softmax_then_argmax_dim_1_lowest_id_wins_ties",
+  "metric_aggregation": "one_global_confusion_matrix_per_complete_validation_split",
+  "iou_absent_class": "exclude_only_if_global_target_and_prediction_counts_are_both_zero",
+  "iou_zero_division": 0,
+  "checkpoint_selection": "greatest_primary_metric_ties_keep_earliest_checkpoint",
+  "checkpoint_revalidation_absolute_tolerance": 1e-06,
+  "seed": 2026
+}

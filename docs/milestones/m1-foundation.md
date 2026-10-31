@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** in progress; tasks 1.1/1.2 completed 2026-10-31; tasks 1.3–1.7 not started.
+**Status:** complete 2026-10-31; tasks 1.1–1.7 verified.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -78,11 +78,10 @@ counts are assigned. Choose recipes after actual data/capacity checks.
 
 ### Budget gate
 
-The GPU is verified, but quotas and training speeds remain unknown, so numeric
-limits are deliberately unresolved. Task 1.3 must turn measured capacity into explicit settings before
-reference runs. Bound even calibration/smoke work before starting it, using the
-provided session/quota limits and a small declared cap. Do not launch unbounded work
-to discover a budget.
+The [versioned caps](../../configs/m1.json) now define the M1 allocation and
+per-run/resource/retry limits, based on [bounded calibration](../setup.md#capacity-calibration-and-m1-budgets).
+Exact organizer quotas remain unknown. The [manual foundation](../training.md) now implements and tests enforcement
+before reference runs; no settings file by itself enforces a budget.
 
 | Required setting | How to settle it |
 | --- | --- |
@@ -119,11 +118,24 @@ with stable GitHub link destinations. Milestone documents hold acceptance outcom
 issues were retired as not planned, then deleted with explicit user approval. This supersedes the earlier overview-issue
 convention, with no change to M1 scope or completion requirements.
 
+Evaluation/budget decision, 2026-10-31 (1.3): use sourced overall accuracy and
+global macro IoU, with no ignored ID in the primary metric. Chesapeake keeps all
+seven stored classes; a target-0-excluded land metric is supplementary. Freeze
+absent-class/checkpoint rules and numeric caps from the measured probe before
+references. Organizer judging rules remain an explicit follow-up; version and
+re-evaluate validation records if they differ. See [contracts](../data.md).
+
 Storage decision, 2026-10-31: the user approved Git-based source sharing, SageMaker
 working data/artifacts, and independent local recovery copies. Follow the shared
 [storage guide](../storage.md); verified backup locations/status belong in the
 [resource index](../RESOURCES.md#recovery-verification). This does not advance task
 1.3 or change test isolation.
+
+Classification reference decision, 2026-10-31 (1.5): freeze modest random-initialized,
+all-channel ResNet18 recipes before either run; no imported weights or tuning search.
+Both full-validation checkpoint revalidations passed exactly. Brick-Kiln stopped
+at the agreed wall reserve; complete validation makes its selected checkpoint
+eligible. See [recipes/results](../references.md) and [independent backups](../RESOURCES.md#recovery-verification).
 
 ## Documentation and deliverables
 
@@ -147,47 +159,46 @@ README/project status when capabilities change; do not copy full results there.
 
 ## Verification and evidence
 
-Access verification evidence is available in the [setup record](../setup.md); no training
-reference result exists yet. Populate this table with links
-to the authoritative records during implementation; do not substitute issue closure
-for verification. A run record owns the exact numeric score.
+Access evidence is in the [setup record](../setup.md); reference evidence is linked below. Keep this table tied to authoritative records; issue closure does not substitute for verification. A run record owns each exact numeric score.
 
 | Required outcome | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
 | Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
 | Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
-| Evaluation and budget contracts (1.3) | Benchmark conventions, organizer rules and bounded calibration | Unverified | Pending |
-| Shared foundation (1.4) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
-| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Reproducible handoff (1.7) | Fresh-process setup/checkpoint checks and consistency review | Unverified | Pending |
+| Evaluation and budget contracts (1.3) | Versioned official metric sources; four-task bounded T4 calibration, no test access | Complete 2026-10-31; frozen primary/diagnostic rules and explicit caps; judging metrics still pending | [Data/evaluation contracts](../data.md), [capacity](../setup.md#capacity-calibration-and-m1-budgets), [task settings](../../configs/tasks.json), [caps](../../configs/m1.json) |
+| Shared foundation (1.4) | 12 focused SageMaker checks; two bounded smoke jobs and fresh-process checkpoint reloads | Complete 2026-10-31; two optimizer updates per task, reload score delta 0; no reference results | [Manual guide](../training.md), [raw evidence](../m1-evidence.json), [dependencies](../../requirements.txt) |
+| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 87.00% accuracy on 1,000 images; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 97.80% accuracy on 999 images; planned cap stop; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.901692; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.405280; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Reproducible handoff (1.7) | Fresh-process safety/setup and all four retained checkpoint revalidations on SageMaker | Complete 2026-10-31; 12 checks + 5 edge cases; four full-validation deltas 0; settled budgets | [Handoff evidence](../m1-evidence.json), [reference guide](../references.md) |
+
+Documentation consolidation, 2026-10-31: at the user's request, combine the
+foundation, classification, segmentation and handoff JSON reports into
+[one M1 evidence file](../m1-evidence.json), under the corresponding named keys.
+All original values are preserved; historical commits/backups retain the original
+files. Keep calibration and data-inspection records separate because the runner
+and backup utility consume them directly. Existing runtime modules, recipes and
+shared operational guides remain useful and are retained. Future planning follows
+the [fast-delivery guidance](../WORKFLOW.md#plan-for-fast-delivery).
 
 ## Handoff
 
 **Parallel UI work:** the user authorized an isolated localhost prototype under `ui/` while teammates continue M1. The current design uses a neutral task-submission workspace, bottom task input, model-result delivery, and optional keyboard-controlled Rover Run game. Conversation replies and the cat companion were removed at the user's request. It uses mock interactions only and does not advance ML tasks or verify engine capabilities; see [UI instructions](../../ui/README.md).
 
 **Last updated:** 2026-10-31.
-**Current state:** tasks 1.1 and 1.2 are complete. Required access passed; the four
-selected archives are verified and train/validation inspection is documented in
-[data contracts](../data.md). Approved recovery snapshots and sealed archive
-caching follow [storage/recovery](../storage.md); actual transfer/verification
-status is maintained in [resources](../RESOURCES.md#recovery-verification).
-No training or engine implementation has started.
-**Constraints:** preserve the active JupyterLab session and official splits; test
-payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
-The verification venv inherits existing conflicts; task 1.4 owns application
-dependencies. Quotas and judging/presentation details remain pending.
-**Next action:** task 1.3: finalize metrics, Chesapeake no-data/class inclusion and
-explicit conservative budgets before reference runs. Use corrected multispectral
-channel orders and observed scales; do not fit preprocessing on validation.
-**Pending synchronization:** none after this verification change is published.
-Independent snapshot and four-archive cache are verified in the resource record.
-Task 1.2 remains complete; task 1.3 has not started.
+**Current state:** M1 and tasks 1.1–1.7 complete. Required access, the four selected datasets/contracts, manual runner/resource enforcement and four accepted reference checkpoints have linked evidence above. All four selected model/optimizer files have independent checksum-verified recovery copies on the custodian Mac; source is in GitHub/local Git. The active JupyterLab session remains open.
+**Constraints/limitations:** preserve official splits and sealed test payloads. Exact organizer quotas and judging/presentation details remain unknown; the deadline is 2026-11-01 at 15:00 Asia/Beirut with the agreed submission reserve. GoTrain-only GitHub access expires 2026-11-01. The tested venv inherits 17 dependency conflicts; the verified direct versions are not a universal environment lock. Restart/expiry persistence, S3 permissions and another shared backup destination remain unverified. Single-seed references establish starting points, not retraining stability. See [setup](../setup.md), [data contracts](../data.md) and [recovery coverage](../RESOURCES.md#recovery-verification).
+**Next action:** follow the [M2 plan](m2-engine.md), reusing the accepted checkpoints, canonical runner and frozen contracts. M2 remains unimplemented; use configuration-only tools first and preserve historical budgets.
+**Synchronization:** M1 completion was published at its completion commit. The later documentation consolidation and M2 plan are published separately; SageMaker source has not been updated by this cleanup.
 
 ## Completion
 
-Not complete. Keep M1 open until every broad acceptance outcome has
-evidence. At completion, summarize the four run IDs, shared contract/setup links,
-remaining limitations and the M2 handoff here; detail M2 only afterward.
+All broad M1 outcomes have evidence in the table above. The four starting runs are:
+
+- `m-eurosat`: `20261031T142814768185Z-m-eurosat-manual`.
+- `m-brick-kiln`: `20261031T143113863281Z-m-brick-kiln-manual`.
+- `m-pv4ger-seg`: `20261031T144800853991Z-m-pv4ger-seg-manual`.
+- `m-chesapeake`: `20261031T145719482888Z-m-chesapeake-manual`.
+
+Exact recipes, scores, source/data/checkpoint hashes and fresh-process checks are linked in [reference results](../references.md) and [handoff evidence](../m1-evidence.json). No final-test invocation, autonomous improvement cycle or UI was added.

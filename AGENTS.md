@@ -8,6 +8,10 @@ milestone document, when one exists, and its linked GitHub issues.
   avoid speculative abstractions, extra services, redundant checks and excessive
   documentation. Time-box investigation, surface concrete blockers early, and stop
   when acceptance checks pass. Expand only when evidence justifies the extra work.
+- Plan for fast delivery: use a few outcome-sized issues (normally 2–3), group
+  complementary work, and include documentation/verification in those issues.
+  Reuse verified work; do not repeat checks without a changed behavior or failure.
+  Cut optional work before adding scope. Stop when the milestone outcome passes.
 - Detail one milestone at a time. Use `docs/milestones/TEMPLATE.md`; do not
   prefill future milestones or create speculative code, dependencies, or folders.
   Name actionable issues `<milestone>.<task>: <action>` (such as `1.1`, `2.1`).

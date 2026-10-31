@@ -1,0 +1,2688 @@
+{
+  "preparation": {
+    "task": "3.1",
+    "passed": true,
+    "source_commit": "1cab13a27889e1ace2672ef3501f8c4f1f003884",
+    "device": "cpu",
+    "gpu_training_seconds": 0,
+    "test_payloads_opened": 0,
+    "download_bytes": 181806878,
+    "weights": {
+      "resnet18_imagenet": {
+        "id": "resnet18_imagenet",
+        "kind": "classification",
+        "weight_id": "ResNet18_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "resnet18-f37072fd.pth",
+        "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+        "bytes": 46830571,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "mobilenet_small_imagenet": {
+        "id": "mobilenet_small_imagenet",
+        "kind": "classification",
+        "weight_id": "MobileNet_V3_Small_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "mobilenet_v3_small-047dcff4.pth",
+        "sha256": "047dcff4addef86ea5bc2eff13c9614dc11f47ab1160d0a71a25e7db994f4e1f",
+        "bytes": 10306551,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "fcn_imagenet": {
+        "id": "fcn_imagenet",
+        "kind": "segmentation",
+        "weight_id": "ResNet50_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/resnet50-0676ba61.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "resnet50-0676ba61.pth",
+        "sha256": "0676ba61b6795bbe1773cffd859882e5e297624d384b6993f7c9e683e722fb8a",
+        "bytes": 102530333,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "deeplab_mobile_imagenet": {
+        "id": "deeplab_mobile_imagenet",
+        "kind": "segmentation",
+        "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "mobilenet_v3_large-8738ca79.pth",
+        "sha256": "8738ca797c879b547d18bbd15da5736ff2557b2036a9af72225393ca61759a04",
+        "bytes": 22139423,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      }
+    },
+    "checks": "test_best_selection_and_integrity (test_agent.AgentChecks.test_best_selection_and_integrity) ... ok\ntest_call_and_wall_bounds (test_agent.AgentChecks.test_call_and_wall_bounds) ... ok\ntest_failed_and_partial_never_selected (test_agent.AgentChecks.test_failed_and_partial_never_selected) ... ok\ntest_field_and_id_rejection (test_agent.AgentChecks.test_field_and_id_rejection) ... ok\ntest_retry_and_recipe_caps (test_agent.AgentChecks.test_retry_and_recipe_caps) ... ok\ntest_separate_budget_and_shared_lock (test_agent.AgentChecks.test_separate_budget_and_shared_lock) ... ok\ntest_strands_schema (test_agent.AgentChecks.test_strands_schema) ... ok\ntest_failed_atomic_checkpoint_keeps_previous_file (test_foundation.FoundationChecks.test_failed_atomic_checkpoint_keeps_previous_file) ... ok\ntest_fit_uses_train_only_and_known_channel_moments (test_foundation.FoundationChecks.test_fit_uses_train_only_and_known_channel_moments) ... ok\ntest_fixed_scaling_and_target_validation (test_foundation.FoundationChecks.test_fixed_scaling_and_target_validation) ... ok\ntest_global_metrics_absent_classes_and_batch_invariance (test_foundation.FoundationChecks.test_global_metrics_absent_classes_and_batch_invariance) ... ok\ntest_ignored_target_diagnostic_still_penalizes_prediction_zero (test_foundation.FoundationChecks.test_ignored_target_diagnostic_still_penalizes_prediction_zero) ... ok\ntest_joint_spatial_transform_keeps_mask_alignment (test_foundation.FoundationChecks.test_joint_spatial_transform_keeps_mask_alignment) ... ok\ntest_lock_reservation_refund_shared_cap_and_retry_cap (test_foundation.FoundationChecks.test_lock_reservation_refund_shared_cap_and_retry_cap) ... ok\ntest_other_checkout_cannot_create_an_independent_gpu_budget (test_foundation.FoundationChecks.test_other_checkout_cannot_create_an_independent_gpu_budget) ... ok\ntest_recipe_caps_and_smoke_only_subsets (test_foundation.FoundationChecks.test_recipe_caps_and_smoke_only_subsets) ... ok\ntest_test_split_rejected_before_metadata_import_or_io (test_foundation.FoundationChecks.test_test_split_rejected_before_metadata_import_or_io) ... ok\ntest_wall_disk_storage_and_memory_guards (test_foundation.FoundationChecks.test_wall_disk_storage_and_memory_guards) ... ok\ntest_watchdog_terminates_real_child (test_foundation.FoundationChecks.test_watchdog_terminates_real_child) ... ok\ntest_candidate_admission (test_tasks.TaskChecks.test_candidate_admission) ... ok\ntest_frozen_benchmark_contracts (test_tasks.TaskChecks.test_frozen_benchmark_contracts) ... ok\ntest_manifest_classification_and_split_paths (test_tasks.TaskChecks.test_manifest_classification_and_split_paths) ... ok\ntest_multiband_segmentation_alignment_and_labels (test_tasks.TaskChecks.test_multiband_segmentation_alignment_and_labels) ... ok\ntest_pretrained_normalization (test_tasks.TaskChecks.test_pretrained_normalization) ... ok\ntest_real_reviewed_backbones (test_tasks.TaskChecks.test_real_reviewed_backbones) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 2.264s\n\nOK\n",
+    "versions": {
+      "torch": "2.8.0",
+      "torchvision": "0.24.0",
+      "Pillow": "11.3.0",
+      "rasterio": "1.4.3"
+    }
+  },
+  "search_guards": {
+    "task": "3.2",
+    "passed": true,
+    "guard_source_commit": "de409588a349254c33aea1260744b227fe68c623",
+    "checks": "test_best_selection_and_integrity (test_agent.AgentChecks.test_best_selection_and_integrity) ... ok\ntest_call_and_wall_bounds (test_agent.AgentChecks.test_call_and_wall_bounds) ... ok\ntest_failed_and_partial_never_selected (test_agent.AgentChecks.test_failed_and_partial_never_selected) ... ok\ntest_field_and_id_rejection (test_agent.AgentChecks.test_field_and_id_rejection) ... ok\ntest_retry_and_recipe_caps (test_agent.AgentChecks.test_retry_and_recipe_caps) ... ok\ntest_separate_budget_and_shared_lock (test_agent.AgentChecks.test_separate_budget_and_shared_lock) ... ok\ntest_strands_schema (test_agent.AgentChecks.test_strands_schema) ... ok\ntest_failed_atomic_checkpoint_keeps_previous_file (test_foundation.FoundationChecks.test_failed_atomic_checkpoint_keeps_previous_file) ... ok\ntest_fit_uses_train_only_and_known_channel_moments (test_foundation.FoundationChecks.test_fit_uses_train_only_and_known_channel_moments) ... ok\ntest_fixed_scaling_and_target_validation (test_foundation.FoundationChecks.test_fixed_scaling_and_target_validation) ... ok\ntest_global_metrics_absent_classes_and_batch_invariance (test_foundation.FoundationChecks.test_global_metrics_absent_classes_and_batch_invariance) ... ok\ntest_ignored_target_diagnostic_still_penalizes_prediction_zero (test_foundation.FoundationChecks.test_ignored_target_diagnostic_still_penalizes_prediction_zero) ... ok\ntest_joint_spatial_transform_keeps_mask_alignment (test_foundation.FoundationChecks.test_joint_spatial_transform_keeps_mask_alignment) ... ok\ntest_lock_reservation_refund_shared_cap_and_retry_cap (test_foundation.FoundationChecks.test_lock_reservation_refund_shared_cap_and_retry_cap) ... ok\ntest_other_checkout_cannot_create_an_independent_gpu_budget (test_foundation.FoundationChecks.test_other_checkout_cannot_create_an_independent_gpu_budget) ... ok\ntest_recipe_caps_and_smoke_only_subsets (test_foundation.FoundationChecks.test_recipe_caps_and_smoke_only_subsets) ... ok\ntest_test_split_rejected_before_metadata_import_or_io (test_foundation.FoundationChecks.test_test_split_rejected_before_metadata_import_or_io) ... ok\ntest_wall_disk_storage_and_memory_guards (test_foundation.FoundationChecks.test_wall_disk_storage_and_memory_guards) ... ok\ntest_watchdog_terminates_real_child (test_foundation.FoundationChecks.test_watchdog_terminates_real_child) ... ok\ntest_budget_attempts_shared_retry_and_old_ledgers (test_search.SearchChecks.test_budget_attempts_shared_retry_and_old_ledgers) ... ok\ntest_deterministic_sampler_and_download_budget (test_search.SearchChecks.test_deterministic_sampler_and_download_budget) ... ok\ntest_fatal_failure_stops_with_prior_best (test_search.SearchChecks.test_fatal_failure_stops_with_prior_best) ... ok\ntest_final_only_selection_and_verified_completion (test_search.SearchChecks.test_final_only_selection_and_verified_completion) ... ok\ntest_interrupted_pending_recovery_no_duplicate (test_search.SearchChecks.test_interrupted_pending_recovery_no_duplicate) ... ok\ntest_prompt_injection_and_repeated_invalid_requests (test_search.SearchChecks.test_prompt_injection_and_repeated_invalid_requests) ... ok\ntest_stage_and_recipe_limits (test_search.SearchChecks.test_stage_and_recipe_limits) ... ok\ntest_stale_reservation_blocks_recovery (test_search.SearchChecks.test_stale_reservation_blocks_recovery) ... ok\ntest_task_context_and_schema (test_search.SearchChecks.test_task_context_and_schema) ... ok\ntest_untrusted_lookup_metadata_cannot_admit_a_model (test_search.SearchChecks.test_untrusted_lookup_metadata_cannot_admit_a_model) ... ok\ntest_candidate_admission (test_tasks.TaskChecks.test_candidate_admission) ... ok\ntest_frozen_benchmark_contracts (test_tasks.TaskChecks.test_frozen_benchmark_contracts) ... ok\ntest_manifest_classification_and_split_paths (test_tasks.TaskChecks.test_manifest_classification_and_split_paths) ... ok\ntest_multiband_segmentation_alignment_and_labels (test_tasks.TaskChecks.test_multiband_segmentation_alignment_and_labels) ... ok\ntest_pretrained_normalization (test_tasks.TaskChecks.test_pretrained_normalization) ... ok\ntest_real_reviewed_backbones (test_tasks.TaskChecks.test_real_reviewed_backbones) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 2.715s\n\nOK\n",
+    "probes": [
+      {
+        "task": "m-eurosat",
+        "record": {
+          "run_id": "20261031T164823341822Z-m-eurosat-smoke",
+          "status": "budget_exhausted",
+          "created_utc": "20261031T164823341822Z",
+          "recipe": {
+            "task": "m-eurosat",
+            "description": "m-eurosat-verified-0",
+            "model": "resnet18_imagenet",
+            "smoke": true,
+            "epochs": 50,
+            "steps": 2,
+            "wall_seconds": 30,
+            "batch_size": 32,
+            "lr": 0.001,
+            "weight_decay": 0.0001,
+            "augment": true,
+            "normalization": "pretrained",
+            "phase": "probe",
+            "seed": 2026,
+            "optimizer": "adamw",
+            "schedule": "cosine",
+            "loss": "weighted_ce",
+            "head_only": false,
+            "backbone_lr_ratio": 0.1,
+            "train_limit": 32,
+            "valid_limit": 32
+          },
+          "source_commit": "a4671c3aa7ba904a9256306e617d0b442f5378f9",
+          "dirty": false,
+          "seed": 2026,
+          "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+          "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+          "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+          "budget_contract_sha256": "a83802d4256f4f9702802fcb4c2019619364dc7c69a6a216661aa8bc4b047dcc",
+          "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+          "retry_of": null,
+          "is_reference": false,
+          "weight_receipt": {
+            "id": "resnet18_imagenet",
+            "kind": "classification",
+            "weight_id": "ResNet18_Weights.IMAGENET1K_V1",
+            "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+            "pretraining": "ImageNet-1K",
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "geometry": "native_grid_no_crop",
+            "adaptation": "copy_verified_RGB_random_extra_channels",
+            "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+            "filename": "resnet18-f37072fd.pth",
+            "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+            "bytes": 46830571,
+            "terms_reviewed": true,
+            "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+            "target_finetuned": false,
+            "heldout_overlap": "unknown_recorded"
+          },
+          "environment": {
+            "torch": "2.8.0",
+            "torchvision": "0.24.0",
+            "numpy": "1.26.4",
+            "geobench": "1.1.0",
+            "h5py": "3.16.0"
+          },
+          "gpu": "Tesla T4",
+          "steps": 2,
+          "optimizer_updates": 2,
+          "amp_skipped_steps": 0,
+          "amp_initial_scale": 1024,
+          "epochs_completed": 2,
+          "last_validation": {
+            "valid": true,
+            "count": 32,
+            "accuracy": 0.4375,
+            "macro_iou": 0.29545454545454547,
+            "macro_f1": 0.3591666666666667,
+            "per_class_iou": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_precision": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_recall": [
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_f1": [
+              0.0,
+              0.6666666666666666,
+              0.5,
+              0.0,
+              0.625,
+              0.8,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "support": [
+              5,
+              1,
+              3,
+              2,
+              5,
+              3,
+              6,
+              3,
+              1,
+              3
+            ],
+            "union": [
+              5,
+              2,
+              9,
+              4,
+              11,
+              3,
+              7,
+              4,
+              2,
+              3
+            ],
+            "confusion_matrix": [
+              [
+                0,
+                0,
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                5,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                2,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                2,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                3
+              ]
+            ],
+            "split": "valid",
+            "images": 32,
+            "full_split": false,
+            "primary_name": "accuracy",
+            "primary": 0.4375
+          },
+          "normalization": {
+            "mean": [
+              0.13070923689718938,
+              0.406,
+              0.456,
+              0.485,
+              0.1203364624180665,
+              0.20687223587221126,
+              0.24457417605196952,
+              0.24034761429481932,
+              0.0877037323364327,
+              0.0012493858366100508,
+              0.19060051803057476,
+              0.1158223900019828,
+              0.270078855888336
+            ],
+            "std": [
+              0.02135974948478555,
+              0.225,
+              0.224,
+              0.229,
+              0.04596623268820324,
+              0.07423743913845066,
+              0.0966181895273086,
+              0.10112815300242323,
+              0.04215068941333819,
+              0.00033199850846071533,
+              0.08290891957022146,
+              0.06452810255762574,
+              0.10792386527295753
+            ],
+            "fitted_on": "pretrained_rgb_train_extras",
+            "weight_id": "ResNet18_Weights.IMAGENET1K_V1"
+          },
+          "peak_allocated_bytes": 248558592,
+          "peak_reserved_bytes": 285212672,
+          "curve": [
+            {
+              "epoch": 1,
+              "steps": 1,
+              "loss": 2.39459228515625,
+              "validation": 0.40625
+            },
+            {
+              "epoch": 2,
+              "steps": 2,
+              "loss": 1.7547407150268555,
+              "validation": 0.4375
+            }
+          ],
+          "checkpoint": "last.pt",
+          "checkpoint_sha256": "7e0f562ba87cfda51946deaa00d20927cdcfb140e1a246766f1f25dedb1ebd1c",
+          "eligible_reference": false,
+          "selection_scope": "smoke_only_no_candidate_selection"
+        },
+        "reload": {
+          "kind": "smoke_reload",
+          "checkpoint_sha256": "7e0f562ba87cfda51946deaa00d20927cdcfb140e1a246766f1f25dedb1ebd1c",
+          "primary_delta": 0.0,
+          "validation": {
+            "valid": true,
+            "count": 32,
+            "accuracy": 0.4375,
+            "macro_iou": 0.29545454545454547,
+            "macro_f1": 0.3591666666666667,
+            "per_class_iou": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_precision": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_recall": [
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_f1": [
+              0.0,
+              0.6666666666666666,
+              0.5,
+              0.0,
+              0.625,
+              0.8,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "support": [
+              5,
+              1,
+              3,
+              2,
+              5,
+              3,
+              6,
+              3,
+              1,
+              3
+            ],
+            "union": [
+              5,
+              2,
+              9,
+              4,
+              11,
+              3,
+              7,
+              4,
+              2,
+              3
+            ],
+            "confusion_matrix": [
+              [
+                0,
+                0,
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                5,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                2,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                2,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                3
+              ]
+            ],
+            "split": "valid",
+            "images": 32,
+            "full_split": false,
+            "primary_name": "accuracy",
+            "primary": 0.4375
+          },
+          "prediction": {
+            "prediction_shape": [
+              1
+            ],
+            "probability_shape": [
+              1,
+              10
+            ],
+            "class_ids": [
+              4
+            ],
+            "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+            "max_probability_sum_error": 0.0
+          },
+          "passed": true
+        },
+        "timing": {
+          "elapsed_seconds": 11.902106477999041,
+          "ledger": "artifacts/m3-budget.json"
+        }
+      },
+      {
+        "task": "m-pv4ger-seg",
+        "record": {
+          "run_id": "20261031T164838232292Z-m-pv4ger-seg-smoke",
+          "status": "budget_exhausted",
+          "created_utc": "20261031T164838232292Z",
+          "recipe": {
+            "task": "m-pv4ger-seg",
+            "description": "m-pv4ger-seg-verified-0",
+            "model": "deeplab_mobile_imagenet",
+            "smoke": true,
+            "epochs": 50,
+            "steps": 2,
+            "wall_seconds": 30,
+            "batch_size": 4,
+            "lr": 0.001,
+            "weight_decay": 0.0001,
+            "augment": true,
+            "normalization": "pretrained",
+            "phase": "probe",
+            "seed": 2026,
+            "optimizer": "adamw",
+            "schedule": "cosine",
+            "loss": "ce_dice",
+            "head_only": false,
+            "backbone_lr_ratio": 0.1,
+            "train_limit": 4,
+            "valid_limit": 4
+          },
+          "source_commit": "a4671c3aa7ba904a9256306e617d0b442f5378f9",
+          "dirty": false,
+          "seed": 2026,
+          "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+          "partition_sha256": "b4f3499171ac0c6f96b13d65297d26c124eca03f09c0cc7969d9cd13c5b290e5",
+          "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+          "budget_contract_sha256": "a83802d4256f4f9702802fcb4c2019619364dc7c69a6a216661aa8bc4b047dcc",
+          "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+          "retry_of": null,
+          "is_reference": false,
+          "weight_receipt": {
+            "id": "deeplab_mobile_imagenet",
+            "kind": "segmentation",
+            "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1",
+            "url": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",
+            "pretraining": "ImageNet-1K",
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "geometry": "native_grid_no_crop",
+            "adaptation": "copy_verified_RGB_random_extra_channels",
+            "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+            "filename": "mobilenet_v3_large-8738ca79.pth",
+            "sha256": "8738ca797c879b547d18bbd15da5736ff2557b2036a9af72225393ca61759a04",
+            "bytes": 22139423,
+            "terms_reviewed": true,
+            "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+            "target_finetuned": false,
+            "heldout_overlap": "unknown_recorded"
+          },
+          "environment": {
+            "torch": "2.8.0",
+            "torchvision": "0.24.0",
+            "numpy": "1.26.4",
+            "geobench": "1.1.0",
+            "h5py": "3.16.0"
+          },
+          "gpu": "Tesla T4",
+          "steps": 2,
+          "optimizer_updates": 2,
+          "amp_skipped_steps": 0,
+          "amp_initial_scale": 1024,
+          "epochs_completed": 2,
+          "last_validation": {
+            "valid": true,
+            "count": 409600,
+            "accuracy": 0.839736328125,
+            "macro_iou": 0.4198681640625,
+            "macro_f1": 0.45644384757071804,
+            "per_class_iou": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_precision": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_recall": [
+              1.0,
+              0.0
+            ],
+            "per_class_f1": [
+              0.9128876951414361,
+              0.0
+            ],
+            "support": [
+              343956,
+              65644
+            ],
+            "union": [
+              409600,
+              65644
+            ],
+            "confusion_matrix": [
+              [
+                343956,
+                0
+              ],
+              [
+                65644,
+                0
+              ]
+            ],
+            "split": "valid",
+            "images": 4,
+            "full_split": false,
+            "primary_name": "macro_iou",
+            "primary": 0.4198681640625,
+            "positive_precision": 0.0,
+            "positive_recall": 0.0,
+            "positive_f1": 0.0,
+            "foreground_iou": 0.0,
+            "foreground_f1": 0.0
+          },
+          "normalization": {
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "fitted_on": "pretrained_rgb_train_extras",
+            "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1"
+          },
+          "peak_allocated_bytes": 441912320,
+          "peak_reserved_bytes": 480247808,
+          "curve": [
+            {
+              "epoch": 1,
+              "steps": 1,
+              "loss": 1.2717463970184326,
+              "validation": 0.4198681640625
+            },
+            {
+              "epoch": 2,
+              "steps": 2,
+              "loss": 0.9869518280029297,
+              "validation": 0.4198681640625
+            }
+          ],
+          "checkpoint": "last.pt",
+          "checkpoint_sha256": "b2597e74bb3b14909bd02dc3e0168a65a276e24959177a313990b4f1e6544186",
+          "eligible_reference": false,
+          "selection_scope": "smoke_only_no_candidate_selection"
+        },
+        "reload": {
+          "kind": "smoke_reload",
+          "checkpoint_sha256": "b2597e74bb3b14909bd02dc3e0168a65a276e24959177a313990b4f1e6544186",
+          "primary_delta": 0.0,
+          "validation": {
+            "valid": true,
+            "count": 409600,
+            "accuracy": 0.839736328125,
+            "macro_iou": 0.4198681640625,
+            "macro_f1": 0.45644384757071804,
+            "per_class_iou": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_precision": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_recall": [
+              1.0,
+              0.0
+            ],
+            "per_class_f1": [
+              0.9128876951414361,
+              0.0
+            ],
+            "support": [
+              343956,
+              65644
+            ],
+            "union": [
+              409600,
+              65644
+            ],
+            "confusion_matrix": [
+              [
+                343956,
+                0
+              ],
+              [
+                65644,
+                0
+              ]
+            ],
+            "split": "valid",
+            "images": 4,
+            "full_split": false,
+            "primary_name": "macro_iou",
+            "primary": 0.4198681640625,
+            "positive_precision": 0.0,
+            "positive_recall": 0.0,
+            "positive_f1": 0.0,
+            "foreground_iou": 0.0,
+            "foreground_f1": 0.0
+          },
+          "prediction": {
+            "prediction_shape": [
+              1,
+              320,
+              320
+            ],
+            "probability_shape": [
+              1,
+              2,
+              320,
+              320
+            ],
+            "class_ids": [
+              0
+            ],
+            "prediction_sha256": "dce79b8fea025a282b35a56f716c4766ca2949f23c30630060db91814710f4f5",
+            "max_probability_sum_error": 1.1920928955078125e-07
+          },
+          "passed": true
+        },
+        "timing": {
+          "elapsed_seconds": 23.12189470999874,
+          "ledger": "artifacts/m3-budget.json"
+        }
+      }
+    ],
+    "ledger": {
+      "charged_seconds": 41.27040108699657,
+      "categories": {
+        "shared": 41.27040108699657
+      },
+      "active": null,
+      "runs": [
+        {
+          "task_id": "m-eurosat",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164742261089Z-m-eurosat-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28681.413430917,
+          "owner_pid": 7661,
+          "elapsed_seconds": 3.122549515999708,
+          "status": "failed"
+        },
+        {
+          "task_id": "m-pv4ger-seg",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164748371079Z-m-pv4ger-seg-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28687.54183807,
+          "owner_pid": 7668,
+          "elapsed_seconds": 3.1238503829990805,
+          "status": "failed"
+        },
+        {
+          "task_id": "m-eurosat",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164823341822Z-m-eurosat-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28722.518003909,
+          "owner_pid": 7687,
+          "elapsed_seconds": 11.902106477999041,
+          "status": "budget_exhausted"
+        },
+        {
+          "task_id": "m-pv4ger-seg",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164838232292Z-m-pv4ger-seg-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28737.385932031,
+          "owner_pid": 7708,
+          "elapsed_seconds": 23.12189470999874,
+          "status": "budget_exhausted"
+        }
+      ]
+    },
+    "m1_m2_ledgers_unchanged": true,
+    "test_payloads_opened": 0,
+    "bedrock_requests": 0,
+    "initial_operator_failures": [
+      {
+        "run_id": "20261031T164742261089Z-m-eurosat-smoke",
+        "reason": "Wrong interpreter: geobench unavailable; no optimizer updates; charged to M3 shared allocation."
+      },
+      {
+        "run_id": "20261031T164748371079Z-m-pv4ger-seg-smoke",
+        "reason": "Wrong interpreter: geobench unavailable; no optimizer updates; charged to M3 shared allocation."
+      }
+    ],
+    "limitations": [
+      "CPU scripted recovery is verified; live interruption exercise and autonomous four-task comparisons remain 3.3.",
+      "Hub metadata returns proposals only; no automatic unknown-model adoption."
+    ]
+  },
+  "searches": {
+    "status": "verified_complete",
+    "collected_utc": "2026-10-31T19:48:01.315525+00:00",
+    "source_commits": [
+      "259567e372df0a24607e940413708df5fc83476b",
+      "3c4bb0166ace570dd65f76f73e1a33cc8d514e20",
+      "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+      "18785a3001dc9d761d39fe9248320ed7885c5626",
+      "548cba035604b428244750e61f9572ba81d8e204"
+    ],
+    "checks": {
+      "count": 38,
+      "seconds": 3.491,
+      "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+      "environment": "SageMaker verified venv CPU",
+      "command": "python -m unittest discover -s tests -v"
+    },
+    "results": [
+      {
+        "task": "m-eurosat",
+        "status": "verified_complete",
+        "reference_run": "20261031T142814768185Z-m-eurosat-manual",
+        "reference_primary": 0.87,
+        "selected_run": "20261031T170743193186Z-m-eurosat-manual",
+        "selected_primary": 0.966,
+        "gain_status": "single_seed_provisional",
+        "trials": [
+          {
+            "run_id": "20261031T170241059888Z-m-eurosat-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "259567e372df0a24607e940413708df5fc83476b",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-eurosat",
+              "description": "m-eurosat-0",
+              "model": "resnet18_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 32,
+              "valid_limit": 32
+            },
+            "checkpoint_sha256": "a6aee70ce2ceba767c1e85359ac77e9ee66e1e518ad7da9185cfb6e5fcccaa18",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T170255870477Z-m-eurosat-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "259567e372df0a24607e940413708df5fc83476b",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-eurosat",
+              "description": "m-eurosat-0",
+              "model": "mobilenet_small_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 32,
+              "valid_limit": 32
+            },
+            "checkpoint_sha256": "9feffe7dece9f1f975eed54b3becda84c885b137cefea6e44ca0d738169942a6",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T170315506058Z-m-eurosat-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "259567e372df0a24607e940413708df5fc83476b",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-eurosat",
+              "description": "m-eurosat-0",
+              "model": "resnet18_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 32,
+              "valid_limit": 32
+            },
+            "checkpoint_sha256": "a6aee70ce2ceba767c1e85359ac77e9ee66e1e518ad7da9185cfb6e5fcccaa18",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T170515003952Z-m-eurosat-manual",
+            "status": "budget_exhausted",
+            "source_commit": "3c4bb0166ace570dd65f76f73e1a33cc8d514e20",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-eurosat",
+              "description": "ee32c1d770845045-3",
+              "model": "resnet18_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "0c4ffd0ab4d9027e83db2c4d5c5aea513b315b4ceb4c21ed0232042e7b1ac624",
+            "primary": 0.91,
+            "full_validation": true
+          },
+          {
+            "run_id": "20261031T170743193186Z-m-eurosat-manual",
+            "status": "budget_exhausted",
+            "source_commit": "3c4bb0166ace570dd65f76f73e1a33cc8d514e20",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-eurosat",
+              "description": "ee32c1d770845045-4",
+              "model": "resnet18_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 600,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "final",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "88d93acbdba7a079d563eb4510c4cbca12d3a810276286a830df688b583241ea",
+            "primary": 0.966,
+            "full_validation": true
+          }
+        ],
+        "model_requests": 24,
+        "tool_calls": 22,
+        "returned_usage_receipts": 22,
+        "returned_tokens": {
+          "inputTokens": 175401,
+          "outputTokens": 4755,
+          "totalTokens": 180156
+        },
+        "usage_note": "Returned token receipts exclude interrupted requests without a receipt; all wire attempts count toward the request limit.",
+        "service_retries": [],
+        "decisions": [
+          {
+            "shortlist": [
+              "resnet18_imagenet",
+              "mobilenet_small_imagenet"
+            ],
+            "reason": "Two diverse pretrained candidates; ResNet18 matches reference architecture, MobileNet is a light alternative."
+          },
+          {
+            "request_id": "ee32c1d770845045-3",
+            "candidate": "resnet18_imagenet",
+            "phase": "screen",
+            "parent": "20261031T142814768185Z-m-eurosat-manual",
+            "hypothesis": "ImageNet-pretrained ResNet18 should beat the 0.87 random-init reference.",
+            "retry_of": "",
+            "run_id": "20261031T170515003952Z-m-eurosat-manual"
+          },
+          {
+            "request_id": "ee32c1d770845045-4",
+            "candidate": "resnet18_imagenet",
+            "phase": "final",
+            "parent": "20261031T170515003952Z-m-eurosat-manual",
+            "hypothesis": "Screen hit 0.91 and was still improving at the 150s cutoff; the full 600s final with the same recipe should beat the 0.87 reference.",
+            "retry_of": "",
+            "run_id": "20261031T170743193186Z-m-eurosat-manual"
+          },
+          {
+            "candidate": "20261031T170743193186Z-m-eurosat-manual",
+            "kept": true,
+            "best": "20261031T170743193186Z-m-eurosat-manual",
+            "reason": "Completed final trial, ImageNet ResNet18, val accuracy 0.966 vs 0.87 reference."
+          }
+        ],
+        "finish_reason": "Final run selected and checkpoint verified; 0.966 val accuracy (single seed, provisional) vs 0.87 reference.",
+        "reload": {
+          "passed": true,
+          "primary_delta": 0.0,
+          "checkpoint_sha256": "88d93acbdba7a079d563eb4510c4cbca12d3a810276286a830df688b583241ea",
+          "prediction": {
+            "prediction_shape": [
+              1
+            ],
+            "probability_shape": [
+              1,
+              10
+            ],
+            "class_ids": [
+              4
+            ],
+            "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+            "max_probability_sum_error": 1.1920928955078125e-07
+          }
+        },
+        "validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.966,
+          "macro_iou": 0.9346698506174308,
+          "macro_f1": 0.9659647312940456,
+          "per_class_iou": [
+            0.9405940594059405,
+            0.9509803921568627,
+            0.9238095238095239,
+            0.9326923076923077,
+            0.95,
+            0.897196261682243,
+            0.8666666666666667,
+            0.9433962264150944,
+            0.9611650485436893,
+            0.9801980198019802
+          ],
+          "per_class_precision": [
+            0.9895833333333334,
+            0.9797979797979798,
+            0.9509803921568627,
+            0.9603960396039604,
+            1.0,
+            0.9320388349514563,
+            0.9479166666666666,
+            0.9433962264150944,
+            0.9705882352941176,
+            0.99
+          ],
+          "per_class_recall": [
+            0.95,
+            0.97,
+            0.97,
+            0.97,
+            0.95,
+            0.96,
+            0.91,
+            1.0,
+            0.99,
+            0.99
+          ],
+          "per_class_f1": [
+            0.9693877551020408,
+            0.9748743718592965,
+            0.9603960396039604,
+            0.9651741293532339,
+            0.9743589743589743,
+            0.9458128078817734,
+            0.9285714285714286,
+            0.970873786407767,
+            0.9801980198019802,
+            0.99
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            101,
+            102,
+            105,
+            104,
+            100,
+            107,
+            105,
+            106,
+            103,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              95,
+              0,
+              0,
+              0,
+              0,
+              2,
+              3,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              97,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              97,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              97,
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              95,
+              0,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              2,
+              0,
+              96,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              5,
+              0,
+              0,
+              1,
+              91,
+              2,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              99,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              99
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.966
+        }
+      },
+      {
+        "task": "m-brick-kiln",
+        "status": "verified_complete",
+        "reference_run": "20261031T143113863281Z-m-brick-kiln-manual",
+        "reference_primary": 0.977977977977978,
+        "selected_run": "20261031T172944640241Z-m-brick-kiln-manual",
+        "selected_primary": 0.9819819819819819,
+        "gain_status": "single_seed_provisional",
+        "trials": [
+          {
+            "run_id": "20261031T172023890693Z-m-brick-kiln-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-0",
+              "model": "resnet18_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 32,
+              "valid_limit": 32
+            },
+            "checkpoint_sha256": "086c8dba39fc9b7c9d1a96b8d24c9a16e2af150a47847c6e3be30502fce7bb79",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T172039152320Z-m-brick-kiln-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-1",
+              "model": "mobilenet_small_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 32,
+              "valid_limit": 32
+            },
+            "checkpoint_sha256": "7c8c2a9d43f53884197f68781a54d89d7670dbf6f263e5c4edbfa059fd1874e2",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T172058015219Z-m-brick-kiln-manual",
+            "status": "failed",
+            "source_commit": "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-2",
+              "model": "resnet18_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "controller_error": "Hard wall watchdog terminated worker",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T172331124058Z-m-brick-kiln-manual",
+            "status": "failed",
+            "source_commit": "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-3",
+              "model": "mobilenet_small_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "controller_error": "Hard wall watchdog terminated worker",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T172733260830Z-m-brick-kiln-manual",
+            "status": "budget_exhausted",
+            "source_commit": "18785a3001dc9d761d39fe9248320ed7885c5626",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-4",
+              "model": "resnet18_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "d1173bed21fef3e00f69a9026047cdd2c3efc16ef5a56273579418a3166ed98e",
+            "normalization_source_run": "20261031T143113863281Z-m-brick-kiln-manual",
+            "primary": 0.970970970970971,
+            "full_validation": true
+          },
+          {
+            "run_id": "20261031T172944640241Z-m-brick-kiln-manual",
+            "status": "budget_exhausted",
+            "source_commit": "18785a3001dc9d761d39fe9248320ed7885c5626",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-brick-kiln",
+              "description": "03937a3e11a54320-5",
+              "model": "resnet18_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 600,
+              "batch_size": 32,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "final",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "4125c1c5a42d9db3bdcb27392a18f7bfaf2ee24e88954adde9a68ad8f7854960",
+            "normalization_source_run": "20261031T143113863281Z-m-brick-kiln-manual",
+            "primary": 0.9819819819819819,
+            "full_validation": true
+          }
+        ],
+        "model_requests": 15,
+        "tool_calls": 15,
+        "returned_usage_receipts": 14,
+        "returned_tokens": {
+          "inputTokens": 86127,
+          "outputTokens": 2781,
+          "totalTokens": 88908
+        },
+        "usage_note": "Returned token receipts exclude interrupted requests without a receipt; all wire attempts count toward the request limit.",
+        "service_retries": [],
+        "decisions": [
+          {
+            "shortlist": [
+              "resnet18_imagenet",
+              "mobilenet_small_imagenet"
+            ],
+            "reason": "Two diverse pretrained candidates; resnet18 is a strong baseline, mobilenet is a cheap alternative."
+          },
+          {
+            "request_id": "03937a3e11a54320-0",
+            "candidate": "resnet18_imagenet",
+            "phase": "probe",
+            "parent": "20261031T143113863281Z-m-brick-kiln-manual",
+            "hypothesis": "Pretrained resnet18 runs correctly end to end.",
+            "retry_of": "",
+            "run_id": "20261031T172023890693Z-m-brick-kiln-smoke"
+          },
+          {
+            "request_id": "03937a3e11a54320-1",
+            "candidate": "mobilenet_small_imagenet",
+            "phase": "probe",
+            "parent": "20261031T143113863281Z-m-brick-kiln-manual",
+            "hypothesis": "Mobilenet runs correctly end to end.",
+            "retry_of": "",
+            "run_id": "20261031T172039152320Z-m-brick-kiln-smoke"
+          },
+          {
+            "request_id": "03937a3e11a54320-2",
+            "candidate": "resnet18_imagenet",
+            "phase": "screen",
+            "parent": "20261031T172023890693Z-m-brick-kiln-smoke",
+            "hypothesis": "Pretrained resnet18 beats the scratch reference in 150s.",
+            "retry_of": "",
+            "run_id": "20261031T172058015219Z-m-brick-kiln-manual"
+          },
+          {
+            "request_id": "03937a3e11a54320-3",
+            "candidate": "mobilenet_small_imagenet",
+            "phase": "screen",
+            "parent": "20261031T172039152320Z-m-brick-kiln-smoke",
+            "hypothesis": "Mobilenet is competitive and faster.",
+            "retry_of": "",
+            "run_id": "20261031T172331124058Z-m-brick-kiln-manual"
+          },
+          {
+            "request_id": "03937a3e11a54320-4",
+            "candidate": "resnet18_imagenet",
+            "phase": "screen",
+            "parent": "20261031T172023890693Z-m-brick-kiln-smoke",
+            "hypothesis": "After the normalization fix, pretrained resnet18 should beat the scratch reference (0.978) in a 150s screen.",
+            "retry_of": "",
+            "run_id": "20261031T172733260830Z-m-brick-kiln-manual"
+          },
+          {
+            "request_id": "03937a3e11a54320-5",
+            "candidate": "resnet18_imagenet",
+            "phase": "final",
+            "parent": "20261031T172733260830Z-m-brick-kiln-manual",
+            "hypothesis": "Longer 600s training of pretrained resnet18 (0.971 at 1 epoch) should surpass 0.978 reference.",
+            "retry_of": "",
+            "run_id": "20261031T172944640241Z-m-brick-kiln-manual"
+          },
+          {
+            "candidate": "20261031T172944640241Z-m-brick-kiln-manual",
+            "kept": true,
+            "best": "20261031T172944640241Z-m-brick-kiln-manual",
+            "reason": "Completed final pretrained resnet18 run: val accuracy 0.9820 vs scratch reference 0.9780. Provisional single seed."
+          }
+        ],
+        "finish_reason": "Final run selected and checkpoint verified. Gain is provisional (single seed, no confirmation).",
+        "reload": {
+          "passed": true,
+          "primary_delta": 0.0,
+          "checkpoint_sha256": "4125c1c5a42d9db3bdcb27392a18f7bfaf2ee24e88954adde9a68ad8f7854960",
+          "prediction": {
+            "prediction_shape": [
+              1
+            ],
+            "probability_shape": [
+              1,
+              2
+            ],
+            "class_ids": [
+              0
+            ],
+            "prediction_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+            "max_probability_sum_error": 0.0
+          }
+        },
+        "validation": {
+          "valid": true,
+          "count": 999,
+          "accuracy": 0.9819819819819819,
+          "macro_iou": 0.9605201863354037,
+          "macro_f1": 0.9798198125404007,
+          "per_class_iou": [
+            0.9732142857142857,
+            0.9478260869565217
+          ],
+          "per_class_precision": [
+            0.9864253393665159,
+            0.9732142857142857
+          ],
+          "per_class_recall": [
+            0.9864253393665159,
+            0.9732142857142857
+          ],
+          "per_class_f1": [
+            0.9864253393665159,
+            0.9732142857142857
+          ],
+          "support": [
+            663,
+            336
+          ],
+          "union": [
+            672,
+            345
+          ],
+          "confusion_matrix": [
+            [
+              654,
+              9
+            ],
+            [
+              9,
+              327
+            ]
+          ],
+          "split": "valid",
+          "images": 999,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.9819819819819819,
+          "positive_precision": 0.9732142857142857,
+          "positive_recall": 0.9732142857142857,
+          "positive_f1": 0.9732142857142857,
+          "foreground_iou": 0.9478260869565217,
+          "foreground_f1": 0.9732142857142857
+        }
+      },
+      {
+        "task": "m-pv4ger-seg",
+        "status": "verified_complete",
+        "reference_run": "20261031T144800853991Z-m-pv4ger-seg-manual",
+        "reference_primary": 0.9016924614288253,
+        "selected_run": "20261031T174535869393Z-m-pv4ger-seg-manual",
+        "selected_primary": 0.9480542639983465,
+        "gain_status": "single_seed_provisional",
+        "trials": [
+          {
+            "run_id": "20261031T174120070184Z-m-pv4ger-seg-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-pv4ger-seg",
+              "description": "82cd5272ee9f1da3-0",
+              "model": "fcn_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "71c4b26d2885bb71786cf21eeb369bbe2895cf3ed60d7c11901e47ef5b9af33d",
+            "normalization_source": "reviewed_pretrained_rgb_statistics",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T174138548568Z-m-pv4ger-seg-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-pv4ger-seg",
+              "description": "82cd5272ee9f1da3-1",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "10a5087588acfddaac82b28b4a34585ab3e0deb852b46d3b4f278faf26efcf07",
+            "normalization_source": "reviewed_pretrained_rgb_statistics",
+            "primary": null,
+            "full_validation": false
+          },
+          {
+            "run_id": "20261031T174209275152Z-m-pv4ger-seg-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-pv4ger-seg",
+              "description": "82cd5272ee9f1da3-2",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "6f729ff574a297a9a70e28fad943e11b87fd8aba26936474d21927528af2a06f",
+            "normalization_source": "reviewed_pretrained_rgb_statistics",
+            "primary": 0.9140236570813901,
+            "full_validation": true
+          },
+          {
+            "run_id": "20261031T174354648113Z-m-pv4ger-seg-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-pv4ger-seg",
+              "description": "82cd5272ee9f1da3-3",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "6fdfeb8477b3df32f4bd854a2ebaf07d7500e9f894f67f75659c236ca5796683",
+            "normalization_source": "reviewed_pretrained_rgb_statistics",
+            "primary": 0.856567116326608,
+            "full_validation": true
+          },
+          {
+            "run_id": "20261031T174535869393Z-m-pv4ger-seg-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-pv4ger-seg",
+              "description": "82cd5272ee9f1da3-4",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 600,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "final",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "037ad27ff389c9edca526c241e09affc196710eaa5b499fdf1c0c319f6da5981",
+            "normalization_source": "reviewed_pretrained_rgb_statistics",
+            "primary": 0.9480542639983465,
+            "full_validation": true
+          }
+        ],
+        "model_requests": 12,
+        "tool_calls": 13,
+        "returned_usage_receipts": 11,
+        "returned_tokens": {
+          "inputTokens": 87505,
+          "outputTokens": 3083,
+          "totalTokens": 90588
+        },
+        "usage_note": "Returned token receipts exclude interrupted requests without a receipt; all wire attempts count toward the request limit.",
+        "service_retries": [
+          {
+            "error_type": "ConnectionClosedError",
+            "after_model_request": 9
+          }
+        ],
+        "decisions": [
+          {
+            "shortlist": [
+              "fcn_imagenet",
+              "deeplab_mobile_imagenet"
+            ],
+            "reason": "Two diverse pretrained candidates: FCN-ResNet50 (matches reference arch) and lightweight DeepLab-MobileNetV3."
+          },
+          {
+            "request_id": "82cd5272ee9f1da3-0",
+            "candidate": "fcn_imagenet",
+            "phase": "probe",
+            "parent": "20261031T144800853991Z-m-pv4ger-seg-manual",
+            "hypothesis": "Pretrained FCN-ResNet50 runs and beats random init reference.",
+            "retry_of": "",
+            "run_id": "20261031T174120070184Z-m-pv4ger-seg-smoke"
+          },
+          {
+            "request_id": "82cd5272ee9f1da3-1",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "probe",
+            "parent": "20261031T144800853991Z-m-pv4ger-seg-manual",
+            "hypothesis": "Mobile model runs faster, more steps in budget.",
+            "retry_of": "",
+            "run_id": "20261031T174138548568Z-m-pv4ger-seg-smoke"
+          },
+          {
+            "request_id": "82cd5272ee9f1da3-2",
+            "candidate": "fcn_imagenet",
+            "phase": "screen",
+            "parent": "20261031T174120070184Z-m-pv4ger-seg-smoke",
+            "hypothesis": "Pretrained FCN gets higher validation in short screen.",
+            "retry_of": "",
+            "run_id": "20261031T174209275152Z-m-pv4ger-seg-manual"
+          },
+          {
+            "request_id": "82cd5272ee9f1da3-3",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "screen",
+            "parent": "20261031T174138548568Z-m-pv4ger-seg-smoke",
+            "hypothesis": "Mobile model may match FCN with more steps.",
+            "retry_of": "",
+            "run_id": "20261031T174354648113Z-m-pv4ger-seg-manual"
+          },
+          {
+            "request_id": "82cd5272ee9f1da3-4",
+            "candidate": "fcn_imagenet",
+            "phase": "final",
+            "parent": "20261031T174209275152Z-m-pv4ger-seg-manual",
+            "hypothesis": "Longer training of pretrained FCN improves on 150s screen (0.914) and reference (0.902).",
+            "retry_of": "",
+            "run_id": "20261031T174535869393Z-m-pv4ger-seg-manual"
+          },
+          {
+            "candidate": "20261031T174535869393Z-m-pv4ger-seg-manual",
+            "kept": true,
+            "best": "20261031T174535869393Z-m-pv4ger-seg-manual",
+            "reason": "Final run macro IoU 0.948 vs reference 0.902 (single seed, provisional)."
+          }
+        ],
+        "finish_reason": "Selected pretrained FCN-ResNet50 final run (macro IoU 0.948 vs 0.902 reference), checkpoint verified. Single seed, so the gain is provisional; the remaining time budget couldn't fund a second 600s seed.",
+        "reload": {
+          "passed": true,
+          "primary_delta": 0.0,
+          "checkpoint_sha256": "037ad27ff389c9edca526c241e09affc196710eaa5b499fdf1c0c319f6da5981",
+          "prediction": {
+            "prediction_shape": [
+              1,
+              320,
+              320
+            ],
+            "probability_shape": [
+              1,
+              2,
+              320,
+              320
+            ],
+            "class_ids": [
+              0,
+              1
+            ],
+            "prediction_sha256": "632781e34fcc687fe8f22dbeb982b8541cc011d391e05521cb84be05242cd2cc",
+            "max_probability_sum_error": 1.1920928955078125e-07
+          }
+        },
+        "validation": {
+          "valid": true,
+          "count": 41267200,
+          "accuracy": 0.9826898117633375,
+          "macro_iou": 0.9480542639983465,
+          "macro_f1": 0.9730827359405003,
+          "per_class_iou": [
+            0.9785596596260463,
+            0.9175488683706465
+          ],
+          "per_class_precision": [
+            0.9913808936224299,
+            0.9485837157742251
+          ],
+          "per_class_recall": [
+            0.9869563268162898,
+            0.9655706516755179
+          ],
+          "per_class_f1": [
+            0.9891636624300699,
+            0.9570018094509306
+          ],
+          "support": [
+            33034253,
+            8232947
+          ],
+          "union": [
+            33317708,
+            8663835
+          ],
+          "confusion_matrix": [
+            [
+              32603365,
+              430888
+            ],
+            [
+              283455,
+              7949492
+            ]
+          ],
+          "split": "valid",
+          "images": 403,
+          "full_split": true,
+          "primary_name": "macro_iou",
+          "primary": 0.9480542639983465,
+          "positive_precision": 0.9485837157742251,
+          "positive_recall": 0.9655706516755179,
+          "positive_f1": 0.9570018094509306,
+          "foreground_iou": 0.9175488683706465,
+          "foreground_f1": 0.9570018094509306
+        }
+      },
+      {
+        "task": "m-chesapeake",
+        "status": "verified_complete",
+        "reference_run": "20261031T145719482888Z-m-chesapeake-manual",
+        "reference_primary": 0.4052801090446043,
+        "selected_run": "20261031T180108350357Z-m-chesapeake-manual",
+        "selected_primary": 0.7411098532881673,
+        "gain_status": "single_seed_provisional",
+        "trials": [
+          {
+            "run_id": "20261031T175624029771Z-m-chesapeake-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-0",
+              "model": "fcn_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "3ac0a9859810a5781471a3476e146c214a77f1766cef5d42c58bd02e28006486",
+            "primary": null,
+            "full_validation": false,
+            "steps": 2,
+            "epochs_completed": 2
+          },
+          {
+            "run_id": "20261031T175642350749Z-m-chesapeake-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-1",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "511875289fb165d8487943818d3fa880018b4c025f4efb61263d608813bd2317",
+            "primary": null,
+            "full_validation": false,
+            "steps": 2,
+            "epochs_completed": 2
+          },
+          {
+            "run_id": "20261031T175708767477Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-2",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "160a63cb32c8e230f645a8155b7aa87b1e6a500525bada521cf36eaff3ae0076",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.6741972497857583,
+            "full_validation": true,
+            "steps": 615,
+            "epochs_completed": 0
+          },
+          {
+            "run_id": "20261031T175905540570Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-3",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "254b4c36a40810c01ce6f889c44af9498e1c0fb9af631e9f025a077569f59d5d",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.6047189948737215,
+            "full_validation": true,
+            "steps": 720,
+            "epochs_completed": 0
+          },
+          {
+            "run_id": "20261031T180108350357Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-4",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 600,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "final",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "4732900ffad1d8b13f292284283751d9d3d75db05f7611bb29d4aeb6168fa1d5",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.7411098532881673,
+            "full_validation": true,
+            "steps": 4235,
+            "epochs_completed": 5
+          }
+        ],
+        "model_requests": 9,
+        "tool_calls": 10,
+        "returned_usage_receipts": 8,
+        "returned_tokens": {
+          "inputTokens": 63903,
+          "outputTokens": 2447,
+          "totalTokens": 66350
+        },
+        "usage_note": "Returned token receipts exclude interrupted requests without a receipt; all wire attempts count toward the request limit.",
+        "service_retries": [
+          {
+            "error_type": "ConnectionClosedError",
+            "after_model_request": 6
+          }
+        ],
+        "decisions": [
+          {
+            "shortlist": [
+              "fcn_imagenet",
+              "deeplab_mobile_imagenet"
+            ],
+            "reason": "Two diverse pretrained backbones (ResNet50 FCN vs MobileNetV3 DeepLab); budget tight so little tuning."
+          },
+          {
+            "request_id": "c67f5423a768bf3a-0",
+            "candidate": "fcn_imagenet",
+            "phase": "probe",
+            "parent": "20261031T145719482888Z-m-chesapeake-manual",
+            "hypothesis": "Pretrained ResNet50 FCN beats random-init reference; probe checks it runs.",
+            "retry_of": "",
+            "run_id": "20261031T175624029771Z-m-chesapeake-smoke"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-1",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "probe",
+            "parent": "20261031T145719482888Z-m-chesapeake-manual",
+            "hypothesis": "Lighter model gets more steps in the time budget.",
+            "retry_of": "",
+            "run_id": "20261031T175642350749Z-m-chesapeake-smoke"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-2",
+            "candidate": "fcn_imagenet",
+            "phase": "screen",
+            "parent": "20261031T175624029771Z-m-chesapeake-smoke",
+            "hypothesis": "Pretrained FCN reaches higher val macro IoU than reference in 150s.",
+            "retry_of": "",
+            "run_id": "20261031T175708767477Z-m-chesapeake-manual"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-3",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "screen",
+            "parent": "20261031T175642350749Z-m-chesapeake-smoke",
+            "hypothesis": "Mobile model trains faster per step and may match accuracy.",
+            "retry_of": "",
+            "run_id": "20261031T175905540570Z-m-chesapeake-manual"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-4",
+            "candidate": "fcn_imagenet",
+            "phase": "final",
+            "parent": "20261031T175708767477Z-m-chesapeake-manual",
+            "hypothesis": "Longer 600s budget with same recipe improves on the 150s screen (0.674).",
+            "retry_of": "",
+            "run_id": "20261031T180108350357Z-m-chesapeake-manual"
+          },
+          {
+            "candidate": "20261031T180108350357Z-m-chesapeake-manual",
+            "kept": true,
+            "best": "20261031T180108350357Z-m-chesapeake-manual",
+            "reason": "Final run macro IoU 0.741 vs reference 0.405; single seed, provisional."
+          }
+        ],
+        "finish_reason": "Selected pretrained FCN-ResNet50 final run (val macro IoU 0.741), checkpoint verified. Single seed, so the gain is provisional; remaining time was too short for a second 600s seed.",
+        "reload": {
+          "passed": true,
+          "primary_delta": 0.0,
+          "checkpoint_sha256": "4732900ffad1d8b13f292284283751d9d3d75db05f7611bb29d4aeb6168fa1d5",
+          "prediction": {
+            "prediction_shape": [
+              1,
+              256,
+              256
+            ],
+            "probability_shape": [
+              1,
+              7,
+              256,
+              256
+            ],
+            "class_ids": [
+              0
+            ],
+            "prediction_sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541",
+            "max_probability_sum_error": 2.384185791015625e-07
+          }
+        },
+        "validation": {
+          "valid": true,
+          "count": 65536000,
+          "accuracy": 0.8823991088867188,
+          "macro_iou": 0.7411098532881673,
+          "macro_f1": 0.838825556977002,
+          "per_class_iou": [
+            1.0,
+            0.9254934752254066,
+            0.8317366014740033,
+            0.7816823863181244,
+            0.5014688699939639,
+            0.6094422720880284,
+            0.537945367917645
+          ],
+          "per_class_precision": [
+            1.0,
+            0.9848207382954967,
+            0.8999684142184236,
+            0.8823681846458387,
+            0.6357850082721758,
+            0.767243348091998,
+            0.6714716494396124
+          ],
+          "per_class_recall": [
+            1.0,
+            0.9388865390093176,
+            0.9164612565704054,
+            0.872616936500763,
+            0.7035896434392676,
+            0.7476763764268077,
+            0.7301089086966387
+          ],
+          "per_class_f1": [
+            1.0,
+            0.9613052312390353,
+            0.9081399594294318,
+            0.8774654700757117,
+            0.6679710515689611,
+            0.757333497022371,
+            0.6995636895035029
+          ],
+          "support": [
+            1310720,
+            6877421,
+            24194283,
+            25453109,
+            1065064,
+            4735922,
+            1899481
+          ],
+          "union": [
+            1310720,
+            6976946,
+            26658828,
+            28414116,
+            1494346,
+            5810127,
+            2578009
+          ],
+          "confusion_matrix": [
+            [
+              1310720,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              6457118,
+              204042,
+              175933,
+              21015,
+              9972,
+              9341
+            ],
+            [
+              0,
+              20803,
+              22173123,
+              1768989,
+              20200,
+              129113,
+              82055
+            ],
+            [
+              0,
+              73220,
+              1968313,
+              22210814,
+              293190,
+              687459,
+              220113
+            ],
+            [
+              0,
+              793,
+              20180,
+              199620,
+              749368,
+              82193,
+              12910
+            ],
+            [
+              0,
+              4129,
+              148517,
+              601912,
+              86318,
+              3540937,
+              354109
+            ],
+            [
+              0,
+              580,
+              123493,
+              214553,
+              8559,
+              165468,
+              1386828
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "macro_iou",
+          "primary": 0.7411098532881673,
+          "land_macro_iou_target_0_ignored": 0.697961495502862
+        }
+      }
+    ],
+    "recovery": {
+      "ledger_unchanged_during_interruption": true,
+      "best_preserved": true,
+      "runs_preserved": true,
+      "request_counter_preserved": true,
+      "tool_counter_preserved": true,
+      "created_utc_preserved": true,
+      "completed_screens_not_repeated": true,
+      "completed_finals_not_repeated": true,
+      "before_model_requests": 11,
+      "after_model_requests": 24
+    },
+    "m1_m2_ledgers_unchanged": true,
+    "weight_download_bytes": 181806878,
+    "ledger_snapshot": {
+      "charged_seconds": 3459.8919047499876,
+      "categories": {
+        "shared": 222.92615012198803,
+        "m-eurosat": 702.6623882899985,
+        "m-brick-kiln": 1002.3271315220045,
+        "m-pv4ger-seg": 748.5602420839969,
+        "m-chesapeake": 783.4159927319997
+      },
+      "active": null
+    },
+    "ledger_note": "Final settled M3 usage includes 3.2 probes, all 3.3 attempts/failures, and checkpoint verification. GPU-job wall time includes CPU setup; token receipts exclude interrupted requests without returned usage.",
+    "incidents": [
+      "Trial basename collided with a prior verification session. Three completed probes were audited and registered; all charges retained. Session-scoped IDs and a pending-work guard fixed duplication.",
+      "Two Brick-Kiln screens exhausted setup time. Reused verified full-training statistics after contract/partition/sample checks; fixed fatal-stop enforcement. Both failed attempts remain charged.",
+      "EuroSAT and Brick-Kiln resumed after empty Bedrock connection failures, preserving completed training and counters. One counted empty-response retry then recovered PV4GER-Seg automatically."
+    ],
+    "independent_backups": [
+      {
+        "snapshot": "20261031T171958125015Z-recovery.tar.gz",
+        "archive_sha256": "ba0dd3eff42a772df158cb511072659b5ac656fa75abf7890994114b6d5c1c97",
+        "git_commit": "682ae9bd1f0c58f5a8a8664d39083e633478490a",
+        "files": 87,
+        "bytes": 257415743,
+        "verified_utc": "2026-10-31T17:27:40.153097+00:00",
+        "purpose": "3.3 EuroSAT autonomous search, retained checkpoint and recovery evidence",
+        "task": "m-eurosat",
+        "selected_run": "20261031T170743193186Z-m-eurosat-manual",
+        "checkpoint_sha256": "88d93acbdba7a079d563eb4510c4cbca12d3a810276286a830df688b583241ea",
+        "checks": [
+          "sender/receiver and all member hashes matched",
+          "selected checkpoint restored as opaque bytes and hash matched; no local ML execution"
+        ]
+      },
+      {
+        "snapshot": "20261031T174053988987Z-recovery.tar.gz",
+        "archive_sha256": "27bd165bb377d0759b46a073168b2506e3d118d274c16008b8832051e221649c",
+        "git_commit": "548cba035604b428244750e61f9572ba81d8e204",
+        "files": 93,
+        "bytes": 244094554,
+        "verified_utc": "2026-10-31T17:43:57.665228+00:00",
+        "purpose": "3.3 m-brick-kiln search, selected checkpoint and recovery evidence",
+        "task": "m-brick-kiln",
+        "selected_run": "20261031T172944640241Z-m-brick-kiln-manual",
+        "restored_checkpoints": [
+          "20261031T172733260830Z-m-brick-kiln-manual",
+          "20261031T172944640241Z-m-brick-kiln-manual"
+        ],
+        "checks": [
+          "sender/receiver and all member hashes matched",
+          "included best checkpoints restored as opaque bytes and matched their run hashes; no local ML execution"
+        ]
+      },
+      {
+        "snapshot": "20261031T175520425747Z-recovery.tar.gz",
+        "archive_sha256": "c511171b0884f440d556ba801aaf61c60c7c1a4e69ab0739a842f75cab5395ba",
+        "git_commit": "548cba035604b428244750e61f9572ba81d8e204",
+        "files": 89,
+        "bytes": 792374176,
+        "verified_utc": "2026-10-31T18:04:34.357889+00:00",
+        "purpose": "3.3 m-pv4ger-seg search, selected checkpoint and recovery evidence",
+        "task": "m-pv4ger-seg",
+        "selected_run": "20261031T174535869393Z-m-pv4ger-seg-manual",
+        "restored_checkpoints": [
+          "20261031T174209275152Z-m-pv4ger-seg-manual",
+          "20261031T174354648113Z-m-pv4ger-seg-manual",
+          "20261031T174535869393Z-m-pv4ger-seg-manual"
+        ],
+        "checks": [
+          "sender/receiver and all member hashes matched",
+          "included best checkpoints restored as opaque bytes and matched their run hashes; no local ML execution"
+        ]
+      },
+      {
+        "snapshot": "20261031T181103372885Z-recovery-repacked.tar.gz",
+        "archive_sha256": "bf9d17fb6ac48ff1e755ef97383b399d9eda9974ce8e9519ba946b70ffe312a8",
+        "git_commit": "548cba035604b428244750e61f9572ba81d8e204",
+        "files": 89,
+        "bytes": 930324393,
+        "verified_utc": "2026-10-31T19:47:49.320255+00:00",
+        "purpose": "3.3 m-chesapeake search, selected checkpoint and recovery evidence",
+        "task": "m-chesapeake",
+        "selected_run": "20261031T180108350357Z-m-chesapeake-manual",
+        "restored_checkpoints": [
+          "20261031T175708767477Z-m-chesapeake-manual",
+          "20261031T175905540570Z-m-chesapeake-manual",
+          "20261031T180108350357Z-m-chesapeake-manual"
+        ],
+        "source_tar_sha256": "cdf3d6df4116d3a5d653d49928adf321f2721f9ea14c3e7e39aa240db6367573",
+        "source_tar_bytes": 930252800,
+        "original_staging_gzip_sha256": "70e58ac693233c0a4ad9c3f6280f9da774f44c7969fe6fd49a3e074c82f00097",
+        "transport_note": "Safari expanded the complete initial gzip download. Its complete tar bytes matched a fresh SageMaker digest of the original gzip payload; locally recompressed without changing tar contents. The repacked gzip has its own archive checksum. The interrupted second download was not used.",
+        "checks": [
+          "sender/receiver uncompressed tar hashes matched; recompressed tar hash also matched",
+          "all member hashes and sizes matched",
+          "all three included best checkpoints restored as opaque bytes and matched their run hashes; no local ML execution"
+        ]
+      }
+    ],
+    "raw_evidence": "SageMaker artifacts/runs/m3-searches/ and task recovery snapshots; full session/trial records remain there.",
+    "test_payloads_opened": 0,
+    "final_audit": {
+      "four_sessions_done": true,
+      "selected_checkpoints_verified": true,
+      "caps_respected": true,
+      "no_active_gpu_job": true,
+      "frozen_configs_unchanged": true,
+      "m1_m2_ledgers_unchanged": true,
+      "independent_backups_verified": true
+    },
+    "confirmation": "No matched seed-2027 pairs fit the remaining 977.07-second shared pool; each pair requires two 600-second reservations. All gains remain single-seed/provisional; primary export seed is 2026."
+  }
+}
