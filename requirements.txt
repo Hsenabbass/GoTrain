@@ -1,0 +1,12 @@
+# Observed working direct dependencies on the provided Python 3.12 SageMaker image.
+# Use the existing verification venv; this is not a universal CUDA/environment lock.
+torch==2.8.0
+torchvision==0.24.0
+numpy==1.26.4
+geobench==1.1.0
+h5py==3.16.0
+huggingface-hub==0.36.0
+rasterio==1.4.3
+affine==2.4.0
+cligj==0.7.2
+click-plugins==1.1.1.2

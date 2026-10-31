@@ -1,0 +1,16 @@
+{
+  "task": "m-eurosat",
+  "description": "Foundation smoke only; not a reference recipe",
+  "model": "resnet18",
+  "smoke": true,
+  "epochs": 1,
+  "steps": 2,
+  "wall_seconds": 60,
+  "batch_size": 4,
+  "lr": 0.001,
+  "weight_decay": 0.0,
+  "train_limit": 8,
+  "valid_limit": 8,
+  "augment": true,
+  "normalization": "train_standardize"
+}
