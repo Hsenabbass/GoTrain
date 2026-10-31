@@ -1,0 +1,924 @@
+{
+  "repo": "recursix/geo-bench-1.0",
+  "revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+  "package_version": "1.1.0",
+  "pixel_samples_per_split_cap": 64,
+  "test_payloads_opened": 0,
+  "test_payloads_extracted": 0,
+  "invalid_split_guard_passed": true,
+  "tasks": [
+    {
+      "name": "m-eurosat",
+      "benchmark": "classification_v1.0",
+      "dataset_dir": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets/m-eurosat",
+      "archive_sha256": "ea1d66258e7a789b24e9f7cfdf7498f3c12129f7725e4710a73547db72329804",
+      "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+      "split_counts": {
+        "train": 2000,
+        "valid": 1000,
+        "test": 1000
+      },
+      "patch_size": [
+        64,
+        64
+      ],
+      "spatial_resolution": "10",
+      "label_type": "Classification",
+      "label_description": "10-classification (Industrial Buildings, Residential Buildings, Annual Crop...)",
+      "label_metadata": {
+        "n_classes": 10,
+        "_class_names": [
+          "Industrial Buildings",
+          "Residential Buildings",
+          "Annual Crop",
+          "Permanent Crop",
+          "River",
+          "Sea and Lake",
+          "Herbaceous Vegetation",
+          "Highway",
+          "Pasture",
+          "Forest"
+        ]
+      },
+      "stored_band_names": [
+        "01 - Coastal aerosol",
+        "02 - Blue",
+        "03 - Green",
+        "04 - Red",
+        "05 - Vegetation Red Edge",
+        "06 - Vegetation Red Edge",
+        "07 - Vegetation Red Edge",
+        "08 - NIR",
+        "08A - Vegetation Red Edge",
+        "09 - Water vapour",
+        "10 - SWIR - Cirrus",
+        "11 - SWIR",
+        "12 - SWIR"
+      ],
+      "corrected_channel_names": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12",
+        "B8A"
+      ],
+      "splits": {
+        "train": {
+          "label_histogram": {
+            "0": 200,
+            "1": 200,
+            "2": 200,
+            "3": 200,
+            "4": 200,
+            "5": 200,
+            "6": 200,
+            "7": 200,
+            "8": 200,
+            "9": 200
+          },
+          "label_shapes": {
+            "()": 2000
+          },
+          "label_dtypes": {
+            "int64": 2000
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(64, 64)": 832
+          },
+          "band_dtypes": {
+            "int16": 832
+          },
+          "observed_band_order": [
+            "01 - Coastal aerosol",
+            "02 - Blue",
+            "03 - Green",
+            "04 - Red",
+            "05 - Vegetation Red Edge",
+            "06 - Vegetation Red Edge",
+            "07 - Vegetation Red Edge",
+            "08 - NIR",
+            "08A - Vegetation Red Edge",
+            "09 - Water vapour",
+            "10 - SWIR - Cirrus",
+            "11 - SWIR",
+            "12 - SWIR"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            974.0,
+            655.0,
+            433.0,
+            240.0,
+            258.0,
+            220.0,
+            206.0,
+            150.0,
+            53.0,
+            3.0,
+            11.0,
+            3.0,
+            139.0
+          ],
+          "channel_max": [
+            3078.0,
+            14359.0,
+            13519.0,
+            16114.0,
+            6450.0,
+            6331.0,
+            6652.0,
+            16692.0,
+            2362.0,
+            27.0,
+            8994.0,
+            8608.0,
+            7018.0
+          ],
+          "channel_mean": [
+            1369.782325744629,
+            1138.9906463623047,
+            1083.4918365478516,
+            973.8921318054199,
+            1247.7443008422852,
+            2090.9472312927246,
+            2489.983444213867,
+            2404.145492553711,
+            747.1180381774902,
+            11.652973175048828,
+            1786.9043502807617,
+            1108.1597862243652,
+            2707.893321990967
+          ],
+          "channel_std": [
+            274.84802271275305,
+            349.5724903021504,
+            385.4046943131713,
+            582.6018280378128,
+            521.8274403885257,
+            915.5918214942051,
+            1195.141206371349,
+            1227.0051677239276,
+            468.27331966593215,
+            4.088025289820928,
+            1005.6979492996497,
+            770.0587537173817,
+            1356.8225038467062
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics."
+        },
+        "valid": {
+          "label_histogram": {
+            "0": 100,
+            "1": 100,
+            "2": 100,
+            "3": 100,
+            "4": 100,
+            "5": 100,
+            "6": 100,
+            "7": 100,
+            "8": 100,
+            "9": 100
+          },
+          "label_shapes": {
+            "()": 1000
+          },
+          "label_dtypes": {
+            "int64": 1000
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(64, 64)": 832
+          },
+          "band_dtypes": {
+            "int16": 832
+          },
+          "observed_band_order": [
+            "01 - Coastal aerosol",
+            "02 - Blue",
+            "03 - Green",
+            "04 - Red",
+            "05 - Vegetation Red Edge",
+            "06 - Vegetation Red Edge",
+            "07 - Vegetation Red Edge",
+            "08 - NIR",
+            "08A - Vegetation Red Edge",
+            "09 - Water vapour",
+            "10 - SWIR - Cirrus",
+            "11 - SWIR",
+            "12 - SWIR"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            925.0,
+            598.0,
+            235.0,
+            219.0,
+            189.0,
+            162.0,
+            136.0,
+            105.0,
+            51.0,
+            2.0,
+            11.0,
+            2.0,
+            96.0
+          ],
+          "channel_max": [
+            3505.0,
+            6716.0,
+            6903.0,
+            9270.0,
+            4264.0,
+            4702.0,
+            5697.0,
+            8634.0,
+            2552.0,
+            61.0,
+            5757.0,
+            4698.0,
+            6116.0
+          ],
+          "channel_mean": [
+            1337.6344757080078,
+            1089.6032829284668,
+            996.4314079284668,
+            890.8071784973145,
+            1141.842674255371,
+            1938.4725723266602,
+            2292.122360229492,
+            2229.2445945739746,
+            762.0665893554688,
+            12.38845443725586,
+            1717.4637069702148,
+            1034.7476806640625,
+            2508.6495094299316
+          ],
+          "channel_std": [
+            243.36251223353997,
+            323.5267376447646,
+            371.27092070357645,
+            589.292845608988,
+            583.7813552230566,
+            912.9821064518932,
+            1151.4144903728827,
+            1198.370402592748,
+            485.4568734372489,
+            5.665867942385976,
+            1004.5784747109988,
+            695.6570661520284,
+            1310.0977605935186
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics."
+        }
+      },
+      "materialized_train_valid_files": 3000
+    },
+    {
+      "name": "m-pv4ger-seg",
+      "benchmark": "segmentation_v1.0",
+      "dataset_dir": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets/m-pv4ger-seg",
+      "archive_sha256": "621e00b64198ba4a4abef263ae0af6df9f657428b2e895fc87a54c4ffb378555",
+      "partition_sha256": "b4f3499171ac0c6f96b13d65297d26c124eca03f09c0cc7969d9cd13c5b290e5",
+      "split_counts": {
+        "train": 3000,
+        "valid": 403,
+        "test": 403
+      },
+      "patch_size": [
+        320,
+        320
+      ],
+      "spatial_resolution": 0.1,
+      "label_type": "SegmentationClasses",
+      "label_description": "2-SegmentationClasses, 0.1m resolution (no solar pv, solar pv.)",
+      "label_metadata": {
+        "name": "label",
+        "alt_names": [],
+        "spatial_resolution": 0.1,
+        "n_classes": 2,
+        "_class_names": [
+          "no solar pv",
+          "solar pv"
+        ]
+      },
+      "stored_band_names": [
+        "Red",
+        "Green",
+        "Blue"
+      ],
+      "corrected_channel_names": null,
+      "splits": {
+        "train": {
+          "label_histogram": {
+            "0": 245883455,
+            "1": 61316545
+          },
+          "label_shapes": {
+            "(320, 320)": 3000
+          },
+          "label_dtypes": {
+            "uint8": 3000
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(320, 320)": 192
+          },
+          "band_dtypes": {
+            "uint8": 192
+          },
+          "observed_band_order": [
+            "Red",
+            "Green",
+            "Blue"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            6.0,
+            15.0,
+            15.0
+          ],
+          "channel_max": [
+            254.0,
+            255.0,
+            255.0
+          ],
+          "channel_mean": [
+            124.44600769042968,
+            131.1884344482422,
+            135.32634735107422
+          ],
+          "channel_std": [
+            55.18052267673245,
+            52.361896201285184,
+            50.00482471015826
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics.",
+          "nonzero_label_fraction": 0.19959812825520834,
+          "empty_masks": 6
+        },
+        "valid": {
+          "label_histogram": {
+            "0": 33034253,
+            "1": 8232947
+          },
+          "label_shapes": {
+            "(320, 320)": 403
+          },
+          "label_dtypes": {
+            "uint8": 403
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(320, 320)": 192
+          },
+          "band_dtypes": {
+            "uint8": 192
+          },
+          "observed_band_order": [
+            "Red",
+            "Green",
+            "Blue"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            13.0,
+            22.0,
+            18.0
+          ],
+          "channel_max": [
+            254.0,
+            255.0,
+            255.0
+          ],
+          "channel_mean": [
+            128.56307876586914,
+            134.745643157959,
+            137.99050888061524
+          ],
+          "channel_std": [
+            57.87237579220285,
+            54.06112268513328,
+            50.78190837410183
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics.",
+          "nonzero_label_fraction": 0.19950340706420597,
+          "empty_masks": 1
+        }
+      },
+      "materialized_train_valid_files": 3403
+    },
+    {
+      "name": "m-brick-kiln",
+      "benchmark": "classification_v1.0",
+      "dataset_dir": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets/m-brick-kiln",
+      "archive_sha256": "53cacc65013b74c6fb9c447486830111ed4a2a83dbb7c27c579fe417b309e265",
+      "partition_sha256": "f09f5afd36cd57f4cd78e444a6a3169e0c8489c6fbfcf32cda9e96fa41082c0e",
+      "split_counts": {
+        "train": 15063,
+        "valid": 999,
+        "test": 999
+      },
+      "patch_size": [
+        64,
+        64
+      ],
+      "spatial_resolution": "10",
+      "label_type": "Classification",
+      "label_description": "2-classification (not brick kiln, brick kiln.)",
+      "label_metadata": {
+        "n_classes": 2,
+        "_class_names": [
+          "not brick kiln",
+          "brick kiln"
+        ]
+      },
+      "stored_band_names": [
+        "01 - Coastal aerosol",
+        "02 - Blue",
+        "03 - Green",
+        "04 - Red",
+        "05 - Vegetation Red Edge",
+        "06 - Vegetation Red Edge",
+        "07 - Vegetation Red Edge",
+        "08 - NIR",
+        "08A - Vegetation Red Edge",
+        "09 - Water vapour",
+        "10 - SWIR - Cirrus",
+        "11 - SWIR",
+        "12 - SWIR"
+      ],
+      "corrected_channel_names": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B07",
+        "B8A",
+        "B08",
+        "B11",
+        "B12",
+        "TCI_R",
+        "TCI_G",
+        "TCI_B"
+      ],
+      "splits": {
+        "train": {
+          "label_histogram": {
+            "0": 10000,
+            "1": 5063
+          },
+          "label_shapes": {
+            "()": 15063
+          },
+          "label_dtypes": {
+            "int64": 15063
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(64, 64)": 832
+          },
+          "band_dtypes": {
+            "float64": 832
+          },
+          "observed_band_order": [
+            "01 - Coastal aerosol",
+            "02 - Blue",
+            "03 - Green",
+            "04 - Red",
+            "05 - Vegetation Red Edge",
+            "06 - Vegetation Red Edge",
+            "07 - Vegetation Red Edge",
+            "08 - NIR",
+            "08A - Vegetation Red Edge",
+            "09 - Water vapour",
+            "10 - SWIR - Cirrus",
+            "11 - SWIR",
+            "12 - SWIR"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            110.45454545454545,
+            119.27272727272727,
+            216.9090909090909,
+            143.54545454545453,
+            189.33333333333334,
+            111.41666666666667,
+            95.58333333333333,
+            110.08333333333333,
+            78.41666666666667,
+            59.083333333333336,
+            14.818181818181818,
+            22.181818181818183,
+            12.454545454545455
+          ],
+          "channel_max": [
+            1921.7272727272727,
+            2246.8,
+            3051.0,
+            3239.0,
+            3506.0,
+            4687.363636363636,
+            5067.818181818182,
+            5681.0,
+            5232.0,
+            5358.666666666667,
+            255.0,
+            255.0,
+            229.0
+          ],
+          "channel_mean": [
+            558.4080672935225,
+            649.0585940167347,
+            858.4156699523794,
+            776.583258999463,
+            1108.1573806231536,
+            2006.984781654414,
+            2130.6078676975835,
+            2095.9210804337386,
+            1616.807161840327,
+            1107.366463712509,
+            79.35498636089582,
+            87.70678708229407,
+            66.43406241633204
+          ],
+          "channel_std": [
+            194.95455732537516,
+            235.02324505447478,
+            270.90604016325733,
+            354.412229190054,
+            348.9113362708464,
+            682.6283468400866,
+            763.0570457570769,
+            747.6290451287615,
+            704.2938304776399,
+            643.1802898152824,
+            35.77167611075152,
+            27.468622528425097,
+            23.876433026266206
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics."
+        },
+        "valid": {
+          "label_histogram": {
+            "0": 663,
+            "1": 336
+          },
+          "label_shapes": {
+            "()": 999
+          },
+          "label_dtypes": {
+            "int64": 999
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(64, 64)": 832
+          },
+          "band_dtypes": {
+            "float64": 832
+          },
+          "observed_band_order": [
+            "01 - Coastal aerosol",
+            "02 - Blue",
+            "03 - Green",
+            "04 - Red",
+            "05 - Vegetation Red Edge",
+            "06 - Vegetation Red Edge",
+            "07 - Vegetation Red Edge",
+            "08 - NIR",
+            "08A - Vegetation Red Edge",
+            "09 - Water vapour",
+            "10 - SWIR - Cirrus",
+            "11 - SWIR",
+            "12 - SWIR"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            216.14285714285714,
+            213.83333333333334,
+            223.91666666666666,
+            164.75,
+            163.25,
+            123.08333333333333,
+            118.08333333333333,
+            121.91666666666667,
+            86.25,
+            61.375,
+            17.0,
+            23.25,
+            22.38888888888889
+          ],
+          "channel_max": [
+            1915.0,
+            2636.695652173913,
+            3115.304347826087,
+            3490.9565217391305,
+            3561.5652173913045,
+            3999.8,
+            4103.75,
+            4364.086956521739,
+            4664.666666666667,
+            5098.347826086957,
+            255.0,
+            255.0,
+            249.5
+          ],
+          "channel_mean": [
+            612.554497455125,
+            706.7883020622305,
+            912.8241801382479,
+            847.7666453660385,
+            1148.2268146680285,
+            1923.8677579736886,
+            2022.4051038477774,
+            1996.8178210103436,
+            1634.0536626858031,
+            1190.0947709409138,
+            86.38660954522261,
+            93.16761789105077,
+            72.28025270514641
+          ],
+          "channel_std": [
+            218.1569982363861,
+            268.44034264700093,
+            321.2333863613722,
+            405.048481885715,
+            409.6571229209898,
+            738.5839771705993,
+            823.5598006547025,
+            802.2259648032399,
+            865.5865464989402,
+            801.7590120806676,
+            40.05833622901488,
+            32.241803923683804,
+            27.185255265430147
+          ],
+          "zero_fraction": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics."
+        }
+      },
+      "materialized_train_valid_files": 16062
+    },
+    {
+      "name": "m-chesapeake",
+      "benchmark": "segmentation_v1.0",
+      "dataset_dir": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets/m-chesapeake",
+      "archive_sha256": "64aa9e0b28e18e7dd28874797914eeb23a93011aa90a5a4a629a802aed677bb9",
+      "partition_sha256": "c47269dadc9fe4758e4024a55cda01aa00277b654a441efb6f6594ae2ea5d17a",
+      "split_counts": {
+        "train": 3000,
+        "valid": 1000,
+        "test": 1000
+      },
+      "patch_size": [
+        256,
+        256
+      ],
+      "spatial_resolution": "1",
+      "label_type": "SegmentationClasses",
+      "label_description": "7-SegmentationClasses, 1m resolution (missing class names)",
+      "label_metadata": {
+        "name": "label",
+        "alt_names": [],
+        "spatial_resolution": 1,
+        "n_classes": 7,
+        "_class_names": null
+      },
+      "stored_band_names": [
+        "Red",
+        "Green",
+        "Blue",
+        "NearInfrared"
+      ],
+      "corrected_channel_names": null,
+      "splits": {
+        "train": {
+          "label_histogram": {
+            "0": 8192000,
+            "1": 24421460,
+            "2": 71818586,
+            "3": 63324728,
+            "4": 9182883,
+            "5": 13950520,
+            "6": 5717823
+          },
+          "label_shapes": {
+            "(256, 256)": 3000
+          },
+          "label_dtypes": {
+            "int64": 3000
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(256, 256)": 256
+          },
+          "band_dtypes": {
+            "float32": 256
+          },
+          "observed_band_order": [
+            "Red",
+            "Green",
+            "Blue",
+            "NearInfrared"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "channel_max": [
+            1.0,
+            1.0,
+            1.0,
+            0.9764705896377563
+          ],
+          "channel_mean": [
+            0.44466498432112367,
+            0.5067567990649593,
+            0.46715463461701034,
+            0.5896371271251031
+          ],
+          "channel_std": [
+            0.21106521410966853,
+            0.19816914673685973,
+            0.17225536238966996,
+            0.2769849139943097
+          ],
+          "zero_fraction": [
+            0.046875,
+            0.046875,
+            0.046875,
+            0.0625
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics.",
+          "nonzero_label_fraction": 0.9583333333333334,
+          "empty_masks": 125
+        },
+        "valid": {
+          "label_histogram": {
+            "0": 1310720,
+            "1": 6877421,
+            "2": 24194283,
+            "3": 25453109,
+            "4": 1065064,
+            "5": 4735922,
+            "6": 1899481
+          },
+          "label_shapes": {
+            "(256, 256)": 1000
+          },
+          "label_dtypes": {
+            "int64": 1000
+          },
+          "pixel_samples_inspected": 64,
+          "band_shapes": {
+            "(256, 256)": 256
+          },
+          "band_dtypes": {
+            "float32": 256
+          },
+          "observed_band_order": [
+            "Red",
+            "Green",
+            "Blue",
+            "NearInfrared"
+          ],
+          "nonfinite_pixels": 0,
+          "image_mask_shape_mismatches": 0,
+          "image_mask_transform_mismatches": 0,
+          "channel_min": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "channel_max": [
+            1.0,
+            1.0,
+            1.0,
+            0.9960784316062927
+          ],
+          "channel_mean": [
+            0.4703754965655573,
+            0.5351755417380613,
+            0.49153239731928267,
+            0.6016929468431977
+          ],
+          "channel_std": [
+            0.20722973683076054,
+            0.19719188307929267,
+            0.17421736769762686,
+            0.26043160506340446
+          ],
+          "zero_fraction": [
+            0.046875,
+            0.046875,
+            0.046875,
+            0.046875
+          ],
+          "note": "Deterministic diagnostic subset; not fitted normalization statistics.",
+          "nonzero_label_fraction": 0.98,
+          "empty_masks": 20
+        }
+      },
+      "materialized_train_valid_files": 4000
+    }
+  ],
+  "channel_mapping_source_commit": "17cac9b7bd0d506866d8356f5817b88d173d2891",
+  "verification_script_sha256": "7e80170210f351a3a4e67727ec08213970458fa4845173a32177a4b5ffed3325",
+  "download_total_bytes": 3409938495
+}
