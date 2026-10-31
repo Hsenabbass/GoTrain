@@ -8,7 +8,7 @@ model/region requirements, and research references. See the
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
 | GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; SageMaker clone and disposable-branch push verified 2026-10-31 using explicitly approved GoTrain-only access expiring 2026-11-01; other teammates' access unverified. See [setup evidence](setup.md). |
-| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 in progress](milestones/m3-improvement.md): 3.1 verified, 3.2 next. |
+| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 in progress](milestones/m3-improvement.md): 3.1–3.2 verified, 3.3 next. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Existing Safari session verified 2026-10-31; GPU execution passed. See [setup evidence](setup.md). Keep the current session open; organizers can renew access as needed. Do not store access links here. |
 | Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; M2 autonomous tool cycle verified; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
@@ -19,6 +19,15 @@ model/region requirements, and research references. See the
 | Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Recovery snapshot and all four original dataset ZIPs independently stored and verified 2026-10-31. See the verification record below. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
 
 ## Recovery verification
+
+- **Task 3.2 snapshot:** `snapshots/20261031T165243901214Z-recovery.tar.gz`,
+  4,650,590 bytes, 83 files; source `de409588a349254c33aea1260744b227fe68c623`.
+  Archive SHA-256: `063a9d8d33b86e47203bcc647a2e4f375a16221c1cbd4a7a0cc953b87266746b`.
+  Sender/receiver and all member hashes matched 2026-10-31; restored evidence
+  matches [M3 search record](m3-evidence.json), and the included M3 ledger is
+  settled at 41.27 seconds (shared). Includes source, guard checks, smoke/reload
+  records, failed-launch logs, session journals and probe driver. Reproducible
+  smoke weights remain on SageMaker and are excluded; no full-task M3 model exists.
 
 - **Task 3.1 snapshot:** `snapshots/20261031T163751487996Z-recovery.tar.gz`,
   4,614,686 bytes, 51 files; source `1cab13a27889e1ace2672ef3501f8c4f1f003884`.

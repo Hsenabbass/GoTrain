@@ -124,5 +124,907 @@
       "Pillow": "11.3.0",
       "rasterio": "1.4.3"
     }
+  },
+  "search_guards": {
+    "task": "3.2",
+    "passed": true,
+    "guard_source_commit": "de409588a349254c33aea1260744b227fe68c623",
+    "checks": "test_best_selection_and_integrity (test_agent.AgentChecks.test_best_selection_and_integrity) ... ok\ntest_call_and_wall_bounds (test_agent.AgentChecks.test_call_and_wall_bounds) ... ok\ntest_failed_and_partial_never_selected (test_agent.AgentChecks.test_failed_and_partial_never_selected) ... ok\ntest_field_and_id_rejection (test_agent.AgentChecks.test_field_and_id_rejection) ... ok\ntest_retry_and_recipe_caps (test_agent.AgentChecks.test_retry_and_recipe_caps) ... ok\ntest_separate_budget_and_shared_lock (test_agent.AgentChecks.test_separate_budget_and_shared_lock) ... ok\ntest_strands_schema (test_agent.AgentChecks.test_strands_schema) ... ok\ntest_failed_atomic_checkpoint_keeps_previous_file (test_foundation.FoundationChecks.test_failed_atomic_checkpoint_keeps_previous_file) ... ok\ntest_fit_uses_train_only_and_known_channel_moments (test_foundation.FoundationChecks.test_fit_uses_train_only_and_known_channel_moments) ... ok\ntest_fixed_scaling_and_target_validation (test_foundation.FoundationChecks.test_fixed_scaling_and_target_validation) ... ok\ntest_global_metrics_absent_classes_and_batch_invariance (test_foundation.FoundationChecks.test_global_metrics_absent_classes_and_batch_invariance) ... ok\ntest_ignored_target_diagnostic_still_penalizes_prediction_zero (test_foundation.FoundationChecks.test_ignored_target_diagnostic_still_penalizes_prediction_zero) ... ok\ntest_joint_spatial_transform_keeps_mask_alignment (test_foundation.FoundationChecks.test_joint_spatial_transform_keeps_mask_alignment) ... ok\ntest_lock_reservation_refund_shared_cap_and_retry_cap (test_foundation.FoundationChecks.test_lock_reservation_refund_shared_cap_and_retry_cap) ... ok\ntest_other_checkout_cannot_create_an_independent_gpu_budget (test_foundation.FoundationChecks.test_other_checkout_cannot_create_an_independent_gpu_budget) ... ok\ntest_recipe_caps_and_smoke_only_subsets (test_foundation.FoundationChecks.test_recipe_caps_and_smoke_only_subsets) ... ok\ntest_test_split_rejected_before_metadata_import_or_io (test_foundation.FoundationChecks.test_test_split_rejected_before_metadata_import_or_io) ... ok\ntest_wall_disk_storage_and_memory_guards (test_foundation.FoundationChecks.test_wall_disk_storage_and_memory_guards) ... ok\ntest_watchdog_terminates_real_child (test_foundation.FoundationChecks.test_watchdog_terminates_real_child) ... ok\ntest_budget_attempts_shared_retry_and_old_ledgers (test_search.SearchChecks.test_budget_attempts_shared_retry_and_old_ledgers) ... ok\ntest_deterministic_sampler_and_download_budget (test_search.SearchChecks.test_deterministic_sampler_and_download_budget) ... ok\ntest_fatal_failure_stops_with_prior_best (test_search.SearchChecks.test_fatal_failure_stops_with_prior_best) ... ok\ntest_final_only_selection_and_verified_completion (test_search.SearchChecks.test_final_only_selection_and_verified_completion) ... ok\ntest_interrupted_pending_recovery_no_duplicate (test_search.SearchChecks.test_interrupted_pending_recovery_no_duplicate) ... ok\ntest_prompt_injection_and_repeated_invalid_requests (test_search.SearchChecks.test_prompt_injection_and_repeated_invalid_requests) ... ok\ntest_stage_and_recipe_limits (test_search.SearchChecks.test_stage_and_recipe_limits) ... ok\ntest_stale_reservation_blocks_recovery (test_search.SearchChecks.test_stale_reservation_blocks_recovery) ... ok\ntest_task_context_and_schema (test_search.SearchChecks.test_task_context_and_schema) ... ok\ntest_untrusted_lookup_metadata_cannot_admit_a_model (test_search.SearchChecks.test_untrusted_lookup_metadata_cannot_admit_a_model) ... ok\ntest_candidate_admission (test_tasks.TaskChecks.test_candidate_admission) ... ok\ntest_frozen_benchmark_contracts (test_tasks.TaskChecks.test_frozen_benchmark_contracts) ... ok\ntest_manifest_classification_and_split_paths (test_tasks.TaskChecks.test_manifest_classification_and_split_paths) ... ok\ntest_multiband_segmentation_alignment_and_labels (test_tasks.TaskChecks.test_multiband_segmentation_alignment_and_labels) ... ok\ntest_pretrained_normalization (test_tasks.TaskChecks.test_pretrained_normalization) ... ok\ntest_real_reviewed_backbones (test_tasks.TaskChecks.test_real_reviewed_backbones) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 2.715s\n\nOK\n",
+    "probes": [
+      {
+        "task": "m-eurosat",
+        "record": {
+          "run_id": "20261031T164823341822Z-m-eurosat-smoke",
+          "status": "budget_exhausted",
+          "created_utc": "20261031T164823341822Z",
+          "recipe": {
+            "task": "m-eurosat",
+            "description": "m-eurosat-verified-0",
+            "model": "resnet18_imagenet",
+            "smoke": true,
+            "epochs": 50,
+            "steps": 2,
+            "wall_seconds": 30,
+            "batch_size": 32,
+            "lr": 0.001,
+            "weight_decay": 0.0001,
+            "augment": true,
+            "normalization": "pretrained",
+            "phase": "probe",
+            "seed": 2026,
+            "optimizer": "adamw",
+            "schedule": "cosine",
+            "loss": "weighted_ce",
+            "head_only": false,
+            "backbone_lr_ratio": 0.1,
+            "train_limit": 32,
+            "valid_limit": 32
+          },
+          "source_commit": "a4671c3aa7ba904a9256306e617d0b442f5378f9",
+          "dirty": false,
+          "seed": 2026,
+          "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+          "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+          "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+          "budget_contract_sha256": "a83802d4256f4f9702802fcb4c2019619364dc7c69a6a216661aa8bc4b047dcc",
+          "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+          "retry_of": null,
+          "is_reference": false,
+          "weight_receipt": {
+            "id": "resnet18_imagenet",
+            "kind": "classification",
+            "weight_id": "ResNet18_Weights.IMAGENET1K_V1",
+            "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+            "pretraining": "ImageNet-1K",
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "geometry": "native_grid_no_crop",
+            "adaptation": "copy_verified_RGB_random_extra_channels",
+            "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+            "filename": "resnet18-f37072fd.pth",
+            "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+            "bytes": 46830571,
+            "terms_reviewed": true,
+            "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+            "target_finetuned": false,
+            "heldout_overlap": "unknown_recorded"
+          },
+          "environment": {
+            "torch": "2.8.0",
+            "torchvision": "0.24.0",
+            "numpy": "1.26.4",
+            "geobench": "1.1.0",
+            "h5py": "3.16.0"
+          },
+          "gpu": "Tesla T4",
+          "steps": 2,
+          "optimizer_updates": 2,
+          "amp_skipped_steps": 0,
+          "amp_initial_scale": 1024,
+          "epochs_completed": 2,
+          "last_validation": {
+            "valid": true,
+            "count": 32,
+            "accuracy": 0.4375,
+            "macro_iou": 0.29545454545454547,
+            "macro_f1": 0.3591666666666667,
+            "per_class_iou": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_precision": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_recall": [
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_f1": [
+              0.0,
+              0.6666666666666666,
+              0.5,
+              0.0,
+              0.625,
+              0.8,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "support": [
+              5,
+              1,
+              3,
+              2,
+              5,
+              3,
+              6,
+              3,
+              1,
+              3
+            ],
+            "union": [
+              5,
+              2,
+              9,
+              4,
+              11,
+              3,
+              7,
+              4,
+              2,
+              3
+            ],
+            "confusion_matrix": [
+              [
+                0,
+                0,
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                5,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                2,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                2,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                3
+              ]
+            ],
+            "split": "valid",
+            "images": 32,
+            "full_split": false,
+            "primary_name": "accuracy",
+            "primary": 0.4375
+          },
+          "normalization": {
+            "mean": [
+              0.13070923689718938,
+              0.406,
+              0.456,
+              0.485,
+              0.1203364624180665,
+              0.20687223587221126,
+              0.24457417605196952,
+              0.24034761429481932,
+              0.0877037323364327,
+              0.0012493858366100508,
+              0.19060051803057476,
+              0.1158223900019828,
+              0.270078855888336
+            ],
+            "std": [
+              0.02135974948478555,
+              0.225,
+              0.224,
+              0.229,
+              0.04596623268820324,
+              0.07423743913845066,
+              0.0966181895273086,
+              0.10112815300242323,
+              0.04215068941333819,
+              0.00033199850846071533,
+              0.08290891957022146,
+              0.06452810255762574,
+              0.10792386527295753
+            ],
+            "fitted_on": "pretrained_rgb_train_extras",
+            "weight_id": "ResNet18_Weights.IMAGENET1K_V1"
+          },
+          "peak_allocated_bytes": 248558592,
+          "peak_reserved_bytes": 285212672,
+          "curve": [
+            {
+              "epoch": 1,
+              "steps": 1,
+              "loss": 2.39459228515625,
+              "validation": 0.40625
+            },
+            {
+              "epoch": 2,
+              "steps": 2,
+              "loss": 1.7547407150268555,
+              "validation": 0.4375
+            }
+          ],
+          "checkpoint": "last.pt",
+          "checkpoint_sha256": "7e0f562ba87cfda51946deaa00d20927cdcfb140e1a246766f1f25dedb1ebd1c",
+          "eligible_reference": false,
+          "selection_scope": "smoke_only_no_candidate_selection"
+        },
+        "reload": {
+          "kind": "smoke_reload",
+          "checkpoint_sha256": "7e0f562ba87cfda51946deaa00d20927cdcfb140e1a246766f1f25dedb1ebd1c",
+          "primary_delta": 0.0,
+          "validation": {
+            "valid": true,
+            "count": 32,
+            "accuracy": 0.4375,
+            "macro_iou": 0.29545454545454547,
+            "macro_f1": 0.3591666666666667,
+            "per_class_iou": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_precision": [
+              0.0,
+              0.5,
+              0.3333333333333333,
+              0.0,
+              0.45454545454545453,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_recall": [
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0,
+              0.6666666666666666,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "per_class_f1": [
+              0.0,
+              0.6666666666666666,
+              0.5,
+              0.0,
+              0.625,
+              0.8,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "support": [
+              5,
+              1,
+              3,
+              2,
+              5,
+              3,
+              6,
+              3,
+              1,
+              3
+            ],
+            "union": [
+              5,
+              2,
+              9,
+              4,
+              11,
+              3,
+              7,
+              4,
+              2,
+              3
+            ],
+            "confusion_matrix": [
+              [
+                0,
+                0,
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                5,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                2,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                2,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                3
+              ]
+            ],
+            "split": "valid",
+            "images": 32,
+            "full_split": false,
+            "primary_name": "accuracy",
+            "primary": 0.4375
+          },
+          "prediction": {
+            "prediction_shape": [
+              1
+            ],
+            "probability_shape": [
+              1,
+              10
+            ],
+            "class_ids": [
+              4
+            ],
+            "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+            "max_probability_sum_error": 0.0
+          },
+          "passed": true
+        },
+        "timing": {
+          "elapsed_seconds": 11.902106477999041,
+          "ledger": "artifacts/m3-budget.json"
+        }
+      },
+      {
+        "task": "m-pv4ger-seg",
+        "record": {
+          "run_id": "20261031T164838232292Z-m-pv4ger-seg-smoke",
+          "status": "budget_exhausted",
+          "created_utc": "20261031T164838232292Z",
+          "recipe": {
+            "task": "m-pv4ger-seg",
+            "description": "m-pv4ger-seg-verified-0",
+            "model": "deeplab_mobile_imagenet",
+            "smoke": true,
+            "epochs": 50,
+            "steps": 2,
+            "wall_seconds": 30,
+            "batch_size": 4,
+            "lr": 0.001,
+            "weight_decay": 0.0001,
+            "augment": true,
+            "normalization": "pretrained",
+            "phase": "probe",
+            "seed": 2026,
+            "optimizer": "adamw",
+            "schedule": "cosine",
+            "loss": "ce_dice",
+            "head_only": false,
+            "backbone_lr_ratio": 0.1,
+            "train_limit": 4,
+            "valid_limit": 4
+          },
+          "source_commit": "a4671c3aa7ba904a9256306e617d0b442f5378f9",
+          "dirty": false,
+          "seed": 2026,
+          "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+          "partition_sha256": "b4f3499171ac0c6f96b13d65297d26c124eca03f09c0cc7969d9cd13c5b290e5",
+          "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+          "budget_contract_sha256": "a83802d4256f4f9702802fcb4c2019619364dc7c69a6a216661aa8bc4b047dcc",
+          "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+          "retry_of": null,
+          "is_reference": false,
+          "weight_receipt": {
+            "id": "deeplab_mobile_imagenet",
+            "kind": "segmentation",
+            "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1",
+            "url": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",
+            "pretraining": "ImageNet-1K",
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "geometry": "native_grid_no_crop",
+            "adaptation": "copy_verified_RGB_random_extra_channels",
+            "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+            "filename": "mobilenet_v3_large-8738ca79.pth",
+            "sha256": "8738ca797c879b547d18bbd15da5736ff2557b2036a9af72225393ca61759a04",
+            "bytes": 22139423,
+            "terms_reviewed": true,
+            "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+            "target_finetuned": false,
+            "heldout_overlap": "unknown_recorded"
+          },
+          "environment": {
+            "torch": "2.8.0",
+            "torchvision": "0.24.0",
+            "numpy": "1.26.4",
+            "geobench": "1.1.0",
+            "h5py": "3.16.0"
+          },
+          "gpu": "Tesla T4",
+          "steps": 2,
+          "optimizer_updates": 2,
+          "amp_skipped_steps": 0,
+          "amp_initial_scale": 1024,
+          "epochs_completed": 2,
+          "last_validation": {
+            "valid": true,
+            "count": 409600,
+            "accuracy": 0.839736328125,
+            "macro_iou": 0.4198681640625,
+            "macro_f1": 0.45644384757071804,
+            "per_class_iou": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_precision": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_recall": [
+              1.0,
+              0.0
+            ],
+            "per_class_f1": [
+              0.9128876951414361,
+              0.0
+            ],
+            "support": [
+              343956,
+              65644
+            ],
+            "union": [
+              409600,
+              65644
+            ],
+            "confusion_matrix": [
+              [
+                343956,
+                0
+              ],
+              [
+                65644,
+                0
+              ]
+            ],
+            "split": "valid",
+            "images": 4,
+            "full_split": false,
+            "primary_name": "macro_iou",
+            "primary": 0.4198681640625,
+            "positive_precision": 0.0,
+            "positive_recall": 0.0,
+            "positive_f1": 0.0,
+            "foreground_iou": 0.0,
+            "foreground_f1": 0.0
+          },
+          "normalization": {
+            "mean": [
+              0.485,
+              0.456,
+              0.406
+            ],
+            "std": [
+              0.229,
+              0.224,
+              0.225
+            ],
+            "fitted_on": "pretrained_rgb_train_extras",
+            "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1"
+          },
+          "peak_allocated_bytes": 441912320,
+          "peak_reserved_bytes": 480247808,
+          "curve": [
+            {
+              "epoch": 1,
+              "steps": 1,
+              "loss": 1.2717463970184326,
+              "validation": 0.4198681640625
+            },
+            {
+              "epoch": 2,
+              "steps": 2,
+              "loss": 0.9869518280029297,
+              "validation": 0.4198681640625
+            }
+          ],
+          "checkpoint": "last.pt",
+          "checkpoint_sha256": "b2597e74bb3b14909bd02dc3e0168a65a276e24959177a313990b4f1e6544186",
+          "eligible_reference": false,
+          "selection_scope": "smoke_only_no_candidate_selection"
+        },
+        "reload": {
+          "kind": "smoke_reload",
+          "checkpoint_sha256": "b2597e74bb3b14909bd02dc3e0168a65a276e24959177a313990b4f1e6544186",
+          "primary_delta": 0.0,
+          "validation": {
+            "valid": true,
+            "count": 409600,
+            "accuracy": 0.839736328125,
+            "macro_iou": 0.4198681640625,
+            "macro_f1": 0.45644384757071804,
+            "per_class_iou": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_precision": [
+              0.839736328125,
+              0.0
+            ],
+            "per_class_recall": [
+              1.0,
+              0.0
+            ],
+            "per_class_f1": [
+              0.9128876951414361,
+              0.0
+            ],
+            "support": [
+              343956,
+              65644
+            ],
+            "union": [
+              409600,
+              65644
+            ],
+            "confusion_matrix": [
+              [
+                343956,
+                0
+              ],
+              [
+                65644,
+                0
+              ]
+            ],
+            "split": "valid",
+            "images": 4,
+            "full_split": false,
+            "primary_name": "macro_iou",
+            "primary": 0.4198681640625,
+            "positive_precision": 0.0,
+            "positive_recall": 0.0,
+            "positive_f1": 0.0,
+            "foreground_iou": 0.0,
+            "foreground_f1": 0.0
+          },
+          "prediction": {
+            "prediction_shape": [
+              1,
+              320,
+              320
+            ],
+            "probability_shape": [
+              1,
+              2,
+              320,
+              320
+            ],
+            "class_ids": [
+              0
+            ],
+            "prediction_sha256": "dce79b8fea025a282b35a56f716c4766ca2949f23c30630060db91814710f4f5",
+            "max_probability_sum_error": 1.1920928955078125e-07
+          },
+          "passed": true
+        },
+        "timing": {
+          "elapsed_seconds": 23.12189470999874,
+          "ledger": "artifacts/m3-budget.json"
+        }
+      }
+    ],
+    "ledger": {
+      "charged_seconds": 41.27040108699657,
+      "categories": {
+        "shared": 41.27040108699657
+      },
+      "active": null,
+      "runs": [
+        {
+          "task_id": "m-eurosat",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164742261089Z-m-eurosat-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28681.413430917,
+          "owner_pid": 7661,
+          "elapsed_seconds": 3.122549515999708,
+          "status": "failed"
+        },
+        {
+          "task_id": "m-pv4ger-seg",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164748371079Z-m-pv4ger-seg-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28687.54183807,
+          "owner_pid": 7668,
+          "elapsed_seconds": 3.1238503829990805,
+          "status": "failed"
+        },
+        {
+          "task_id": "m-eurosat",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164823341822Z-m-eurosat-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28722.518003909,
+          "owner_pid": 7687,
+          "elapsed_seconds": 11.902106477999041,
+          "status": "budget_exhausted"
+        },
+        {
+          "task_id": "m-pv4ger-seg",
+          "job_type": "probe",
+          "allocation": "m3",
+          "run_id": "20261031T164838232292Z-m-pv4ger-seg-smoke",
+          "category": "shared",
+          "seconds": 30,
+          "retry_of": null,
+          "started_monotonic": 28737.385932031,
+          "owner_pid": 7708,
+          "elapsed_seconds": 23.12189470999874,
+          "status": "budget_exhausted"
+        }
+      ]
+    },
+    "m1_m2_ledgers_unchanged": true,
+    "test_payloads_opened": 0,
+    "bedrock_requests": 0,
+    "initial_operator_failures": [
+      {
+        "run_id": "20261031T164742261089Z-m-eurosat-smoke",
+        "reason": "Wrong interpreter: geobench unavailable; no optimizer updates; charged to M3 shared allocation."
+      },
+      {
+        "run_id": "20261031T164748371079Z-m-pv4ger-seg-smoke",
+        "reason": "Wrong interpreter: geobench unavailable; no optimizer updates; charged to M3 shared allocation."
+      }
+    ],
+    "limitations": [
+      "CPU scripted recovery is verified; live interruption exercise and autonomous four-task comparisons remain 3.3.",
+      "Hub metadata returns proposals only; no automatic unknown-model adoption."
+    ]
   }
 }

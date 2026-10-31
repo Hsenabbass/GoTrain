@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is in progress](milestones/m3-improvement.md): 3.1 task/model preparation is CPU-verified; search/training remains 3.2–3.3; later milestones remain unplanned in detail. Test payloads remain sealed; final submission models and the UI framework remain unselected.
+**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is in progress](milestones/m3-improvement.md): 3.1–3.2 preparation/search tools and bounded GPU probes are verified; full four-task search remains 3.3; later milestones remain unplanned in detail. Test payloads remain sealed; final submission models and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 

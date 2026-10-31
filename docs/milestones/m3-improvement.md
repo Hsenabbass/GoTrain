@@ -1,6 +1,6 @@
 # M3: Find better models efficiently
 
-**Status:** in progress; 3.1 complete, 3.2–3.3 not started. Pipeline/search items below remain planned unless evidenced.
+**Status:** in progress; 3.1–3.2 complete, 3.3 not started. Pipeline/search items below remain planned unless evidenced.
 **GitHub:** [M3](https://github.com/Hsenabbass/GoTrain/milestone/3)
 **Direction:** [Agreed M3 outcome](../PROJECT_PLAN.md#m3-demonstrate-reliable-improvement)
 
@@ -270,7 +270,7 @@ prompt-evaluation service or ask for hidden chain-of-thought.
   This extends M3 with a local manifest adapter; broad import UX stays in M4.
   Replace M2's EuroSAT-only/fixed-recipe limits through reviewed code, never by
   giving Claude evaluator/budget/code-edit access.
-- **Proposed M3 ceilings:** 7,200 GPU-job wall seconds total: initially 1,500 per
+- **Enforced M3 ceilings (3.2):** 7,200 GPU-job wall seconds total: initially 1,500 per
   benchmark task (6,000), plus 1,200 shared for matched-seed confirmation, probes,
   fixture checks, verification and failures. All jobs, including failures/probes,
   count; no task or shared allowance bypasses the total. At most five new training
@@ -307,7 +307,7 @@ prompt-evaluation service or ask for hidden chain-of-thought.
 | Outcome | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
 | Task preparation/model admission (3.1) | 6 new task/model checks + 19 existing checks on SageMaker CPU, using all four real ImageNet backbones | Pass 2026-10-31; 25 tests in 2.264 s; no GPU/Bedrock/test access | Source `1cab13a`; [M3 evidence](../m3-evidence.json); `artifacts/runs/m3-task-checks/`; [independent snapshot](../RESOURCES.md#recovery-verification) |
-| Search and recovery guards (3.2) | Budget/selection/stop/restart checks on SageMaker | Not run | Add results here |
+| Search and recovery guards (3.2) | 35 SageMaker checks; classification/segmentation two-update GPU probes and fresh-process reloads | Pass 2026-10-31; both reload deltas 0; M3 shared usage 41.27 s including two failed operator launches | Guard source `de40958`; [M3 evidence](../m3-evidence.json); `artifacts/runs/m3-search-checks/`; [independent snapshot](../RESOURCES.md#recovery-verification) |
 | Four task comparisons (3.3) | Full validation, seed records, checkpoint reload and independent backup | Not run | One M3 evidence record and resource receipts when available |
 
 ### 3.1 revision and limits
@@ -327,16 +327,45 @@ not implemented. The ImageNet checkpoints' unknown held-out overlap remains
 recorded, and redistribution terms require M4 review. Passing compatibility tests
 does not establish GPU speed or improvement.
 
+### 3.2 revision and limits
+
+Implemented the task-driven controller, fixed prompt/context hashes, compact
+results, typed stages and seeded numeric proposals. The shared runner supports
+reviewed pretrained candidates, SGD/AdamW, constant/cosine schedules, lower backbone
+LR, train-weighted CE or CE+Dice, and explicit primary/confirmation seeds.
+Only final primary-seed trials may promote a model. Confirmation preserves the
+selected recipe. Completed/expired sessions and duplicate launches are rejected;
+resume preserves counters and recovers a completed pending request once. Stale
+reservations and fatal failures stop for diagnosis. No mid-epoch resume is claimed.
+
+All 35 scripted checks passed on SageMaker (2.715 s). Correct-environment probes
+completed two optimizer updates each: EuroSAT weighted CE in 11.90 s, PV4GER-Seg
+CE+Dice in 23.12 s, both including fresh-process reload (delta 0). Two earlier
+operator launches used the base kernel instead of the verification venv and failed
+before training because GEO-Bench was unavailable. Their 6.25 seconds remain
+charged; the settled M3 total is 41.27 / 7,200 seconds, entirely in the shared pool.
+M1/M2 ledger hashes are unchanged. No Bedrock requests or test access in these
+checks. Probe subset scores are not references or evidence of improvement.
+
+Use the verified interpreter and [M3 launch/recovery instructions](../training.md#bounded-m3-search-32).
+All four model files are already cached; no new weights were downloaded in 3.2.
+Hub lookup is deliberately metadata-only: unknown models remain proposals until
+operator review, not automatically admitted architectures. The M3 CLI accepts
+registered benchmark tasks with retained references; new local manifest tasks
+still need trusted registration/runner wiring before autonomous training is
+advertised. Generic preparation remains available from 3.1. Live interruption,
+full-task search and actual score/seed comparisons remain 3.3 acceptance work.
+
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** 3.1 complete. Shared benchmark/manifest adapters, explicit band/preprocessing policies and four locally reviewed pretrained choices pass CPU checks. M1/M2 contracts remain unchanged. Independent source/evidence recovery verified. Task-driven agent wiring, GPU probes, enforced M3 search budgets and tuning are 3.2 work; no new training results are claimed.
-**Blockers:** none for planning. Dataset metadata gaps, exact weight licenses/preprocessing, candidate throughput and usable remaining budget are admission checks during implementation, not assumed facts.
-**Next action:** implement 3.2 when authorized, using the [adapter contract](../data.md#reusable-image-tasks-31) and [model API/cache receipts](../training.md#reusable-model-choices-31). Carry forward 181,806,878 weight-download bytes; do not redownload or reset prior ledgers. The M2 controller remains unchanged until that integration.
-**Synchronization:** 3.1 source/evidence/docs published to local/GitHub main. SageMaker CPU tested source `1cab13a`; fast-forward to the completion commit before 3.2.
+**Current state:** 3.1–3.2 complete. Preparation/model APIs, bounded search controller, M3 limits and runner integration are verified with scripted guards and two GPU smoke/reload jobs. Evidence/source and settled-ledger recovery are independently checksum-verified. No full-task M3 results yet.
+**Blockers:** none for 3.3. Keep exact organizer quotas and judging/presentation details as existing follow-ups. Use the verified venv; base Jupyter Python cannot run the data loader.
+**Next action:** run 3.3 when authorized. Preserve 41.27 seconds of shared M3 usage and 181,806,878 downloaded weight bytes. Each task initially has its 1,500-second allocation; shared pool has 1,158.73 seconds left. Choose fewer tuning attempts if reserving paired seed confirmation within the five-attempt ceiling. Do not reset ledgers or probe scores into references.
+**Synchronization:** source/evidence/docs published to local/GitHub main. Guards verified at `de40958`, GPU runner at `a4671c3`; fast-forward SageMaker to the completion commit for final docs before 3.3.
 
 ## Completion
 
-3.1 passed; 3.2–3.3 remain pending. Improvement is measured, never guaranteed. If no
+3.1–3.2 passed; 3.3 remains pending. Improvement is measured, never guaranteed. If no
 candidate wins, retain the reference and explain why; do not declare improvement.
 Hand verified task pipelines and preprocessing to M4; keep final test access in M5.

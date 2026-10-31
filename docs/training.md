@@ -255,3 +255,10 @@ The local manifest adapter remains a reusable preparation API; autonomous traini
 of a new local task needs trusted task/reference registration and runner wiring
 before it can be advertised as supported. No model gains, broad import support or
 unattended recovery from arbitrary instance loss are established by 3.2 checks.
+
+3.2 verification passed 35 SageMaker checks and both bounded GPU probes with reload
+delta 0. See [M3 evidence](m3-evidence.json). M3 usage is already 41.27 seconds
+(shared), including 6.25 seconds for two failed base-interpreter launches. Always
+launch from the verification venv. The full autonomous searches have not run.
+Smoke checkpoints stay on SageMaker; their reproducible weights are excluded from
+the independent source/record/reload/ledger snapshot, following the M1 smoke policy.
