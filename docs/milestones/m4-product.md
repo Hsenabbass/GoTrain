@@ -285,3 +285,14 @@ ledgers are unchanged; no GPU job, test access or train-to-package result occurr
 A 71-file snapshot at source 25ce624 was independently transferred, archive/member
 checksums verified and the evidence JSON restored with a matching hash. It covers
 source and verification evidence, not a full live-service/user-dataset restore.
+
+
+## Remaining 4.2: step 1 handoff
+
+User authorized admission/accounting foundation only before the next detailed
+step. Implemented the independent M4 policy/ledger, immutable request admission,
+shared-lock exclusion, trial/model-call charging and finalization reserves.
+Verification is pending on SageMaker CPU with isolated fixture ledgers; no live
+reservation or worker launch. Training remains disabled. Next: verify these
+primitives, independently recover the evidence, then propose step 2 custom-data
+runner integration for confirmation. See the [service contract](../service.md).

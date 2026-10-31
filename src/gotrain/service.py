@@ -184,7 +184,7 @@ def create_app(store=None, *, local=False):
     @app.post('/api/conversations/{conversation_id}/start')
     def start(conversation_id: str):
         store.get(conversation_id)
-        raise RequestError('Training admission is not enabled: standalone packaging and the M4 runner/ledger integration must be verified first. No GPU job was launched.', 409)
+        raise RequestError('Training admission is not enabled: the M4 runner and durable supervisor integration must be verified first. No GPU job was launched.', 409)
 
     @app.get('/')
     def index():

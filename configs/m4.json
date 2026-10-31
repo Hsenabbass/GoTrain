@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "gpu_job_seconds": 3600,
+  "submission_deadline_local": "2026-11-01T15:00:00",
+  "timezone": "Asia/Beirut",
+  "submission_reserve_seconds": 7200,
+  "reserves": {"setup": 60, "final": 600, "verify": 60, "package": 60},
+  "phase_seconds": {"probe": 30, "screen": 150, "tune": 300, "final": 600, "verify": 60},
+  "disk_reserve_bytes": 16106127360
+}

@@ -65,7 +65,7 @@ class Budget:
         if allocation not in ('m1', 'm2', 'm3'):
             self.close()
             raise ValueError('Unknown allocation')
-        for other in ('m1', 'm2', 'm3'):
+        for other in ('m1', 'm2', 'm3', 'm4'):
             path = self.root / ('artifacts/' + other + '-budget.json')
             if path.exists() and json.loads(path.read_text()).get('active'):
                 self.close()

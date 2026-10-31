@@ -172,3 +172,39 @@ for the four retained models. No prediction/download HTTP endpoint is added here
 that UI integration belongs to 4.3. The remaining 4.2 runner can call the operator
 export interface after selecting an eligible fully validated checkpoint. Training
 admission remains disabled until durable-job/ledger integration and acceptance pass.
+
+
+## 4.2 step 1: admission/accounting foundation
+
+Implemented, pending SageMaker verification. No worker launches or enabled Start
+action in this step. `configs/service.json` retains `training_enabled: false`.
+`configs/m4.json` owns the separate 3,600-second M4 GPU-job pool, inherited
+submission deadline/buffer, 600-second maximum trial and 15 GiB disk reserve.
+M1–M3 configs and ledgers remain frozen.
+
+`gotrain.admission.Admission` is a trusted supervisor API, not a browser path or
+usage-counter interface. Its Linux lease holds the existing shared `m1.lock` for
+the entire job. Admission freezes the resolved request/data/version/limits and
+preflight usage in one atomic `artifacts/m4-budget.json` transaction. Ready-state,
+data identity, current remaining shared allowance, runtime, model-call headroom,
+disk and submission reserves are checked before reservation. Effective GPU time
+may be below the requested ceiling if the pool has less remaining; infeasible
+requests are rejected. Duplicate keys/conversations return the existing job ID
+in a conflict, never a new reservation.
+
+Trial and model-call reservations persist before work. Optional trials preserve
+a final training attempt, 600 GPU seconds for final training, 60 for verification
+and runtime for packaging. Verification consumes GPU-job time but not a training
+attempt. Normal trial settlement uses measured monotonic elapsed time; interrupted
+work keeps its reservation, and overruns retain the actual charge and fail closed.
+The supervisor must ensure child termination before settlement; watchdog and worker
+integration belong to the next steps. Closing an unsettled lease never refunds it.
+M1–M3 admission also checks unsettled M4 reservations, so an orphan blocks legacy
+work even after the OS lock is released. Changed policy requires an operator audit,
+not an automatic allowance reset.
+
+The later M4 runner must use this supervisor-owned lease/accounting instead of
+opening a second legacy Budget reservation. Durable worker identity, reconnect,
+stop behavior, real model-call wiring and live GPU verification are not implemented
+by these primitives. No GPU work is authorized by a test fixture enabling admission
+in an isolated temporary directory.
