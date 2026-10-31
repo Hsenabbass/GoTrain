@@ -1,30 +1,99 @@
-import {projects as initial,experiments} from './mocks/projects.js';
-import {experimentPage,predictionPage,escape} from './pages/workspace.js';
-import {gameMarkup,mountGame,stopGame} from './components/rover-game.js';
+import {tasks} from './data/tasks.js';
+import {experimentPage, predictionPage, escape} from './pages/workspace.js';
 
-const app=document.querySelector('#app');
-let projects;
-try{const saved=JSON.parse(localStorage.getItem('gotrain-projects'));projects=Array.isArray(saved)&&saved.length?saved:structuredClone(initial);}catch{projects=structuredClone(initial);}
-let current=projects[0],view='Task',selected='06',overlay=true,imageURL='',filename='',sidebarOpen=false;
-let running=false,runProject=null,step=0,timer,budget=90,gameOpen=false,gameSuggested=false;
-const jobs=new Map();
-const stages=['Preparing data','Training the model','Evaluating candidates','Packaging the model'];
-const icon={menu:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg>',plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',model:'<svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg>',arrow:'<svg viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></svg>'};
-function persist(){try{localStorage.setItem('gotrain-projects',JSON.stringify(projects));}catch{}}
-function toast(text){const el=document.querySelector('#toast');el.textContent=text;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3200);}
-function suggestion(){return running&&gameSuggested&&!gameOpen?`<aside class="game-suggestion"><span class="suggestion-icon">⌘</span><div><strong>Your model is being built. Take a short break?</strong><p>Rover Run · steer with arrow keys or WASD.</p></div><button class="button secondary" data-action="game">Play</button><button class="icon-button" data-action="dismiss-game" aria-label="Dismiss game suggestion">×</button></aside>`:'';}
-function taskPage(){const job=jobs.get(current.id);return `<section class="conversation ${job?'has-messages':''}" aria-label="Model building task">${!job?`<div class="welcome"><div class="welcome-mark">${icon.model}</div><h1>What should your model do?</h1><p>Add your dataset and describe the task. Get a model built for it.</p><div class="suggestions"><button data-template="Train a classification model to predict [label] from [inputs]. Evaluate it on the validation split."><span>◈</span> Classify your data<small>Predict a category for each input</small></button><button data-template="Train a segmentation model to identify [features] in [imagery]. Preserve the image resolution."><span>▧</span> Map features<small>Identify regions within your imagery</small></button><button data-template="Build a model that [desired outcome] using [dataset]. Prioritize [success criteria]."><span>⌁</span> Define your own task<small>Describe the outcome you need</small></button></div><span class="welcome-context">${escape(current.name)} <span>·</span> ${escape(current.dataset)}</span></div>`:`<div class="task-request"><span class="eyebrow">SUBMITTED TASK</span><h1>${escape(current.name)}</h1><p>${escape(job.goal)}</p><div class="detail-tags"><span>${escape(current.attachment||current.dataset)}</span><span>${escape(current.task)}</span><span>${job.budget} min budget</span></div></div>`}<div id="run-area">${job?job.status==='complete'?resultCard(job):progressCard(job):''}</div><div id="waiting-suggestion">${suggestion()}</div></section>`;}
-function progressCard(job){return `<section class="run-card"><div class="run-status"><span class="spinner"></span><div><strong>${stages[Math.min(job.step,3)]}</strong><small>Demo execution · ${escape(current.name)}</small></div><span>${Math.min(job.step+1,4)}/4</span></div><div class="progress-track"><i style="width:${(job.step+1)*25}%"></i></div><div class="run-actions"><span>The model package will appear here when complete.</span><button class="text-button" data-action="game">Play while you wait ↗</button></div></section>`;}
-function resultCard(job){return `<section class="model-result"><div class="result-header"><span class="model-result-icon">${icon.model}</span><div><span class="eyebrow">MODEL PACKAGE</span><h2>Your model is ready</h2></div><span class="pill">Demo result</span></div><p>A preview of the model delivery experience. No trained weights are included.</p><div class="result-details"><div><small>Task</small><strong>${escape(current.task)}</strong></div><div><small>Validation ${escape(current.metric||'score')}</small><strong>84.2% <span>illustrative</span></strong></div><div><small>Version</small><strong>v0.6 · Demo</strong></div></div><div class="result-buttons"><button class="button" data-action="model">↓ Export model summary</button><button class="button secondary" data-view="Predictions">Preview output</button><button class="text-button" data-view="Experiments">View experiments →</button></div></section>`;}
-function render(){const draft=document.querySelector('#task-input')?.value||'',gameFocused=document.activeElement?.id==='rover-canvas';stopGame();app.innerHTML=`<div class="app-layout ${sidebarOpen?'sidebar-open':''}"><aside class="sidebar"><div class="sidebar-top"><a href="/" class="brand">GoTrain<span>Workspace</span></a><button class="icon-button" data-action="sidebar" aria-label="Close sidebar">${icon.menu}</button></div><button class="new-project" data-action="new">${icon.plus}<span>New project</span></button><div class="nav-heading">Projects</div><nav aria-label="Projects">${projects.map(p=>`<button class="project-link ${p.id===current.id?'active':''}" data-project="${escape(p.id)}" title="${escape(p.name)}">${icon.model}<span>${escape(p.name)}</span></button>`).join('')}</nav><div class="sidebar-bottom"><button class="sidebar-tool" data-action="game"><span>⌘</span> Rover Run <small>Keyboard game</small></button><div class="profile"><span class="avatar">GT</span><div>GoTrain team<small>Local workspace</small></div><span class="local-dot" title="Local only"></span></div></div></aside><div class="main-shell"><header class="topbar"><div><button class="icon-button" data-action="sidebar" aria-label="Toggle sidebar">${icon.menu}</button><button class="workspace-title" data-action="about">GoTrain <span>⌄</span></button><span class="project-title">${escape(current.name)}</span></div><div class="header-right"><span class="demo-badge">Local prototype</span><button class="button secondary compact" data-action="configure" ${running?'disabled':''}>${running?'Building model…':'Build a model'}</button></div></header><nav class="view-nav" aria-label="Project views">${['Task','Experiments','Predictions'].map(v=>`<button data-view="${v}" class="${view===v?'active':''}" aria-current="${view===v?'page':'false'}">${v}</button>`).join('')}</nav><main id="main-content" class="${view==='Task'?'chat-main':'detail-main'}">${view==='Task'?taskPage():view==='Experiments'?experimentPage(selected):predictionPage(overlay,filename)}</main><div class="composer-dock"><form id="task-form" class="composer"><textarea id="task-input" name="goal" rows="2" placeholder="Describe the model you want to build…" aria-label="Task description" required maxlength="2000" ${running?'disabled':''}>${escape(draft)}</textarea><div class="composer-tools"><label class="attach-button" title="Attach a dataset">${icon.plus}<input id="dataset-file" type="file" aria-label="Attach a dataset" ${running?'disabled':''}></label><span id="attachment-label">${escape(current.attachment||current.dataset)}</span><label class="budget-control">Budget <select id="task-budget" aria-label="Time budget" ${running?'disabled':''}>${[15,30,60,90,180].map(n=>`<option value="${n}" ${n===budget?'selected':''}>${n} min</option>`).join('')}</select></label><button class="build-button" type="submit" ${running?'disabled':''}>${running?'Building…':'Build model'} ${icon.arrow}</button></div></form><p>UI prototype · task execution and model results are simulated.</p></div></div><aside class="game-drawer ${gameOpen?'open':''}" aria-label="Optional keyboard game" ${gameOpen?'':'inert'}><div class="drawer-top"><span>WHILE YOUR MODEL BUILDS</span><button class="icon-button" data-action="game" aria-label="Close game">×</button></div><div id="game-content">${gameMarkup()}</div></aside></div><div id="toast" role="status"></div><dialog id="modal"></dialog>`;if(gameOpen)mountGame(document.querySelector('#rover-canvas'),gameFocused);if(imageURL&&view==='Predictions')document.querySelector('#image-stage').innerHTML=`<img src="${imageURL}" alt="Your local image preview"><span class="image-note">Local preview only · inference is not connected</span>`;}
-function modal(html){const d=document.querySelector('#modal');d.innerHTML=`<button class="close-modal icon-button" data-action="close" aria-label="Close dialog">×</button>${html}`;d.showModal();d.addEventListener('click',e=>{if(e.target===d)d.close();});}
-function newProject(){modal(`<div class="eyebrow">NEW PROJECT</div><h2>Define your project.</h2><form id="project-form"><label>Project name<input name="name" required maxlength="70" placeholder="Project name"></label><label>Task<select name="task"><option>Segmentation</option><option>Classification</option></select></label><label>Dataset reference<input name="dataset" required maxlength="60" placeholder="Dataset name"></label><button class="button full">Create project</button></form>`);}
-function configure(){if(running)return;view='Task';render();document.querySelector('#task-input').focus();}
-function setGame(open){gameOpen=open;gameSuggested=false;const panel=document.querySelector('.game-drawer');panel.classList.toggle('open',open);panel.inert=!open;document.querySelector('#waiting-suggestion')?.replaceChildren();if(open)mountGame(document.querySelector('#rover-canvas'),true);else{stopGame();document.querySelector('[data-action="game"]')?.focus({preventScroll:true});}}
-function startTask(goal){if(running||!goal.trim())return;runProject=current;running=true;step=0;gameSuggested=true;const job={goal:goal.trim(),budget,step:0,status:'running'};jobs.set(current.id,job);view='Task';render();document.querySelector('#task-input').value='';document.querySelector('#run-area').scrollIntoView({block:'center',behavior:'smooth'});clearInterval(timer);timer=setInterval(()=>{step++;job.step=step;if(step>=4){clearInterval(timer);job.status='complete';running=false;gameSuggested=false;runProject.score='84.2';runProject.experiments=6;runProject.status='Completed';persist();render();toast(`Model result ready for ${runProject.name}.`);}else if(current.id===runProject.id&&view==='Task'){document.querySelector('#run-area').innerHTML=progressCard(job);}},6000);}
-function download(name,data){const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Demo summary exported.');}
-document.addEventListener('click',e=>{const row=e.target.closest('[data-experiment]');if(row){selected=row.dataset.experiment;render();return;}const b=e.target.closest('button');if(!b)return;if(b.dataset.project){current=projects.find(p=>p.id===b.dataset.project);view='Task';sidebarOpen=false;render();return;}if(b.dataset.view){view=b.dataset.view;render();return;}if(b.dataset.template){if(running)return;const input=document.querySelector('#task-input');input.value=b.dataset.template;input.focus();return;}if(b.dataset.overlay){overlay=b.dataset.overlay==='true';render();return;}switch(b.dataset.action){case 'sidebar':sidebarOpen=!sidebarOpen;render();break;case 'new':newProject();break;case 'close':document.querySelector('#modal').close();break;case 'configure':configure();break;case 'dismiss-game':gameSuggested=false;document.querySelector('#waiting-suggestion')?.replaceChildren();break;case 'game':setGame(!gameOpen);break;case 'export':download('gotrain-demo-experiments.json',{demo:true,project:current.name,experiments});break;case 'model':download('gotrain-demo-model-summary.json',{demo:true,project:current.name,task:current.task,goal:jobs.get(current.id)?.goal,version:'0.6',note:'UI summary only. No trained model weights.'});break;case 'about':modal('<div class="eyebrow">GOTRAIN</div><h2>From task to model.</h2><p>Submit a dataset and a task description, track execution, and receive a model package. This local prototype simulates the workflow; no training or inference runs here.</p><button class="button full" data-action="close">Continue</button>');}});
-document.addEventListener('submit',e=>{e.preventDefault();const data=new FormData(e.target);if(e.target.id==='task-form')startTask(data.get('goal'));if(e.target.id==='project-form'){const name=data.get('name').trim(),dataset=data.get('dataset').trim();if(!name||!dataset)return;current={id:crypto.randomUUID(),name,dataset,task:data.get('task'),experiments:0,score:'—',metric:data.get('task')==='Segmentation'?'Mean IoU':'Accuracy'};projects.push(current);persist();view='Task';sidebarOpen=false;render();toast('Project created.');}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&gameOpen&&!document.querySelector('dialog[open]')){e.preventDefault();setGame(false);}if(e.target.id==='task-input'&&e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();startTask(e.target.value);}if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-experiment]')){e.preventDefault();selected=e.target.dataset.experiment;render();}});
-document.addEventListener('change',e=>{if(e.target.id==='task-budget')budget=Number(e.target.value);if(e.target.id==='dataset-file'&&e.target.files[0]){current.attachment=e.target.files[0].name;persist();document.querySelector('#attachment-label').textContent=current.attachment;toast('Dataset reference added. No upload in this prototype.');}if(e.target.id==='prediction-file'&&e.target.files[0]){const file=e.target.files[0];if(!file.type.startsWith('image/')){toast('Choose an image file.');return;}if(imageURL)URL.revokeObjectURL(imageURL);imageURL=URL.createObjectURL(file);filename=file.name;render();}});
+const app = document.querySelector('#app');
+const storageKey = 'gotrain-workspace-drafts-v1';
+let drafts = {};
+try {
+  const saved = JSON.parse(localStorage.getItem(storageKey));
+  if (saved && typeof saved === 'object' && !Array.isArray(saved)) drafts = saved;
+} catch { /* Draft storage is optional. */ }
+let current = tasks[0];
+let view = 'Task';
+let sidebarOpen = false;
+const modelIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg>';
+const menuIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg>';
+
+function taskPage() {
+  return `<section class="welcome" aria-labelledby="welcome-title">
+    <div class="welcome-mark">${modelIcon}</div>
+    <h1 id="welcome-title">What should your model do?</h1>
+    <p>Choose a dataset and describe your task.</p>
+    <article class="dataset-card">
+      <div class="dataset-heading"><span class="dataset-icon">${modelIcon}</span><div><h2>${escape(current.name)}</h2><p>${escape(current.description)}</p></div></div>
+      <div class="detail-tags"><span>${escape(current.kind)}</span><span>${current.channels} bands</span><span>${escape(current.metric)}</span></div>
+      <button class="text-button" data-action="suggest">Use suggested task <span aria-hidden="true">↗</span></button>
+    </article>
+  </section>`;
+}
+
+function render() {
+  app.innerHTML = `<a class="skip-link" href="#main-content">Skip to workspace</a>
+    <div class="app-layout ${sidebarOpen ? 'sidebar-open' : ''}">
+      <button class="sidebar-backdrop" data-action="sidebar" aria-label="Close dataset navigation" ${sidebarOpen ? '' : 'hidden'}></button>
+      <aside class="sidebar" aria-label="Dataset navigation">
+        <div class="sidebar-top"><a href="/" class="brand">GoTrain<span>Workspace</span></a><button class="icon-button mobile-close" data-action="sidebar" aria-label="Close dataset navigation">×</button></div>
+        <div class="nav-heading">Datasets</div>
+        <nav aria-label="Supported datasets">${tasks.map(task => `<button class="project-link ${task.id === current.id ? 'active' : ''}" data-task="${task.id}" aria-current="${task.id === current.id ? 'true' : 'false'}">${modelIcon}<span>${escape(task.name)}</span></button>`).join('')}</nav>
+        <div class="sidebar-bottom"><span class="sidebar-note">Geospatial classification<br>and segmentation</span><div class="profile"><span class="avatar">GT</span><div>GoTrain team<small>Model workspace</small></div></div></div>
+      </aside>
+      <div class="main-shell">
+        <header class="topbar"><div><button class="icon-button" data-action="sidebar" aria-label="Toggle dataset navigation" aria-expanded="${matchMedia('(max-width: 760px)').matches ? sidebarOpen : !sidebarOpen}">${menuIcon}</button><span class="workspace-title">${escape(current.name)}</span></div><span class="preview-badge">Design preview</span></header>
+        <nav class="view-nav" aria-label="Workspace views">${['Task', 'Experiments', 'Predictions'].map(name => `<button data-view="${name}" class="${view === name ? 'active' : ''}" aria-current="${view === name ? 'page' : 'false'}">${name}</button>`).join('')}</nav>
+        <main id="main-content" tabindex="-1" class="${view === 'Task' ? 'task-main' : 'detail-main'}">${view === 'Task' ? taskPage() : view === 'Experiments' ? experimentPage(current) : predictionPage(current)}</main>
+        ${view === 'Task' ? `<div class="composer-dock"><form id="task-form" class="composer"><label class="sr-only" for="task-input">Task description for ${escape(current.name)}</label><textarea id="task-input" name="goal" rows="2" maxlength="2000" placeholder="${escape(current.goal)}" aria-describedby="connection-note">${escape(typeof drafts[current.id] === 'string' ? drafts[current.id] : '')}</textarea><div class="composer-tools"><span class="dataset-reference">${escape(current.id)}</span><button class="build-button" type="submit" disabled>Build model <span aria-hidden="true">↑</span></button></div></form><p id="connection-note">Training, predictions and exports will be available when the workspace is connected.</p></div>` : ''}
+      </div>
+    </div>`;
+  if (matchMedia('(max-width: 760px)').matches) {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.inert = !sidebarOpen;
+    sidebar.setAttribute('aria-hidden', String(!sidebarOpen));
+    document.querySelector('.main-shell').inert = sidebarOpen;
+  }
+}
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('button');
+  if (!button) return;
+  if (button.dataset.task) {
+    current = tasks.find(task => task.id === button.dataset.task);
+    sidebarOpen = false;
+    render();
+    document.querySelector(matchMedia('(max-width: 760px)').matches ? '#main-content' : `[data-task="${current.id}"]`).focus();
+  } else if (button.dataset.view) {
+    view = button.dataset.view;
+    render();
+    document.querySelector(`[data-view="${view}"]`).focus();
+  } else if (button.dataset.action === 'sidebar') {
+    sidebarOpen = !sidebarOpen;
+    render();
+    document.querySelector(sidebarOpen ? `[data-task="${current.id}"]` : '.topbar .icon-button').focus();
+  } else if (button.dataset.action === 'suggest') {
+    drafts[current.id] = current.goal;
+    saveDraft();
+    const input = document.querySelector('#task-input');
+    input.value = current.goal;
+    input.focus();
+  }
+});
+
+function saveDraft() {
+  try { localStorage.setItem(storageKey, JSON.stringify(drafts)); } catch { /* No persistence when unavailable. */ }
+}
+document.addEventListener('input', event => {
+  if (event.target.id !== 'task-input') return;
+  drafts[current.id] = event.target.value;
+  saveDraft();
+});
+document.addEventListener('submit', event => {
+  if (event.target.id === 'task-form') event.preventDefault();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && sidebarOpen) {
+    sidebarOpen = false;
+    render();
+    document.querySelector('.topbar .icon-button').focus();
+  }
+});
+matchMedia('(max-width: 760px)').addEventListener('change', () => { sidebarOpen = false; render(); });
 render();

@@ -118,3 +118,11 @@ what was checked and when, and a link to the setup instructions or milestone
 evidence. Keep credential values in private storage; record only the retrieval
 method or environment variable name. Replace outdated references and explain
 material location changes in the active milestone's decisions.
+
+## Local M4 design preview
+
+Run `node ui/server.mjs` from the repository root and open http://localhost:5173.
+The preview is local-only and contains no live training results or backend actions.
+See [UI instructions](../ui/README.md) and [M4 handoff](milestones/m4-workspace.md).
+Local syntax and desktop/mobile browser review passed 2026-10-31; user design
+confirmation and all backend integration remain pending.

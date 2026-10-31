@@ -184,7 +184,9 @@ the [fast-delivery guidance](../WORKFLOW.md#plan-for-fast-delivery).
 
 ## Handoff
 
-**Parallel UI work:** the user authorized an isolated localhost prototype under `ui/` while teammates continue M1. The current design uses a neutral task-submission workspace, bottom task input, model-result delivery, and optional keyboard-controlled Rover Run game. Conversation replies and the cat companion were removed at the user's request. It uses mock interactions only and does not advance ML tasks or verify engine capabilities; see [UI instructions](../../ui/README.md).
+**Parallel UI work:** an isolated local prototype was built while M1 progressed.
+The current simplified design and approval gate are tracked in the [M4 handoff](m4-workspace.md);
+see [UI instructions](../../ui/README.md). UI work does not change M1 evidence.
 
 **Last updated:** 2026-10-31.
 **Current state:** M1 and tasks 1.1–1.7 complete. Required access, the four selected datasets/contracts, manual runner/resource enforcement and four accepted reference checkpoints have linked evidence above. All four selected model/optimizer files have independent checksum-verified recovery copies on the custodian Mac; source is in GitHub/local Git. The active JupyterLab session remains open.

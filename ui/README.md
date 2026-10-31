@@ -1,36 +1,41 @@
-# GoTrain UI prototype
+# GoTrain UI preview
 
-Local-only, dependency-free model-building UI. Requires Node.js 18 or later.
+Local, dependency-free design preview for the four registered benchmark datasets.
+Run from the repository root with Node.js 18 or later:
 
 ```powershell
-cd C:\Users\ahmad\GoTrain\ui
-node server.mjs
+node ui/server.mjs
 ```
 
-Open http://localhost:5173. Stop with Ctrl+C. No install, account, publishing, external requests, or backend is required.
+Open http://localhost:5173. No package install or account is needed.
 
-## Task to model
+## Scope
 
-The neutral workspace uses a bottom input for submitting a task, not a conversation. Starter options fill editable task templates. Add a dataset reference, describe the required outcome, select a time budget, and choose **Build model**. Enter submits; Shift+Enter inserts a line break.
+The neutral workspace has four dataset choices (EuroSAT, Brick-Kiln, PV4GER-Seg,
+Chesapeake) and three views: Task, Experiments and Predictions. Each task shows
+its input channels, task type and validation metric. Suggested task text can be
+edited; drafts persist per dataset in browser localStorage when available.
 
-The roughly 24-second simulation shows preparation, training, evaluation, and packaging. Completion displays a model-result card with summary export, output preview, and experiment history. There are no assistant replies, thinking delays, pets, or companion settings. Header and view navigation stay visible while scrolling.
+Training and image selection are disabled until backend integration. Experiment
+and prediction views show honest empty states and dataset-specific input
+requirements. This preview contains no scores or recorded experiment data and
+makes no backend requests. It does not run training, inference or export models.
+There is no game, arbitrary project creation, custom training-dataset upload,
+simulated progress or fake download. Budget controls await enforced launch limits.
 
-**All model results are illustrative.** No actual model is trained or returned. Exports are demo JSON summaries without weights. Dataset selection records a filename only; local images use browser object URLs. Files are never uploaded. Projects persist in browser localStorage; job progress and game state last for the current page session. Reloading ends the UI simulation. This work does not advance any ML milestone.
+All UI files live under ui/. src/data/tasks.js contains static dataset descriptors
+from configs/tasks.json and docs/data.md, not selected-model metadata. Integration
+must obtain exact preprocessing and input requirements from the model package.
+The former gotrain-projects localStorage key is ignored; only task drafts use the
+new gotrain-workspace-drafts-v1 key. Existing browser data is not deleted.
 
-## Optional keyboard game
+## Verification
 
-**Rover Run** is suggested while a task executes and is available in the sidebar. It opens only when selected. Drive around falling rocks, collect gold energy cells (+15 points), and survive as speed increases. Arrow keys or WASD move in four directions; Space starts/pauses, R restarts, and Escape closes. Survival also earns points. The game has a current-session best score.
+Run npm run check from ui/, or node --check on the four files named in package.json.
+Local browser review covers desktop/mobile layout, all four dataset views,
+keyboard navigation, suggested text, draft persistence and disabled actions.
+No SageMaker/GPU/Bedrock execution is part of this UI-only change.
 
-Keyboard controls apply only while the game canvas has focus. Losing focus, switching browser tabs, closing the game, or switching project views pauses it. Closing or pausing the game does not affect model execution. Task completion does not dismiss the game.
-
-## Organization
-
-- `src/app.js`: project state, task submission, execution simulation, and model delivery.
-- `src/pages/workspace.js`: experiment history and prediction views.
-- `src/components/scene.js`: original SVG aerial illustration.
-- `src/components/rover-game.js`: keyboard arcade game, canvas rendering, and game lifecycle.
-- `src/mocks/projects.js`: illustrative projects and experiment records.
-- `src/styles/main.css`: neutral visual system and responsive layout.
-- `server.mjs`: loopback-only static server.
-
-Run `npm run check` if npm is available, or `node --check` against the JavaScript files.
+See [M4 handoff](../docs/milestones/m4-workspace.md). User design confirmation
+precedes backend work; each following step receives its own detailed plan and
+confirmation before implementation.

@@ -40,6 +40,8 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
+A simplified [local UI preview](ui/README.md) preserves the workspace design while limiting it to the four supported datasets and task/experiment/prediction views. Backend actions are disabled. [M4 UI preparation](docs/milestones/m4-workspace.md) awaits user design confirmation; backend implementation has not started.
+
 **M1 is complete (tasks 1.1–1.7).** All four [reference recipes/results](docs/references.md) passed complete validation and fresh-process checkpoint revalidation, with verified independent model backups. See the [M1 evidence and handoff](docs/milestones/m1-foundation.md).
 
 **[M2 is complete (2.1–2.2)](docs/milestones/m2-engine.md).** Claude completed one bounded EuroSAT cycle, rejected a lower-scoring change and retained the 87.00% reference checkpoint. Reload/prediction and independent backups are verified; [test payloads remain sealed](docs/data.md). [M3 is complete (3.1–3.3)](docs/milestones/m3-improvement.md): all four bounded searches retained better validation models, with checkpoint reload/prediction and independent backups verified. Gains remain single-seed/provisional; test payloads remain sealed. The UI remains unimplemented.

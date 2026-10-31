@@ -1,11 +1,11 @@
 {
   "name": "gotrain-ui",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "check": "node --check src/app.js && node --check src/components/scene.js && node --check src/components/rover-game.js && node --check src/mocks/projects.js && node --check src/pages/workspace.js && node --check server.mjs"
+    "check": "node --check src/app.js && node --check src/data/tasks.js && node --check src/pages/workspace.js && node --check server.mjs"
   }
 }
