@@ -106,10 +106,13 @@ def worker(run, data_root, verify=False):
     from .models import build_model
     run = Path(run)
     record = read(run / 'record.json')
-    active = read(ROOT / 'artifacts/m1-budget.json')['active']
+    allocation = os.environ.get('GOTRAIN_ALLOCATION', 'm1')
+    if allocation not in ('m1', 'm2'):
+        raise ValueError('Unknown allocation')
+    active = read(ROOT / ('artifacts/' + allocation + '-budget.json'))['active']
     if not active or active['run_id'] != os.environ.get('GOTRAIN_JOB_ID') or active['owner_pid'] != os.getppid():
         raise RuntimeError('Worker requires a live parent budget reservation')
-    caps, contracts, inspection = read(ROOT / 'configs/m1.json'), read(ROOT / 'configs/tasks.json'), read(ROOT / 'docs/data-inspection.json')
+    caps, contracts, inspection = read(ROOT / ('configs/' + allocation + '.json')), read(ROOT / 'configs/tasks.json'), read(ROOT / 'docs/data-inspection.json')
     guard = Guard(ROOT, run, caps, active['started_monotonic'] + active['seconds'])
     recipe = record['recipe']; spec = {**contracts['tasks'][recipe['task']], '_batch_size': recipe['batch_size']}
     random.seed(2026); np.random.seed(2026); torch.manual_seed(2026); torch.cuda.manual_seed_all(2026)
@@ -211,7 +214,7 @@ def child(run, data_root, active, log, verify=False):
     remaining = active['seconds'] - (time.monotonic() - active['started_monotonic'])
     if remaining <= 0:
         raise TimeoutError('No wall budget remains')
-    run_with_watchdog(args, remaining, log, {**os.environ, 'GOTRAIN_JOB_ID': active['run_id']})
+    run_with_watchdog(args, remaining, log, {**os.environ, 'GOTRAIN_JOB_ID': active['run_id'], 'GOTRAIN_ALLOCATION': active['allocation']})
 
 
 def run_with_watchdog(args, seconds, log, env=None):
@@ -238,6 +241,7 @@ def main():
     internal = sub.add_parser('_worker', help=argparse.SUPPRESS); internal.add_argument('--run', type=Path, required=True); internal.add_argument('--verify', action='store_true')
     for command in (train, verify, internal):
         command.add_argument('--data-root', type=Path, required=True)
+        command.add_argument('--allocation', choices=('m1', 'm2'), default='m1')
     args = parser.parse_args()
     if args.command == '_worker':
         try:
@@ -250,7 +254,7 @@ def main():
                 write_json(args.run / 'record.json', record)
             traceback.print_exc(); raise SystemExit(1)
         return
-    caps, contracts = read(ROOT / 'configs/m1.json'), read(ROOT / 'configs/tasks.json')
+    caps, contracts = read(ROOT / ('configs/' + args.allocation + '.json')), read(ROOT / 'configs/tasks.json')
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     runs = ROOT / 'artifacts/runs'; runs.mkdir(parents=True, exist_ok=True)
     if args.command == 'train':
@@ -274,7 +278,7 @@ def main():
         record = {'run_id': run_id, 'status': 'created', 'created_utc': stamp, 'recipe': recipe,
                   'source_commit': git('rev-parse', 'HEAD'), 'dirty': bool(patch), 'seed': 2026,
                   'data_revision': contracts['dataset_revision'], 'partition_sha256': next(t['partition_sha256'] for t in read(ROOT / 'docs/data-inspection.json')['tasks'] if t['name'] == recipe['task']),
-                  'task_contract_sha256': digest(ROOT / 'configs/tasks.json'), 'budget_contract_sha256': digest(ROOT / 'configs/m1.json'),
+                  'task_contract_sha256': digest(ROOT / 'configs/tasks.json'), 'budget_contract_sha256': digest(ROOT / ('configs/' + args.allocation + '.json')),
                   'data_root': str(args.data_root.resolve()), 'retry_of': args.retry_of, 'is_reference': False}
         write_json(run / 'record.json', record)
         seconds = recipe['wall_seconds']
@@ -283,7 +287,7 @@ def main():
         record = read(run / 'record.json'); run_id = record['run_id'] + '-verify-' + stamp
         category, seconds = 'checkpoint_revalidation', 60
     (run / 'run.log').touch(exist_ok=True)
-    budget = Budget(ROOT, caps, read(ROOT / 'docs/calibration.json')['elapsed_seconds'])
+    budget = Budget(ROOT, caps, read(ROOT / 'docs/calibration.json')['elapsed_seconds'], args.allocation)
     active = None
     try:
         active = budget.begin(run_id, category, seconds, getattr(args, 'retry_of', None))
@@ -301,6 +305,6 @@ def main():
     finally:
         if active:
             elapsed = budget.finish(status)
-            write_json(run / ('verify-timing-' + stamp + '.json' if args.command == 'verify' else 'timing.json'), {'elapsed_seconds': elapsed, 'ledger': 'artifacts/m1-budget.json'})
+            write_json(run / ('verify-timing-' + stamp + '.json' if args.command == 'verify' else 'timing.json'), {'elapsed_seconds': elapsed, 'ledger': 'artifacts/' + args.allocation + '-budget.json'})
         budget.close()
     print(json.dumps({'run_id': record['run_id'], 'status': status, 'smoke': record['recipe'].get('smoke', False)}))

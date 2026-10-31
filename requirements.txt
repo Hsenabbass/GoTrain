@@ -10,3 +10,5 @@ rasterio==1.4.3
 affine==2.4.0
 cligj==0.7.2
 click-plugins==1.1.1.2
+strands-agents==0.3.0
+boto3==1.43.106

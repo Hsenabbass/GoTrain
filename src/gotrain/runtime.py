@@ -51,7 +51,7 @@ def validate_recipe(recipe, contracts, caps):
 
 
 class Budget:
-    def __init__(self, root, caps, calibration_seconds):
+    def __init__(self, root, caps, calibration_seconds, allocation="m1"):
         self.root, self.caps = Path(root), caps
         (self.root / 'artifacts').mkdir(exist_ok=True)
         self.lock = (self.root / 'artifacts/m1.lock').open('a')
@@ -60,10 +60,19 @@ class Budget:
         except BlockingIOError:
             self.lock.close()
             raise RuntimeError('Another M1 job holds the GPU budget lock')
-        self.path = self.root / 'artifacts/m1-budget.json'
+        if allocation not in ('m1', 'm2'):
+            self.close()
+            raise ValueError('Unknown allocation')
+        for other in ('m1', 'm2'):
+            path = self.root / ('artifacts/' + other + '-budget.json')
+            if path.exists() and json.loads(path.read_text()).get('active'):
+                self.close()
+                raise RuntimeError('Unsettled shared GPU reservation')
+        self.allocation = allocation
+        self.path = self.root / ('artifacts/' + allocation + '-budget.json')
         self.ledger = json.loads(self.path.read_text()) if self.path.exists() else {
-            'charged_seconds': 60 + calibration_seconds,
-            'categories': {'earlier_access_accounting_reserve': 60, 'calibration': calibration_seconds},
+            'charged_seconds': 60 + calibration_seconds if allocation == 'm1' else 0,
+            'categories': {'earlier_access_accounting_reserve': 60, 'calibration': calibration_seconds} if allocation == 'm1' else {},
             'active': None, 'runs': []}
         if self.ledger['active']:
             self.close()
@@ -79,8 +88,13 @@ class Budget:
             raise RuntimeError('M1 category allocation exhausted')
         if retry_of and sum(row.get('retry_of') == retry_of for row in self.ledger['runs']) >= self.caps['retries']['max_retries_per_failed_run']:
             raise RuntimeError('Retry allowance exhausted')
+        if self.allocation == 'm2':
+            attempts = sum(r['category'] == category for r in self.ledger['runs'])
+            limit = 2 if category == 'four_reference_runs' else 1 if category == 'failure_reserve' else None
+            if limit is not None and attempts >= limit:
+                raise RuntimeError('M2 attempt allowance exhausted')
         self.started = time.monotonic()
-        reservation = {'run_id': run_id, 'category': category, 'seconds': seconds, 'retry_of': retry_of, 'started_monotonic': self.started, 'owner_pid': os.getpid()}
+        reservation = {'allocation': self.allocation, 'run_id': run_id, 'category': category, 'seconds': seconds, 'retry_of': retry_of, 'started_monotonic': self.started, 'owner_pid': os.getpid()}
         self.ledger['active'] = reservation
         self.ledger['charged_seconds'] += seconds
         self.ledger['categories'][category] = self.ledger['categories'].get(category, 0) + seconds
