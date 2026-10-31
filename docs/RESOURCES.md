@@ -8,7 +8,7 @@ model/region requirements, and research references. See the
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
 | GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; SageMaker clone and disposable-branch push verified 2026-10-31 using explicitly approved GoTrain-only access expiring 2026-11-01; other teammates' access unverified. See [setup evidence](setup.md). |
-| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 in progress](milestones/m3-improvement.md): 3.1–3.2 verified; 3.3 partly verified and paused locally, with detached cloud work continuing. |
+| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 complete](milestones/m3-improvement.md): 3.1–3.3 verified; all four selected checkpoints and independent backups passed. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Existing Safari session verified 2026-10-31; GPU execution passed. See [setup evidence](setup.md). Keep the current session open; organizers can renew access as needed. Do not store access links here. |
 | Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; M2 autonomous tool cycle verified; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
@@ -20,13 +20,13 @@ model/region requirements, and research references. See the
 
 ## Recovery verification
 
-- **3.3 m-pv4ger-seg snapshot:** `snapshots/20261031T175520425747Z-recovery.tar.gz`, 792374176 bytes, 89 files; source `548cba035604b428244750e61f9572ba81d8e204`. SHA-256: `c511171b0884f440d556ba801aaf61c60c7c1a4e69ab0739a842f75cab5395ba`. Sender/receiver and all members verified; all three included best checkpoints restored as opaque bytes with matching run hashes. No local ML execution.
+- **3.3 m-chesapeake snapshot:** `snapshots/20261031T181103372885Z-recovery-repacked.tar.gz`, 930324393 bytes, 89 files; source `548cba035604b428244750e61f9572ba81d8e204`. Archive SHA-256: `bf9d17fb6ac48ff1e755ef97383b399d9eda9974ce8e9519ba946b70ffe312a8`. Safari expanded the completed download; its complete tar matched SageMaker SHA-256 `cdf3d6df4116d3a5d653d49928adf321f2721f9ea14c3e7e39aa240db6367573` and was recompressed locally. The recompressed tar and all members verified; all three included best checkpoints restored as opaque bytes with matching run hashes. No local ML execution.
 
+- **3.3 m-pv4ger-seg snapshot:** `snapshots/20261031T175520425747Z-recovery.tar.gz`, 792374176 bytes, 89 files; source `548cba035604b428244750e61f9572ba81d8e204`. SHA-256: `c511171b0884f440d556ba801aaf61c60c7c1a4e69ab0739a842f75cab5395ba`. Sender/receiver and all members verified; all three included best checkpoints restored as opaque bytes with matching run hashes. No local ML execution.
 
 - **3.3 m-eurosat snapshot:** `snapshots/20261031T171958125015Z-recovery.tar.gz`, 257415743 bytes, 87 files; source `682ae9bd1f0c58f5a8a8664d39083e633478490a`. SHA-256: `ba0dd3eff42a772df158cb511072659b5ac656fa75abf7890994114b6d5c1c97`. Sender/receiver and all members verified; retained checkpoint restored as opaque bytes with matching run hash. No local ML execution.
 
 - **3.3 m-brick-kiln snapshot:** `snapshots/20261031T174053988987Z-recovery.tar.gz`, 244094554 bytes, 93 files; source `548cba035604b428244750e61f9572ba81d8e204`. SHA-256: `27bd165bb377d0759b46a073168b2506e3d118d274c16008b8832051e221649c`. Sender/receiver and all members verified; retained checkpoint restored as opaque bytes with matching run hash. No local ML execution.
-
 
 - **Task 3.2 snapshot:** `snapshots/20261031T165243901214Z-recovery.tar.gz`,
   4,650,590 bytes, 83 files; source `de409588a349254c33aea1260744b227fe68c623`.

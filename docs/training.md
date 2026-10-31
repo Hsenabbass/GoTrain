@@ -186,9 +186,9 @@ weights must use the recorded official URLs, enforce the plan's download caps,
 and verify both filename hash prefix and full receipt SHA-256. The four cached
 files total 181,806,878 bytes; carry that transfer usage into 3.2's M3 accounting.
 
-CPU checks establish adapter/model compatibility only. Optimizer/search settings,
-GPU throughput, real training gains and task-driven controller wiring are still
-3.2/3.3 work; do not run the M2 EuroSAT controller expecting the new search yet.
+The 3.1 CPU checks establish adapter/model compatibility only. The task-driven
+controller and search settings are implemented below; measured full-task results
+belong in the [3.3 evidence](m3-evidence.json).
 
 ## Bounded M3 search (3.2)
 

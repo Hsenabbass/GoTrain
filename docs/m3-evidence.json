@@ -1028,8 +1028,8 @@
     ]
   },
   "searches": {
-    "status": "paused_in_progress",
-    "collected_utc": "2026-10-31T18:01:48.507777+00:00",
+    "status": "verified_complete",
+    "collected_utc": "2026-10-31T19:48:01.315525+00:00",
     "source_commits": [
       "259567e372df0a24607e940413708df5fc83476b",
       "3c4bb0166ace570dd65f76f73e1a33cc8d514e20",
@@ -2148,6 +2148,415 @@
           "foreground_iou": 0.9175488683706465,
           "foreground_f1": 0.9570018094509306
         }
+      },
+      {
+        "task": "m-chesapeake",
+        "status": "verified_complete",
+        "reference_run": "20261031T145719482888Z-m-chesapeake-manual",
+        "reference_primary": 0.4052801090446043,
+        "selected_run": "20261031T180108350357Z-m-chesapeake-manual",
+        "selected_primary": 0.7411098532881673,
+        "gain_status": "single_seed_provisional",
+        "trials": [
+          {
+            "run_id": "20261031T175624029771Z-m-chesapeake-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-0",
+              "model": "fcn_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "3ac0a9859810a5781471a3476e146c214a77f1766cef5d42c58bd02e28006486",
+            "primary": null,
+            "full_validation": false,
+            "steps": 2,
+            "epochs_completed": 2
+          },
+          {
+            "run_id": "20261031T175642350749Z-m-chesapeake-smoke",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-1",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": true,
+              "epochs": 50,
+              "steps": 2,
+              "wall_seconds": 30,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "probe",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1,
+              "train_limit": 4,
+              "valid_limit": 4
+            },
+            "checkpoint_sha256": "511875289fb165d8487943818d3fa880018b4c025f4efb61263d608813bd2317",
+            "primary": null,
+            "full_validation": false,
+            "steps": 2,
+            "epochs_completed": 2
+          },
+          {
+            "run_id": "20261031T175708767477Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-2",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "160a63cb32c8e230f645a8155b7aa87b1e6a500525bada521cf36eaff3ae0076",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.6741972497857583,
+            "full_validation": true,
+            "steps": 615,
+            "epochs_completed": 0
+          },
+          {
+            "run_id": "20261031T175905540570Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-3",
+              "model": "deeplab_mobile_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 150,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "screen",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "254b4c36a40810c01ce6f889c44af9498e1c0fb9af631e9f025a077569f59d5d",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.6047189948737215,
+            "full_validation": true,
+            "steps": 720,
+            "epochs_completed": 0
+          },
+          {
+            "run_id": "20261031T180108350357Z-m-chesapeake-manual",
+            "status": "budget_exhausted",
+            "source_commit": "548cba035604b428244750e61f9572ba81d8e204",
+            "seed": 2026,
+            "recipe": {
+              "task": "m-chesapeake",
+              "description": "c67f5423a768bf3a-4",
+              "model": "fcn_imagenet",
+              "smoke": false,
+              "epochs": 50,
+              "steps": 5000,
+              "wall_seconds": 600,
+              "batch_size": 4,
+              "lr": 0.001,
+              "weight_decay": 0.0001,
+              "augment": true,
+              "normalization": "pretrained",
+              "phase": "final",
+              "seed": 2026,
+              "optimizer": "adamw",
+              "schedule": "cosine",
+              "loss": "ce",
+              "head_only": false,
+              "backbone_lr_ratio": 0.1
+            },
+            "checkpoint_sha256": "4732900ffad1d8b13f292284283751d9d3d75db05f7611bb29d4aeb6168fa1d5",
+            "normalization_source_run": "20261031T145719482888Z-m-chesapeake-manual",
+            "primary": 0.7411098532881673,
+            "full_validation": true,
+            "steps": 4235,
+            "epochs_completed": 5
+          }
+        ],
+        "model_requests": 9,
+        "tool_calls": 10,
+        "returned_usage_receipts": 8,
+        "returned_tokens": {
+          "inputTokens": 63903,
+          "outputTokens": 2447,
+          "totalTokens": 66350
+        },
+        "usage_note": "Returned token receipts exclude interrupted requests without a receipt; all wire attempts count toward the request limit.",
+        "service_retries": [
+          {
+            "error_type": "ConnectionClosedError",
+            "after_model_request": 6
+          }
+        ],
+        "decisions": [
+          {
+            "shortlist": [
+              "fcn_imagenet",
+              "deeplab_mobile_imagenet"
+            ],
+            "reason": "Two diverse pretrained backbones (ResNet50 FCN vs MobileNetV3 DeepLab); budget tight so little tuning."
+          },
+          {
+            "request_id": "c67f5423a768bf3a-0",
+            "candidate": "fcn_imagenet",
+            "phase": "probe",
+            "parent": "20261031T145719482888Z-m-chesapeake-manual",
+            "hypothesis": "Pretrained ResNet50 FCN beats random-init reference; probe checks it runs.",
+            "retry_of": "",
+            "run_id": "20261031T175624029771Z-m-chesapeake-smoke"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-1",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "probe",
+            "parent": "20261031T145719482888Z-m-chesapeake-manual",
+            "hypothesis": "Lighter model gets more steps in the time budget.",
+            "retry_of": "",
+            "run_id": "20261031T175642350749Z-m-chesapeake-smoke"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-2",
+            "candidate": "fcn_imagenet",
+            "phase": "screen",
+            "parent": "20261031T175624029771Z-m-chesapeake-smoke",
+            "hypothesis": "Pretrained FCN reaches higher val macro IoU than reference in 150s.",
+            "retry_of": "",
+            "run_id": "20261031T175708767477Z-m-chesapeake-manual"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-3",
+            "candidate": "deeplab_mobile_imagenet",
+            "phase": "screen",
+            "parent": "20261031T175642350749Z-m-chesapeake-smoke",
+            "hypothesis": "Mobile model trains faster per step and may match accuracy.",
+            "retry_of": "",
+            "run_id": "20261031T175905540570Z-m-chesapeake-manual"
+          },
+          {
+            "request_id": "c67f5423a768bf3a-4",
+            "candidate": "fcn_imagenet",
+            "phase": "final",
+            "parent": "20261031T175708767477Z-m-chesapeake-manual",
+            "hypothesis": "Longer 600s budget with same recipe improves on the 150s screen (0.674).",
+            "retry_of": "",
+            "run_id": "20261031T180108350357Z-m-chesapeake-manual"
+          },
+          {
+            "candidate": "20261031T180108350357Z-m-chesapeake-manual",
+            "kept": true,
+            "best": "20261031T180108350357Z-m-chesapeake-manual",
+            "reason": "Final run macro IoU 0.741 vs reference 0.405; single seed, provisional."
+          }
+        ],
+        "finish_reason": "Selected pretrained FCN-ResNet50 final run (val macro IoU 0.741), checkpoint verified. Single seed, so the gain is provisional; remaining time was too short for a second 600s seed.",
+        "reload": {
+          "passed": true,
+          "primary_delta": 0.0,
+          "checkpoint_sha256": "4732900ffad1d8b13f292284283751d9d3d75db05f7611bb29d4aeb6168fa1d5",
+          "prediction": {
+            "prediction_shape": [
+              1,
+              256,
+              256
+            ],
+            "probability_shape": [
+              1,
+              7,
+              256,
+              256
+            ],
+            "class_ids": [
+              0
+            ],
+            "prediction_sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541",
+            "max_probability_sum_error": 2.384185791015625e-07
+          }
+        },
+        "validation": {
+          "valid": true,
+          "count": 65536000,
+          "accuracy": 0.8823991088867188,
+          "macro_iou": 0.7411098532881673,
+          "macro_f1": 0.838825556977002,
+          "per_class_iou": [
+            1.0,
+            0.9254934752254066,
+            0.8317366014740033,
+            0.7816823863181244,
+            0.5014688699939639,
+            0.6094422720880284,
+            0.537945367917645
+          ],
+          "per_class_precision": [
+            1.0,
+            0.9848207382954967,
+            0.8999684142184236,
+            0.8823681846458387,
+            0.6357850082721758,
+            0.767243348091998,
+            0.6714716494396124
+          ],
+          "per_class_recall": [
+            1.0,
+            0.9388865390093176,
+            0.9164612565704054,
+            0.872616936500763,
+            0.7035896434392676,
+            0.7476763764268077,
+            0.7301089086966387
+          ],
+          "per_class_f1": [
+            1.0,
+            0.9613052312390353,
+            0.9081399594294318,
+            0.8774654700757117,
+            0.6679710515689611,
+            0.757333497022371,
+            0.6995636895035029
+          ],
+          "support": [
+            1310720,
+            6877421,
+            24194283,
+            25453109,
+            1065064,
+            4735922,
+            1899481
+          ],
+          "union": [
+            1310720,
+            6976946,
+            26658828,
+            28414116,
+            1494346,
+            5810127,
+            2578009
+          ],
+          "confusion_matrix": [
+            [
+              1310720,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              6457118,
+              204042,
+              175933,
+              21015,
+              9972,
+              9341
+            ],
+            [
+              0,
+              20803,
+              22173123,
+              1768989,
+              20200,
+              129113,
+              82055
+            ],
+            [
+              0,
+              73220,
+              1968313,
+              22210814,
+              293190,
+              687459,
+              220113
+            ],
+            [
+              0,
+              793,
+              20180,
+              199620,
+              749368,
+              82193,
+              12910
+            ],
+            [
+              0,
+              4129,
+              148517,
+              601912,
+              86318,
+              3540937,
+              354109
+            ],
+            [
+              0,
+              580,
+              123493,
+              214553,
+              8559,
+              165468,
+              1386828
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "macro_iou",
+          "primary": 0.7411098532881673,
+          "land_macro_iou_target_0_ignored": 0.697961495502862
+        }
       }
     ],
     "recovery": {
@@ -2165,27 +2574,17 @@
     "m1_m2_ledgers_unchanged": true,
     "weight_download_bytes": 181806878,
     "ledger_snapshot": {
-      "charged_seconds": 3485.6180391989838,
+      "charged_seconds": 3459.8919047499876,
       "categories": {
-        "shared": 203.71959158798563,
+        "shared": 222.92615012198803,
         "m-eurosat": 702.6623882899985,
         "m-brick-kiln": 1002.3271315220045,
         "m-pv4ger-seg": 748.5602420839969,
-        "m-chesapeake": 828.3486857149983
+        "m-chesapeake": 783.4159927319997
       },
-      "active": {
-        "task_id": "m-chesapeake",
-        "job_type": "train",
-        "allocation": "m3",
-        "run_id": "20261031T180108350357Z-m-chesapeake-manual",
-        "category": "m-chesapeake",
-        "seconds": 600,
-        "retry_of": null,
-        "started_monotonic": 33087.921781872,
-        "owner_pid": 9097
-      }
+      "active": null
     },
-    "ledger_note": "Timestamped in-progress snapshot includes its active reservation; final settled usage remains pending.",
+    "ledger_note": "Final settled M3 usage includes 3.2 probes, all 3.3 attempts/failures, and checkpoint verification. GPU-job wall time includes CPU setup; token receipts exclude interrupted requests without returned usage.",
     "incidents": [
       "Trial basename collided with a prior verification session. Three completed probes were audited and registered; all charges retained. Session-scoped IDs and a pending-work guard fixed duplication.",
       "Two Brick-Kiln screens exhausted setup time. Reused verified full-training statistics after contract/partition/sample checks; fixed fatal-stop enforcement. Both failed attempts remain charged.",
@@ -2246,14 +2645,44 @@
           "sender/receiver and all member hashes matched",
           "included best checkpoints restored as opaque bytes and matched their run hashes; no local ML execution"
         ]
+      },
+      {
+        "snapshot": "20261031T181103372885Z-recovery-repacked.tar.gz",
+        "archive_sha256": "bf9d17fb6ac48ff1e755ef97383b399d9eda9974ce8e9519ba946b70ffe312a8",
+        "git_commit": "548cba035604b428244750e61f9572ba81d8e204",
+        "files": 89,
+        "bytes": 930324393,
+        "verified_utc": "2026-10-31T19:47:49.320255+00:00",
+        "purpose": "3.3 m-chesapeake search, selected checkpoint and recovery evidence",
+        "task": "m-chesapeake",
+        "selected_run": "20261031T180108350357Z-m-chesapeake-manual",
+        "restored_checkpoints": [
+          "20261031T175708767477Z-m-chesapeake-manual",
+          "20261031T175905540570Z-m-chesapeake-manual",
+          "20261031T180108350357Z-m-chesapeake-manual"
+        ],
+        "source_tar_sha256": "cdf3d6df4116d3a5d653d49928adf321f2721f9ea14c3e7e39aa240db6367573",
+        "source_tar_bytes": 930252800,
+        "original_staging_gzip_sha256": "70e58ac693233c0a4ad9c3f6280f9da774f44c7969fe6fd49a3e074c82f00097",
+        "transport_note": "Safari expanded the complete initial gzip download. Its complete tar bytes matched a fresh SageMaker digest of the original gzip payload; locally recompressed without changing tar contents. The repacked gzip has its own archive checksum. The interrupted second download was not used.",
+        "checks": [
+          "sender/receiver uncompressed tar hashes matched; recompressed tar hash also matched",
+          "all member hashes and sizes matched",
+          "all three included best checkpoints restored as opaque bytes and matched their run hashes; no local ML execution"
+        ]
       }
     ],
     "raw_evidence": "SageMaker artifacts/runs/m3-searches/ and task recovery snapshots; full session/trial records remain there.",
-    "pending": [
-      "Inspect detached Chesapeake completion and settled budget before resuming",
-      "Transfer and independently verify Chesapeake snapshot",
-      "Finish four-task evidence/docs, close 3.3/M3, merge and push main"
-    ],
-    "test_payloads_opened": 0
+    "test_payloads_opened": 0,
+    "final_audit": {
+      "four_sessions_done": true,
+      "selected_checkpoints_verified": true,
+      "caps_respected": true,
+      "no_active_gpu_job": true,
+      "frozen_configs_unchanged": true,
+      "m1_m2_ledgers_unchanged": true,
+      "independent_backups_verified": true
+    },
+    "confirmation": "No matched seed-2027 pairs fit the remaining 977.07-second shared pool; each pair requires two 600-second reservations. All gains remain single-seed/provisional; primary export seed is 2026."
   }
 }
