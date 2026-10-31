@@ -181,3 +181,14 @@ Git verification results are recorded in `gotrain-access-check/git-verification.
 Update this record, the resource index, milestone evidence and task 1.1 together
 if access behavior changes. Task completion covers the observed checks and agreed
 operating constraints; it does not claim instance-restart or session-expiry testing.
+
+## M4 request-service verification (2026-11-01)
+
+The existing Opera JupyterLab session, verified venv and loopback Studio proxy were
+reused. Observed FastAPI 0.142.4, Uvicorn 0.54.0, Starlette 1.8.0, Pydantic 2.14.1
+and HTTPX 0.28.1; no SageMaker dependency changes were made. Request/import and
+real preflight checks passed; [service setup](service.md) owns commands and exact
+limitations, and [M4 evidence](m4-evidence.json) owns results/independent recovery.
+GitHub credential expiry prevented authenticated pulls; checksum-verified source
+bundles fast-forwarded main without creating or modifying credentials. The request
+service remains on source 25ce624. No historical GPU ledger or test data changed.

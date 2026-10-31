@@ -1,34 +1,41 @@
-# GoTrain UI preview
+# GoTrain message interface
 
-A single message composer for explaining a model goal and constraints, with an
-Upload dataset control and Send button. Local-only design preview; no dependencies.
+One message composer for the desired model and constraints, plus Upload dataset
+and Send. No sidebar, dataset grid, game or simulated training/results.
 
-Run from the repository root with Node.js 18 or later:
+## Connected service
+
+Run the Python service on SageMaker as documented in [service setup](../docs/service.md).
+It serves these same UI files and their relative API routes behind the existing
+authenticated Studio proxy. A message and optional manifest ZIP are submitted
+only when Send is pressed. A named prepared benchmark is also supported.
+
+Preflight asks necessary questions and keeps the same attachment, limits and
+charged model requests when replying. A compact summary shows the understood
+request. Refresh/service restart restores persisted records without reissuing a
+model call. New request clears only the browser's current draft reference; it
+does not delete server history. File references and conversation IDs are opaque.
+
+Training is not enabled yet: Start training remains disabled. Packaging and
+M4 GPU job/ledger integration are still pending. No fake progress or scores appear.
+
+Message drafts use gotrain-message-draft-v1; the current conversation, validated
+dataset ID and safe-retry key use gotrain-request-session-v1 in localStorage.
+Selected files are not persisted, but a successfully validated import can be
+reused by the same draft after refresh. Browser storage is optional.
+
+## Disconnected design preview
+
+With Node.js 18 or later, run from the repository root:
 
 ```powershell
 node ui/server.mjs
 ```
 
-Open http://localhost:5173. The neutral design has no sidebar, dataset selector,
-view tabs, game, experiment dashboard or mock model results.
-
-Message drafts persist in browser localStorage under gotrain-message-draft-v1.
-Selecting a dataset displays its filename and allows removal. Files are only
-selected locally, never read or uploaded. After reload a file must be selected
-again. Send requires a nonempty message and reports that the agent is not yet
-connected; it does not claim successful transmission or start a simulated run.
-
-Backend integration will translate task descriptions and constraints into the
-trusted runner's allowed settings. The current autonomous runner supports four
-registered benchmark tasks. New uploaded datasets still need supported format
-validation, trusted task/reference registration and runner integration. The
-existing local manifest preparation API alone does not establish this support.
+Open http://localhost:5173. This static server has no API. The UI explicitly
+reports a disconnected preview and does not transmit messages or files. No install
+is needed for this design-only mode.
 
 Run npm run check from ui/, or node --check on src/app.js and server.mjs.
-Local browser verification covers desktop/mobile layout, empty-message gating,
-draft persistence, dataset selection/removal and the disconnected Send state.
-No training, inference, cloud execution or package installation is performed.
-
-See [M4 handoff](../docs/milestones/m4-workspace.md). User design confirmation
-precedes backend work. Each following step receives a detailed plan and user
-confirmation before implementation.
+Backend verification and current restrictions are recorded in [M4 evidence](../docs/m4-evidence.json).
+All agent and ML execution stays on the provided SageMaker instance.

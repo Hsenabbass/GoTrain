@@ -126,3 +126,24 @@ The preview is local-only and contains no live training results or backend actio
 See [UI instructions](../ui/README.md) and [M4 handoff](milestones/m4-workspace.md).
 Local syntax and desktop/mobile browser review passed 2026-10-31; user design
 confirmation and all backend integration remain pending.
+
+## M4 request-validation service and recovery
+
+The existing authenticated Opera SageMaker session serves the request-validation
+UI at the relative Studio route /jupyterlab/default/proxy/8766/. The service binds
+loopback only. Set the exact browser origin privately as described in
+[service setup](service.md); do not publish the instance hostname/access URL.
+The local Node server remains design-only. No GPU training is admitted yet.
+
+Source 25ce624: 15 SageMaker CPU checks, actual small ZIP upload/template download,
+live Claude clarification/reply and request recovery across refresh/service restart
+passed. [Evidence](m4-evidence.json) owns usage, IDs and verification results.
+
+Independent Windows recovery copy (verified 2026-11-01):
+C:/Users/moham/Documents/ChatGPT/GoTrain-backups/snapshots/20261031T222015830138Z-recovery.tar.gz,
+4,696,894 bytes, 71 files, source 25ce62455755f22faa588b03969e74c73afdd5dc.
+Archive SHA-256 a6e2a3ca53f58477178847e554a8dcbe845d4f936a93c532ab391d4df2236056
+matched sender/receiver and its sidecar. Every member verified. Restored evidence
+JSON SHA-256 c14d3b534f3004b7f414d02e048d2283e5bae43652db11518b14f591a0449968 matched.
+This snapshot covers source and verification evidence, not full service/user-data
+restoration. The existing custodian Mac snapshots remain unchanged.

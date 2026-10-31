@@ -1,0 +1,81 @@
+{
+  "request_validation": {
+    "scope": "4.2_request_validation_slice_not_full_issue_completion",
+    "source_commit": "25ce624",
+    "created_utc": "2026-10-31T22:20:15.718708+00:00",
+    "checks": {
+      "passed": 15,
+      "seconds": 1.705,
+      "environment": "provided SageMaker verified venv CPU",
+      "log_sha256": "372a575c6ac4768e4406c0cce14fa6579bbedd062f7ba56b70b48ce21b261cf9"
+    },
+    "proxy": {
+      "authenticated_existing_opera_session": true,
+      "relative_assets": true,
+      "uploaded_zip_bytes": 1695,
+      "downloaded_template_bytes": 626,
+      "application_upload_cap_bytes": 536870912,
+      "actual_proxy_ceiling_unverified": true
+    },
+    "conversations": [
+      {
+        "id": "conversation_48accfc89c4448eba332d58baade4331",
+        "status": "ready_for_review",
+        "dataset_id": "m-eurosat",
+        "model_requests": 2,
+        "prompt_sha256": "f52899661203d1925a8239525e5b5df80249f6f593391dbb6ab818d3fed5c560",
+        "context_sha256": "52c4b80912f2614a1f798c3eb37415f5ae2579a26e4d30a0cfb8b21e5b64eff6",
+        "goal": "Train a land-cover classifier on EuroSAT with its official 10-class labels, selecting models using the validation split only."
+      },
+      {
+        "id": "conversation_3eab21bc13ba4c44b32b0345c7594473",
+        "status": "ready_for_review",
+        "dataset_id": "dataset_3a34e22364f343c4ba35415c2a7121c8",
+        "model_requests": 4,
+        "prompt_sha256": "a2bf38ae3e4d56fe42cc4d2b6a68630174f2bb750bfadc6149ced377d36d898b",
+        "context_sha256": "b368eb8008e58af71ff4c930ac5926e02d5f59701089ae0582658af53c7e39aa",
+        "goal": "Image-level classification of the attached dataset into red vs blue classes (one class per image, not a building mask), reported by accuracy."
+      },
+      {
+        "id": "conversation_dfbdd2b73b444bd68f95ad6e18a7067d",
+        "status": "ready_for_review",
+        "dataset_id": "dataset_3a34e22364f343c4ba35415c2a7121c8",
+        "model_requests": 4,
+        "prompt_sha256": "a2bf38ae3e4d56fe42cc4d2b6a68630174f2bb750bfadc6149ced377d36d898b",
+        "context_sha256": "507ab34f4b0a236847ed446b5072edcdcc14ef645966dd3f91af50f15f56988e",
+        "goal": "Train a red/blue image classifier (one class per image) on the attached synthetic 32x32 RGB dataset, reporting accuracy."
+      }
+    ],
+    "wire_requests": 10,
+    "returned_tokens": {
+      "inputTokens": 30816,
+      "outputTokens": 3419,
+      "totalTokens": 34235
+    },
+    "usage_receipts_only": true,
+    "clarification_same_id": true,
+    "clarification_same_dataset": true,
+    "clarification_resolved": true,
+    "browser_refresh_and_service_restart_retained_record": true,
+    "historical_ledger_sha256": {
+      "m1": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+      "m2": "ad6fcf2aba67323cd21a4d7d8d6793a0a00d278419ee7565508a812053993ad2",
+      "m3": "76557cb9fba7c825d3b4607e6431cbd8a8204b5b417c5a209447bc2796032f2e"
+    },
+    "historical_ledgers_unchanged": true,
+    "gpu_jobs_launched": 0,
+    "test_payloads_accessed": 0,
+    "train_to_package_verified": false,
+    "initial_response_contract_rejection": "An initial free-form decision was rejected; its two calls remain charged. Explicit typed decision tools then passed conflict and reply checks.",
+    "independent_recovery": {
+      "archive": "C:\\Users\\moham\\Documents\\ChatGPT\\GoTrain-backups\\snapshots\\20261031T222015830138Z-recovery.tar.gz",
+      "archive_sha256": "a6e2a3ca53f58477178847e554a8dcbe845d4f936a93c532ab391d4df2236056",
+      "bytes": 4696894,
+      "verified_files": 71,
+      "restored_evidence_sha256": "c14d3b534f3004b7f414d02e048d2283e5bae43652db11518b14f591a0449968",
+      "receiver_verified": true,
+      "source_commit": "25ce62455755f22faa588b03969e74c73afdd5dc",
+      "verified_date_local": "2026-11-01"
+    }
+  }
+}

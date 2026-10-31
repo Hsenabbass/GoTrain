@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** UI preparation implemented; user design confirmation pending.
+**Status:** UI design accepted; integrated on main. Backend status is owned by [M4 product handoff](m4-product.md).
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Project plan](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -17,7 +17,7 @@ Update GitHub issues and shared documentation after completed work.
 
 | Step / issue | Scope | Completion check |
 | --- | --- | --- |
-| [4.1: Simplify the UI for the agreed workspace scope](https://github.com/Hsenabbass/GoTrain/issues/18) | One message composer, dataset selection and Send; no extra navigation or dashboards | Local syntax/browser checks and reviewable preview. Design acceptance pending. |
+| [4.1: Simplify the UI for the agreed workspace scope](https://github.com/Hsenabbass/GoTrain/issues/18) | One message composer, dataset selection and Send; no extra navigation or dashboards | Local syntax/browser checks and reviewable preview. Design accepted; source integrated on main. |
 
 Next backend step remains unapproved; present its detailed plan after UI review.
 
@@ -53,14 +53,14 @@ No SageMaker/GPU/Bedrock results are claimed for this design change.
 
 ## Handoff
 
-**Last updated:** 2026-10-31.
-**Current state:** message-only local preview on codex/m4-ui-simplification; PR 19.
-**Blockers:** none for design review; backend and custom dataset runner integration
-remain unimplemented.
-**Next action:** user confirms UI, then review a detailed plan for the next step.
-**Synchronization:** source, instructions and GitHub tracking updated together.
+**Last updated:** 2026-11-01.
+**Current state:** message-only UI accepted and integrated on main. Its real service
+can validate requests/imports and ask necessary questions; see [service guide](../service.md).
+**Blockers:** complete GPU-job and package integration remain pending in 4.2.
+**Next action:** follow the authoritative [M4 product handoff](m4-product.md).
+**Synchronization:** UI issue closed after user acceptance; future work is on main.
 
 ## Completion
 
-M4 is not complete. UI implementation awaits user design confirmation. Do not
-start backend steps or final-test evaluation without the agreed next-step gate.
+UI preparation is complete; M4 is not. Each later step still requires the agreed
+plan/confirmation gate. Final-test evaluation remains M5.

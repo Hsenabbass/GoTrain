@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. [M4 is planned](milestones/m4-product.md), with implementation not started; M5 remains unplanned in detail. Test evaluation and the UI remain pending.
+**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. [M4 is in progress](milestones/m4-product.md): the simple composer and request/import preflight are verified; standalone packages and durable GPU jobs remain pending. M5 remains unplanned in detail; test evaluation stays sealed.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -134,9 +134,9 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M4. Make results usable
 
-**Detailed plan:** [M4 product plan](milestones/m4-product.md). Three planned tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal dark conversation workspace. Custom-manifest training integration is required; the UI must use the real engine. Implementation has not started.
+**Detailed plan:** [M4 product plan](milestones/m4-product.md). Three tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal conversation workspace. Custom-manifest training integration is required; the UI must use the real engine. The request/import slice is verified; complete GPU-job/package integration is pending.
 
-**UI preparation:** [M4 workspace handoff](milestones/m4-workspace.md). Simplify and review the existing UI first; each backend step requires a detailed plan and user confirmation before implementation.
+**UI preparation:** [M4 workspace handoff](milestones/m4-workspace.md). The minimal UI was approved and 4.2 authorized. Each subsequent step still requires its detailed plan and user confirmation before implementation.
 
 **Depends on:** M3's stable engine, saved candidates, prediction tools, and artifact records. UI design can begin earlier once M2's interfaces are stable.
 

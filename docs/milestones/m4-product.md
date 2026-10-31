@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** 4.2 request/import foundation in progress; GPU job and package integration not yet implemented. 4.1 and 4.3 remain open.
+**Status:** 4.2 request/import slice verified; the complete 4.2 issue remains open. Package and durable GPU-job integration are not implemented.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -9,7 +9,7 @@
 A teammate can attach supported data, describe an image classification or semantic
 segmentation task, set limits, follow a real autonomous run, try its selected model
 on one compatible image, inspect its history and download a usable model package.
-The experience is a minimal dark conversation workspace, inspired by ChatGPT's
+The experience is a minimal conversation workspace, inspired by ChatGPT's
 layout and restraint. Packaging, custom-data training integration and durable jobs
 are required parts of this milestone, alongside the interface.
 
@@ -24,14 +24,14 @@ multi-user service.
 
 | Moment | First-version behavior |
 | --- | --- |
-| Start | Narrow, collapsible sidebar with New task and saved conversations. Main area contains the composer; no dashboard, marketing copy or grid of feature cards. |
+| Start | One message composer with dataset attachment and Send. No sidebar, dataset grid, dashboard or extra view navigation. Saved request IDs restore the current draft. |
 | Compose | Multiline task instruction, attachment button, compact time-limit control and submit. Attached data appears as a removable filename/dataset chip. Additional limits live in one small options popover. |
 | Validate | Import sheet shows task type, sample/split counts, channels and any blocking problem. Check both dataset completeness and instruction clarity/compatibility. Ask only questions needed to resolve the task; never make the user configure an architecture or learning rate. Invalid imports explain the specific fix before training starts. |
 | Run | One compact progress block in the conversation: Inspecting → Preparing → Comparing → Refining when used → Verifying → Ready. Show current operation, elapsed time and remaining allowance, with restrained motion. Expand for trials and short evidence-based decisions. Skipped stages are marked honestly; no fabricated percentage or ETA. |
 | Use | Completion shows selected model/version, validation metric and three actions: Try model, History, Download. Try model opens an inline single-image tool; no navigation required for the common action. |
 | Inspect | History opens a focused detail view with Versions and Experiments. Show parents, hypotheses, settings changed, scores, resource use, failures and keep/reject reasons. Compare only runs with compatible data/metric contracts; label screening and provisional results. Raw records are secondary. |
 
-Use quiet charcoal surfaces, readable neutral text, a system font, fine separators,
+Preserve the approved neutral visual style, readable text, a system font, fine separators,
 consistent spacing and simple icons. One accent is sufficient; status color has
 meaning. Avoid ornamental gradients, floating shapes, repeated rounded cards,
 gratuitous badges and generic assistant filler. Make keyboard focus, contrast,
@@ -232,19 +232,28 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | --- | --- | --- | --- |
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
 | Standalone model use / 4.1 | Fresh-process package prediction/parity for four retained models on SageMaker, offline and outside checkout | Unverified | Record during implementation |
-| Imports, clarification, budgets, jobs / 4.2 | Focused task-recognition/clarification and guard checks, plus one bounded custom-data run per task type on SageMaker; restart/reconnect/stop checks | Unverified | Record during implementation |
+| Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
+| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Not implemented; package contract prerequisite open | Keep 4.2 open |
 | Usable workspace / 4.3 | Real browser walkthrough, downloaded-package prediction and independent backup verification | Unverified | Record during implementation |
 
 ## Handoff
 
-**Last updated:** 2026-10-31.
-**Current state:** M1–M3 complete. M4 is planned here; no M4 code, dependencies,
-runtime checks or experiments have started. Budgets and stack above are proposals.
-**Blockers:** none for reviewing the plan; implementation access/terms checks above
-remain open.
-**Next action:** implement and verify the authorized 4.2 request/import foundation; do not claim complete train-to-package acceptance without the 4.1 contract.
-**Pending synchronization:** none; planning documents and linked 4.1–4.3 issues
-are published together. All implementation and runtime verification remain pending.
+**Last updated:** 2026-11-01 (Asia/Beirut).
+**Current state:** the user-approved minimal message UI is connected to the request
+service on SageMaker. Source 25ce624 passed 15 CPU checks in 1.705 s, including
+real image-adapter checks. Live Claude preflight, conflicting labels, meaningful
+reply, real ZIP upload/template download, refresh and an idle service restart
+passed. Exact records and independent recovery receipt: [M4 evidence](../m4-evidence.json).
+**Blockers:** the 4.1 package/prediction contract is still absent. Durable M4 GPU
+admission/ledger, custom-task runner integration, stop and train-to-package checks
+remain unimplemented. This request-validation slice does not complete 4.2.
+**Next action:** obtain the 4.1 shared contract, then implement and verify the
+remaining durable-job/runner work without changing M1–M3 ledgers or test isolation.
+**Synchronization:** implementation and sanitized evidence are pushed directly to
+main. The running SageMaker source is the verified 25ce624; later documentation
+commits do not change the running implementation. GitHub credential expiry was
+worked around by checksum-verified Git bundles through the existing Opera session,
+not by creating credentials. No cloud packages were installed or upgraded.
 
 ## Completion
 
@@ -254,13 +263,21 @@ above. Final one-time benchmark test evaluation and submission remain in M5.
 
 ## 4.2 implementation update
 
-User authorized 4.2 in this chat and direct work on main. The initial bounded
-request-validation slice adds manifest ZIP guards, real adapter validation,
-persistent drafts/clarification, charged Strands preflight and a same-origin
-FastAPI service. Training remains explicitly disabled pending standalone package
-and M4 runner/ledger integration. Full issue acceptance is unchanged.
+User authorized 4.2 and direct work on main. The latest UI instruction supersedes
+the earlier sidebar/dataset-card proposal: retain a single composer and attachment,
+with inline necessary questions and a compact review summary. No new dashboard.
 
-The existing Opera SageMaker session was reused; the loopback-only authenticated
-Studio proxy probe returned its marker. Existing FastAPI 0.142.4 and Uvicorn 0.54.0
-were observed in the verified venv; no cloud package upgrade was performed.
-Local non-ML checks passed; remaining live verification is being recorded.
+The request slice adds bounded manifest ZIP imports, full CPU image validation,
+persistent drafts/idempotency, typed Strands preflight, before-call charging and
+same-origin FastAPI access. Prompt/context hashes and returned usage are recorded.
+Actual browser origin must be set privately in GOTRAIN_ORIGIN because this proxy
+rewrites the backend origin. Small upload/download worked; the actual proxy upload
+ceiling remains unverified. Training admission stays disabled in software.
+
+Live checks used 10 wire requests (30,816 input and 3,419 output tokens in returned
+receipts). An initial unstructured decision was rejected; its two requests remain
+charged. Explicit typed fields then passed conflict and reply checks. Historical
+ledgers are unchanged; no GPU job, test access or train-to-package result occurred.
+A 71-file snapshot at source 25ce624 was independently transferred, archive/member
+checksums verified and the evidence JSON restored with a matching hash. It covers
+source and verification evidence, not a full live-service/user-dataset restore.

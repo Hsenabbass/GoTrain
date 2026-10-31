@@ -79,7 +79,8 @@ Example manifest:
 Segmentation uses `kind: segmentation`, `primary_metric: macro_iou` and a `mask`
 path instead of `label` per row. Class names are explicit in integer-ID order.
 The reviewed pretrained catalog requires verified RGB positions. Initial dimensions
-are bounded to 4096 per axis, channels to 64, classes to 256; these are import
+are bounded to 4096 per axis, channels to 64, classes to 256 and decoded float32
+samples to 128 MiB. Headers are checked before image allocation. These are import
 ceilings, not a promise that a GPU training recipe can fit them.
 
 `api/examples/classification.zip` and `api/examples/segmentation.zip` download
@@ -139,3 +140,26 @@ shape mismatches. These checks do not establish train-to-package acceptance.
 Record live proxy, upload/download, model-preflight and recovery evidence in the
 M4 handoff before claiming them verified. Apply the existing independent backup
 procedure to valuable retained evidence; staging on SageMaker is not a backup.
+
+## Verified request slice, 2026-11-01
+
+At source 25ce624, 15 SageMaker CPU checks passed in 1.705 seconds. The existing
+Opera session loaded the relative UI/assets through the authenticated proxy; a
+1,695-byte synthetic classification ZIP uploaded/validated and a 626-byte format
+template downloaded. This establishes small transfers, not the proxy's maximum.
+The proxy rewrites the backend origin: set GOTRAIN_ORIGIN privately to the exact
+address-bar origin (scheme + host, no path/token). No wildcard or origin bypass.
+
+A real EuroSAT request produced a 20-minute runtime/15-minute GPU proposal in two
+model calls. Conflicting building-segmentation intent on red/blue classification
+labels produced specific clarification; a meaningful reply resolved the same
+dataset/conversation with four total calls. Refresh and an idle service restart
+retained the records/counters. The initial free-form decision rejection remains
+accounted; the final tool uses explicit typed fields. All 10 verification wire
+requests and returned token receipts are in the [sanitized evidence](m4-evidence.json).
+
+No GPU job, inference package or test access occurred. Full 4.2 is still open.
+Source/evidence have a verified independent 71-file recovery snapshot; this is not
+a claim of full live-service state or uploaded-dataset recovery. SageMaker's Git
+credential expired; source reached it through checksum-verified Git bundles in the
+existing JupyterLab session. No new credentials or cloud packages were created.
