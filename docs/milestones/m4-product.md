@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** planned; implementation not started. Tasks 4.1–4.3 are open on GitHub.
+**Status:** 4.2 request/import foundation in progress; GPU job and package integration not yet implemented. 4.1 and 4.3 remain open.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -242,8 +242,7 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 runtime checks or experiments have started. Budgets and stack above are proposals.
 **Blockers:** none for reviewing the plan; implementation access/terms checks above
 remain open.
-**Next action:** await authorization to start 4.1, then 4.2 with its early proxy
-check. The user explicitly requested planning/GitHub synchronization only.
+**Next action:** implement and verify the authorized 4.2 request/import foundation; do not claim complete train-to-package acceptance without the 4.1 contract.
 **Pending synchronization:** none; planning documents and linked 4.1–4.3 issues
 are published together. All implementation and runtime verification remain pending.
 
@@ -252,3 +251,16 @@ are published together. All implementation and runtime verification remain pendi
 Pending. M4 completes when the teammate workflow, four standalone packages,
 custom-data paths, durable limits/progress and independent backups pass the checks
 above. Final one-time benchmark test evaluation and submission remain in M5.
+
+## 4.2 implementation update
+
+User authorized 4.2 in this chat and direct work on main. The initial bounded
+request-validation slice adds manifest ZIP guards, real adapter validation,
+persistent drafts/clarification, charged Strands preflight and a same-origin
+FastAPI service. Training remains explicitly disabled pending standalone package
+and M4 runner/ledger integration. Full issue acceptance is unchanged.
+
+The existing Opera SageMaker session was reused; the loopback-only authenticated
+Studio proxy probe returned its marker. Existing FastAPI 0.142.4 and Uvicorn 0.54.0
+were observed in the verified venv; no cloud package upgrade was performed.
+Local non-ML checks passed; remaining live verification is being recorded.

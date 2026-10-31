@@ -40,13 +40,13 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
-A simplified [local UI preview](ui/README.md) provides a single message composer for goals and constraints, dataset selection, and a Send button. The agent is not yet connected; files stay local. [M4 UI preparation](docs/milestones/m4-workspace.md) awaits user design confirmation; backend implementation has not started.
+A simplified [local UI preview](ui/README.md) provides a single message composer for goals and constraints, dataset selection, and a Send button. A request-validation service is being connected; training remains disabled. [M4 UI preparation](docs/milestones/m4-workspace.md) records the approved minimal UI; 4.2 backend request/import work is in progress.
 
 **M1 is complete (tasks 1.1–1.7).** All four [reference recipes/results](docs/references.md) passed complete validation and fresh-process checkpoint revalidation, with verified independent model backups. See the [M1 evidence and handoff](docs/milestones/m1-foundation.md).
 
-**[M2 is complete (2.1–2.2)](docs/milestones/m2-engine.md).** Claude completed one bounded EuroSAT cycle, rejected a lower-scoring change and retained the 87.00% reference checkpoint. Reload/prediction and independent backups are verified; [test payloads remain sealed](docs/data.md). [M3 is complete (3.1–3.3)](docs/milestones/m3-improvement.md): all four bounded searches retained better validation models, with checkpoint reload/prediction and independent backups verified. Gains remain single-seed/provisional; test payloads remain sealed. The UI remains unimplemented.
+**[M2 is complete (2.1–2.2)](docs/milestones/m2-engine.md).** Claude completed one bounded EuroSAT cycle, rejected a lower-scoring change and retained the 87.00% reference checkpoint. Reload/prediction and independent backups are verified; [test payloads remain sealed](docs/data.md). [M3 is complete (3.1–3.3)](docs/milestones/m3-improvement.md): all four bounded searches retained better validation models, with checkpoint reload/prediction and independent backups verified. Gains remain single-seed/provisional; test payloads remain sealed. The minimal message UI is implemented.
 
-[M4 is planned](docs/milestones/m4-product.md): standalone model packages, supported data imports and durable bounded jobs, and a minimal dark conversation workspace with direct prediction, history and downloads. Implementation has not started.
+[M4 is planned](docs/milestones/m4-product.md): standalone model packages, supported data imports and durable bounded jobs, and a minimal dark conversation workspace with direct prediction, history and downloads. Request/import implementation is in progress; standalone packages and durable GPU jobs remain pending.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 

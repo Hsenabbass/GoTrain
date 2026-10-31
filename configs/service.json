@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "upload_bytes": 536870912,
+  "expanded_bytes": 2147483648,
+  "file_count": 25000,
+  "manifest_bytes": 2097152,
+  "import_seconds": 120,
+  "disk_reserve_bytes": 16106127360,
+  "max_preflight_requests": 4,
+  "message_chars": 4000,
+  "max_messages": 8,
+  "limits": {
+    "runtime_seconds": {"default": 1200, "maximum": 2400},
+    "gpu_seconds": {"default": 900, "maximum": 1500},
+    "attempts": {"default": 5, "maximum": 5},
+    "model_requests": {"default": 24, "maximum": 24}
+  },
+  "minimum_runtime_seconds": 780,
+  "minimum_gpu_seconds": 660,
+  "minimum_model_requests": 6,
+  "training_enabled": false
+}
