@@ -1,6 +1,6 @@
 # M3: Find better models efficiently
 
-**Status:** planned; nothing below is implemented or verified yet.
+**Status:** in progress; 3.1 complete, 3.2–3.3 not started. Pipeline/search items below remain planned unless evidenced.
 **GitHub:** [M3](https://github.com/Hsenabbass/GoTrain/milestone/3)
 **Direction:** [Agreed M3 outcome](../PROJECT_PLAN.md#m3-demonstrate-reliable-improvement)
 
@@ -306,20 +306,37 @@ prompt-evaluation service or ask for hidden chain-of-thought.
 
 | Outcome | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
-| Task preparation/model admission (3.1) | Focused fixtures and model shape/preprocessing checks on SageMaker | Not run | Add implementation evidence here |
+| Task preparation/model admission (3.1) | 6 new task/model checks + 19 existing checks on SageMaker CPU, using all four real ImageNet backbones | Pass 2026-10-31; 25 tests in 2.264 s; no GPU/Bedrock/test access | Source `1cab13a`; [M3 evidence](../m3-evidence.json); `artifacts/runs/m3-task-checks/`; [independent snapshot](../RESOURCES.md#recovery-verification) |
 | Search and recovery guards (3.2) | Budget/selection/stop/restart checks on SageMaker | Not run | Add results here |
 | Four task comparisons (3.3) | Full validation, seed records, checkpoint reload and independent backup | Not run | One M3 evidence record and resource receipts when available |
+
+### 3.1 revision and limits
+
+Preserved frozen benchmark configs and the legacy random model path. The common
+benchmark adapter now returns corrected metadata without mutating those configs.
+Verified PNG/JPEG classification and four-band GeoTIFF segmentation fixtures,
+path/split/label/geographic guards, exact RGB weight copying, extra-band scaling,
+new heads, frozen-backbone behavior and rejected weight receipts. Extra channels
+must be fine-tuned; JPEG masks are rejected. All four official ImageNet weights
+were hash-checked and loaded on CPU; cached bytes are reconstructible from the
+pinned receipts and excluded from the evidence snapshot. No package installs.
+
+The manifest requires fixed-size, already aligned examples and no ignored labels;
+large rasters must be pre-windowed. Automatic tiling/reprojection and search are
+not implemented. The ImageNet checkpoints' unknown held-out overlap remains
+recorded, and redistribution terms require M4 review. Passing compatibility tests
+does not establish GPU speed or improvement.
 
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** research and adversarial plan review complete; three issues remain planned/open. M1/M2 remain complete; M3 adapter, model catalog, tuning and new limits are not implemented. Sources are not proof of SageMaker compatibility.
+**Current state:** 3.1 complete. Shared benchmark/manifest adapters, explicit band/preprocessing policies and four locally reviewed pretrained choices pass CPU checks. M1/M2 contracts remain unchanged. Independent source/evidence recovery verified. Task-driven agent wiring, GPU probes, enforced M3 search budgets and tuning are 3.2 work; no new training results are claimed.
 **Blockers:** none for planning. Dataset metadata gaps, exact weight licenses/preprocessing, candidate throughput and usable remaining budget are admission checks during implementation, not assumed facts.
-**Next action:** implement 3.1 when authorized. Keep shared code/docs; add only what the first working pipeline needs.
-**Synchronization:** plan and three linked issues published together; local/GitHub source aligned at the planning commit. SageMaker has not been updated by this planning task. No execution or installs performed.
+**Next action:** implement 3.2 when authorized, using the [adapter contract](../data.md#reusable-image-tasks-31) and [model API/cache receipts](../training.md#reusable-model-choices-31). Carry forward 181,806,878 weight-download bytes; do not redownload or reset prior ledgers. The M2 controller remains unchanged until that integration.
+**Synchronization:** 3.1 source/evidence/docs published to local/GitHub main. SageMaker CPU tested source `1cab13a`; fast-forward to the completion commit before 3.2.
 
 ## Completion
 
-Pending the three checks above. Improvement is measured, never guaranteed. If no
+3.1 passed; 3.2–3.3 remain pending. Improvement is measured, never guaranteed. If no
 candidate wins, retain the reference and explain why; do not declare improvement.
 Hand verified task pipelines and preprocessing to M4; keep final test access in M5.

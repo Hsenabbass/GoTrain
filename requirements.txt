@@ -12,3 +12,4 @@ cligj==0.7.2
 click-plugins==1.1.1.2
 strands-agents==0.3.0
 boto3==1.43.106
+Pillow==11.3.0

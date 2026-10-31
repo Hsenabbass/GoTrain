@@ -1,0 +1,128 @@
+{
+  "preparation": {
+    "task": "3.1",
+    "passed": true,
+    "source_commit": "1cab13a27889e1ace2672ef3501f8c4f1f003884",
+    "device": "cpu",
+    "gpu_training_seconds": 0,
+    "test_payloads_opened": 0,
+    "download_bytes": 181806878,
+    "weights": {
+      "resnet18_imagenet": {
+        "id": "resnet18_imagenet",
+        "kind": "classification",
+        "weight_id": "ResNet18_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "resnet18-f37072fd.pth",
+        "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+        "bytes": 46830571,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "mobilenet_small_imagenet": {
+        "id": "mobilenet_small_imagenet",
+        "kind": "classification",
+        "weight_id": "MobileNet_V3_Small_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "mobilenet_v3_small-047dcff4.pth",
+        "sha256": "047dcff4addef86ea5bc2eff13c9614dc11f47ab1160d0a71a25e7db994f4e1f",
+        "bytes": 10306551,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "fcn_imagenet": {
+        "id": "fcn_imagenet",
+        "kind": "segmentation",
+        "weight_id": "ResNet50_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/resnet50-0676ba61.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "resnet50-0676ba61.pth",
+        "sha256": "0676ba61b6795bbe1773cffd859882e5e297624d384b6993f7c9e683e722fb8a",
+        "bytes": 102530333,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      },
+      "deeplab_mobile_imagenet": {
+        "id": "deeplab_mobile_imagenet",
+        "kind": "segmentation",
+        "weight_id": "MobileNet_V3_Large_Weights.IMAGENET1K_V1",
+        "url": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",
+        "pretraining": "ImageNet-1K",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "geometry": "native_grid_no_crop",
+        "adaptation": "copy_verified_RGB_random_extra_channels",
+        "terms": "https://docs.pytorch.org/vision/0.24/models.html#general-information-on-pre-trained-weights",
+        "filename": "mobilenet_v3_large-8738ca79.pth",
+        "sha256": "8738ca797c879b547d18bbd15da5736ff2557b2036a9af72225393ca61759a04",
+        "bytes": 22139423,
+        "terms_reviewed": true,
+        "terms_note": "Official ImageNet pretrained backbone, hackathon research use; downstream redistribution terms must be reviewed in M4.",
+        "target_finetuned": false,
+        "heldout_overlap": "unknown_recorded"
+      }
+    },
+    "checks": "test_best_selection_and_integrity (test_agent.AgentChecks.test_best_selection_and_integrity) ... ok\ntest_call_and_wall_bounds (test_agent.AgentChecks.test_call_and_wall_bounds) ... ok\ntest_failed_and_partial_never_selected (test_agent.AgentChecks.test_failed_and_partial_never_selected) ... ok\ntest_field_and_id_rejection (test_agent.AgentChecks.test_field_and_id_rejection) ... ok\ntest_retry_and_recipe_caps (test_agent.AgentChecks.test_retry_and_recipe_caps) ... ok\ntest_separate_budget_and_shared_lock (test_agent.AgentChecks.test_separate_budget_and_shared_lock) ... ok\ntest_strands_schema (test_agent.AgentChecks.test_strands_schema) ... ok\ntest_failed_atomic_checkpoint_keeps_previous_file (test_foundation.FoundationChecks.test_failed_atomic_checkpoint_keeps_previous_file) ... ok\ntest_fit_uses_train_only_and_known_channel_moments (test_foundation.FoundationChecks.test_fit_uses_train_only_and_known_channel_moments) ... ok\ntest_fixed_scaling_and_target_validation (test_foundation.FoundationChecks.test_fixed_scaling_and_target_validation) ... ok\ntest_global_metrics_absent_classes_and_batch_invariance (test_foundation.FoundationChecks.test_global_metrics_absent_classes_and_batch_invariance) ... ok\ntest_ignored_target_diagnostic_still_penalizes_prediction_zero (test_foundation.FoundationChecks.test_ignored_target_diagnostic_still_penalizes_prediction_zero) ... ok\ntest_joint_spatial_transform_keeps_mask_alignment (test_foundation.FoundationChecks.test_joint_spatial_transform_keeps_mask_alignment) ... ok\ntest_lock_reservation_refund_shared_cap_and_retry_cap (test_foundation.FoundationChecks.test_lock_reservation_refund_shared_cap_and_retry_cap) ... ok\ntest_other_checkout_cannot_create_an_independent_gpu_budget (test_foundation.FoundationChecks.test_other_checkout_cannot_create_an_independent_gpu_budget) ... ok\ntest_recipe_caps_and_smoke_only_subsets (test_foundation.FoundationChecks.test_recipe_caps_and_smoke_only_subsets) ... ok\ntest_test_split_rejected_before_metadata_import_or_io (test_foundation.FoundationChecks.test_test_split_rejected_before_metadata_import_or_io) ... ok\ntest_wall_disk_storage_and_memory_guards (test_foundation.FoundationChecks.test_wall_disk_storage_and_memory_guards) ... ok\ntest_watchdog_terminates_real_child (test_foundation.FoundationChecks.test_watchdog_terminates_real_child) ... ok\ntest_candidate_admission (test_tasks.TaskChecks.test_candidate_admission) ... ok\ntest_frozen_benchmark_contracts (test_tasks.TaskChecks.test_frozen_benchmark_contracts) ... ok\ntest_manifest_classification_and_split_paths (test_tasks.TaskChecks.test_manifest_classification_and_split_paths) ... ok\ntest_multiband_segmentation_alignment_and_labels (test_tasks.TaskChecks.test_multiband_segmentation_alignment_and_labels) ... ok\ntest_pretrained_normalization (test_tasks.TaskChecks.test_pretrained_normalization) ... ok\ntest_real_reviewed_backbones (test_tasks.TaskChecks.test_real_reviewed_backbones) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 2.264s\n\nOK\n",
+    "versions": {
+      "torch": "2.8.0",
+      "torchvision": "0.24.0",
+      "Pillow": "11.3.0",
+      "rasterio": "1.4.3"
+    }
+  }
+}
