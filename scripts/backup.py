@@ -80,7 +80,7 @@ def create(root, includes):
     for name in sorted(names):
         relative = safe_name(name)
         path = root / relative
-        if any(part.startswith('.') or part in ('credentials', 'github-credentials') for part in relative.parts) and name != '.gitignore':
+        if any(part.startswith('.') or part in ('credentials', 'github-credentials') for part in relative.parts) and name not in ('.gitignore', '.gitattributes'):
             raise ValueError('Private/hidden path requires exclusion: ' + name)
         if path.is_symlink() or not path.resolve().is_relative_to(root) or not path.is_file():
             raise ValueError('Backup source must be a regular file inside the repository')

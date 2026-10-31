@@ -57,7 +57,7 @@ timeout 900 python scripts/backup.py create \
 python scripts/backup.py verify artifacts/backups/<UTC>-recovery.tar.gz
 ```
 
-The utility refuses dirty tracked source, private/hidden paths except `.gitignore`,
+The utility refuses dirty tracked source, private/hidden paths except `.gitignore`/`.gitattributes`,
 symlinks and paths outside the repo. It screens text for common credentials/access
 URLs; this is a guard, not a substitute for reviewing logs and notebook outputs.
 It reserves 5 GiB of free disk, records the Git commit and every file's size/SHA-256,
