@@ -8,7 +8,6 @@ import random
 import subprocess
 import sys
 import time
-import urllib.request
 from .agent import Controller
 from .data import task_spec
 from .models import CANDIDATES, candidate_info
@@ -47,7 +46,8 @@ class SearchController(Controller):
         refs = evidence['classification']['results'] + evidence['segmentation']['results']
         reference = next(r['record'] for r in refs if r['record']['recipe']['task']==task)
         hashes = {'caps':digest(ROOT/'configs/m3.json'),'contract':digest(ROOT/'configs/tasks.json'),
-                  'prompt':hashlib.sha256(PROMPT.encode()).hexdigest()}
+                  'prompt':hashlib.sha256(PROMPT.encode()).hexdigest(),
+                  'context':hashlib.sha256(json.dumps({'task':self.spec,'reference':reference['run_id']},sort_keys=True).encode()).hexdigest()}
         if resume:
             self.state = read(self.folder/'session.json')
             if self.state['task']!=task or self.state['hashes']!=hashes:
@@ -93,7 +93,8 @@ class SearchController(Controller):
         self.save()
         return {'task':self.spec,'candidates':[candidate_info(c,self.spec) for c,v in CANDIDATES.items() if v[0]==self.spec['kind']],
                 'reference':self.read_result(self.state['reference']),
-                'diagnostics':{'majority_fraction':majority,'foreground_fraction':foreground},
+                'diagnostics':{'majority_fraction':majority,'foreground_fraction':foreground,
+                               'all_background_macro_iou':(1-foreground)/len({0}|{int(k) for k,n in counts.items() if int(n)>0}) if self.spec['kind']=='segmentation' else None},
                 'context':self.context()}
 
     def shortlist(self, candidates: list[str], reason: str):
@@ -285,9 +286,10 @@ class SearchController(Controller):
         self.state['lookup_done']=True;self.save()
         tag='image-classification' if self.spec['kind']=='classification' else 'image-segmentation'
         url='https://huggingface.co/api/models?pipeline_tag='+tag+'&filter=torchvision&limit=5'
-        with urllib.request.urlopen(url,timeout=10) as response:
-            data=response.read(65537)
-        if len(data)>65536:raise ValueError('Metadata response too large')
+        response=subprocess.run(['curl','--fail','--max-time','10','--max-filesize','65536',url],
+                                capture_output=True,timeout=12)
+        data=response.stdout
+        if response.returncode or len(data)>65536:raise ValueError('Metadata request failed or response too large')
         proposals=[{'id':str(r['id'])[:200],'status':'unreviewed_proposal'} for r in json.loads(data)[:5]]
         self.state['decisions'].append({'lookup_reason':reason[:1000],'proposals':proposals});self.save()
         return {'proposals':proposals,'policy':'No remote code or unregistered weights. Existing trusted catalog only until operator review.'}
