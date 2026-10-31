@@ -181,6 +181,8 @@ class SearchController(Controller):
 
     def run_trial(self, candidate: str, phase: str, settings: dict, parent_run: str, hypothesis: str, retry_of: str = ''):
         """Probe/screen/tune/finalize a candidate; full scores only can promote a final."""
+        if self.state.get('fatal'):
+            raise RuntimeError('Fatal session requires operator diagnosis before further GPU work')
         if self.state.get('pending'):
             raise RuntimeError('Pending request requires audit before any new GPU work')
         self.record(parent_run)

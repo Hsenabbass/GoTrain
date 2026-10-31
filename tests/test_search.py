@@ -166,6 +166,19 @@ class SearchChecks(unittest.TestCase):
         with self.assertRaises(RuntimeError):self.trial('probe')
         self.assertEqual(self.c.state['best'],best)
         with self.assertRaises(RuntimeError):search.SearchController(self.root/'session','m-eurosat',resume=True)
+        with patch.object(self.c,'execute',side_effect=AssertionError('must not launch after fatal error')):
+            with self.assertRaises(RuntimeError):self.trial('screen')
+
+    def test_reuse_full_training_statistics_only_for_matching_contract(self):
+        from gotrain import training
+        with patch.object(training,'ROOT',self.root):
+            n,rid=training.reference_normalization('m-brick-kiln',self.c.contracts,training.read(self.root/'docs/data-inspection.json'))
+            self.assertEqual(n['samples'],15063)
+            evidence=training.read(self.root/'docs/m1-evidence.json')
+            evidence['classification']['results'][1]['record']['partition_sha256']='changed'
+            write_json(self.root/'docs/m1-evidence.json',evidence)
+            with self.assertRaises(ValueError):
+                training.reference_normalization('m-brick-kiln',self.c.contracts,training.read(self.root/'docs/data-inspection.json'))
 
     def test_deterministic_sampler_and_download_budget(self):
         self.start();self.trial('probe');self.trial('screen')

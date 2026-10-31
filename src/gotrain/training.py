@@ -28,6 +28,24 @@ def digest(path):
     return h.hexdigest()
 
 
+def reference_normalization(task, contracts, inspection):
+    """Reuse verified full-training statistics only for the identical data contract."""
+    evidence = read(ROOT / 'docs/m1-evidence.json')
+    reference = next(e['record'] for e in evidence['classification']['results'] + evidence['segmentation']['results']
+                     if e['record']['recipe']['task'] == task)
+    data = next(t for t in inspection['tasks'] if t['name'] == task)
+    normalization = reference['normalization']
+    if (reference['task_contract_sha256'] != digest(ROOT / 'configs/tasks.json')
+            or reference['data_revision'] != contracts['dataset_revision']
+            or reference['partition_sha256'] != data['partition_sha256']
+            or reference['recipe'].get('train_limit') is not None
+            or reference['recipe']['normalization'] != 'train_standardize'
+            or normalization.get('fitted_on') != 'train'
+            or normalization.get('samples') != data['split_counts']['train']):
+        raise ValueError('Reference normalization does not match the full training contract')
+    return normalization, reference['run_id']
+
+
 def environment():
     import importlib.metadata as md
     return {p: md.version(p) for p in ('torch', 'torchvision', 'numpy', 'geobench', 'h5py')}
@@ -155,7 +173,14 @@ def worker(run, data_root, verify=False):
     record.update(status='running', environment=environment(), gpu=torch.cuda.get_device_name())
     write_json(run / 'record.json', record)
     train = DevelopmentData(data_root, recipe['task'], 'train', contracts, inspection, recipe.get('train_limit'), recipe.get('augment', False))
-    normalization = fit_normalization(train, lambda: guard.check(torch_module=torch)) if recipe.get('normalization') in ('train_standardize','pretrained') else None
+    normalization = None
+    if recipe.get('normalization') in ('train_standardize','pretrained'):
+        if recipe['normalization'] == 'pretrained' and spec['channels'] == 3:
+            record['normalization_source'] = 'reviewed_pretrained_rgb_statistics'
+        elif allocation == 'm3' and not recipe.get('train_limit'):
+            normalization, record['normalization_source_run'] = reference_normalization(recipe['task'], contracts, inspection)
+        else:
+            normalization = fit_normalization(train, lambda: guard.check(torch_module=torch))
     if recipe.get('normalization') == 'pretrained':
         normalization = candidate_normalization(recipe['model'], spec, normalization)
     train.normalization = valid.normalization = normalization
