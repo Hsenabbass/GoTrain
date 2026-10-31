@@ -213,6 +213,8 @@ def main():
     with (directory / 'controller.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         folder = directory / (args.task or datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
+        if args.task and folder.exists() and not args.resume:
+            raise RuntimeError('Task session exists; use --resume after reviewing its state')
         command = [sys.executable, str(ROOT/'scripts/agent.py'), '--worker',str(folder)]
         seconds = read(ROOT/('configs/m3.json' if args.task else 'configs/m2.json'))['agent']['max_wall_seconds']
         if args.task:command += ['--task',args.task]
