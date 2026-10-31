@@ -14,7 +14,7 @@ model/region requirements, and research references. See the
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
 | Persistent data and artifacts | SageMaker `/home/sagemaker-user`; check artifacts in `gotrain-access-check/`. | Data inspection logs/previews at `/home/sagemaker-user/GoTrain/artifacts/data-inspection/`. Capacity/writes and browser-reload continuity verified 2026-10-31; restart/expiry persistence and S3 permissions unverified. See [setup evidence](setup.md). |
 
-| Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Recovery snapshot transferred and verified 2026-10-31; dataset cache transfer in progress. See the verification record below. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
+| Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Recovery snapshot and all four original dataset ZIPs independently stored and verified 2026-10-31. See the verification record below. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
 
 ## Recovery verification
 
@@ -29,8 +29,12 @@ model/region requirements, and research references. See the
 - **Local index:** `snapshots/index.json` records the snapshot checksum and source
   revision; its `.sha256` sidecar travels with the archive. SageMaker retains its
   staging copy under `artifacts/backups/`.
-- **Dataset cache:** transfer in progress; completion requires all four original
-  archive checksums and `datasets/manifest.json`. Never count `.partial` files.
+- **Dataset cache:** all four original ZIPs verified 2026-10-31: 3,409,938,495 bytes,
+  pinned revision `1e5754337032f097396db62cc15a5ff88f4618e8`. Every complete-file
+  SHA-256 matched the [versioned inspection record](data-inspection.json).
+  `datasets/manifest.json` records paths, sizes and checksums; external `index.json`
+  records its checksum and verification time. No partial files remain. ZIPs were
+  copied as opaque bytes; no local sample inspection, extraction or training ran.
 - **Coverage:** current inspection evidence has an independent local recovery copy.
   No model checkpoints exist yet. The source snapshot predates the later resumable
   cache enhancement; current source remains versioned in GitHub/local Git.

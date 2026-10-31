@@ -180,8 +180,9 @@ dependencies. Quotas and judging/presentation details remain pending.
 **Next action:** task 1.3: finalize metrics, Chesapeake no-data/class inclusion and
 explicit conservative budgets before reference runs. Use corrected multispectral
 channel orders and observed scales; do not fit preprocessing on validation.
-**Pending synchronization:** backup workflow publication and dataset cache completion
-are tracked in the resource record. Task 1.2 remains complete; task 1.3 has not started.
+**Pending synchronization:** none after this verification change is published.
+Independent snapshot and four-archive cache are verified in the resource record.
+Task 1.2 remains complete; task 1.3 has not started.
 
 ## Completion
 
