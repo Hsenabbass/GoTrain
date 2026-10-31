@@ -99,6 +99,24 @@ class SearchChecks(unittest.TestCase):
         self.assertEqual(again.state['runs'],['finished']);self.assertEqual(again.state['tool_calls'],2)
         self.assertEqual(again.inspect_task()['prior_trials'][0]['run_id'],'finished')
 
+    def test_request_ids_distinguish_same_named_sessions(self):
+        self.start();self.trial('probe')
+        first=self.c.state['trials'][0]['request_id']
+        other=search.SearchController(self.root/'other'/'session','m-eurosat')
+        other.inspect_task();other.shortlist(['resnet18_imagenet'],'same task, separate verification folder')
+        other.cache_weights=lambda c:None
+        def execute(args):
+            recipe=json.loads(Path(args[2]).read_text())
+            self.write_record('other-probe',recipe,.9)
+            return {'passed':True,'error':''}
+        other.execute=execute
+        other.run_trial('resnet18_imagenet','probe',{},other.state['reference'],'verify distinct journal')
+        self.assertNotEqual(first,other.state['trials'][0]['request_id'])
+        other.state['pending']={'request_id':'unsettled'}
+        with patch.object(other,'execute',side_effect=AssertionError('must not duplicate')):
+            with self.assertRaises(RuntimeError):
+                other.run_trial('resnet18_imagenet','screen',{},other.state['reference'],'blocked pending request')
+
     def test_stale_reservation_blocks_recovery(self):
         write_json(self.root/'artifacts/m3-budget.json',{'charged_seconds':30,'categories':{'shared':30},'active':{'run_id':'lost'},'runs':[]})
         with self.assertRaises(RuntimeError):search.SearchController(self.root/'session','m-eurosat',resume=True)

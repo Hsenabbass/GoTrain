@@ -181,6 +181,8 @@ class SearchController(Controller):
 
     def run_trial(self, candidate: str, phase: str, settings: dict, parent_run: str, hypothesis: str, retry_of: str = ''):
         """Probe/screen/tune/finalize a candidate; full scores only can promote a final."""
+        if self.state.get('pending'):
+            raise RuntimeError('Pending request requires audit before any new GPU work')
         self.record(parent_run)
         if not hypothesis or len(hypothesis)>2000 or self.state['stage'] in ('inspect','shortlist','done'):
             raise ValueError('Inspection, shortlist and a short evidence-based hypothesis required')
@@ -231,7 +233,7 @@ class SearchController(Controller):
             self.cache_weights(candidate)
         if time.monotonic()-self.started+recipe['wall_seconds']+65>=2400:
             raise RuntimeError('Invocation reserve reached after weight retrieval')
-        request_id=self.folder.name+'-'+str(len(trials))
+        request_id=hashlib.sha256(str(self.folder.resolve()).encode()).hexdigest()[:16]+'-'+str(len(trials))
         recipe['description']=request_id
         path=self.folder/(request_id+'.json');write_json(path,recipe)
         self.state['pending']={'request_id':request_id,'candidate':candidate,'phase':phase,'parent':parent_run,'hypothesis':hypothesis,'retry_of':retry_of}
