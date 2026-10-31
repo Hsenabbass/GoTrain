@@ -38,9 +38,9 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
-**Planning only: no agent, training pipeline, or UI is implemented yet.** SageMaker, Bedrock, GPU capacity, and storage permissions still need verification.
+**Task 1.1 is complete; no autonomous engine, training pipeline, or UI is implemented yet.** SageMaker GPU execution, Bedrock/Strands response and tool use, and storage across a browser reload have passed initial checks. SageMaker GitHub clone/push also passed; operating agreements and remaining limits are documented; see the [verification record](docs/setup.md).
 
-[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). Execution has not started.
+[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). Task 1.1 is complete; task 1.2 is next. Dataset downloads and training have not started.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 

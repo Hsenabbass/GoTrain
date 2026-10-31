@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** agreed direction; [M1 is planned](milestones/m1-foundation.md), and implementation has not started. Later milestones will be detailed when we reach them. No owners, dates, UI framework, or experiment counts are assigned yet.
+**Status:** agreed direction; [M1 is in progress](milestones/m1-foundation.md): task 1.1 is complete, with [access verification evidence and operating agreements](setup.md). Agent/training implementation has not started. Later milestones will be detailed when we reach them. No owners, dates, UI framework, or experiment counts are assigned yet.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -63,7 +63,7 @@ For the benchmark runs:
 
 | Resource | First introduced | How and why we use it | Check before relying on it |
 | --- | --- | --- | --- |
-| **SageMaker + JupyterLab** | M1; all later work | Required place to build and run the project; hosts GPU jobs and persistent files. | Open the organizer link within 5 minutes, bookmark JupyterLab, verify GPU/VRAM, disk, packages, runtime limits, and job persistence. Sessions last up to 12 hours; request a fresh link when needed. |
+| **SageMaker + JupyterLab** | M1; all later work | Required place to build and run the project; hosts GPU jobs and persistent files. | Open the organizer link within 5 minutes, bookmark JupyterLab, verify GPU/VRAM, disk, packages, runtime limits, and job persistence. The brief describes sessions up to 12 hours; the user confirms no specific expiry is known and organizers can renew access. Keep the active session open; see the setup operating agreement. |
 | **Claude Sonnet on Bedrock** | M1 access check; M2 agent | Reasons about experiments and calls tools. The brief specifies `eu.anthropic.claude-sonnet-5-5` in `eu-central-1`. | Verify the provided role can invoke that exact model; no separate Anthropic API key is expected. Confirm quotas. Explicitly set model/region instead of using SDK defaults. |
 | **Strands (`strands-agents`)** | M1 smoke test; M2 core loop | Required framework connecting Claude to our Python tools through a ReAct loop: reason, act, observe, repeat. | Verify a minimal agent responds, then test tool calls and runtime controls. Pin the working package version. |
 | **GEO-Bench (`geobench`) + Hugging Face** | M1; M3 evaluation | Load the four selected datasets, metadata, and official splits. | Confirm download access, exact versions/identifiers, channel order, labels, metrics, and storage needs. Do not download the whole benchmark. |
@@ -75,7 +75,14 @@ For the benchmark runs:
 | **UI, backend, and import adapters** | M4 | Connect chat, progress, prediction, results, versions, and exports to the existing engine. | Choose the stack later. Check hosting/access on SageMaker, upload limits, supported file formats, and permissions for cloud links. |
 | **Presentation tooling** | Evidence from M1; final assembly M5 | Explain decisions, architecture, results, limitations, and the production direction. | Confirm submission format and presentation length with organizers. |
 
-The organizers provide SageMaker/Bedrock access according to the brief, but neither has been tested by this project yet. Local repository access and assistant integrations do not establish cloud runtime access. No additional hosted database, paid API, or tracking service is required by this plan.
+Initial SageMaker GPU and Bedrock/Strands checks have passed; [the setup record](setup.md) distinguishes verified results from remaining permissions and quota checks. Local repository access and assistant integrations do not establish cloud runtime access. No additional hosted database, paid API, or tracking service is required by this plan.
+
+## Submission and current operating constraints
+
+The user confirmed submission for **2026-11-01 at 15:00 Asia/Beirut**. The
+[setup operating agreement](setup.md#operating-agreements-and-follow-ups) owns
+session handling and outstanding quota/judging/presentation details. Preserve
+time for M5 within this deadline; unknown quotas do not imply unlimited use.
 
 ## Five milestones
 

@@ -8,6 +8,8 @@ milestone document, when one exists, and its linked GitHub issues.
   prefill future milestones or create speculative code, dependencies, or folders.
   Name actionable issues `<milestone>.<task>: <action>` (such as `1.1`, `2.1`).
   Use milestones and their documents for outcomes; do not create overview issues.
+  Refer to tasks by their current numbered titles in prose and link labels; keep
+  GitHub numeric IDs only in link destinations and API arguments.
 - Follow the workflow's source-of-truth table. Update affected documentation
   alongside code/configuration changes; link shared facts instead of copying them.
 - Separate proposed, implemented, and verified work. Record checks and evidence;

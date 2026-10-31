@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** not started; detailed plan prepared 2026-10-31.
+**Status:** in progress; task 1.1 completed 2026-10-31; tasks 1.2–1.7 not started.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -14,8 +14,9 @@ and an autonomous improvement loop.
 
 Prerequisites are the organizer's private JupyterLab link/role and team GitHub
 access. Local GitHub access does not prove SageMaker, GPU, Bedrock or storage access.
-All runtime work happens on the provided SageMaker environment. This planning
-change performs no installation, download, cloud verification or training.
+All runtime work happens on the provided SageMaker environment. The initial
+planning change performed no runtime work; current access-check progress is
+recorded in the verification and handoff sections below.
 
 The Strands response/tool-call smoke test belongs here; the autonomous engine,
 agent code-editing controls, broad recovery/restart tests, tuning search, UI,
@@ -29,13 +30,13 @@ its implementation issue; use that issue for ongoing discussion and evidence.
 
 | Step / issue | Prerequisites | Tools, inputs, outputs | Completion check |
 | --- | --- | --- | --- |
-| [1.1 (#6) Verify access](https://github.com/Hsenabbass/GoTrain/issues/6) | Organizer access and team permissions | SageMaker GPU, Bedrock/Strands, PyTorch, storage, GitHub → verified setup and capacity inventory | Required model responds and calls a harmless tool; GPU, persistence/disconnect and SageMaker clone/push checks have sanitized evidence. |
-| [1.2 (#7) Inspect data](https://github.com/Hsenabbass/GoTrain/issues/7) | #6 | GEO-Bench/Hugging Face; selected train/validation splits → sourced data contracts | All four task versions, loader IDs, channels/scales, labels, split handling and data issues documented without loading test samples. |
-| [1.3 (#8) Set contracts and budgets](https://github.com/Hsenabbass/GoTrain/issues/8) | #6, #7 | Data contracts, organizer rules, bounded calibration → input/output, metric and budget definitions | Scoring rules and numeric caps recorded before reference training; unresolved requirements remain explicit. |
-| [1.4 (#9) Build manual foundation](https://github.com/Hsenabbass/GoTrain/issues/9) | #8 | PyTorch, verified dependencies, configs, storage → shared train/validation path and run records | Split/metric/preprocessing/budget checks pass; a small run saves a checkpoint and reloads for prediction. |
-| [1.5 (#10) Classification references](https://github.com/Hsenabbass/GoTrain/issues/10) | #9 | EuroSAT then Brick-Kiln → two fixed recipes and validation records | Full-validation scores, traceable configs/logs/checkpoints and checkpoint revalidation evidence. |
-| [1.6 (#11) Segmentation references](https://github.com/Hsenabbass/GoTrain/issues/11) | #9 | PV4GER-Seg then Chesapeake → two fixed recipes and validation records | Full-validation scores, correct mask/channel handling and checkpoint revalidation evidence. |
-| [1.7 (#12) Acceptance and handoff](https://github.com/Hsenabbass/GoTrain/issues/12) | #10, #11 and all earlier evidence | Fresh-process SageMaker checks and documentation review → completed evidence record | Every milestone outcome evidenced; four reference results usable by M2/M3; docs and GitHub agree. |
+| [1.1: Verify SageMaker, Bedrock, storage and development access](https://github.com/Hsenabbass/GoTrain/issues/6) | Organizer access and team permissions | SageMaker GPU, Bedrock/Strands, PyTorch, storage, GitHub → verified setup and capacity inventory | Required model responds and calls a harmless tool; GPU, persistence/disconnect and SageMaker clone/push checks have sanitized evidence. |
+| [1.2: Inspect the four GEO-Bench datasets without test access](https://github.com/Hsenabbass/GoTrain/issues/7) | 1.1 | GEO-Bench/Hugging Face; selected train/validation splits → sourced data contracts | All four task versions, loader IDs, channels/scales, labels, split handling and data issues documented without loading test samples. |
+| [1.3: Define task contracts, evaluation rules and measured budgets](https://github.com/Hsenabbass/GoTrain/issues/8) | 1.1, 1.2 | Data contracts, organizer rules, bounded calibration → input/output, metric and budget definitions | Scoring rules and numeric caps recorded before reference training; unresolved requirements remain explicit. |
+| [1.4: Build the shared manual training and validation foundation](https://github.com/Hsenabbass/GoTrain/issues/9) | 1.3 | PyTorch, verified dependencies, configs, storage → shared train/validation path and run records | Split/metric/preprocessing/budget checks pass; a small run saves a checkpoint and reloads for prediction. |
+| [1.5: Record EuroSAT and Brick-Kiln classification references](https://github.com/Hsenabbass/GoTrain/issues/10) | 1.4 | EuroSAT then Brick-Kiln → two fixed recipes and validation records | Full-validation scores, traceable configs/logs/checkpoints and checkpoint revalidation evidence. |
+| [1.6: Record PV4GER-Seg and Chesapeake segmentation references](https://github.com/Hsenabbass/GoTrain/issues/11) | 1.4 | PV4GER-Seg then Chesapeake → two fixed recipes and validation records | Full-validation scores, correct mask/channel handling and checkpoint revalidation evidence. |
+| [1.7: Verify reproducibility and complete the M2 handoff](https://github.com/Hsenabbass/GoTrain/issues/12) | 1.5, 1.6 and all earlier evidence | Fresh-process SageMaker checks and documentation review → completed evidence record | Every milestone outcome evidenced; four reference results usable by M2/M3; docs and GitHub agree. |
 
 Work within each task family may proceed as its data contract is ready, but no
 reference run precedes its verified metric and numeric caps. Classification and
@@ -77,8 +78,8 @@ counts are assigned. Choose recipes after actual data/capacity checks.
 
 ### Budget gate
 
-The GPU, quotas and training speeds are unknown, so numeric limits are deliberately
-unresolved. Issue #8 must turn measured capacity into explicit settings before
+The GPU is verified, but quotas and training speeds remain unknown, so numeric
+limits are deliberately unresolved. Task 1.3 must turn measured capacity into explicit settings before
 reference runs. Bound even calibration/smoke work before starting it, using the
 provided session/quota limits and a small declared cap. Do not launch unbounded work
 to discover a budget.
@@ -97,18 +98,24 @@ tradeoff for agreement; do not quietly drop tasks, use test data, or declare M1 
 
 ### Questions to resolve during M1
 
-Issue #6 owns organizer questions: available GPU/runtime and Bedrock quotas, session
-renewal and persistence, exact submission deadline, judging metric expectations,
-and submission/presentation format. Issues #7/#8 own data version/label/metric
-ambiguities and the resulting task contracts. Pending answers are blockers only
-for work that depends on them; independent documentation work can continue.
+Access verification is complete with the user's operational clarifications.
+The [setup operating agreement](../setup.md#operating-agreements-and-follow-ups)
+owns the confirmed submission deadline, instruction to preserve the active session,
+and outstanding quota/judging/presentation details. Tasks 1.2/1.3 own data and
+metric/budget decisions. Unknown quotas require conservative caps in task 1.3;
+new judging requirements will be reconciled when the user receives them.
+
+Completion decision, 2026-10-31: the user accepted the recorded unknown quotas and
+pending event requirements as follow-ups, supplied session-renewal/deadline details,
+and approved publication and closure of task 1.1. No claim of expiry/restart testing
+is made. Later tasks retain their original acceptance requirements.
 
 Planning decision, 2026-10-31: follow the agreed manual-first hybrid approach and
 defer numeric budgets and recipe choices to observed capacity. This elaborates the
 project plan without replacing a previous decision or broadening M1's outcome.
 
 Tracking update, 2026-10-31: at the user's request, tasks use titles 1.1–1.7
-(GitHub #6–#12). Milestone documents hold acceptance outcomes; redundant overview
+with stable GitHub link destinations. Milestone documents hold acceptance outcomes; redundant overview
 issues were retired as not planned. This supersedes the earlier overview-issue
 convention, with no change to M1 scope or completion requirements.
 
@@ -134,31 +141,37 @@ README/project status when capabilities change; do not copy full results there.
 
 ## Verification and evidence
 
-No runtime evidence or reference result exists yet. Populate this table with links
+Access verification evidence is available in the [setup record](../setup.md); no training
+reference result exists yet. Populate this table with links
 to the authoritative records during implementation; do not substitute issue closure
 for verification. A run record owns the exact numeric score.
 
 | Required outcome | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
-| Required access (#6) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Unverified | Pending |
-| Data and budget contracts (#7/#8) | Official metadata, train/validation inspection, bounded calibration | Unverified | Pending |
-| Shared foundation (#9) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
-| EuroSAT reference (#10) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Brick-Kiln reference (#10) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| PV4GER-Seg reference (#11) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Chesapeake reference (#11) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Reproducible handoff (#12) | Fresh-process setup/checkpoint checks and consistency review | Unverified | Pending |
+| Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
+| Data and budget contracts (1.2/1.3) | Official metadata, train/validation inspection, bounded calibration | Unverified | Pending |
+| Shared foundation (1.4) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
+| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
+| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
+| PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
+| Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
+| Reproducible handoff (1.7) | Fresh-process setup/checkpoint checks and consistency review | Unverified | Pending |
 
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** M1 planned; tasks 1.1–1.7 (GitHub #6–#12) created under M1.
-No runtime implementation, installation, cloud verification or training has started.
-**Blockers:** organizer access/permissions and runtime capacity remain unverified;
-metrics, numeric budgets and recipes depend on the planned checks.
-**Next action:** when execution is authorized, begin #6 with the organizer access
-route and verify the provided environment.
-**Pending synchronization:** none after this planning change is published.
+**Current state:** task 1.1 is complete. GPU/CUDA, Bedrock/Strands response and tool
+execution, browser-reload continuity, GEO-Bench imports/metadata access and
+SageMaker clone/push passed. No dataset samples, training or engine implementation.
+**Constraints:** preserve the active JupyterLab session. Approved GoTrain-only GitHub
+access expires 2026-11-01. The verification venv inherits existing package conflicts;
+application dependencies are resolved in task 1.4. Exact quotas remain unknown;
+judging/presentation details will come from the user. See the setup agreement.
+**Next action:** start task 1.2 when authorized; inspect/download only the four
+selected tasks while keeping test samples sealed. Task 1.3 defines conservative
+budgets and evaluation contracts before reference runs.
+**Pending synchronization:** none after this completion change is published and
+task 1.1 is closed on GitHub.
 
 ## Completion
 

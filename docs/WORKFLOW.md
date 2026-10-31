@@ -57,6 +57,8 @@ Preserve uncertainty explicitly instead of silently choosing a convenient value.
    Title tasks `<milestone>.<task>: <action>`: `1.1`, `1.2`, then `2.1`, `2.2`,
    and so on. Keep assigned task numbers stable; append the next number for new
    work. GitHub `#` numbers remain link identifiers. Do not create overview issues.
+   Use current task titles in prose and link labels. Keep numeric GitHub IDs only
+   in URL destinations/API arguments; do not display them as alternate task names.
 2. **Implement:** work in small changes tied to an issue. Use `codex/<short-name>`
    branches by default. Put reusable code and configuration in the shared folders.
    Update affected instructions and contracts alongside behavior. Record material
