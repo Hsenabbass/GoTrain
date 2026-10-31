@@ -27,6 +27,12 @@ model/region requirements, and research references. See the
   matched. This verifies file recovery, not model reload or environment recreation.
   Source, current inspection logs/manifests/previews and the inspection summary are
   included; credentials, live kernel state and raw datasets are excluded.
+- **Task 1.3 snapshot:** `snapshots/20261031T135330089736Z-recovery.tar.gz`, 4,530,692 bytes,
+  23 files; source commit `4aff5c8f96d280caef6691ebadf97e0f30398bc3`. Archive SHA-256:
+  `f2d8f5f5074794efa47c02ac0881ffcb51698644132a01382fd19e48174ae50e`. Sender/receiver and all member checksums matched
+  2026-10-31; the calibration report was restored into a temporary directory and
+  its hash/completion flag matched. Includes current tracked source/contracts,
+  full calibration log/report and the executed probe; no model checkpoint exists.
 - **Local index:** `snapshots/index.json` records the snapshot checksum and source
   revision; its `.sha256` sidecar travels with the archive. SageMaker retains its
   staging copy under `artifacts/backups/`.
@@ -36,9 +42,9 @@ model/region requirements, and research references. See the
   `datasets/manifest.json` records paths, sizes and checksums; external `index.json`
   records its checksum and verification time. No partial files remain. ZIPs were
   copied as opaque bytes; no local sample inspection, extraction or training ran.
-- **Coverage:** current inspection evidence has an independent local recovery copy.
-  No model checkpoints exist yet. The source snapshot predates the later resumable
-  cache enhancement; current source remains versioned in GitHub/local Git.
+- **Coverage:** current inspection and calibration evidence have independent local recovery copies.
+  No model checkpoints exist yet. The initial snapshot predates the resumable cache enhancement; the task 1.3
+  snapshot contains the updated source. Current source is also versioned in GitHub/local Git.
   The custodian's Mac is not itself backed up by this procedure.
 
 Add a row only when useful. For a verified resource, record a stable safe link/path,
