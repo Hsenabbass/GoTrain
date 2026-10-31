@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** agreed direction; [M1 is in progress](milestones/m1-foundation.md): tasks 1.1 and 1.2 are complete, with [access verification](setup.md) and [data inspection evidence](data.md). Task 1.3 is next; agent/training implementation has not started. Later milestones will be detailed when we reach them. No owners, dates, UI framework, or experiment counts are assigned yet.
+**Status:** agreed direction; [M1 is in progress](milestones/m1-foundation.md): tasks 1.1–1.3 are complete, with [access verification](setup.md), [data/evaluation contracts](data.md) and [measured M1 budgets](../configs/m1.json). Task 1.4 is next; bounded capacity calibration passed, but no reference training or autonomous engine exists. Later milestones will be detailed when we reach them. Final model recipes and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 

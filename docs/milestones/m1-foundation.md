@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** in progress; tasks 1.1/1.2 completed 2026-10-31; tasks 1.3–1.7 not started.
+**Status:** in progress; tasks 1.1–1.3 completed 2026-10-31; tasks 1.4–1.7 not started.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -78,11 +78,10 @@ counts are assigned. Choose recipes after actual data/capacity checks.
 
 ### Budget gate
 
-The GPU is verified, but quotas and training speeds remain unknown, so numeric
-limits are deliberately unresolved. Task 1.3 must turn measured capacity into explicit settings before
-reference runs. Bound even calibration/smoke work before starting it, using the
-provided session/quota limits and a small declared cap. Do not launch unbounded work
-to discover a budget.
+The [versioned caps](../../configs/m1.json) now define the M1 allocation and
+per-run/resource/retry limits, based on [bounded calibration](../setup.md#capacity-calibration-and-m1-budgets).
+Exact organizer quotas remain unknown. Task 1.4 must implement and test enforcement
+before reference runs; no settings file by itself enforces a budget.
 
 | Required setting | How to settle it |
 | --- | --- |
@@ -118,6 +117,13 @@ Tracking update, 2026-10-31: at the user's request, tasks use titles 1.1–1.7
 with stable GitHub link destinations. Milestone documents hold acceptance outcomes; redundant overview
 issues were retired as not planned, then deleted with explicit user approval. This supersedes the earlier overview-issue
 convention, with no change to M1 scope or completion requirements.
+
+Evaluation/budget decision, 2026-10-31 (1.3): use sourced overall accuracy and
+global macro IoU, with no ignored ID in the primary metric. Chesapeake keeps all
+seven stored classes; a target-0-excluded land metric is supplementary. Freeze
+absent-class/checkpoint rules and numeric caps from the measured probe before
+references. Organizer judging rules remain an explicit follow-up; version and
+re-evaluate validation records if they differ. See [contracts](../data.md).
 
 Storage decision, 2026-10-31: the user approved Git-based source sharing, SageMaker
 working data/artifacts, and independent local recovery copies. Follow the shared
@@ -156,7 +162,7 @@ for verification. A run record owns the exact numeric score.
 | --- | --- | --- | --- |
 | Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
 | Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
-| Evaluation and budget contracts (1.3) | Benchmark conventions, organizer rules and bounded calibration | Unverified | Pending |
+| Evaluation and budget contracts (1.3) | Versioned official metric sources; four-task bounded T4 calibration, no test access | Complete 2026-10-31; frozen primary/diagnostic rules and explicit caps; judging metrics still pending | [Data/evaluation contracts](../data.md), [capacity](../setup.md#capacity-calibration-and-m1-budgets), [task settings](../../configs/tasks.json), [caps](../../configs/m1.json) |
 | Shared foundation (1.4) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
 | EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
@@ -167,22 +173,21 @@ for verification. A run record owns the exact numeric score.
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** tasks 1.1 and 1.2 are complete. Required access passed; the four
+**Current state:** tasks 1.1–1.3 are complete. Required access passed; the four
 selected archives are verified and train/validation inspection is documented in
 [data contracts](../data.md). Approved recovery snapshots and sealed archive
 caching follow [storage/recovery](../storage.md); actual transfer/verification
 status is maintained in [resources](../RESOURCES.md#recovery-verification).
-No training or engine implementation has started.
+Bounded capacity calibration passed; no reference training or autonomous engine exists.
 **Constraints:** preserve the active JupyterLab session and official splits; test
 payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
 The verification venv inherits existing conflicts; task 1.4 owns application
 dependencies. Quotas and judging/presentation details remain pending.
-**Next action:** task 1.3: finalize metrics, Chesapeake no-data/class inclusion and
-explicit conservative budgets before reference runs. Use corrected multispectral
-channel orders and observed scales; do not fit preprocessing on validation.
-**Pending synchronization:** none after this verification change is published.
-Independent snapshot and four-archive cache are verified in the resource record.
-Task 1.2 remains complete; task 1.3 has not started.
+**Next action:** task 1.4: build the shared train/validation foundation and enforce
+the frozen task/metric/resource contracts before references. Calibration models
+are random-weight cost proxies, not selected recipes or reference results.
+**Pending synchronization:** none after this completion change is published,
+calibration evidence is independently backed up and task 1.3 is closed on GitHub.
 
 ## Completion
 

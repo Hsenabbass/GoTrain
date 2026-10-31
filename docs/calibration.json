@@ -1,0 +1,110 @@
+{
+  "kind": "capacity_calibration_not_reference",
+  "created_utc": "2026-10-31T13:48:07.493570+00:00",
+  "wall_cap_seconds": 240,
+  "external_timeout_seconds": 300,
+  "seed": 2026,
+  "torch": "2.8.0",
+  "torchvision": "0.24.0",
+  "gpu": "Tesla T4",
+  "precision": "cuda_float16_autocast_grad_scaler",
+  "cpu_threads": 2,
+  "loader_workers": 0,
+  "test_payloads_opened": 0,
+  "weights_downloaded": false,
+  "reference_scores_produced": false,
+  "script_sha256": "ff8ba9ca6818e1060b53adbfcd6dd7408d3c93214d3c7696fa2a3b394142cb15",
+  "disk_free_bytes": 87753867264,
+  "tasks": [
+    {
+      "task": "m-eurosat",
+      "proxy": "resnet18_random",
+      "batch_size": 32,
+      "channels": 13,
+      "classes": 10,
+      "train_steps_total": 8,
+      "valid_steps_total": 4,
+      "sample_loads": {
+        "train": 256,
+        "valid": 128
+      },
+      "train_seconds_per_batch": 0.13067944740032544,
+      "valid_seconds_per_batch": 0.1556975956664246,
+      "train_images_per_second": 244.87400763159567,
+      "valid_images_per_second": 205.5266162783825,
+      "estimated_full_train_epoch_seconds": 8.232805186220503,
+      "estimated_full_valid_seconds": 4.982323061325587,
+      "peak_allocated_bytes": 148634112,
+      "peak_reserved_bytes": 184549376,
+      "finite_loss_and_shapes_passed": true
+    },
+    {
+      "task": "m-brick-kiln",
+      "proxy": "resnet18_random",
+      "batch_size": 32,
+      "channels": 13,
+      "classes": 2,
+      "train_steps_total": 8,
+      "valid_steps_total": 4,
+      "sample_loads": {
+        "train": 256,
+        "valid": 128
+      },
+      "train_seconds_per_batch": 0.13950026979946414,
+      "valid_seconds_per_batch": 0.18000642166589387,
+      "train_images_per_second": 229.39023735223572,
+      "valid_images_per_second": 177.77143561797214,
+      "estimated_full_train_epoch_seconds": 65.7046270755476,
+      "estimated_full_valid_seconds": 5.760205493308604,
+      "peak_allocated_bytes": 148273152,
+      "peak_reserved_bytes": 171966464,
+      "finite_loss_and_shapes_passed": true
+    },
+    {
+      "task": "m-pv4ger-seg",
+      "proxy": "fcn_resnet50_random",
+      "batch_size": 4,
+      "channels": 3,
+      "classes": 2,
+      "train_steps_total": 8,
+      "valid_steps_total": 4,
+      "sample_loads": {
+        "train": 32,
+        "valid": 16
+      },
+      "train_seconds_per_batch": 0.11273937100049806,
+      "valid_seconds_per_batch": 0.04889473733419436,
+      "train_images_per_second": 35.480063127035976,
+      "valid_images_per_second": 81.8083953015249,
+      "estimated_full_train_epoch_seconds": 84.55452825037355,
+      "estimated_full_valid_seconds": 4.93836847075363,
+      "peak_allocated_bytes": 1145310208,
+      "peak_reserved_bytes": 1289748480,
+      "finite_loss_and_shapes_passed": true
+    },
+    {
+      "task": "m-chesapeake",
+      "proxy": "fcn_resnet50_random",
+      "batch_size": 4,
+      "channels": 4,
+      "classes": 7,
+      "train_steps_total": 8,
+      "valid_steps_total": 4,
+      "sample_loads": {
+        "train": 32,
+        "valid": 16
+      },
+      "train_seconds_per_batch": 0.08397802999970735,
+      "valid_seconds_per_batch": 0.031212477333610877,
+      "train_images_per_second": 47.63150552607556,
+      "valid_images_per_second": 128.15387760626857,
+      "estimated_full_train_epoch_seconds": 62.98352249978051,
+      "estimated_full_valid_seconds": 7.803119333402719,
+      "peak_allocated_bytes": 836939264,
+      "peak_reserved_bytes": 903872512,
+      "finite_loss_and_shapes_passed": true
+    }
+  ],
+  "elapsed_seconds": 12.981162112002494,
+  "completed": true
+}

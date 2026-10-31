@@ -44,7 +44,8 @@ verification only copy/hash files; they do not run training or inspect samples.
 Use the standard-library [backup utility](../scripts/backup.py). Commit source
 first, stop writers to the selected completed outputs, and review included files
 for private information. By default it includes tracked source plus inspection
-evidence; select completed runs explicitly rather than recursively copying home
+evidence; `--include artifacts/calibration` selects capacity-probe evidence.
+Select completed runs explicitly rather than recursively copying home
 or the entire artifacts directory.
 
 On SageMaker, from the repository root:

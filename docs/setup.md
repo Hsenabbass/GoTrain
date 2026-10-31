@@ -78,6 +78,41 @@ Logs, constraints, an environment snapshot, base dependency-conflict report and
 metadata-access evidence are saved beside `evidence.json`. The snapshot records
 the inherited environment; a minimal application lock belongs with implementation.
 
+## Capacity calibration and M1 budgets
+
+Task [1.3](https://github.com/Hsenabbass/GoTrain/issues/8), 2026-10-31: one bounded
+four-task probe completed on the provided T4 in **12.98 seconds** (240-second
+internal cap, 300-second watchdog). [Raw evidence](calibration.json) records code
+hash, environment, memory and sample-load counts; [probe script](../scripts/calibrate.py)
+reproduces it. No pretrained weights or Bedrock calls were used, no checkpoint or
+reference score was produced, and no test dataset was instantiated.
+
+| Task | Proxy, batch | Train seconds/batch | Valid seconds/batch | Estimated full train epoch / validation (s) | Peak CUDA reserved MiB |
+| --- | --- | --- | --- | --- | --- |
+| `m-eurosat` | resnet18_random, 32 | 0.131 | 0.156 | 8.23 / 4.98 | 176 |
+| `m-brick-kiln` | resnet18_random, 32 | 0.140 | 0.180 | 65.70 / 5.76 | 164 |
+| `m-pv4ger-seg` | fcn_resnet50_random, 4 | 0.113 | 0.049 | 84.55 / 4.94 | 1230 |
+| `m-chesapeake` | fcn_resnet50_random, 4 | 0.084 | 0.031 | 62.98 / 7.80 | 862 |
+
+The probe used synchronous loading (zero workers), two CPU threads, fixed input
+scales, float16 autocast/GradScaler, eight train steps (three warmup) and four valid
+steps (one warmup) per task. Finite losses and output shapes passed. Samples cycle
+within the first 64 train/valid items, so estimates reflect a small warm-cache
+probe and exclude metric/checkpoint overhead; they are not guarantees of full-data
+or other-model throughput. No preprocessing statistics were fitted. Free working
+volume space was **81.73 GiB**.
+
+[Numeric M1 caps](../configs/m1.json) allocate one GPU job at a time, 3,600 seconds
+of total M1 GPU-job wall time and 600 seconds/10 epochs/5,000 train steps per
+reference. Validation/saving reserves (30 seconds classification, 60 segmentation)
+exceed these measured full-validation estimates by at least fourfold. Memory limits
+(10 GiB allocated/12 GiB reserved) and a 15 GiB disk reserve leave substantial
+headroom over the measured probes. The defaults fit four reference jobs plus smoke,
+revalidation and failure allowance; task 1.4 implements and verifies enforcement.
+Actual job durations, including this probe, must be charged; caps are project
+allocations, not a claim of verified organizer quotas. Recalibrate changed recipes
+within the remaining allocation and stop if complete validation cannot fit.
+
 ## Recovery
 
 Follow [storage and recovery](storage.md) for independent snapshots, dataset
@@ -99,12 +134,12 @@ User clarification on 2026-10-31 is the current operational agreement:
   will relay them. Record updates when available; do not invent requirements.
 - **Quotas:** exact GPU/runtime and Bedrock limits remain unknown because the role
   cannot read quotas. This is an accepted recorded limitation of access verification.
-  Task 1.3 must set conservative, explicit experiment caps before reference runs;
+  Task 1.3 has set [conservative explicit caps](../configs/m1.json); task 1.4 must enforce them before reference runs;
   do not treat unknown quotas as unlimited resources.
 
 Technical access acceptance is satisfied. Follow-up work belongs to its planned
 scope: task 1.2 has verified selected-task downloads/versions and recorded source terms in [data contracts](data.md);
-task 1.3 settles metrics/budgets and applies organizer updates; task 1.4 establishes
+task 1.3 has frozen [metrics/budgets](data.md#evaluation-and-checkpoint-rules-13); reconcile organizer updates when received; task 1.4 establishes
 the minimal application dependency set. Recipe-specific weight downloads and
 licenses are checked when models are selected in tasks 1.5/1.6. Imports and endpoint
 access alone do not establish full training compatibility. Task 1.7 reviews all

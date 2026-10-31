@@ -30,9 +30,9 @@ once acceptance checks pass. Add complexity only to solve a demonstrated need.
 | `data/` | Ignored local datasets and caches, or an external location documented in the resource index. |
 | `artifacts/` | Ignored run records, logs, checkpoints, predictions, and exports, or verified external storage. |
 
-The code, configuration, test, and runtime folders above are reserved conventions,
-not implemented components. Add package/dependency metadata when implementation
-begins; pin verified versions then. Add UI or other top-level folders only when
+The locations above are conventions; a listed component is implemented only when
+its code exists. Add package/dependency metadata with the shared application
+foundation; pin verified versions then. Add UI or other top-level folders only when
 their scope is known. Do not create empty directory trees or duplicate utilities
 per milestone. Promote shared logic to `src/gotrain/` when reuse is demonstrated.
 

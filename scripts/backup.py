@@ -66,8 +66,8 @@ def create(root, includes):
     for include in includes:
         relative = safe_name(include)
         parts = relative.parts
-        if len(parts) < 2 or parts[:2] not in (('artifacts', 'data-inspection'), ('artifacts', 'runs'), ('notebooks', 'saved')):
-            raise ValueError('Include only reviewed data-inspection, completed runs, or notebooks/saved paths')
+        if len(parts) < 2 or parts[:2] not in (('artifacts', 'data-inspection'), ('artifacts', 'calibration'), ('artifacts', 'runs'), ('notebooks', 'saved')):
+            raise ValueError('Include only reviewed data-inspection/calibration, completed runs, or notebooks/saved paths')
         source = root / relative
         if not source.exists():
             raise FileNotFoundError(include)
