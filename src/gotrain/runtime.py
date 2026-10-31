@@ -176,6 +176,8 @@ def validate_search_recipe(recipe, contracts, caps):
         if type(value) not in (int,float) or not math.isfinite(value) or not lo <= value <= hi:
             raise ValueError('Invalid ' + key)
     if recipe['smoke']:
+        if recipe['steps']>2:
+            raise ValueError('Probe is capped at two training steps')
         for key in ('train_limit','valid_limit'):
             if type(recipe.get(key)) is not int or not recipe['batch_size'] <= recipe[key] <= 64:
                 raise ValueError('Invalid probe subset')

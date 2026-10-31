@@ -78,8 +78,10 @@ class SearchChecks(unittest.TestCase):
         self.start();self.trial('probe');self.trial('screen')
         with self.assertRaises(ValueError):self.c.select_candidate(self.c.state['runs'][-1],'screen winner')
         self.trial('final');rid=self.c.state['runs'][-1]
+        with self.assertRaises(ValueError):self.trial('final')
         self.assertTrue(self.c.select_candidate(rid,'full score')['kept'])
         with self.assertRaises(ValueError):self.c.finish_search('not verified')
+        with self.assertRaises(ValueError):self.c.run_trial('resnet18_imagenet','confirm',{'lr':.0002},rid,'do not change confirmation')
         self.c.verify_prediction(rid);self.c.finish_search('measured comparison')
         self.assertEqual(self.c.state['status'],'verified_complete')
         with self.assertRaises(RuntimeError):self.c.invoke('inspect_task')

@@ -52,6 +52,8 @@ class SearchController(Controller):
             self.state = read(self.folder/'session.json')
             if self.state['task']!=task or self.state['hashes']!=hashes:
                 raise ValueError('Resume context changed; review before starting new work')
+            if self.state.get('stage')=='done':
+                raise ValueError('Completed sessions cannot be restarted')
             # Acquiring the existing lock rejects unsettled reservations from any milestone.
             budget = Budget(ROOT,self.caps,0,'m3');budget.close()
         else:
@@ -184,8 +186,22 @@ class SearchController(Controller):
             raise ValueError('Two tuning proposals failed to improve; stop tuning')
         if phase=='confirm' and not any(t['phase']=='final' for t in trials):
             raise ValueError('Final comparison required before confirmation')
+        if phase=='final' and successful(candidate,'final') and not retry_of:
+            raise ValueError('Candidate already received final training')
+        parent=self.record(parent_run)
+        allowed={'optimizer','lr','weight_decay','augment','loss','head_only','batch_size','epochs','steps','backbone_lr_ratio'}
+        inherited={k:v for k,v in parent['recipe'].items() if k in allowed} if parent['recipe']['model']==candidate and parent['recipe'].get('phase') in ('screen','tune','final') else {}
+        if phase=='confirm':
+            if self.state['best']==self.state['reference']:
+                raise ValueError('No gain to confirm')
+            target=self.record(self.state['best']) if candidate!=reference_model else self.record(self.state['reference'])
+            if target['recipe']['model']!=candidate:
+                raise ValueError('Confirm only retained candidate and reference')
+            inherited={k:v for k,v in target['recipe'].items() if k in allowed}
+            if any(k not in inherited or v!=inherited[k] for k,v in settings.items()):
+                raise ValueError('Confirmation must preserve the selected recipe')
         seed=2027 if phase=='confirm' else 2026
-        recipe=self.make_recipe(candidate,phase,settings,seed)
+        recipe=self.make_recipe(candidate,phase,{**inherited,**settings},seed)
         if retry_of:
             failed=self.record(retry_of)
             if failed['status']!='failed' or failed.get('retry_of') or failed.get('retryable') not in ('oom','transient') or self.state['retries']>=1:
@@ -257,7 +273,7 @@ class SearchController(Controller):
             raise ValueError('One justified lookup after inspection is permitted')
         self.state['lookup_done']=True;self.save()
         tag='image-classification' if self.spec['kind']=='classification' else 'image-segmentation'
-        url='https://huggingface.co/api/models?pipeline_tag='+tag+'&library=torchvision&limit=5'
+        url='https://huggingface.co/api/models?pipeline_tag='+tag+'&filter=torchvision&limit=5'
         with urllib.request.urlopen(url,timeout=10) as response:
             data=response.read(65537)
         if len(data)>65536:raise ValueError('Metadata response too large')
