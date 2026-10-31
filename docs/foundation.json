@@ -3,7 +3,8 @@
   "source_commit": "873ca91bb1d07b049d926536a63231d3a57c5ae9",
   "synthetic_checks": {
     "passed": true,
-    "tests": 11
+    "tests": 12,
+    "source_commit": "6acf45e424827d050f0163b50236f6c330f9f19e"
   },
   "runs": [
     {

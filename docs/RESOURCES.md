@@ -15,7 +15,7 @@ model/region requirements, and research references. See the
 | Persistent data and artifacts | SageMaker `/home/sagemaker-user`; check artifacts in `gotrain-access-check/`. | Data inspection logs/previews at `/home/sagemaker-user/GoTrain/artifacts/data-inspection/`. Capacity/writes and browser-reload continuity verified 2026-10-31; restart/expiry persistence and S3 permissions unverified. See [setup evidence](setup.md). |
 
 | M1 contracts and capacity | [Task settings](../configs/tasks.json); [numeric caps](../configs/m1.json); [capacity record](setup.md#capacity-calibration-and-m1-budgets). | Four-task bounded GPU calibration passed; raw evidence in [calibration.json](calibration.json), full logs on SageMaker at `artifacts/calibration/`. No reference scores; the [manual foundation](training.md) now enforces these contracts. |
-| Manual foundation | [Run guide](training.md); [verification report](foundation.json); [direct dependencies](../requirements.txt). | 11 checks and two bounded smoke/reload jobs passed on SageMaker. Run paths are in the report; `artifacts/m1-budget.json` owns live usage/reservations. No accepted references yet. |
+| Manual foundation | [Run guide](training.md); [verification report](foundation.json); [direct dependencies](../requirements.txt). | 12 checks and two bounded smoke/reload jobs passed on SageMaker. Run paths are in the report; `artifacts/m1-budget.json` owns live usage/reservations. No accepted references yet. |
 | Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Recovery snapshot and all four original dataset ZIPs independently stored and verified 2026-10-31. See the verification record below. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
 
 ## Recovery verification
@@ -34,6 +34,13 @@ model/region requirements, and research references. See the
   2026-10-31; the calibration report was restored into a temporary directory and
   its hash/completion flag matched. Includes current tracked source/contracts,
   full calibration log/report and the executed probe; no model checkpoint existed at that snapshot.
+- **Task 1.4 snapshot:** `snapshots/20261031T141633806095Z-recovery.tar.gz`, 4,558,619 bytes,
+  48 files; source commit `6acf45e424827d050f0163b50236f6c330f9f19e`. Archive SHA-256:
+  `8425c4badb068fae4737bf26f1a2e9ed7755583cdf251e3948b910f4a5b3a274`. Sender/receiver and all member checksums matched
+  2026-10-31; the foundation report was restored and hash-checked, and the ledger
+  copy has no active reservation. Includes source, check logs, smoke run/reload/timing
+  records and settled-ledger evidence. Reproducible random smoke weights remain on
+  SageMaker and are deliberately excluded; no accepted reference model exists.
 - **Local index:** `snapshots/index.json` records the snapshot checksum and source
   revision; its `.sha256` sidecar travels with the archive. SageMaker retains its
   staging copy under `artifacts/backups/`.
@@ -43,7 +50,7 @@ model/region requirements, and research references. See the
   `datasets/manifest.json` records paths, sizes and checksums; external `index.json`
   records its checksum and verification time. No partial files remain. ZIPs were
   copied as opaque bytes; no local sample inspection, extraction or training ran.
-- **Coverage:** current inspection and calibration evidence have independent local recovery copies.
+- **Coverage:** current inspection, calibration and foundation evidence have independent local recovery copies.
   Reproducible random-initialized smoke checkpoints now exist on SageMaker; their records are backed up, not the bulky smoke weights. No accepted reference models exist. The initial snapshot predates the resumable cache enhancement; the task 1.3
   snapshot contains the updated source. Current source is also versioned in GitHub/local Git.
   The custodian's Mac is not itself backed up by this procedure.

@@ -115,7 +115,7 @@ within the remaining allocation and stop if complete validation cannot fit.
 
 ## Manual foundation verification (1.4)
 
-On 2026-10-31, **11 focused checks passed** on the provided verification venv:
+On 2026-10-31, **12 focused checks passed** on the provided verification venv:
 split rejection before I/O, fixed scaling/label checks, paired transforms,
 train-only fitted moments, analytical global metrics including ignored/absent
 classes, caps/lock/accounting/retry checks, a real watchdog termination and
