@@ -126,6 +126,18 @@ class SearchChecks(unittest.TestCase):
             with self.assertRaises(RuntimeError):self.c.invoke('finish_search',reason='again')
         self.assertEqual(self.c.state['best'],best)
 
+    def test_fatal_failure_stops_with_prior_best(self):
+        self.start();best=self.c.state['best']
+        def fail(args):
+            recipe=json.loads(Path(args[2]).read_text())
+            r=self.write_record('failed',recipe,.1);r.update(status='failed',retryable='fatal')
+            write_json(self.root/'artifacts/runs/failed/record.json',r)
+            return {'passed':False,'error':'contract failure'}
+        self.c.execute=fail
+        with self.assertRaises(RuntimeError):self.trial('probe')
+        self.assertEqual(self.c.state['best'],best)
+        with self.assertRaises(RuntimeError):search.SearchController(self.root/'session','m-eurosat',resume=True)
+
     def test_deterministic_sampler_and_download_budget(self):
         self.start();self.trial('probe');self.trial('screen')
         settings=self.c.sample_settings(self.c.state['runs'][-1]);self.assertTrue(1e-5<=settings['lr']<=1e-3)

@@ -69,6 +69,8 @@ class SearchController(Controller):
         self.save()
         if self.state['pending']:
             self.recover_pending()
+        if self.state.get('fatal'):
+            raise RuntimeError('Fatal session requires operator diagnosis before further work')
 
     def context(self):
         ledger = read(ROOT/'artifacts/m3-budget.json') if (ROOT/'artifacts/m3-budget.json').exists() else {'charged_seconds':0,'categories':{}}
@@ -107,7 +109,10 @@ class SearchController(Controller):
     def read_result(self, run_id: str):
         """Read compact trusted metrics, errors and learning curve for a registered run."""
         r = self.record(run_id)
-        return {k:r.get(k) for k in ('run_id','status','recipe','seed','steps','epochs_completed','best_validation','curve','retryable','error_type')}
+        result={k:r.get(k) for k in ('run_id','status','recipe','seed','steps','optimizer_updates','epochs_completed','best_validation','curve','retryable','error_type','peak_allocated_bytes','peak_reserved_bytes')}
+        timing=ROOT/'artifacts/runs'/run_id/'timing.json'
+        if timing.exists():result['elapsed_seconds']=read(timing)['elapsed_seconds']
+        return result
 
     def sample_settings(self, parent_run: str, optimizer: str = 'adamw'):
         """Get a deterministic numeric proposal, using no new GPU trial."""
@@ -214,6 +219,8 @@ class SearchController(Controller):
             raise RuntimeError('Invocation wall reserve reached')
         if candidate in CANDIDATES:
             self.cache_weights(candidate)
+        if time.monotonic()-self.started+recipe['wall_seconds']+65>=2400:
+            raise RuntimeError('Invocation reserve reached after weight retrieval')
         request_id=self.folder.name+'-'+str(len(trials))
         recipe['description']=request_id
         path=self.folder/(request_id+'.json');write_json(path,recipe)
@@ -223,6 +230,10 @@ class SearchController(Controller):
         if retry_of:args+=['--retry-of',retry_of]
         result=self.execute(args)
         self.recover_pending()
+        failed=self.record(self.state['runs'][-1])
+        if failed['status']=='failed' and failed.get('retryable') not in ('oom','transient'):
+            self.state.update(status='blocked',fatal=True);self.save()
+            raise RuntimeError('Fatal trial failure; preserve prior best and stop for diagnosis')
         return {**result,'run':self.read_result(self.state['runs'][-1]),'context':self.context()}
 
     def recover_pending(self):
