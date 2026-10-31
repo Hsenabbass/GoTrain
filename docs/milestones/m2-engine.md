@@ -1,6 +1,6 @@
 # M2: Build the autonomous engine
 
-**Status:** planned; implementation not started.
+**Status:** in progress; 2.1 complete, 2.2 not started.
 **GitHub:** [M2](https://github.com/Hsenabbass/GoTrain/milestone/2)
 **Direction:** [Agreed M2 outcome](../PROJECT_PLAN.md#m2-build-the-autonomous-engine)
 
@@ -65,18 +65,18 @@ own checks and documentation; no separate setup, audit or handoff issue.
 
 | Outcome / issue | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
-| Bounded tools and controller (2.1) | Focused boundary/failure checks on SageMaker | Not run | Add results here during implementation |
+| Bounded tools and controller (2.1) | 7 new boundary/controller tests + 12 runner regression checks on SageMaker | Pass, 2026-10-31; 19 tests in 1.428 s | Source `747ac9f`; `artifacts/runs/m2-tool-checks/checks.log`; [independent recovery receipt](../RESOURCES.md#recovery-verification) |
 | Autonomous cycle (2.2) | One detached EuroSAT cycle, checkpoint prediction/reload and independent backup | Not run | Link run IDs, decision log, usage and recovery receipt here |
 
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** M1 complete; file consolidation and this two-issue M2 plan are documentation changes only. Engine/tools/caps above are proposed, not implemented or verified.
+**Current state:** 2.1 implemented and verified on SageMaker. Five typed tools reuse the manual runner; configuration-only boundaries, prior-best selection/integrity, retry/call/wall limits, separate M2 ledger/shared lock and assembled Strands schemas pass focused checks. Observed SDK versions pinned. Source and logs independently backed up. No training, Bedrock requests or test payload access occurred during these checks; the real cycle remains unverified.
 **Blockers:** none known; organizer quotas and judging/presentation details remain pending.
-**Next action:** implement 2.1 when authorized to start M2; get a working bounded loop before adding polish.
-**Synchronization:** plan and cleanup published with both GitHub tasks assigned to M2. SageMaker checkout is unchanged; update it before implementation.
+**Next action:** start 2.2 when authorized, using the [detached launch instructions](../training.md#bounded-agent-21). Validate the real tool-call/training cycle, actual usage and final retained checkpoint before declaring M2 complete.
+**Synchronization:** 2.1 source/docs published to GitHub and local main; SageMaker verified implementation `747ac9f`. Fast-forward SageMaker to main for the final handoff documentation before 2.2.
 
 ## Completion
 
-Pending the two acceptance checks above. Then update this handoff and the shared
+2.1 passed the focused checks above; 2.2 is pending. Then update this handoff and the shared
 run instructions, record the independent backup, and stop M2 work. Plan M3 next.

@@ -42,7 +42,7 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 **M1 is complete (tasks 1.1–1.7).** All four [reference recipes/results](docs/references.md) passed complete validation and fresh-process checkpoint revalidation, with verified independent model backups. See the [M1 evidence and handoff](docs/milestones/m1-foundation.md).
 
-The four selected datasets and evaluation/resource contracts are verified; [test payloads remain sealed](docs/data.md). The shared [manual runner](docs/training.md) is ready for M2. **[M2 is planned in two issues](docs/milestones/m2-engine.md)**; the autonomous engine and UI have not been implemented.
+The four selected datasets and evaluation/resource contracts are verified; [test payloads remain sealed](docs/data.md). The shared [manual runner](docs/training.md) is ready for M2. **[M2 is in progress](docs/milestones/m2-engine.md)**: 2.1’s bounded Claude/Strands tools are implemented and pass SageMaker checks. The autonomous cycle (2.2) and UI remain unverified/unimplemented respectively.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 

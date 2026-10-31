@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1 is complete](milestones/m1-foundation.md): tasks 1.1–1.7 passed, including required access, data/evaluation contracts, resource guards and all four [reference models](references.md). Their full-validation scores reproduced exactly in fresh processes, and selected model backups are independently verified. [M2 is planned in two issues](milestones/m2-engine.md); later milestones remain unplanned in detail. The autonomous engine/UI are not implemented; final submission models and the UI framework remain unselected.
+**Status:** [M1 is complete](milestones/m1-foundation.md): tasks 1.1–1.7 passed, including required access, data/evaluation contracts, resource guards and all four [reference models](references.md). Their full-validation scores reproduced exactly in fresh processes, and selected model backups are independently verified. [M2 is in progress](milestones/m2-engine.md): 2.1 tools pass SageMaker checks; the autonomous cycle (2.2) has not run; later milestones remain unplanned in detail. The bounded controller is implemented; its real autonomous cycle and the UI remain outstanding; final submission models and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
