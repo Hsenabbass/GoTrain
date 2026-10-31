@@ -7,6 +7,7 @@ Built for the AUB ACM × RASID hackathon, 31 October–1 November 2026.
 ## Start here
 
 - **[Project plan](docs/PROJECT_PLAN.md):** our goals, approach, five milestones, dependencies, and when to use each tool.
+- **[Repository workflow](docs/WORKFLOW.md):** folder conventions and how plans, code, evidence, and documentation stay consistent.
 - **[GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones):** progress and milestone tracking issues.
 - **[Challenge brief](GoTrain%20Challenge.pdf):** the source of the hackathon requirements.
 
@@ -40,3 +41,5 @@ The agent comes first. A chat-style interface will later support dataset imports
 **Planning only: no agent, training pipeline, or UI is implemented yet.** SageMaker, Bedrock, GPU capacity, and storage permissions still need verification.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
+
+Reusable access routes and storage references belong in the [resource index](docs/RESOURCES.md). Codex follows [AGENTS.md](AGENTS.md); detailed milestone plans will live in `docs/milestones/` as each milestone is planned.

@@ -143,6 +143,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ## How we track progress
 
+The [repository workflow](WORKFLOW.md) defines file locations, authoritative sources, and the planning-to-completion update cycle. Use the [milestone template](milestones/TEMPLATE.md) for each detailed plan and the [resource index](RESOURCES.md) for reusable access and storage references.
+
 - Use one GitHub milestone and one overview issue per milestone. The overview issue holds the broad completion checklist and links back here.
 - Before starting a milestone, expand only that milestone into small implementation issues with prerequisites, needed tools/data, and a clear completion check.
 - Close issues using evidence, not just code being written. Update this document when an agreed decision changes.
