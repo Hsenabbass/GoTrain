@@ -76,8 +76,8 @@ Preserve uncertainty explicitly instead of silently choosing a convenient value.
    work. GitHub `#` numbers remain link identifiers. Do not create overview issues.
    Use current task titles in prose and link labels. Keep numeric GitHub IDs only
    in URL destinations/API arguments; do not display them as alternate task names.
-2. **Implement:** work in small changes tied to an issue. Use `codex/<short-name>`
-   branches by default. Put reusable code and configuration in the shared folders.
+2. **Implement:** work in small changes tied to an issue. Work directly on `main` per the user’s 2026-10-31 instruction; do not
+   create new branches unless the user asks. Put reusable code and configuration in the shared folders.
    Update affected instructions and contracts alongside behavior. Record material
    decisions with their reason and any decision they replace.
 3. **Verify:** run the relevant checks in the required environment. Record the

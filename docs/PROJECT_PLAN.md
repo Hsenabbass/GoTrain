@@ -136,6 +136,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 **Detailed plan:** [M4 product plan](milestones/m4-product.md). Three planned tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal dark conversation workspace. Custom-manifest training integration is required; the UI must use the real engine. Implementation has not started.
 
+**UI preparation:** [M4 workspace handoff](milestones/m4-workspace.md). Simplify and review the existing UI first; each backend step requires a detailed plan and user confirmation before implementation.
+
 **Depends on:** M3's stable engine, saved candidates, prediction tools, and artifact records. UI design can begin earlier once M2's interfaces are stable.
 
 **Cover:** package models with weights, architecture/configuration, preprocessing, channel order, class mapping, dependencies, and prediction entry point. Add versions and export/download tools. Build the chat-style interface around the engine: supported dataset import, task description, live progress, results/decision summaries, prediction previews, comparisons, and export.

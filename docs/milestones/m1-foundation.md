@@ -184,6 +184,10 @@ the [fast-delivery guidance](../WORKFLOW.md#plan-for-fast-delivery).
 
 ## Handoff
 
+**Parallel UI work:** an isolated local prototype was built while M1 progressed.
+The current simplified design and approval gate are tracked in the [M4 handoff](m4-workspace.md);
+see [UI instructions](../../ui/README.md). UI work does not change M1 evidence.
+
 **Last updated:** 2026-10-31.
 **Current state:** M1 and tasks 1.1–1.7 complete. Required access, the four selected datasets/contracts, manual runner/resource enforcement and four accepted reference checkpoints have linked evidence above. All four selected model/optimizer files have independent checksum-verified recovery copies on the custodian Mac; source is in GitHub/local Git. The active JupyterLab session remains open.
 **Constraints/limitations:** preserve official splits and sealed test payloads. Exact organizer quotas and judging/presentation details remain unknown; the deadline is 2026-11-01 at 15:00 Asia/Beirut with the agreed submission reserve. GoTrain-only GitHub access expires 2026-11-01. The tested venv inherits 17 dependency conflicts; the verified direct versions are not a universal environment lock. Restart/expiry persistence, S3 permissions and another shared backup destination remain unverified. Single-seed references establish starting points, not retraining stability. See [setup](../setup.md), [data contracts](../data.md) and [recovery coverage](../RESOURCES.md#recovery-verification).

@@ -18,6 +18,8 @@ milestone document, when one exists, and its linked GitHub issues.
   Use milestones and their documents for outcomes; do not create overview issues.
   Refer to tasks by their current numbered titles in prose and link labels; keep
   GitHub numeric IDs only in link destinations and API arguments.
+- Work directly on `main` per the user’s instruction; do not create new branches
+  unless explicitly requested. Preserve concurrent teammate changes.
 - Follow the workflow's source-of-truth table. Update affected documentation
   alongside code/configuration changes; link shared facts instead of copying them.
 - Separate proposed, implemented, and verified work. Record checks and evidence;
