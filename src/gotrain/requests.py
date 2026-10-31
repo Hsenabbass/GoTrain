@@ -341,10 +341,12 @@ class Requests:
                 fresh['usage_receipts'].append(usage)
                 self.save(fresh)
 
+        decision = None
         try:
             decision = self.interpreter(context, reserve, receipt)
             with self.locked():
                 fresh = self.get(record['id'])
+                fresh['preflight_decision'] = decision
                 self.apply_decision(fresh, decision)
                 self.save(fresh)
                 return fresh
@@ -352,6 +354,8 @@ class Requests:
             with self.locked():
                 fresh = self.get(record['id'])
                 fresh.update(status='needs_input', error=type(exc).__name__,
+                             error_detail=str(exc)[:500] if isinstance(exc, RequestError) else 'Provider or validation failure',
+                             preflight_decision=decision,
                              questions=['Preflight could not finish. The request is saved and no training started.'])
                 self.save(fresh)
                 return fresh
