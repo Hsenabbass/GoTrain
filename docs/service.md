@@ -210,3 +210,28 @@ opening a second legacy Budget reservation. Durable worker identity, reconnect,
 stop behavior, real model-call wiring and live GPU verification are not implemented
 by these primitives. No GPU work is authorized by a test fixture enabling admission
 in an isolated temporary directory.
+
+
+## 4.2 step 2: shared worker routing
+
+Implemented, CPU verification pending. `M4Runner` resolves only registered frozen
+data, builds reviewed M3-compatible numerical recipes, and launches the existing
+training worker through its watchdog using the supervisor-owned M4 reservation.
+The worker checks parent/trial/job identity, frozen-request hash, dataset contract
+and policy before data/GPU use. No second legacy budget is opened. Training stays
+disabled in the live configuration; no new HTTP endpoints or UI are added.
+
+Custom data uses ManifestData for train/valid only; benchmark data uses the
+existing official adapter. Normalization and optional class weights use training
+only. Custom checkpoints bind the manifest hash and accepted archive version;
+benchmark checkpoints retain the original contract/revision. A custom dataset
+has no borrowed reference. Only eligible primary-seed final/full-validation
+checkpoints can establish or improve its best; ties preserve the prior best and
+cross-dataset/metric comparisons are rejected. Benchmarks start from selected M3
+models without reopening their completed sessions.
+
+The existing training loop, evaluator, checkpoint writer, resource guards and
+reviewed initialization-weight receipts are reused. No new downloads or models.
+The wrapper exposes the frozen goal and limits as agent context; actual agent
+invocation, durable selection/progress/reconnect and stop wiring belong to step 3.
+Package export integration and real GPU acceptance remain later steps.

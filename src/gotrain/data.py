@@ -101,6 +101,18 @@ def fit_normalization(dataset, check=lambda: None):
     return {'fitted_on': 'train', 'samples': len(dataset), 'mean': mean.tolist(), 'std': std.tolist()}
 
 
+def training_label_counts(dataset, classes, check=lambda: None):
+    """Loss weights use training labels only, including custom aligned masks."""
+    if dataset.split != 'train':
+        raise ValueError('Loss weights require training labels only')
+    counts = torch.zeros(classes, dtype=torch.long)
+    for index in range(len(dataset)):
+        check()
+        _, target = dataset[index]
+        counts += torch.bincount(target.flatten(), minlength=classes)
+    return {str(k): int(v) for k,v in enumerate(counts)}
+
+
 def validate_task(spec):
     """Validate the common image contract without opening samples."""
     if spec['kind'] not in ('classification', 'segmentation'):

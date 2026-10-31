@@ -297,3 +297,12 @@ admission checks, in 3.453 s. M1–M3 ledger hashes were unchanged; no real M4
 ledger/reservation, GPU job, Bedrock request or test access. The 77-file snapshot
 was independently checksum-verified and evidence JSON restored. Training remains
 disabled. Next: propose step 2 custom-data runner integration for confirmation. See the [service contract](../service.md).
+
+
+## Remaining 4.2: step 2 handoff
+
+User authorized focused custom-data runner integration. Added an M4 path to the
+existing worker and a small trusted runner wrapper; shared training/evaluation
+code is reused. CPU verification pending. No GPU/Bedrock execution, new service
+or dependency; live training remains disabled. Durable agent/supervisor state
+and stop/reconnect are step 3, package wiring step 4, live acceptance step 5.

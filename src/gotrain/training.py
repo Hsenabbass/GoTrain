@@ -125,14 +125,26 @@ def worker(run, data_root, verify=False):
     run = Path(run)
     record = read(run / 'record.json')
     allocation = os.environ.get('GOTRAIN_ALLOCATION', 'm1')
-    if allocation not in ('m1', 'm2', 'm3'):
+    if allocation not in ('m1', 'm2', 'm3', 'm4'):
         raise ValueError('Unknown allocation')
-    active = read(ROOT / ('artifacts/' + allocation + '-budget.json'))['active']
-    if not active or active['run_id'] != os.environ.get('GOTRAIN_JOB_ID') or active['owner_pid'] != os.getppid():
-        raise RuntimeError('Worker requires a live parent budget reservation')
-    caps, contracts, inspection = read(ROOT / ('configs/' + allocation + '.json')), read(ROOT / 'configs/tasks.json'), read(ROOT / 'docs/data-inspection.json')
-    guard = Guard(ROOT, run, caps, active['started_monotonic'] + active['seconds'])
-    recipe = record['recipe']; spec = {**contracts['tasks'][recipe['task']], '_batch_size': recipe['batch_size']}
+    frozen = None
+    if allocation == 'm4':
+        from .m4 import worker_setup
+        caps, contracts, inspection, guard, spec, frozen, contract_hash = worker_setup(run, record)
+    else:
+        active = read(ROOT / ('artifacts/' + allocation + '-budget.json'))['active']
+        if not active or active['run_id'] != os.environ.get('GOTRAIN_JOB_ID') or active['owner_pid'] != os.getppid():
+            raise RuntimeError('Worker requires a live parent budget reservation')
+        caps, contracts, inspection = read(ROOT / ('configs/' + allocation + '.json')), read(ROOT / 'configs/tasks.json'), read(ROOT / 'docs/data-inspection.json')
+        guard = Guard(ROOT, run, caps, active['started_monotonic'] + active['seconds'])
+        spec = contracts['tasks'][record['recipe']['task']]
+        contract_hash = digest(ROOT / 'configs/tasks.json')
+    recipe = record['recipe']; spec = {**spec, '_batch_size': recipe['batch_size']}
+    def development(split, limit=None, augment=False):
+        if frozen is not None:
+            from .m4 import open_frozen
+            return open_frozen(ROOT, frozen, split, limit, augment)
+        return DevelopmentData(data_root, recipe['task'], split, contracts, inspection, limit, augment)
     seed = recipe.get('seed',2026)
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed); torch.cuda.manual_seed_all(seed)
     torch.set_num_threads(caps['resources']['cpu_threads'])
@@ -141,11 +153,12 @@ def worker(run, data_root, verify=False):
     if not torch.cuda.is_available():
         raise RuntimeError('Run only on the provided SageMaker CUDA environment')
     torch.cuda.reset_peak_memory_stats()
-    valid = DevelopmentData(data_root, recipe['task'], 'valid', contracts, inspection, recipe.get('valid_limit'))
+    valid = development('valid', recipe.get('valid_limit'))
     from .models import CANDIDATES, build_candidate, candidate_normalization, set_training_mode
     if recipe['model'] in CANDIDATES:
-        from .data import task_spec
-        spec = {**task_spec(recipe['task'], contracts, inspection), '_batch_size':recipe['batch_size']}
+        if allocation != 'm4':
+            from .data import task_spec
+            spec = {**task_spec(recipe['task'], contracts, inspection), '_batch_size':recipe['batch_size']}
         receipt = record['weight_receipt']
         model = build_candidate(recipe['model'], spec, ROOT / 'artifacts/weights/m3' / receipt['filename'], receipt, recipe['head_only']).cuda()
     else:
@@ -155,7 +168,7 @@ def worker(run, data_root, verify=False):
         if digest(path) != record['checkpoint_sha256']:
             raise ValueError('Checkpoint checksum mismatch')
         saved = torch.load(path, map_location='cpu', weights_only=True)
-        if saved['meta']['contract_sha256'] != digest(ROOT / 'configs/tasks.json'):
+        if saved['meta']['contract_sha256'] != contract_hash:
             raise ValueError('Checkpoint contract differs from current contract')
         model.load_state_dict(saved['model'], strict=True)
         valid.normalization = saved['meta']['normalization']
@@ -172,12 +185,12 @@ def worker(run, data_root, verify=False):
         return
     record.update(status='running', environment=environment(), gpu=torch.cuda.get_device_name())
     write_json(run / 'record.json', record)
-    train = DevelopmentData(data_root, recipe['task'], 'train', contracts, inspection, recipe.get('train_limit'), recipe.get('augment', False))
+    train = development('train', recipe.get('train_limit'), recipe.get('augment', False))
     normalization = None
     if recipe.get('normalization') in ('train_standardize','pretrained'):
         if recipe['normalization'] == 'pretrained' and spec['channels'] == 3:
             record['normalization_source'] = 'reviewed_pretrained_rgb_statistics'
-        elif allocation == 'm3' and not recipe.get('train_limit'):
+        elif (allocation == 'm3' or allocation == 'm4' and frozen['dataset']['source']=='benchmark') and not recipe.get('train_limit'):
             normalization, record['normalization_source_run'] = reference_normalization(recipe['task'], contracts, inspection)
         else:
             normalization = fit_normalization(train, lambda: guard.check(torch_module=torch))
@@ -186,26 +199,36 @@ def worker(run, data_root, verify=False):
     train.normalization = valid.normalization = normalization
     generator = torch.Generator().manual_seed(seed)
     loader = torch.utils.data.DataLoader(train, batch_size=recipe['batch_size'], shuffle=True, drop_last=False, num_workers=0, generator=generator)
-    if allocation == 'm3':
+    if allocation in ('m3', 'm4'):
         head = model.fc if hasattr(model, 'fc') else model.classifier
         ids = {id(p) for p in head.parameters()}
         groups = [{'params':[p for p in model.parameters() if p.requires_grad and id(p) not in ids], 'lr':recipe['lr'] * recipe['backbone_lr_ratio']},
                   {'params':[p for p in head.parameters() if p.requires_grad], 'lr':recipe['lr']}]
         optimizer = torch.optim.AdamW(groups, weight_decay=recipe['weight_decay']) if recipe['optimizer']=='adamw' else torch.optim.SGD(groups, weight_decay=recipe['weight_decay'], momentum=.9)
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=min(recipe['steps'],recipe['epochs'] * len(loader)))
-        counts = next(t for t in inspection['tasks'] if t['name']==recipe['task'])['splits']['train']['label_histogram']
+        if allocation=='m4' and inspection is None:
+            counts = {}
+            if recipe['loss']=='weighted_ce':
+                from .data import training_label_counts
+                counts = training_label_counts(train, spec['classes'], lambda: guard.check(torch_module=torch))
+        else:
+            counts = next(t for t in inspection['tasks'] if t['name']==recipe['task'])['splits']['train']['label_histogram']
         weights = torch.tensor([1 / max(int(counts.get(str(k),0)),1)**.5 for k in range(spec['classes'])],device='cuda')
         weights /= weights.mean()
     else:
         optimizer = torch.optim.SGD(model.parameters(), lr=recipe['lr'], weight_decay=recipe['weight_decay'], momentum=0.9)
     scaler = torch.amp.GradScaler('cuda', init_scale=1024)
     best, steps, epochs, stop, updates = -1.0, 0, 0, False, 0
-    reserve = 5 if allocation=='m3' and recipe['phase']=='probe' else caps['reference_run']['validation_reserve_seconds'][spec['kind']]
+    search = allocation in ('m3','m4')
+    reserve = 5 if search and recipe['phase']=='probe' else caps['reference_run']['validation_reserve_seconds'][spec['kind']]
     for epoch in range(recipe['epochs']):
-        if allocation=='m3' and recipe['model'] in CANDIDATES:
+        if search and recipe['model'] in CANDIDATES:
             set_training_mode(model)
         else:
             model.train()
+            if allocation=='m4':
+                for module in model.modules():
+                    if isinstance(module, torch.nn.modules.batchnorm._BatchNorm): module.eval()
         completed_epoch = True
         for x, y in loader:
             try:
@@ -220,8 +243,8 @@ def worker(run, data_root, verify=False):
             with torch.autocast('cuda', dtype=torch.float16):
                 from .models import logits_for
                 logits = logits_for(model, x.cuda(), spec)
-                loss = torch.nn.functional.cross_entropy(logits, y.cuda(), weight=weights if allocation=='m3' and recipe['loss']=='weighted_ce' else None)
-                if allocation=='m3' and recipe['loss']=='ce_dice':
+                loss = torch.nn.functional.cross_entropy(logits, y.cuda(), weight=weights if search and recipe['loss']=='weighted_ce' else None)
+                if search and recipe['loss']=='ce_dice':
                     prob = logits.float().softmax(1)
                     target = torch.nn.functional.one_hot(y.cuda(),spec['classes']).permute(0,3,1,2).float()
                     dims=(0,2,3)
@@ -231,7 +254,7 @@ def worker(run, data_root, verify=False):
             before_scale = scaler.get_scale()
             scaler.scale(loss).backward(); scaler.step(optimizer); scaler.update()
             updates += int(scaler.get_scale() >= before_scale)
-            if allocation=='m3' and recipe['schedule']=='cosine' and scaler.get_scale() >= before_scale:
+            if search and recipe['schedule']=='cosine' and scaler.get_scale() >= before_scale:
                 scheduler.step()
             steps += 1
             guard.check(torch_module=torch)
@@ -243,7 +266,7 @@ def worker(run, data_root, verify=False):
         metrics = evaluate(model, valid, spec, guard)
         prediction = prediction_summary(model, valid, spec)
         meta = {'recipe': recipe, 'task_spec': spec, 'normalization': normalization, 'seed': seed,
-                'contract_sha256': digest(ROOT / 'configs/tasks.json'), 'steps': steps, 'epochs_completed': epochs,
+                'contract_sha256': contract_hash, 'steps': steps, 'epochs_completed': epochs,
                 'validation': metrics, 'prediction': prediction, 'source_commit': record['source_commit']}
         checkpoint(run / 'last.pt', model, optimizer, meta, guard)
         if metrics['full_split'] and metrics['primary'] > best:
@@ -252,7 +275,7 @@ def worker(run, data_root, verify=False):
             record['best_validation'] = metrics
         record.update(steps=steps, optimizer_updates=updates, amp_skipped_steps=steps-updates, amp_initial_scale=1024, epochs_completed=epochs, last_validation=metrics, normalization=normalization,
                       peak_allocated_bytes=torch.cuda.max_memory_allocated(), peak_reserved_bytes=torch.cuda.max_memory_reserved())
-        if allocation=='m3':
+        if search:
             record.setdefault('curve',[]).append({'epoch':epoch+1,'steps':steps,'loss':float(loss.detach()),'validation':metrics['primary']})
         write_json(run / 'record.json', record)
         print('VALIDATED', epoch + 1, steps, metrics['primary'], 'full=', metrics['full_split'], flush=True)
