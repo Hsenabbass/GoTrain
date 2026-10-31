@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** in progress; task 1.1 completed 2026-10-31; tasks 1.2–1.7 not started.
+**Status:** in progress; tasks 1.1/1.2 completed 2026-10-31; tasks 1.3–1.7 not started.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -149,7 +149,8 @@ for verification. A run record owns the exact numeric score.
 | Required outcome | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
 | Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
-| Data and budget contracts (1.2/1.3) | Official metadata, train/validation inspection, bounded calibration | Unverified | Pending |
+| Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
+| Evaluation and budget contracts (1.3) | Benchmark conventions, organizer rules and bounded calibration | Unverified | Pending |
 | Shared foundation (1.4) | Synthetic safety/metric checks and SageMaker smoke run | Unverified | Pending |
 | EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
@@ -160,18 +161,18 @@ for verification. A run record owns the exact numeric score.
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** task 1.1 is complete. GPU/CUDA, Bedrock/Strands response and tool
-execution, browser-reload continuity, GEO-Bench imports/metadata access and
-SageMaker clone/push passed. No dataset samples, training or engine implementation.
-**Constraints:** preserve the active JupyterLab session. Approved GoTrain-only GitHub
-access expires 2026-11-01. The verification venv inherits existing package conflicts;
-application dependencies are resolved in task 1.4. Exact quotas remain unknown;
-judging/presentation details will come from the user. See the setup agreement.
-**Next action:** start task 1.2 when authorized; inspect/download only the four
-selected tasks while keeping test samples sealed. Task 1.3 defines conservative
-budgets and evaluation contracts before reference runs.
-**Pending synchronization:** none after this completion change is published and
-task 1.1 is closed on GitHub.
+**Current state:** tasks 1.1 and 1.2 are complete. Required access passed; the four
+selected archives are verified and train/validation inspection is documented in
+[data contracts](../data.md). No training or engine implementation has started.
+**Constraints:** preserve the active JupyterLab session and official splits; test
+payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
+The verification venv inherits existing conflicts; task 1.4 owns application
+dependencies. Quotas and judging/presentation details remain pending.
+**Next action:** task 1.3: finalize metrics, Chesapeake no-data/class inclusion and
+explicit conservative budgets before reference runs. Use corrected multispectral
+channel orders and observed scales; do not fit preprocessing on validation.
+**Pending synchronization:** none after this change is published and task 1.2 is
+closed on GitHub.
 
 ## Completion
 

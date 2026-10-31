@@ -20,7 +20,7 @@ link privately; never commit access URLs or credentials.
 | Memory | MemTotal 16164852 kB; available memory varies. |
 | Working volume | `/home/sagemaker-user`: about 99.9 GiB total, 99.2 GiB free at initial check. |
 | Git | 2.43.0. |
-| GEO-Bench | Installed geobench 1.1.0 in a separate verification venv with inherited system packages. Imports passed with rasterio 1.4.3, NumPy 1.26.4, torch 2.8.0 and torchvision 0.24.0. No dataset samples downloaded. |
+| GEO-Bench | Installed geobench 1.1.0 in a separate verification venv with inherited system packages. Imports passed with rasterio 1.4.3, NumPy 1.26.4, torch 2.8.0 and torchvision 0.24.0. No dataset samples downloaded during 1.1; [1.2 subsequently completed selected-task inspection](data.md). |
 | Bedrock response | Required model `eu.anthropic.claude-sonnet-5-5`, region `eu-central-1`, through Strands returned `GOTRAIN_ACCESS_OK`. No new key configured. |
 | Tool execution | A fixed-marker `access_probe` tool returned `GOTRAIN_TOOL_OK`: two model calls, one tool call. |
 | Weight endpoint | The installed torchvision ResNet18 default weight URL returned HTTP 206 and 1024 sampled bytes. Full weight download, integrity, license suitability and model selection remain pending. |
@@ -96,7 +96,7 @@ User clarification on 2026-10-31 is the current operational agreement:
   do not treat unknown quotas as unlimited resources.
 
 Technical access acceptance is satisfied. Follow-up work belongs to its planned
-scope: task 1.2 verifies actual selected-task downloads, versions and data terms;
+scope: task 1.2 has verified selected-task downloads/versions and recorded source terms in [data contracts](data.md);
 task 1.3 settles metrics/budgets and applies organizer updates; task 1.4 establishes
 the minimal application dependency set. Recipe-specific weight downloads and
 licenses are checked when models are selected in tasks 1.5/1.6. Imports and endpoint

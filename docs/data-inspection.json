@@ -920,5 +920,13 @@
   ],
   "channel_mapping_source_commit": "17cac9b7bd0d506866d8356f5817b88d173d2891",
   "verification_script_sha256": "7e80170210f351a3a4e67727ec08213970458fa4845173a32177a4b5ffed3325",
-  "download_total_bytes": 3409938495
+  "download_total_bytes": 3409938495,
+  "visual_review": {
+    "examples_per_segmentation_task_split": 2,
+    "splits": [
+      "train",
+      "valid"
+    ],
+    "result": "Visible feature alignment reviewed; one all-black Chesapeake validation example with an all-zero mask flagged. Geographic transforms absent for Chesapeake."
+  }
 }
