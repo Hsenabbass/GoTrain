@@ -322,8 +322,9 @@ were hash-checked and loaded on CPU; cached bytes are reconstructible from the
 pinned receipts and excluded from the evidence snapshot. No package installs.
 
 The manifest requires fixed-size, already aligned examples and no ignored labels;
-large rasters must be pre-windowed. Automatic tiling/reprojection and search are
-not implemented. The ImageNet checkpoints' unknown held-out overlap remains
+large rasters must be pre-windowed. Automatic tiling/reprojection and autonomous
+search for new manifest tasks are not implemented; benchmark search is verified below.
+The ImageNet checkpoints' unknown held-out overlap remains
 recorded, and redistribution terms require M4 review. Passing compatibility tests
 does not establish GPU speed or improvement.
 
