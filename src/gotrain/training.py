@@ -299,16 +299,23 @@ def child(run, data_root, active, log, verify=False):
     run_with_watchdog(args, remaining, log, {**os.environ, 'GOTRAIN_JOB_ID': active['run_id'], 'GOTRAIN_ALLOCATION': active['allocation']})
 
 
-def run_with_watchdog(args, seconds, log, env=None):
+def run_with_watchdog(args, seconds, log, env=None, on_start=None):
     with log.open('a') as stream:
         process = subprocess.Popen(args, stdout=stream, stderr=subprocess.STDOUT,
                                    start_new_session=True, env=env)
         try:
+            if on_start:
+                on_start(process.pid)
             code = process.wait(timeout=seconds)
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL)
             process.wait(timeout=5)
             raise TimeoutError('Hard wall watchdog terminated worker')
+        except BaseException:
+            if process.poll() is None:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=5)
+            raise
     if code:
         raise RuntimeError('Worker failed; see ' + str(log))
 

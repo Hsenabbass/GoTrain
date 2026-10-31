@@ -156,7 +156,7 @@ class M4RunnerTests(unittest.TestCase):
         ledger={'active':self.job['id'],'jobs':{self.job['id']:self.job},'policy_sha256':fingerprint(self.lease.policy)}
         atomic_json(self.root/'artifacts/m4-budget.json',ledger)
         caps=read_json(self.root/'configs/service.json'); caps['training_enabled']=True; atomic_json(self.root/'configs/service.json',caps)
-        with patch('gotrain.m4.ROOT',self.root), patch('gotrain.m4.os.getppid',return_value=os.getpid()), patch.dict(os.environ,{'GOTRAIN_JOB_ID':self.job['id'],'GOTRAIN_TRIAL_ID':'trial_fixture'}):
+        with patch('gotrain.m4.ROOT',self.root), patch('gotrain.m4.protect_parent'), patch('gotrain.m4.os.getppid',return_value=os.getpid()), patch.dict(os.environ,{'GOTRAIN_JOB_ID':self.job['id'],'GOTRAIN_TRIAL_ID':'trial_fixture'}):
             self.assertEqual(worker_setup(self.root/'artifacts/runs/worker',record)[4]['kind'],'classification')
             with patch('gotrain.m4.os.getppid',return_value=-1):
                 with self.assertRaisesRegex(RuntimeError,'live M4'): worker_setup(self.root/'artifacts/runs/worker',record)

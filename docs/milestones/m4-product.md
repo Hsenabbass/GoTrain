@@ -309,3 +309,13 @@ and no GPU/Bedrock/test access occurred. The actual GPU training path remains
 unverified until live acceptance. Independent 79-file snapshot/member verification
 and evidence restoration passed. No new service or dependency; training stays disabled. Durable agent/supervisor state
 and stop/reconnect are step 3, package wiring step 4, live acceptance step 5.
+
+
+## Remaining 4.2: step 3 handoff
+
+Confirmed by the user; work stays on main. Implemented one detached supervisor,
+bounded existing-agent wiring, saved launch/owner/progress/selection, read-only
+reconnect and stop-after-current-experiment. CPU/process tests pending; no live
+GPU/model calls. UI changes are limited to inline progress/stop, gated by the
+still-disabled training flag. Next: verify and independently recover evidence,
+then propose step 4 standalone verification/export integration.

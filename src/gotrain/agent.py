@@ -159,6 +159,8 @@ def create_agent(controller):
                 received = False
                 try:
                     async for event in super().stream(*args, **kwargs):
+                        if hasattr(controller, 'check_event'):
+                            controller.check_event()
                         received = True
                         if 'metadata' in event:
                             controller.state['usage'].append(event['metadata'])

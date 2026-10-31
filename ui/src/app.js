@@ -13,6 +13,7 @@ const send = document.querySelector('#send');
 const status = document.querySelector('#status');
 const panel = document.querySelector('#request-state');
 let connected = false, busy = false, health = null;
+let jobPoll = 0;
 let session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
 function persist() {
   try {
@@ -75,9 +76,18 @@ function showRecord(record) {
     panel.append(list);
     const button = text('button', 'Start training');
     button.type = 'button';
-    button.disabled = true; // Enabled only after durable M4 job admission is verified.
+    button.disabled = !health?.training_enabled || Boolean(session.jobRequested);
     button.className = 'send-button';
-    text('p', 'Request prepared. Training is not enabled yet; no GPU work has started.');
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      session.startRequest ||= `request_${crypto.randomUUID().replaceAll('-', '')}`;
+      session.jobRequested = true; persist();
+      try {
+        await api(`conversations/${session.conversationId}/start`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({request_id:session.startRequest})});
+      } catch (error) { status.textContent = error.message; }
+      watchJob(); // Read any saved intent even if the start response disconnected.
+    });
+    text('p', health?.training_enabled ? 'Your request is prepared.' : 'Request prepared. Training is not enabled yet; no GPU work has started.');
   }
   text('small', `${record.model_requests} model request(s) used. Validation only; test data stays sealed.`);
   if (record.status !== 'checking') {
@@ -94,6 +104,41 @@ function showRecord(record) {
     });
   }
   persist();
+  if (session.jobRequested) watchJob();
+}
+
+function watchJob() {
+  const poll = ++jobPoll, conversation = session.conversationId;
+  async function tick() {
+    if (poll !== jobPoll || session.conversationId !== conversation || !session.jobRequested) return;
+    try {
+      const state = await api(`conversations/${conversation}/job`);
+      if (poll !== jobPoll || session.conversationId !== conversation) return;
+      let view = document.querySelector('#job-state');
+      if (!view) { view = document.createElement('div'); view.id = 'job-state'; panel.append(view); }
+      view.replaceChildren();
+      text('h2', state.status === 'selected' ? 'Model selected' : state.stage || state.status, view);
+      if (state.elapsed_seconds !== undefined) text('p', `${Math.floor(state.elapsed_seconds)} seconds elapsed · ${state.attempts || 0} attempts · ${state.model_requests || 0} model requests`, view);
+      if (state.gpu_seconds !== undefined) text('small', `${Math.ceil(state.gpu_seconds)} GPU-job seconds charged or reserved.`, view);
+      if (state.best) text('p', `Selected model: ${state.best}`, view);
+      if (state.error) text('p', state.error, view);
+      if (state.audit_required) text('p', 'This run needs operator review. It will not restart automatically.', view);
+      const active = !['selected', 'stopped', 'failed', 'interrupted'].includes(state.status);
+      const reset = panel.querySelector('.new-request');
+      if (reset) reset.disabled = active;
+      if (active && state.status !== 'stopping') {
+        const stop = text('button', 'Stop after current experiment', view);
+        stop.type = 'button'; stop.className = 'new-request';
+        stop.addEventListener('click', async () => {
+          stop.disabled = true;
+          try { await api(`conversations/${conversation}/stop`, {method:'POST'}); watchJob(); }
+          catch (error) { status.textContent = error.message; stop.disabled = false; }
+        });
+      }
+      if (active) setTimeout(tick, 2000);
+    } catch (error) { status.textContent = error.message; }
+  }
+  tick();
 }
 
 message.addEventListener('input', () => { updateSend(); status.textContent = ''; persist(); });

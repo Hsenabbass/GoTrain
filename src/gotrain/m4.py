@@ -11,6 +11,16 @@ from .requests import read_json, opaque
 from .training import ROOT, digest
 
 
+def protect_parent(expected_pid):
+    """Set in the child (never preexec): an orphan cannot keep doing GPU work."""
+    import ctypes
+    import signal
+    if ctypes.CDLL(None,use_errno=True).prctl(1,signal.SIGKILL,0,0,0)!=0:
+        raise OSError(ctypes.get_errno(),'Could not set parent-death protection')
+    if os.getppid()!=expected_pid:
+        raise RuntimeError('Supervisor died before worker protection was installed')
+
+
 def dataset_contract(root, frozen):
     """Resolve registered IDs only; no paths or download URLs from task text."""
     from .data import task_spec, validate_task
@@ -70,6 +80,7 @@ def worker_setup(run, record):
             or fingerprint(job['frozen']) != job['frozen_sha256']
             or record['frozen_sha256'] != job['frozen_sha256']):
         raise RuntimeError('Worker requires its live M4 supervisor reservation')
+    protect_parent(job['owner_pid'])
     if Path(run).resolve().parent != (ROOT/'artifacts/runs').resolve():
         raise RuntimeError('M4 worker run must belong to the canonical run registry')
     spec, contract_hash, contracts, inspection = dataset_contract(ROOT, job['frozen'])
@@ -100,6 +111,8 @@ class M4Runner:
         self.task = self.frozen['dataset']['id']
         self.best = None
         self.runs = []
+        self.on_change = lambda: None
+        self.on_worker = lambda _pid: None
         if self.frozen['dataset']['source'] == 'benchmark':
             selected = next(t for t in read_json(self.root/'docs/m3-evidence.json')['searches']['results'] if t['task']==self.task)
             self.best = selected['selected_run']
@@ -165,6 +178,7 @@ class M4Runner:
             raise ValueError('Select only intact primary-seed full-validation final checkpoints')
         if self.best is None or metrics['primary'] > self.result(self.best)['best_validation']['primary']:
             self.best = run_id
+        self.on_change()
         return self.best
 
     def run_trial(self, candidate, phase, settings, hypothesis):
@@ -194,6 +208,7 @@ class M4Runner:
                   'parent_run':self.best,'hypothesis':hypothesis,'weight_receipt':receipt}
         atomic_json(run/'record.json',record)
         self.runs.append(run_id)
+        self.on_change()
         from .training import run_with_watchdog
         remaining = trial['reserved_seconds']-(time.monotonic()-trial['started_monotonic'])
         status = 'failed'
@@ -202,9 +217,15 @@ class M4Runner:
                 raise TimeoutError('No trial allowance remains; no worker launched')
             run_with_watchdog([sys.executable,str(self.root/'scripts/train.py'),'_worker','--run',str(run),
                                '--data-root',str(self.root/'data/geo-bench/datasets')],remaining,run/'worker.log',
-                              {**os.environ,'GOTRAIN_ALLOCATION':'m4','GOTRAIN_JOB_ID':job['id'],'GOTRAIN_TRIAL_ID':trial['id']})
+                              {**os.environ,'GOTRAIN_ALLOCATION':'m4','GOTRAIN_JOB_ID':job['id'],'GOTRAIN_TRIAL_ID':trial['id']},self.on_worker)
             status = 'completed'
+        except Exception as exc:
+            failed = read_json(run/'record.json')
+            failed.update(status='failed',error_type=type(exc).__name__,error=str(exc)[:500])
+            atomic_json(run/'record.json',failed)
+            raise
         finally:
             # Watchdog waits for child termination before returning/raising.
             self.lease.settle_trial(trial['id'],status)
+            self.on_worker(None)
         return self.result(run_id)

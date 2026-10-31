@@ -35,6 +35,11 @@ class Message(BaseModel):
     limits: dict[str, StrictInt] = Field(default_factory=dict)
 
 
+class Start(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    request_id: str
+
+
 def validate_on_sagemaker(manifest):
     # Image decoding is untrusted CPU work: a separate process has a hard deadline.
     command = [sys.executable, '-c',
@@ -64,7 +69,7 @@ def example_zip(kind):
     return buf.getvalue()
 
 
-def create_app(store=None, *, local=False):
+def create_app(store=None, *, local=False, jobs=None):
     caps = read_json(ROOT / 'configs/service.json')
     if store is None:
         if not local and ROOT.resolve() != CANONICAL.resolve():
@@ -74,6 +79,8 @@ def create_app(store=None, *, local=False):
                          validator=validate_on_sagemaker,
                          interpreter=None if local else BedrockPreflight())
     caps = store.caps
+    from .jobs import Jobs
+    jobs = jobs or Jobs(ROOT,store)
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     app.state.store = store
     pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix='dataset-import')
@@ -96,7 +103,7 @@ def create_app(store=None, *, local=False):
             expected = parsed.scheme + '://' + parsed.netloc
             if origin and origin != expected:
                 return JSONResponse({'detail': 'Origin does not match this workspace'}, status_code=403)
-            if request.url.path.endswith('/api/conversations'):
+            if request.url.path.endswith('/api/conversations') or request.url.path.endswith('/start'):
                 length = request.headers.get('content-length', '')
                 if not length.isdigit() or int(length) > 65536:
                     return JSONResponse({'detail': 'JSON request requires Content-Length at most 64 KiB'}, status_code=413)
@@ -109,7 +116,7 @@ def create_app(store=None, *, local=False):
     @app.get('/api/health')
     def health():
         return {'service': 'gotrain', 'preflight_enabled': store.interpreter is not None,
-                'training_enabled': False, 'upload_bytes': caps['upload_bytes'],
+                'training_enabled': caps['training_enabled'] and not local, 'upload_bytes': caps['upload_bytes'],
                 'scope': 'request_validation', 'limits': caps['limits']}
 
     @app.get('/api/datasets')
@@ -182,9 +189,23 @@ def create_app(store=None, *, local=False):
         return store.get(conversation_id)
 
     @app.post('/api/conversations/{conversation_id}/start')
-    def start(conversation_id: str):
+    def start(conversation_id: str, value: Start | None = None):
         store.get(conversation_id)
-        raise RequestError('Training admission is not enabled: the M4 runner and durable supervisor integration must be verified first. No GPU job was launched.', 409)
+        if local or caps['training_enabled'] is not True:
+            raise RequestError('Training stays disabled pending supervisor/package/live acceptance. No GPU job was launched.',409)
+        if value is None:
+            raise RequestError('Provide a persistent start request_id')
+        return jobs.start(conversation_id,value.request_id)
+
+    @app.get('/api/conversations/{conversation_id}/job')
+    def job(conversation_id: str):
+        store.get(conversation_id)
+        return jobs.get(conversation_id)
+
+    @app.post('/api/conversations/{conversation_id}/stop')
+    def stop(conversation_id: str):
+        store.get(conversation_id)
+        return jobs.stop(conversation_id)
 
     @app.get('/')
     def index():

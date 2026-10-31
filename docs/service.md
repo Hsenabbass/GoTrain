@@ -238,3 +238,39 @@ reviewed initialization-weight receipts are reused. No new downloads or models.
 The wrapper exposes the frozen goal and limits as agent context; actual agent
 invocation, durable selection/progress/reconnect and stop wiring belong to step 3.
 Package export integration and real GPU acceptance remain later steps.
+
+
+## 4.2 step 3: detached supervisor and reconnect
+
+Implemented, CPU/process verification pending. Training remains disabled until
+package integration and live acceptance. Start takes a persistent `request_id` at
+`POST /api/conversations/{id}/start`; read state at `GET .../{id}/job` and request
+stop at `POST .../{id}/stop`. Same-origin/header checks apply to mutations; IDs are
+opaque. The existing composer gets inline polling/stop only, no new view.
+
+One immutable launch intent is written before spawning `python -m gotrain.jobs`.
+One exclusive owner claim prevents duplicate supervisors, even if launch or HTTP
+responses are interrupted. The detached supervisor owns the existing M4 lease and
+shared lock. Reconnect never starts work. PID/start ticks/boot identity distinguish
+live owners from reused PIDs. Missing/dead/uncertain owners require operator audit;
+reservations are never guessed, reset or automatically retried. A terminal UI
+state cannot hide an active ledger reservation.
+
+The existing Strands/Bedrock agent factory wraps only M4's bounded inspection,
+trial, result, selection and finish tools. Frozen goal/data/limits reach the agent
+as context. Wire calls charge the M4 ledger before use, including connection retry;
+returned usage receipts remain partial. Tool/model/runtime caps and fatal-worker
+stops apply. Committed source must match launch provenance before new training.
+
+Stop writes a durable flag. It prevents the next tool/model/trial launch while
+the current bounded worker saves/validates and settles; the best eligible final
+checkpoint is retained without another model call. Selection is persisted, not
+M5 finalization. Status `selected` explicitly does not mean a package is ready.
+Standalone verification/export is step 4.
+
+A supervisor process timer enforces the job runtime; M4 workers set Linux parent-
+death SIGKILL before GPU use. A hard supervisor death therefore kills its child
+and leaves charges reserved for audit. The existing watchdog also kills/waits
+for workers on timeout or interrupted waiting. Supervisor state, trials, returned
+usage and selection live under `artifacts/service/jobs/<conversation>/`; the GPU
+ledger remains the authoritative charge record. No database or queue.
