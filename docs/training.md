@@ -148,3 +148,5 @@ bounds the invocation; GPU admission reserves enough remaining invocation time
 for a bounded job to finish. `agent_returned` means Claude returned, not that M2
 acceptance passed. Confirm the full cycle, checkpoint reload and backup before
 accepting 2.2. No broad restart guarantee or agent code-edit sandbox is claimed.
+
+The first real cycle passed on 2026-10-31: see [M2 results and limitations](milestones/m2-engine.md#results-and-limitations) and [exact evidence](m2-evidence.json). The two normal M2 training attempts are now consumed; the ledger preserves usage across invocations. Do not relaunch or reset it for more search; a later milestone must version its allocation.

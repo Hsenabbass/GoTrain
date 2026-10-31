@@ -1,6 +1,6 @@
 # M2: Build the autonomous engine
 
-**Status:** in progress; 2.1 complete, 2.2 not started.
+**Status:** complete 2026-10-31; 2.1 and 2.2 verified.
 **GitHub:** [M2](https://github.com/Hsenabbass/GoTrain/milestone/2)
 **Direction:** [Agreed M2 outcome](../PROJECT_PLAN.md#m2-build-the-autonomous-engine)
 
@@ -40,7 +40,7 @@ own checks and documentation; no separate setup, audit or handoff issue.
 - Use the verified model/region in the [project plan](../PROJECT_PLAN.md#tools-and-external-resources).
   Reuse the working environment; pin the observed Strands/Bedrock dependencies
   when adding the agent. Do not repair unrelated inherited package conflicts.
-- **Planned caps, to enforce in 2.1 before execution:** two normal training runs,
+- **Enforced caps:** two normal training runs,
   at most one eligible failure retry; 1,500 seconds total GPU-job wall time,
   including verification/retries; existing 600-second/10-epoch/5,000-step run caps
   and memory/disk/validation reserves. Keep M1 usage unchanged and charge M2 in a
@@ -66,17 +66,41 @@ own checks and documentation; no separate setup, audit or handoff issue.
 | Outcome / issue | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
 | Bounded tools and controller (2.1) | 7 new boundary/controller tests + 12 runner regression checks on SageMaker | Pass, 2026-10-31; 19 tests in 1.428 s | Source `747ac9f`; `artifacts/runs/m2-tool-checks/checks.log`; [independent recovery receipt](../RESOURCES.md#recovery-verification) |
-| Autonomous cycle (2.2) | One detached EuroSAT cycle, checkpoint prediction/reload and independent backup | Not run | Link run IDs, decision log, usage and recovery receipt here |
+| Autonomous cycle (2.2) | One detached EuroSAT cycle on SageMaker; trusted record/hash audit, retained-checkpoint reload/prediction and independent backup | Pass, 2026-10-31; baseline 87.00%, candidate 86.20%; prior best retained, reload delta 0 | [Cycle evidence](../m2-evidence.json); `artifacts/runs/m2-cycle/`; [recovery receipt](../RESOURCES.md#recovery-verification) |
+
+## Results and limitations
+
+Claude inspected the registered task, reproduced the starting recipe, then chose
+to lower learning rate from 0.01 to 0.003. Both runs completed 10 epochs and full
+validation on all 1,000 images. The starting run tied M1 at 87.00%; the change
+scored 86.20%. Trusted selection rejected both promotions and retained M1's best.
+The agent reloaded that checkpoint in a fresh process: full-validation delta 0,
+prediction shape `[1]`, probability shape `[1, 10]`, probability-sum error < 1.2e-7.
+
+The run used 350.45 / 1,500 GPU-job wall seconds (341.02 training + 9.43 verification),
+9 / 12 model requests and 10 / 20 tool calls. Bedrock reported 99,624 input and
+2,762 output tokens. Zero GPU retries; no active reservation. M1's ledger hash
+remained unchanged. No routine human experiment decisions or test access occurred.
+The tool rejected a 30-epoch proposal and an invalid retry request before training.
+
+This is one single-seed configuration comparison, not a performance improvement
+or statistical significance result. Claude's response inaccurately suggested the
+invalid retry consumed retry allowance; the durable counter and GPU ledger show
+zero retries. Its suggestion that the score gap is noise is not established by
+this run. Use trusted records for scores, selection and usage. All-task search and
+broader restart/recovery behavior remain M3.
 
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** 2.1 implemented and verified on SageMaker. Five typed tools reuse the manual runner; configuration-only boundaries, prior-best selection/integrity, retry/call/wall limits, separate M2 ledger/shared lock and assembled Strands schemas pass focused checks. Observed SDK versions pinned. Source and logs independently backed up. No training, Bedrock requests or test payload access occurred during these checks; the real cycle remains unverified.
-**Blockers:** none known; organizer quotas and judging/presentation details remain pending.
-**Next action:** start 2.2 when authorized, using the [detached launch instructions](../training.md#bounded-agent-21). Validate the real tool-call/training cycle, actual usage and final retained checkpoint before declaring M2 complete.
-**Synchronization:** 2.1 source/docs published to GitHub and local main; SageMaker verified implementation `747ac9f`. Fast-forward SageMaker to main for the final handoff documentation before 2.2.
+**Current state:** M2 complete. Bounded tools passed SageMaker checks; the real autonomous cycle, protected keep/reject decision, retained checkpoint reload and independent recovery copies are verified. Exact records live in [M2 evidence](../m2-evidence.json).
+**Blockers:** none for M2. Organizer quotas and judging/presentation details remain pending; existing operating limitations still apply.
+**Next action:** plan M3 when requested. Reuse the retained references, tools and recorded M2 usage; do not reset historical budgets or reopen test access.
+**Synchronization:** completion evidence/docs are published with GitHub task closure; fast-forward SageMaker to the completion commit before further work.
 
 ## Completion
 
-2.1 passed the focused checks above; 2.2 is pending. Then update this handoff and the shared
-run instructions, record the independent backup, and stop M2 work. Plan M3 next.
+Both issues meet M2 acceptance. No measured score gain was found; the demonstrated
+outcome is a complete autonomous comparison that safely retained the prior best.
+Both new candidate checkpoints and cycle evidence have independent checksum-verified
+recovery copies. The selected M1 checkpoint retains its existing verified backup.

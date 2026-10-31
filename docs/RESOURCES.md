@@ -8,9 +8,9 @@ model/region requirements, and research references. See the
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
 | GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; SageMaker clone and disposable-branch push verified 2026-10-31 using explicitly approved GoTrain-only access expiring 2026-11-01; other teammates' access unverified. See [setup evidence](setup.md). |
-| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 in progress](milestones/m2-engine.md): 2.1 verified, 2.2 next. |
+| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; M3 planning next. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Existing Safari session verified 2026-10-31; GPU execution passed. See [setup evidence](setup.md). Keep the current session open; organizers can renew access as needed. Do not store access links here. |
-| Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
+| Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; M2 autonomous tool cycle verified; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
 | Persistent data and artifacts | SageMaker `/home/sagemaker-user`; check artifacts in `gotrain-access-check/`. | Data inspection logs/previews at `/home/sagemaker-user/GoTrain/artifacts/data-inspection/`. Capacity/writes and browser-reload continuity verified 2026-10-31; restart/expiry persistence and S3 permissions unverified. See [setup evidence](setup.md). |
 
@@ -20,12 +20,22 @@ model/region requirements, and research references. See the
 
 ## Recovery verification
 
+- **Task 2.2 snapshot:** `snapshots/20261031T155229195121Z-recovery.tar.gz`,
+  171,941,539 bytes, 58 files; source `121cf8f46ca96a7e05d7620926ea665f55f69466`.
+  Archive SHA-256: `9850720e796fd87a7fc9f46a30933026e70789992b680da5a7d36b574b0d51ca`.
+  Sender/receiver and all member hashes matched 2026-10-31. Both new candidate
+  `best.pt` files restored as opaque bytes and matched the accepted run hashes;
+  archived cycle evidence matches [M2 evidence](m2-evidence.json). Includes both
+  run records/logs/checkpoints, session decisions/usage, settled ledger and retained
+  reference revalidation. The retained M1 model has its existing independent copy.
+  ML execution/revalidation ran only on SageMaker.
+
 - **Task 2.1 snapshot:** `snapshots/20261031T154026364499Z-recovery.tar.gz`,
   4,582,040 bytes, 44 files; source `747ac9fc238c91111b32c50dbe40e6e41f329159`.
   Archive SHA-256: `7d620478cdce946fb6549ab6730bea6f8aacb1b1fdb44c9ce546a5e506e26c39`.
   Sender/receiver and all member checksums matched 2026-10-31; restored
   `artifacts/runs/m2-tool-checks/checks.log` confirms 19 passing SageMaker checks.
-  Includes controller source, configs and check log; no M2 training models exist.
+  Includes controller source, configs and check log; no M2 training models existed at that snapshot.
 
 - **Snapshot:** `snapshots/20261031T131902980457Z-recovery.tar.gz`, 5,949,722 bytes,
   24 files; source commit `f124b41d58e0d3d8bb17d32566c794f99d064c1b`.

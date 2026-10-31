@@ -1,0 +1,1427 @@
+{
+  "kind": "M2_autonomous_cycle",
+  "completed": true,
+  "verified_utc": "2026-10-31T15:52:28.610469+00:00",
+  "source_commit": "121cf8f46ca96a7e05d7620926ea665f55f69466",
+  "session_id": "20261031T154505079544Z",
+  "session": {
+    "task": "m-eurosat",
+    "runs": [
+      "20261031T154509390336Z-m-eurosat-manual",
+      "20261031T154815391284Z-m-eurosat-manual"
+    ],
+    "attempts": 2,
+    "retries": 0,
+    "model_requests": 9,
+    "tool_calls": 10,
+    "usage": [
+      {
+        "usage": {
+          "inputTokens": 1061,
+          "outputTokens": 28,
+          "totalTokens": 1089
+        },
+        "metrics": {
+          "latencyMs": 1493
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 3437,
+          "outputTokens": 204,
+          "totalTokens": 3641
+        },
+        "metrics": {
+          "latencyMs": 2208
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 6494,
+          "outputTokens": 171,
+          "totalTokens": 6665
+        },
+        "metrics": {
+          "latencyMs": 2308
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 12547,
+          "outputTokens": 383,
+          "totalTokens": 12930
+        },
+        "metrics": {
+          "latencyMs": 4062
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 12866,
+          "outputTokens": 567,
+          "totalTokens": 13433
+        },
+        "metrics": {
+          "latencyMs": 5100
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 13181,
+          "outputTokens": 316,
+          "totalTokens": 13497
+        },
+        "metrics": {
+          "latencyMs": 2449
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 16324,
+          "outputTokens": 468,
+          "totalTokens": 16792
+        },
+        "metrics": {
+          "latencyMs": 4176
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 16812,
+          "outputTokens": 71,
+          "totalTokens": 16883
+        },
+        "metrics": {
+          "latencyMs": 1381
+        }
+      },
+      {
+        "usage": {
+          "inputTokens": 16902,
+          "outputTokens": 554,
+          "totalTokens": 17456
+        },
+        "metrics": {
+          "latencyMs": 5152
+        }
+      }
+    ],
+    "best": "20261031T142814768185Z-m-eurosat-manual",
+    "decisions": [
+      {
+        "run_id": "20261031T154509390336Z-m-eurosat-manual",
+        "parent": "20261031T142814768185Z-m-eurosat-manual",
+        "hypothesis": "Reproduce the frozen baseline recipe (ResNet18, lr 0.01, 10 epochs) to get a trusted reference under this budget.",
+        "changes": {},
+        "retry_of": ""
+      },
+      {
+        "run_id": "20261031T154815391284Z-m-eurosat-manual",
+        "parent": "20261031T154509390336Z-m-eurosat-manual",
+        "hypothesis": "Epochs are capped at 10, so I'll change the optimization instead. lr 0.01 may be too high for a random-init ResNet18 with batch size 32 and few steps. A lower lr of 0.003 should give more stable convergence and fewer confusions between the similar classes 0, 3 and 6.",
+        "changes": {
+          "lr": 0.003
+        },
+        "retry_of": ""
+      },
+      {
+        "candidate": "20261031T154509390336Z-m-eurosat-manual",
+        "kept": false,
+        "best": "20261031T142814768185Z-m-eurosat-manual",
+        "reason": "Reproduction of the frozen recipe scored 0.870 full-validation accuracy, identical to the prior best. It is a tie, so the prior best is kept."
+      },
+      {
+        "candidate": "20261031T154815391284Z-m-eurosat-manual",
+        "kept": false,
+        "best": "20261031T142814768185Z-m-eurosat-manual",
+        "reason": "lr 0.003 scored 0.862 accuracy and 0.861 macro-F1, below the prior best of 0.870 and 0.868. The hypothesis failed (class 4 recall fell to 0.85), so I reject it and keep the prior best."
+      }
+    ],
+    "status": "agent_returned",
+    "response": "I didn't find an improvement. The best run is still the prior reference, `20261031T142814768185Z-m-eurosat-manual`, at 0.870 validation accuracy.\n\n- **Baseline reproduction:** I re-ran the frozen recipe (ResNet18, lr 0.01, 10 epochs). It scored 0.870 accuracy and 0.868 macro-F1, identical to the prior best. Ties keep the prior best, so it wasn't promoted.\n- **Epoch increase (rejected):** My first idea was 30 epochs, since 630 steps looked undertrained. The tool rejected it because 10 epochs is the contract cap. No training ran.\n- **Retry mistake:** I then submitted the lr change with `retry_of` set by mistake, and the tool rejected it as not retryable. I resubmitted it as a normal run. That used the one eligible retry slot at most, and no training was lost.\n- **Learning-rate change:** I lowered lr from 0.01 to 0.003, expecting more stable convergence. It scored 0.862 accuracy and 0.861 macro-F1, so I rejected it. Class 4 recall fell to 0.85 (from 0.99). The last-epoch validation was worse, at 0.822, so training was not stable at the end either.\n- **Verification:** The prediction check on the prior best checkpoint passed.\n\nThe remaining errors are mostly between classes 0, 3 and 6. Longer training is not allowed. A next step could be changing something else, such as weight decay or augmentation, or averaging over several seeds. With a 1,000-image validation set, a gap of 0.8 points is within noise.\n\nI never touched the test split.\n"
+  },
+  "results": [
+    {
+      "record": {
+        "run_id": "20261031T154509390336Z-m-eurosat-manual",
+        "status": "completed",
+        "created_utc": "20261031T154509390336Z",
+        "recipe": {
+          "task": "m-eurosat",
+          "description": "20261031T154505079544Z",
+          "model": "resnet18",
+          "smoke": false,
+          "epochs": 10,
+          "steps": 5000,
+          "wall_seconds": 600,
+          "batch_size": 32,
+          "lr": 0.01,
+          "weight_decay": 0.0001,
+          "augment": true,
+          "normalization": "train_standardize"
+        },
+        "source_commit": "121cf8f46ca96a7e05d7620926ea665f55f69466",
+        "dirty": false,
+        "seed": 2026,
+        "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+        "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+        "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+        "budget_contract_sha256": "4104d3ae27f15e1b01093b52e871399803abaa454174be2af54a8e19f68cba7b",
+        "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+        "retry_of": null,
+        "is_reference": false,
+        "environment": {
+          "torch": "2.8.0",
+          "torchvision": "0.24.0",
+          "numpy": "1.26.4",
+          "geobench": "1.1.0",
+          "h5py": "3.16.0"
+        },
+        "gpu": "Tesla T4",
+        "best_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "steps": 630,
+        "optimizer_updates": 630,
+        "amp_skipped_steps": 0,
+        "amp_initial_scale": 1024,
+        "epochs_completed": 10,
+        "last_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "normalization": {
+          "fitted_on": "train",
+          "samples": 2000,
+          "mean": [
+            0.13599473825319364,
+            0.1125533093378004,
+            0.10549950435484712,
+            0.09573444476032128,
+            0.1219668072307868,
+            0.20516191654693944,
+            0.2433601782539854,
+            0.2360096063509143,
+            0.07511640884836412,
+            0.0012288121994568977,
+            0.1848902175330206,
+            0.11312693937997342,
+            0.26654380858583365
+          ],
+          "std": [
+            0.02513308414449546,
+            0.03396836987169816,
+            0.03967319709611072,
+            0.059283580803257754,
+            0.05550129187562743,
+            0.0852502011274389,
+            0.10815674900341289,
+            0.11151143991807927,
+            0.040457003360858404,
+            0.00047965781450942527,
+            0.09788258788367193,
+            0.07452817708385286,
+            0.12238791986140692
+          ]
+        },
+        "peak_allocated_bytes": 201756672,
+        "peak_reserved_bytes": 239075328,
+        "checkpoint": "best.pt",
+        "checkpoint_sha256": "332a228a82eba4b37cbcc12c1a27e7f03907c660c405e0aa6d42918d8665f4bc",
+        "eligible_reference": true,
+        "selection_scope": "full_validation"
+      },
+      "timing": {
+        "elapsed_seconds": 171.98117615400042,
+        "ledger": "artifacts/m2-budget.json"
+      }
+    },
+    {
+      "record": {
+        "run_id": "20261031T154815391284Z-m-eurosat-manual",
+        "status": "completed",
+        "created_utc": "20261031T154815391284Z",
+        "recipe": {
+          "task": "m-eurosat",
+          "description": "20261031T154505079544Z",
+          "model": "resnet18",
+          "smoke": false,
+          "epochs": 10,
+          "steps": 5000,
+          "wall_seconds": 600,
+          "batch_size": 32,
+          "lr": 0.003,
+          "weight_decay": 0.0001,
+          "augment": true,
+          "normalization": "train_standardize"
+        },
+        "source_commit": "121cf8f46ca96a7e05d7620926ea665f55f69466",
+        "dirty": false,
+        "seed": 2026,
+        "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+        "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+        "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+        "budget_contract_sha256": "4104d3ae27f15e1b01093b52e871399803abaa454174be2af54a8e19f68cba7b",
+        "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+        "retry_of": null,
+        "is_reference": false,
+        "environment": {
+          "torch": "2.8.0",
+          "torchvision": "0.24.0",
+          "numpy": "1.26.4",
+          "geobench": "1.1.0",
+          "h5py": "3.16.0"
+        },
+        "gpu": "Tesla T4",
+        "best_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.862,
+          "macro_iou": 0.7651275109357192,
+          "macro_f1": 0.8609383661307166,
+          "per_class_iou": [
+            0.6923076923076923,
+            0.8846153846153846,
+            0.7,
+            0.5423728813559322,
+            0.794392523364486,
+            0.711864406779661,
+            0.6721311475409836,
+            0.7301587301587301,
+            0.9333333333333333,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.826530612244898,
+            0.9583333333333334,
+            0.8076923076923077,
+            0.7804878048780488,
+            0.9239130434782609,
+            0.8235294117647058,
+            0.7884615384615384,
+            0.7796610169491526,
+            0.9514563106796117,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.81,
+            0.92,
+            0.84,
+            0.64,
+            0.85,
+            0.84,
+            0.82,
+            0.92,
+            0.98,
+            1.0
+          ],
+          "per_class_f1": [
+            0.8181818181818182,
+            0.9387755102040817,
+            0.8235294117647058,
+            0.7032967032967034,
+            0.8854166666666666,
+            0.8316831683168316,
+            0.803921568627451,
+            0.8440366972477065,
+            0.9655172413793104,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            117,
+            104,
+            120,
+            118,
+            107,
+            118,
+            122,
+            126,
+            105,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              81,
+              0,
+              2,
+              5,
+              0,
+              7,
+              4,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              92,
+              3,
+              1,
+              0,
+              4,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              84,
+              5,
+              0,
+              2,
+              5,
+              2,
+              1,
+              0
+            ],
+            [
+              8,
+              2,
+              3,
+              64,
+              5,
+              2,
+              5,
+              8,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              85,
+              0,
+              0,
+              14,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              7,
+              4,
+              0,
+              84,
+              2,
+              0,
+              1,
+              0
+            ],
+            [
+              7,
+              0,
+              5,
+              1,
+              1,
+              3,
+              82,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              6,
+              92,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              98,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.862
+        },
+        "steps": 630,
+        "optimizer_updates": 630,
+        "amp_skipped_steps": 0,
+        "amp_initial_scale": 1024,
+        "epochs_completed": 10,
+        "last_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.822,
+          "macro_iou": 0.7055257986258987,
+          "macro_f1": 0.8147147474111336,
+          "per_class_iou": [
+            0.3883495145631068,
+            0.8828828828828829,
+            0.65625,
+            0.5629139072847682,
+            0.8235294117647058,
+            0.648854961832061,
+            0.5299145299145299,
+            0.7391304347826086,
+            0.8333333333333334,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.9302325581395349,
+            0.8990825688073395,
+            0.75,
+            0.625,
+            0.8376068376068376,
+            0.7327586206896551,
+            0.7848101265822784,
+            0.85,
+            0.9770114942528736,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.4,
+            0.98,
+            0.84,
+            0.85,
+            0.98,
+            0.85,
+            0.62,
+            0.85,
+            0.85,
+            1.0
+          ],
+          "per_class_f1": [
+            0.5594405594405595,
+            0.937799043062201,
+            0.7924528301886793,
+            0.7203389830508474,
+            0.9032258064516129,
+            0.7870370370370371,
+            0.6927374301675978,
+            0.85,
+            0.9090909090909091,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            103,
+            111,
+            128,
+            151,
+            119,
+            131,
+            117,
+            115,
+            102,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              40,
+              2,
+              7,
+              23,
+              0,
+              11,
+              15,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              98,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              84,
+              8,
+              1,
+              1,
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              3,
+              85,
+              4,
+              1,
+              2,
+              3,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              98,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              2,
+              8,
+              3,
+              0,
+              85,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              1,
+              6,
+              4,
+              1,
+              17,
+              62,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              2,
+              4,
+              8,
+              0,
+              0,
+              85,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              8,
+              5,
+              0,
+              0,
+              0,
+              85,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.822
+        },
+        "normalization": {
+          "fitted_on": "train",
+          "samples": 2000,
+          "mean": [
+            0.13599473825319364,
+            0.1125533093378004,
+            0.10549950435484712,
+            0.09573444476032128,
+            0.1219668072307868,
+            0.20516191654693944,
+            0.2433601782539854,
+            0.2360096063509143,
+            0.07511640884836412,
+            0.0012288121994568977,
+            0.1848902175330206,
+            0.11312693937997342,
+            0.26654380858583365
+          ],
+          "std": [
+            0.02513308414449546,
+            0.03396836987169816,
+            0.03967319709611072,
+            0.059283580803257754,
+            0.05550129187562743,
+            0.0852502011274389,
+            0.10815674900341289,
+            0.11151143991807927,
+            0.040457003360858404,
+            0.00047965781450942527,
+            0.09788258788367193,
+            0.07452817708385286,
+            0.12238791986140692
+          ]
+        },
+        "peak_allocated_bytes": 201756672,
+        "peak_reserved_bytes": 239075328,
+        "checkpoint": "best.pt",
+        "checkpoint_sha256": "2bc2c842bdf98f07f87bd8259f801be418046e182252d253a03f798b3e07816e",
+        "eligible_reference": true,
+        "selection_scope": "full_validation"
+      },
+      "timing": {
+        "elapsed_seconds": 169.03701372199794,
+        "ledger": "artifacts/m2-budget.json"
+      }
+    }
+  ],
+  "selected_run": "20261031T142814768185Z-m-eurosat-manual",
+  "revalidation": {
+    "kind": "full_checkpoint_revalidation",
+    "checkpoint_sha256": "6217e9063e82b8f108285a4f3aea520a41a3f0c58e548a5c710b91fa60a922b8",
+    "primary_delta": 0.0,
+    "validation": {
+      "valid": true,
+      "count": 1000,
+      "accuracy": 0.87,
+      "macro_iou": 0.7759964325681492,
+      "macro_f1": 0.8683813426398667,
+      "per_class_iou": [
+        0.64,
+        0.8571428571428571,
+        0.7142857142857143,
+        0.5573770491803278,
+        0.853448275862069,
+        0.7454545454545455,
+        0.7037037037037037,
+        0.7927927927927928,
+        0.9056603773584906,
+        0.9900990099009901
+      ],
+      "per_class_precision": [
+        0.7619047619047619,
+        0.8888888888888888,
+        0.8173076923076923,
+        0.7555555555555555,
+        0.8608695652173913,
+        0.8913043478260869,
+        0.9047619047619048,
+        0.8888888888888888,
+        0.9411764705882353,
+        0.9900990099009901
+      ],
+      "per_class_recall": [
+        0.8,
+        0.96,
+        0.85,
+        0.68,
+        0.99,
+        0.82,
+        0.76,
+        0.88,
+        0.96,
+        1.0
+      ],
+      "per_class_f1": [
+        0.7804878048780488,
+        0.9230769230769231,
+        0.8333333333333334,
+        0.7157894736842105,
+        0.9209302325581395,
+        0.8541666666666666,
+        0.8260869565217391,
+        0.8844221105527639,
+        0.9504950495049505,
+        0.9950248756218906
+      ],
+      "support": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "union": [
+        125,
+        112,
+        119,
+        122,
+        116,
+        110,
+        108,
+        111,
+        106,
+        101
+      ],
+      "confusion_matrix": [
+        [
+          80,
+          2,
+          4,
+          10,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          96,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          85,
+          2,
+          1,
+          3,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          11,
+          2,
+          2,
+          68,
+          5,
+          3,
+          2,
+          4,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          99,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          3,
+          6,
+          3,
+          0,
+          82,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          8,
+          1,
+          5,
+          2,
+          0,
+          2,
+          76,
+          5,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          10,
+          1,
+          0,
+          88,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0,
+          96,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ]
+      ],
+      "split": "valid",
+      "images": 1000,
+      "full_split": true,
+      "primary_name": "accuracy",
+      "primary": 0.87
+    },
+    "prediction": {
+      "prediction_shape": [
+        1
+      ],
+      "probability_shape": [
+        1,
+        10
+      ],
+      "class_ids": [
+        4
+      ],
+      "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+      "max_probability_sum_error": 1.1920928955078125e-07
+    },
+    "passed": true
+  },
+  "ledger": {
+    "charged_seconds": 350.4512976949991,
+    "categories": {
+      "four_reference_runs": 341.01818987599836,
+      "checkpoint_revalidation": 9.433107819000725
+    },
+    "active": null,
+    "runs": [
+      {
+        "allocation": "m2",
+        "run_id": "20261031T154509390336Z-m-eurosat-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 24926.18142855,
+        "owner_pid": 6857,
+        "elapsed_seconds": 171.98117615400042,
+        "status": "completed"
+      },
+      {
+        "allocation": "m2",
+        "run_id": "20261031T154815391284Z-m-eurosat-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 25112.18474082,
+        "owner_pid": 6911,
+        "elapsed_seconds": 169.03701372199794,
+        "status": "completed"
+      },
+      {
+        "allocation": "m2",
+        "run_id": "20261031T142814768185Z-m-eurosat-manual-verify-20261031T155111274759Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 25288.059159849,
+        "owner_pid": 6953,
+        "elapsed_seconds": 9.433107819000725,
+        "status": "verified"
+      }
+    ]
+  },
+  "usage_totals": {
+    "inputTokens": 99624,
+    "outputTokens": 2762,
+    "totalTokens": 102386
+  },
+  "m1_ledger_unchanged": true,
+  "m1_ledger_sha256": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+  "test_payloads_opened": 0,
+  "limitations": [
+    "Single-seed validation comparison; no significance claim.",
+    "Agent narrative misstated retry consumption: durable counters and GPU ledger show zero retries."
+  ]
+}
