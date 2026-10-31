@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** agreed direction; [M1 is in progress](milestones/m1-foundation.md): tasks 1.1–1.5 are complete, with [access verification](setup.md), [data/evaluation contracts](data.md) and [measured M1 budgets](../configs/m1.json). The [manual foundation](training.md) passed its checks and smoke/reload runs. Two [classification references](references.md) passed full validation and checkpoint revalidation, with verified independent model backups. Task 1.6 is next; the autonomous engine belongs to M2. Later milestones will be detailed when we reach them. Final model recipes and the UI framework remain unselected.
+**Status:** [M1 is complete](milestones/m1-foundation.md): tasks 1.1–1.7 passed, including required access, data/evaluation contracts, resource guards and all four [reference models](references.md). Their full-validation scores reproduced exactly in fresh processes, and selected model backups are independently verified. M2 planning is next; later milestones remain unplanned in detail. The autonomous engine/UI are not implemented; final submission models and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 

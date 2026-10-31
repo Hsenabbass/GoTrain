@@ -15,7 +15,7 @@ link privately; never commit access URLs or credentials.
 | GPU | Tesla T4, 15360 MiB VRAM; NVIDIA driver 595.91.07. |
 | Python | 3.12.15. |
 | PyTorch / CUDA | torch 2.8.0, CUDA 12.9; CUDA available; an 8×8 ones matrix multiplication returned sum 512.0. |
-| Vision library | torchvision 0.24.0 imports successfully; broader operator/training compatibility remains untested. |
+| Vision library | torchvision 0.24.0 imports passed at access check; relevant training/operator paths subsequently passed the foundation checks and [four reference runs](references.md). |
 | Agent SDK | strands-agents 0.3.0; boto3 1.43.106. These are observed versions, not a complete project dependency lock. |
 | Memory | MemTotal 16164852 kB; available memory varies. |
 | Working volume | `/home/sagemaker-user`: about 99.9 GiB total, 99.2 GiB free at initial check. |
@@ -23,7 +23,7 @@ link privately; never commit access URLs or credentials.
 | GEO-Bench | Installed geobench 1.1.0 in a separate verification venv with inherited system packages. Imports passed with rasterio 1.4.3, NumPy 1.26.4, torch 2.8.0 and torchvision 0.24.0. No dataset samples downloaded during 1.1; [1.2 subsequently completed selected-task inspection](data.md). |
 | Bedrock response | Required model `eu.anthropic.claude-sonnet-5-5`, region `eu-central-1`, through Strands returned `GOTRAIN_ACCESS_OK`. No new key configured. |
 | Tool execution | A fixed-marker `access_probe` tool returned `GOTRAIN_TOOL_OK`: two model calls, one tool call. |
-| Weight endpoint | The installed torchvision ResNet18 default weight URL returned HTTP 206 and 1024 sampled bytes. Full weight download, integrity, license suitability and model selection remain pending. |
+| Weight endpoint | The installed torchvision ResNet18 default weight URL returned HTTP 206 and 1024 sampled bytes. Only endpoint access was checked; [M1 references](references.md) use random initialization and imported no weight files. |
 | Storage / browser reload | Marker file and existing kernel state survived a page reload. Detached 60-second heartbeat started at 11:39:12 UTC and read `20` after reconnect at 11:39:32 UTC, demonstrating progress across browser reconnection. This does not verify instance restart or session expiry. |
 | Dataset metadata access | The installed package points to `recursix/geo-bench-1.0` on Hugging Face; metadata retrieval passed, reporting public/ungated access and `cc-by-sa-4.0`. Actual selected-task downloads and per-task terms remain for dataset inspection. |
 | Dependency health | Provided environment has 17 pre-existing `pip check` conflicts. Verification venv inherits those packages; imports passed, but this is not a clean project dependency lock. No attempt made to repair unrelated preinstalled software. |

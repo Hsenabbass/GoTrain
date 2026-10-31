@@ -121,7 +121,7 @@ Other custodians can choose their own external directory; do not put it inside G
    newer runs. If GitHub is unavailable, `payload/` also holds the tracked source
    snapshot (without Git history).
 3. Recreate the verified environment from [setup](setup.md); the original environment
-   inherits package conflicts, and task 1.4 still owns the application dependency set.
+   inherits package conflicts, and the verified application dependencies are recorded in `requirements.txt` and the training guide.
 4. Copy the cached ZIPs to the matching `data/geo-bench/archives/<benchmark>/` paths,
    or retrieve them from the pinned public source using the data instructions.
    Run the documented download/inspection stages: metadata and checksums are

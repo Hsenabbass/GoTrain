@@ -93,13 +93,13 @@ The two training runs consumed **745.49 s**; fresh-process revalidation consumed
 **19.11 s**. The settled M1 ledger total, including earlier reserved access,
 calibration and foundation smoke work, is **860.08 / 3,600 s**, with no active
 reservation. This is the 1.5 evidence snapshot; `artifacts/m1-budget.json` remains
-the live authority for subsequent work. Task **1.6** is next; M1 remains open.
+the live authority for subsequent work. Subsequent work is recorded below.
 
 ## Frozen segmentation recipes (1.6)
 
 Frozen before either measured run: [PV4GER-Seg](../configs/reference-m-pv4ger-seg.json),
 then [Chesapeake](../configs/reference-m-chesapeake.json). Use the calibrated
-FCN-ResNet50 with random initialization (`weights=None`, `weights_backbone=None`),
+[FCN-ResNet50](https://docs.pytorch.org/vision/0.24/models/generated/torchvision.models.segmentation.fcn_resnet50.html) with random initialization (`weights=None`, `weights_backbone=None`),
 no auxiliary head or imported weights. Torchvision's BSD-3-Clause implementation
 and existing verified environment are unchanged. PV4GER keeps its RGB stem and
 2-class head; Chesapeake uses a newly initialized 4-input stem (including NIR)
@@ -119,4 +119,44 @@ foreground and globally absent-class behavior follow the verified shared checks.
 Use the existing 10-epoch / 5,000-step / 600-second first-hit cap per run, with
 60 seconds reserved for full validation/saving. Fresh-process full-validation
 revalidation must reproduce the selected score within 1e-6. No tuning search or
-test access. Segmentation results and independent model backups remain pending.
+test access. Segmentation results and independent model backups are verified below.
+
+Reproduce sequentially on the canonical SageMaker checkout, using the same `PY`
+verification environment defined above:
+
+```bash
+$PY scripts/train.py train --recipe configs/reference-m-pv4ger-seg.json --data-root data/geo-bench/datasets
+$PY scripts/train.py verify --run-id <pv4ger-run-id> --data-root data/geo-bench/datasets
+$PY scripts/train.py train --recipe configs/reference-m-chesapeake.json --data-root data/geo-bench/datasets
+$PY scripts/train.py verify --run-id <chesapeake-run-id> --data-root data/geo-bench/datasets
+```
+
+For existing retained runs, use only `verify`; repeated training is not required
+for checkpoint recovery or M1 acceptance. The shared ledger admits jobs under the
+current remaining budget, not a fresh allocation per command or clone.
+
+## Verified segmentation results (2026-10-31)
+
+| Task | Full-validation macro IoU | Images / pixels | Full epochs / total steps | Training wall time | Reload delta |
+| --- | --- | --- | --- | --- | --- |
+| PV4GER-Seg | **0.901692** (90.17%) | 403 / 41,267,200 | 5 / 3,846 | 547.46 s | 0 |
+| Chesapeake | **0.405280** (40.53%) | 1,000 / 65,536,000 | 5 / 4,267 | 553.81 s | 0 |
+
+PV foreground IoU / F1: **0.844123 / 0.915474**. Chesapeake land-only target-0-ignored macro IoU: **0.477636** (diagnostic only). The primary Chesapeake metric retains all seven classes.
+
+Each run uses all 3,000 official training images for fitted normalization and the complete official validation split for global confusion-matrix scoring. No test payload or split modification occurred. Epoch totals count complete epochs; a time-capped run may include an additional partial epoch followed by complete validation. `budget_exhausted` records the agreed wall reserve, not an incomplete score. Exact statuses, class diagnostics, normalization, memory, recipe/data/partition hashes and checkpoint sizes/hashes are in [segmentation.json](segmentation.json).
+
+Both ran from clean frozen source `2786dfc31b4faa00a90a1da0ac22729cf3afc995` on the provided T4. Each selected `best.pt` was revalidated in a separate process with score delta 0.
+
+- PV4GER-Seg: `artifacts/runs/20261031T144800853991Z-m-pv4ger-seg-manual/`.
+- Chesapeake: `artifacts/runs/20261031T145719482888Z-m-chesapeake-manual/`.
+
+Paths are relative to SageMaker `/home/sagemaker-user/GoTrain/`. Batch execution, controller logs and the settled 1.6 ledger are in `artifacts/runs/segmentation-checks/`. Both exact selected model/optimizer files have verified independent backups; see [recovery receipts](RESOURCES.md#recovery-verification).
+
+## M1 reproducibility handoff (1.7)
+
+[handoff.json](handoff.json) records the final fresh-process revalidation of **all four retained checkpoints**, with full-validation score delta 0 and matching hashes, recipe/source/data provenance, image/pixel counts and prediction shapes. The SageMaker safety suite passed all 12 tests; five explicit cases cover empty foreground, one correct foreground pixel, a missed pixel, a hallucinated pixel and an all-ignored diagnostic. Empty foreground is not dropped from primary scoring; globally absent classes follow the frozen union rule.
+
+Final charged M1 GPU-job wall time: **2044.41 / 3,600 s**; reference training **1846.77 / 2,400 s**, checkpoint revalidation **102.16 / 240 s**. No active reservation remains. This is a completion snapshot; the live ledger remains authoritative. CPU checks/backup transfer are separate from GPU-job wall accounting.
+
+All execution used the existing verified SageMaker venv without installation. The retained single-seed baselines establish starting points, not repeated-training stability or published test performance. M1 is complete; M2 planning is next.

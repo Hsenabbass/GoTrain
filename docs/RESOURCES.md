@@ -8,14 +8,14 @@ model/region requirements, and research references. See the
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
 | GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; SageMaker clone and disposable-branch push verified 2026-10-31 using explicitly approved GoTrain-only access expiring 2026-11-01; other teammates' access unverified. See [setup evidence](setup.md). |
-| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; tasks 1.1–1.5 complete; task 1.6 next. |
+| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; M2 planning next. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Existing Safari session verified 2026-10-31; GPU execution passed. See [setup evidence](setup.md). Keep the current session open; organizers can renew access as needed. Do not store access links here. |
 | Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
 | Persistent data and artifacts | SageMaker `/home/sagemaker-user`; check artifacts in `gotrain-access-check/`. | Data inspection logs/previews at `/home/sagemaker-user/GoTrain/artifacts/data-inspection/`. Capacity/writes and browser-reload continuity verified 2026-10-31; restart/expiry persistence and S3 permissions unverified. See [setup evidence](setup.md). |
 
 | M1 contracts and capacity | [Task settings](../configs/tasks.json); [numeric caps](../configs/m1.json); [capacity record](setup.md#capacity-calibration-and-m1-budgets). | Four-task bounded GPU calibration passed; raw evidence in [calibration.json](calibration.json), full logs on SageMaker at `artifacts/calibration/`. No reference scores; the [manual foundation](training.md) now enforces these contracts. |
-| Manual foundation | [Run guide](training.md); [verification report](foundation.json); [direct dependencies](../requirements.txt). | 12 checks and two bounded smoke/reload jobs passed on SageMaker. Run paths are in the report; `artifacts/m1-budget.json` owns live usage/reservations. Two accepted [classification references](references.md) now have full-validation/revalidation evidence in [classification.json](classification.json). |
+| Manual foundation | [Run guide](training.md); [verification report](foundation.json); [direct dependencies](../requirements.txt). | 12 checks and two bounded smoke/reload jobs passed on SageMaker. Run paths are in the report; `artifacts/m1-budget.json` owns live usage/reservations. All four accepted [references](references.md) have full-validation and final fresh-process revalidation evidence in [handoff.json](handoff.json). |
 | Independent recovery copies | Backup custodian Mac: `/Users/hsen/Desktop/GoTrain-backups/`; `datasets/` for sealed ZIPs, `snapshots/` for timestamped recovery packages. | Recovery snapshot and all four original dataset ZIPs independently stored and verified 2026-10-31. See the verification record below. See [backup/restore procedures](storage.md). No shared S3 destination configured. |
 
 ## Recovery verification
@@ -53,6 +53,9 @@ model/region requirements, and research references. See the
   Sender/receiver and every member checksum matched 2026-10-31; selected
   `best.pt` (including optimizer state) restored as opaque bytes and matched the
   accepted run checksum. Model reload/full validation ran only on SageMaker.
+- **Task 1.6 PV4GER-Seg snapshot:** `snapshots/20261031T145722937133Z-recovery.tar.gz`, 249,623,877 bytes, 47 files; source commit `2786dfc31b4faa00a90a1da0ac22729cf3afc995`. Archive SHA-256: `f9945c919b7f203f5db45ddf97c8142128a1ece37afb351ee1963036a6ad3241`. Sender/receiver and all member checksums matched 2026-10-31; selected `best.pt` including optimizer was restored as opaque bytes and matched its accepted run checksum. ML reload ran only on SageMaker.
+- **Task 1.6 Chesapeake snapshot:** `snapshots/20261031T150754515230Z-recovery.tar.gz`, 249,788,696 bytes, 67 files; source commit `2786dfc31b4faa00a90a1da0ac22729cf3afc995`. Archive SHA-256: `2a6fbcad64b5e3f599b244e2cbd39d051c9dda684c4d220362ced0f731d92808`. Sender/receiver and all member checksums matched 2026-10-31; selected `best.pt` including optimizer was restored as opaque bytes and matched its accepted run checksum. ML reload ran only on SageMaker.
+- The Chesapeake snapshot also contains final segmentation and 1.7 handoff/check logs, executed audit source, all four fresh-process revalidation results and a settled ledger.
 - **Local index:** `snapshots/index.json` records the snapshot checksum and source
   revision; its `.sha256` sidecar travels with the archive. SageMaker retains its
   staging copy under `artifacts/backups/`.
@@ -63,7 +66,7 @@ model/region requirements, and research references. See the
   records its checksum and verification time. No partial files remain. ZIPs were
   copied as opaque bytes; no local sample inspection, extraction or training ran.
 - **Coverage:** current inspection, calibration and foundation evidence have independent local recovery copies.
-  Both accepted classification model/optimizer checkpoints, run records and revalidation evidence have independent verified copies. Reproducible smoke weights remain excluded; their records are backed up. The initial snapshot predates the resumable cache enhancement; the task 1.3
+  All four accepted model/optimizer checkpoints, run records and revalidation evidence have independent verified copies. Reproducible smoke weights remain excluded; their records are backed up. The initial snapshot predates the resumable cache enhancement; the task 1.3
   snapshot contains the updated source. Current source is also versioned in GitHub/local Git.
   The custodian's Mac is not itself backed up by this procedure.
 

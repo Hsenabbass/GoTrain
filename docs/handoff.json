@@ -1,0 +1,933 @@
+{
+  "kind": "M1_reproducibility_handoff",
+  "completed": true,
+  "preflight": {
+    "passed": true,
+    "foundation_tests": 12,
+    "edge_cases": [
+      {
+        "case": "empty_foreground",
+        "result": {
+          "valid": true,
+          "count": 1024,
+          "accuracy": 1.0,
+          "macro_iou": 1.0,
+          "macro_f1": 0.5,
+          "per_class_iou": [
+            1.0,
+            0.0
+          ],
+          "per_class_precision": [
+            1.0,
+            0.0
+          ],
+          "per_class_recall": [
+            1.0,
+            0.0
+          ],
+          "per_class_f1": [
+            1.0,
+            0.0
+          ],
+          "support": [
+            1024,
+            0
+          ],
+          "union": [
+            1024,
+            0
+          ],
+          "confusion_matrix": [
+            [
+              1024,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        "passed": true
+      },
+      {
+        "case": "one_pixel_foreground",
+        "result": {
+          "valid": true,
+          "count": 1024,
+          "accuracy": 1.0,
+          "macro_iou": 1.0,
+          "macro_f1": 1.0,
+          "per_class_iou": [
+            1.0,
+            1.0
+          ],
+          "per_class_precision": [
+            1.0,
+            1.0
+          ],
+          "per_class_recall": [
+            1.0,
+            1.0
+          ],
+          "per_class_f1": [
+            1.0,
+            1.0
+          ],
+          "support": [
+            1023,
+            1
+          ],
+          "union": [
+            1023,
+            1
+          ],
+          "confusion_matrix": [
+            [
+              1023,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "passed": true
+      },
+      {
+        "case": "missed_one_pixel",
+        "result": {
+          "valid": true,
+          "count": 1024,
+          "accuracy": 0.9990234375,
+          "macro_iou": 0.49951171875,
+          "macro_f1": 0.49975574010747437,
+          "per_class_iou": [
+            0.9990234375,
+            0.0
+          ],
+          "per_class_precision": [
+            0.9990234375,
+            0.0
+          ],
+          "per_class_recall": [
+            1.0,
+            0.0
+          ],
+          "per_class_f1": [
+            0.9995114802149487,
+            0.0
+          ],
+          "support": [
+            1023,
+            1
+          ],
+          "union": [
+            1024,
+            1
+          ],
+          "confusion_matrix": [
+            [
+              1023,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        },
+        "passed": true
+      },
+      {
+        "case": "hallucinated_one_pixel",
+        "result": {
+          "valid": true,
+          "count": 1024,
+          "accuracy": 0.9990234375,
+          "macro_iou": 0.49951171875,
+          "macro_f1": 0.49975574010747437,
+          "per_class_iou": [
+            0.9990234375,
+            0.0
+          ],
+          "per_class_precision": [
+            1.0,
+            0.0
+          ],
+          "per_class_recall": [
+            0.9990234375,
+            0.0
+          ],
+          "per_class_f1": [
+            0.9995114802149487,
+            0.0
+          ],
+          "support": [
+            1024,
+            0
+          ],
+          "union": [
+            1024,
+            1
+          ],
+          "confusion_matrix": [
+            [
+              1023,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        "passed": true
+      },
+      {
+        "case": "all_target_0_ignored_diagnostic_only",
+        "result": {
+          "count": 0,
+          "macro_iou": null,
+          "valid": false
+        },
+        "passed": true
+      }
+    ],
+    "elapsed_cpu_wall_seconds": 3.7965240478515625,
+    "versions": {
+      "torch": "2.8.0",
+      "torchvision": "0.24.0",
+      "numpy": "1.26.4",
+      "geobench": "1.1.0",
+      "h5py": "3.16.0",
+      "strands-agents": "0.3.0",
+      "boto3": "1.43.106"
+    },
+    "gpu_training_concurrent_with_cpu_checks_only": true
+  },
+  "source_commit": "2786dfc31b4faa00a90a1da0ac22729cf3afc995",
+  "test_payloads_opened": 0,
+  "results": [
+    {
+      "task": "m-eurosat",
+      "run_id": "20261031T142814768185Z-m-eurosat-manual",
+      "recipe_path": "configs/reference-m-eurosat.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T142814768185Z-m-eurosat-manual/best.pt",
+      "checkpoint_sha256": "6217e9063e82b8f108285a4f3aea520a41a3f0c58e548a5c710b91fa60a922b8",
+      "training_source_commit": "828cbf0d2a95df69ceae18e2883ce0c7fd9d3812",
+      "revalidation_file": "artifacts/runs/20261031T142814768185Z-m-eurosat-manual/revalidation-20261031T142814768185Z-m-eurosat-manual-verify-20261031T150654197427Z.json",
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "6217e9063e82b8f108285a4f3aea520a41a3f0c58e548a5c710b91fa60a922b8",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "prediction": {
+          "prediction_shape": [
+            1
+          ],
+          "probability_shape": [
+            1,
+            10
+          ],
+          "class_ids": [
+            4
+          ],
+          "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+          "max_probability_sum_error": 1.1920928955078125e-07
+        },
+        "passed": true
+      }
+    },
+    {
+      "task": "m-brick-kiln",
+      "run_id": "20261031T143113863281Z-m-brick-kiln-manual",
+      "recipe_path": "configs/reference-m-brick-kiln.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T143113863281Z-m-brick-kiln-manual/best.pt",
+      "checkpoint_sha256": "e8ffdf64d8b1e5915b205e55dacb576d8a7ff537e0b5d96a2750fbe0ae740ab0",
+      "training_source_commit": "828cbf0d2a95df69ceae18e2883ce0c7fd9d3812",
+      "revalidation_file": "artifacts/runs/20261031T143113863281Z-m-brick-kiln-manual/revalidation-20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T150706129032Z.json",
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "e8ffdf64d8b1e5915b205e55dacb576d8a7ff537e0b5d96a2750fbe0ae740ab0",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 999,
+          "accuracy": 0.977977977977978,
+          "macro_iou": 0.9519792370381139,
+          "macro_f1": 0.9753353264382676,
+          "per_class_iou": [
+            0.9673590504451038,
+            0.9365994236311239
+          ],
+          "per_class_precision": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_recall": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_f1": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "support": [
+            663,
+            336
+          ],
+          "union": [
+            674,
+            347
+          ],
+          "confusion_matrix": [
+            [
+              652,
+              11
+            ],
+            [
+              11,
+              325
+            ]
+          ],
+          "split": "valid",
+          "images": 999,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.977977977977978,
+          "positive_precision": 0.9672619047619048,
+          "positive_recall": 0.9672619047619048,
+          "positive_f1": 0.9672619047619048,
+          "foreground_iou": 0.9365994236311239,
+          "foreground_f1": 0.9672619047619048
+        },
+        "prediction": {
+          "prediction_shape": [
+            1
+          ],
+          "probability_shape": [
+            1,
+            2
+          ],
+          "class_ids": [
+            0
+          ],
+          "prediction_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+          "max_probability_sum_error": 0.0
+        },
+        "passed": true
+      }
+    },
+    {
+      "task": "m-pv4ger-seg",
+      "run_id": "20261031T144800853991Z-m-pv4ger-seg-manual",
+      "recipe_path": "configs/reference-m-pv4ger-seg.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T144800853991Z-m-pv4ger-seg-manual/best.pt",
+      "checkpoint_sha256": "b809e53380126cfd1cc366949b80caa5bcb70ae5b03e9ed1f293b5fc3587088f",
+      "training_source_commit": "2786dfc31b4faa00a90a1da0ac22729cf3afc995",
+      "revalidation_file": "artifacts/runs/20261031T144800853991Z-m-pv4ger-seg-manual/revalidation-20261031T144800853991Z-m-pv4ger-seg-manual-verify-20261031T150721719874Z.json",
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "b809e53380126cfd1cc366949b80caa5bcb70ae5b03e9ed1f293b5fc3587088f",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 41267200,
+          "accuracy": 0.9666248739919355,
+          "macro_iou": 0.9016924614288253,
+          "macro_f1": 0.947340536133396,
+          "per_class_iou": [
+            0.95926202909168,
+            0.8441228937659706
+          ],
+          "per_class_precision": [
+            0.9766772771442098,
+            0.9252175474979789
+          ],
+          "per_class_recall": [
+            0.9817508511544063,
+            0.9059327115794624
+          ],
+          "per_class_f1": [
+            0.9792074922580896,
+            0.9154735800087024
+          ],
+          "support": [
+            33034253,
+            8232947
+          ],
+          "union": [
+            33808704,
+            8835794
+          ],
+          "confusion_matrix": [
+            [
+              32431406,
+              602847
+            ],
+            [
+              774451,
+              7458496
+            ]
+          ],
+          "split": "valid",
+          "images": 403,
+          "full_split": true,
+          "primary_name": "macro_iou",
+          "primary": 0.9016924614288253,
+          "positive_precision": 0.9252175474979789,
+          "positive_recall": 0.9059327115794624,
+          "positive_f1": 0.9154735800087024,
+          "foreground_iou": 0.8441228937659706,
+          "foreground_f1": 0.9154735800087024
+        },
+        "prediction": {
+          "prediction_shape": [
+            1,
+            320,
+            320
+          ],
+          "probability_shape": [
+            1,
+            2,
+            320,
+            320
+          ],
+          "class_ids": [
+            0,
+            1
+          ],
+          "prediction_sha256": "3ca25bc5f51134796bf8a1897081446fa18ba392921ba3e44d54308a66f6d742",
+          "max_probability_sum_error": 1.1920928955078125e-07
+        },
+        "passed": true
+      }
+    },
+    {
+      "task": "m-chesapeake",
+      "run_id": "20261031T145719482888Z-m-chesapeake-manual",
+      "recipe_path": "configs/reference-m-chesapeake.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T145719482888Z-m-chesapeake-manual/best.pt",
+      "checkpoint_sha256": "ed774d59cafc76d1dbbc1b2be56f490fa96dc6632c1bb6559ca73842091a24cd",
+      "training_source_commit": "2786dfc31b4faa00a90a1da0ac22729cf3afc995",
+      "revalidation_file": "artifacts/runs/20261031T145719482888Z-m-chesapeake-manual/revalidation-20261031T145719482888Z-m-chesapeake-manual-verify-20261031T150733394413Z.json",
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "ed774d59cafc76d1dbbc1b2be56f490fa96dc6632c1bb6559ca73842091a24cd",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 65536000,
+          "accuracy": 0.7693177795410157,
+          "macro_iou": 0.4052801090446043,
+          "macro_f1": 0.5039810839665608,
+          "per_class_iou": [
+            0.0,
+            0.8428559410051997,
+            0.6964623441787239,
+            0.6428572924043361,
+            0.1318536463714418,
+            0.4226329070316568,
+            0.10029863232087177
+          ],
+          "per_class_precision": [
+            0.0,
+            0.9457332265969776,
+            0.7239057530117003,
+            0.8878494035749855,
+            0.20632177500278737,
+            0.5459141496910016,
+            0.6589851474595892
+          ],
+          "per_class_recall": [
+            0.0,
+            0.8856911624284742,
+            0.9483774328009638,
+            0.6996735055037874,
+            0.267567958357432,
+            0.6517503877808798,
+            0.1057894235320069
+          ],
+          "per_class_f1": [
+            0.0,
+            0.9147279743911589,
+            0.8210761017697554,
+            0.7826088064697437,
+            0.23298709474346868,
+            0.5941559554017153,
+            0.18231165499008353
+          ],
+          "support": [
+            1310720,
+            6877421,
+            24194283,
+            25453109,
+            1065064,
+            4735922,
+            1899481
+          ],
+          "union": [
+            1310720,
+            7226942,
+            32945517,
+            27702674,
+            2161313,
+            7303357,
+            2003467
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1310720,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              6091271,
+              500556,
+              129857,
+              86349,
+              61609,
+              7779
+            ],
+            [
+              0,
+              25476,
+              22945312,
+              1069780,
+              5851,
+              145046,
+              2818
+            ],
+            [
+              0,
+              77429,
+              5799272,
+              17808866,
+              747678,
+              994128,
+              25736
+            ],
+            [
+              0,
+              119917,
+              76297,
+              214659,
+              284977,
+              363225,
+              5989
+            ],
+            [
+              0,
+              121336,
+              699313,
+              526801,
+              240169,
+              3086639,
+              61664
+            ],
+            [
+              0,
+              5363,
+              365076,
+              308468,
+              16202,
+              1003427,
+              200945
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "macro_iou",
+          "primary": 0.4052801090446043,
+          "land_macro_iou_target_0_ignored": 0.47763619792950035
+        },
+        "prediction": {
+          "prediction_shape": [
+            1,
+            256,
+            256
+          ],
+          "probability_shape": [
+            1,
+            7,
+            256,
+            256
+          ],
+          "class_ids": [
+            2
+          ],
+          "prediction_sha256": "cb5607ba22b124d0509cbda6554bbe698fb4d497c7d96e4073313f7b6363dfbb",
+          "max_probability_sum_error": 2.980232238769531e-07
+        },
+        "passed": true
+      }
+    }
+  ],
+  "budget": {
+    "charged_seconds": 2044.4075917310074,
+    "categories": {
+      "earlier_access_accounting_reserve": 60,
+      "calibration": 12.981162112002494,
+      "foundation_smoke": 22.49666953600172,
+      "four_reference_runs": 1846.7694938620007,
+      "checkpoint_revalidation": 102.16026622100253
+    },
+    "active": null,
+    "runs": [
+      {
+        "run_id": "20261031T141019422084Z-m-eurosat-smoke",
+        "category": "foundation_smoke",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 19236.213848287,
+        "owner_pid": 5571,
+        "elapsed_seconds": 10.146754183999292,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T141029637033Z-m-pv4ger-seg-smoke",
+        "category": "foundation_smoke",
+        "seconds": 90,
+        "retry_of": null,
+        "started_monotonic": 19246.428776069,
+        "owner_pid": 5590,
+        "elapsed_seconds": 12.349915352002427,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 20311.559399102,
+        "owner_pid": 5853,
+        "elapsed_seconds": 169.68591434200061,
+        "status": "completed"
+      },
+      {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual-verify-20261031T143104519912Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 20481.30410828,
+        "owner_pid": 5883,
+        "elapsed_seconds": 9.280974672998127,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 20490.654429129,
+        "owner_pid": 5901,
+        "elapsed_seconds": 575.8074031819997,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T144049760485Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 21066.544670683,
+        "owner_pid": 6003,
+        "elapsed_seconds": 9.832022243997926,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T144800853991Z-m-pv4ger-seg-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 21497.64456401,
+        "owner_pid": 6122,
+        "elapsed_seconds": 547.4634208200005,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T144800853991Z-m-pv4ger-seg-manual-verify-20261031T145708384677Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22045.169470954,
+        "owner_pid": 6224,
+        "elapsed_seconds": 11.036528182001348,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T145719482888Z-m-chesapeake-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 22056.286602852,
+        "owner_pid": 6241,
+        "elapsed_seconds": 553.8127555179999,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T145719482888Z-m-chesapeake-manual-verify-20261031T150633463286Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22610.247526039,
+        "owner_pid": 6349,
+        "elapsed_seconds": 17.999321538001823,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual-verify-20261031T150654197427Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22630.982466981,
+        "owner_pid": 6358,
+        "elapsed_seconds": 11.586473411000043,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T150706129032Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22642.913238929,
+        "owner_pid": 6366,
+        "elapsed_seconds": 14.691662462999375,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T144800853991Z-m-pv4ger-seg-manual-verify-20261031T150721719874Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22658.504074881,
+        "owner_pid": 6383,
+        "elapsed_seconds": 10.785200975002226,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T145719482888Z-m-chesapeake-manual-verify-20261031T150733394413Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 22670.178638266,
+        "owner_pid": 6391,
+        "elapsed_seconds": 16.948082735001663,
+        "status": "verified"
+      }
+    ]
+  },
+  "verified_utc": "2026-10-31T15:07:50.353069+00:00"
+}
