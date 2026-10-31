@@ -5,6 +5,11 @@ the [project plan](PROJECT_PLAN.md) for direction. This guide defines where work
 belongs and how it stays consistent. Create folders and extra documents only
 when they hold real work.
 
+Work directly and efficiently: use the simplest sufficient solution, keep changes
+and documentation proportional to the task, and avoid speculative layers or
+repeated checks. Time-box investigations, report concrete blockers early, and stop
+once acceptance checks pass. Add complexity only to solve a demonstrated need.
+
 ## Where things belong
 
 | Location | Purpose |

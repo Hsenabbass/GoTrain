@@ -116,7 +116,7 @@ project plan without replacing a previous decision or broadening M1's outcome.
 
 Tracking update, 2026-10-31: at the user's request, tasks use titles 1.1–1.7
 with stable GitHub link destinations. Milestone documents hold acceptance outcomes; redundant overview
-issues were retired as not planned. This supersedes the earlier overview-issue
+issues were retired as not planned, then deleted with explicit user approval. This supersedes the earlier overview-issue
 convention, with no change to M1 scope or completion requirements.
 
 ## Documentation and deliverables

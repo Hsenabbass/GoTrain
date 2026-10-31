@@ -4,6 +4,10 @@ Read [README.md](README.md), [the project plan](docs/PROJECT_PLAN.md), and
 [the workflow](docs/WORKFLOW.md) before changing the project. Read the active
 milestone document, when one exists, and its linked GitHub issues.
 
+- Be direct and efficient. Choose the simplest approach that satisfies the task;
+  avoid speculative abstractions, extra services, redundant checks and excessive
+  documentation. Time-box investigation, surface concrete blockers early, and stop
+  when acceptance checks pass. Expand only when evidence justifies the extra work.
 - Detail one milestone at a time. Use `docs/milestones/TEMPLATE.md`; do not
   prefill future milestones or create speculative code, dependencies, or folders.
   Name actionable issues `<milestone>.<task>: <action>` (such as `1.1`, `2.1`).
