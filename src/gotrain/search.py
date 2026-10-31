@@ -102,6 +102,7 @@ class SearchController(Controller):
                 'reference':self.read_result(self.state['reference']),
                 'prior_trials':[{**t,'result':self.read_result(t['run_id'])} for t in self.state['trials']],
                 'prior_selections':[d for d in self.state['decisions'] if 'kept' in d],
+                'operator_note':self.state.get('operator_note','')[:1000],
                 'diagnostics':{'majority_fraction':majority,'foreground_fraction':foreground,
                                'all_background_macro_iou':(1-foreground)/len({0}|{int(k) for k,n in counts.items() if int(n)>0}) if self.spec['kind']=='segmentation' else None},
                 'context':self.context()}
