@@ -40,7 +40,7 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
-A simplified [local UI preview](ui/README.md) preserves the workspace design while limiting it to the four supported datasets and task/experiment/prediction views. Backend actions are disabled. [M4 UI preparation](docs/milestones/m4-workspace.md) awaits user design confirmation; backend implementation has not started.
+A simplified [local UI preview](ui/README.md) provides a single message composer for goals and constraints, dataset selection, and a Send button. The agent is not yet connected; files stay local. [M4 UI preparation](docs/milestones/m4-workspace.md) awaits user design confirmation; backend implementation has not started.
 
 **M1 is complete (tasks 1.1–1.7).** All four [reference recipes/results](docs/references.md) passed complete validation and fresh-process checkpoint revalidation, with verified independent model backups. See the [M1 evidence and handoff](docs/milestones/m1-foundation.md).
 

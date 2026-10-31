@@ -1,41 +1,34 @@
 # GoTrain UI preview
 
-Local, dependency-free design preview for the four registered benchmark datasets.
+A single message composer for explaining a model goal and constraints, with an
+Upload dataset control and Send button. Local-only design preview; no dependencies.
+
 Run from the repository root with Node.js 18 or later:
 
 ```powershell
 node ui/server.mjs
 ```
 
-Open http://localhost:5173. No package install or account is needed.
+Open http://localhost:5173. The neutral design has no sidebar, dataset selector,
+view tabs, game, experiment dashboard or mock model results.
 
-## Scope
+Message drafts persist in browser localStorage under gotrain-message-draft-v1.
+Selecting a dataset displays its filename and allows removal. Files are only
+selected locally, never read or uploaded. After reload a file must be selected
+again. Send requires a nonempty message and reports that the agent is not yet
+connected; it does not claim successful transmission or start a simulated run.
 
-The neutral workspace has four dataset choices (EuroSAT, Brick-Kiln, PV4GER-Seg,
-Chesapeake) and three views: Task, Experiments and Predictions. Each task shows
-its input channels, task type and validation metric. Suggested task text can be
-edited; drafts persist per dataset in browser localStorage when available.
+Backend integration will translate task descriptions and constraints into the
+trusted runner's allowed settings. The current autonomous runner supports four
+registered benchmark tasks. New uploaded datasets still need supported format
+validation, trusted task/reference registration and runner integration. The
+existing local manifest preparation API alone does not establish this support.
 
-Training and image selection are disabled until backend integration. Experiment
-and prediction views show honest empty states and dataset-specific input
-requirements. This preview contains no scores or recorded experiment data and
-makes no backend requests. It does not run training, inference or export models.
-There is no game, arbitrary project creation, custom training-dataset upload,
-simulated progress or fake download. Budget controls await enforced launch limits.
-
-All UI files live under ui/. src/data/tasks.js contains static dataset descriptors
-from configs/tasks.json and docs/data.md, not selected-model metadata. Integration
-must obtain exact preprocessing and input requirements from the model package.
-The former gotrain-projects localStorage key is ignored; only task drafts use the
-new gotrain-workspace-drafts-v1 key. Existing browser data is not deleted.
-
-## Verification
-
-Run npm run check from ui/, or node --check on the four files named in package.json.
-Local browser review covers desktop/mobile layout, all four dataset views,
-keyboard navigation, suggested text, draft persistence and disabled actions.
-No SageMaker/GPU/Bedrock execution is part of this UI-only change.
+Run npm run check from ui/, or node --check on src/app.js and server.mjs.
+Local browser verification covers desktop/mobile layout, empty-message gating,
+draft persistence, dataset selection/removal and the disconnected Send state.
+No training, inference, cloud execution or package installation is performed.
 
 See [M4 handoff](../docs/milestones/m4-workspace.md). User design confirmation
-precedes backend work; each following step receives its own detailed plan and
+precedes backend work. Each following step receives a detailed plan and user
 confirmation before implementation.
