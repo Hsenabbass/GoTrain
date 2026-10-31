@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. M3 planning is next; later milestones remain unplanned in detail. Test payloads remain sealed; final submission models and the UI framework remain unselected.
+**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is planned](milestones/m3-improvement.md); later milestones remain unplanned in detail. Test payloads remain sealed; final submission models and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -121,6 +121,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 **Done when:** the agent independently inspects one task, trains, reads validation evidence, proposes and runs a change, and records whether to keep it. A rejected change leaves the best prior pipeline available.
 
 ### M3. Demonstrate reliable improvement
+
+**Detailed plan:** [M3 improvement plan](milestones/m3-improvement.md). Three issues cover reusable image-task preparation/model choices, bounded search/tuning, and four-task verification. Add a local manifest adapter in M3 to avoid benchmark-only logic; broad import UX stays in M4.
 
 **Depends on:** M2's functioning loop, trusted evaluator, and complete experiment records.
 
