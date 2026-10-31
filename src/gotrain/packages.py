@@ -59,6 +59,10 @@ assumption. Export does not train, score, promote or finalize the model.
     checkpoint = run / checkpoint_name
     if digest(checkpoint) != record['checkpoint_sha256']:
         raise ValueError('Origin checkpoint checksum differs from run record')
+    destination.mkdir(parents=True, exist_ok=True)
+    # Reserve for weights, ZIP and staging without consuming the service's floor.
+    if shutil.disk_usage(destination).free < 15 * 2**30 + 3 * checkpoint.stat().st_size:
+        raise ValueError('Package export needs staging space above the 15 GiB reserve')
     saved = torch.load(checkpoint, map_location='cpu', weights_only=True)
     meta = saved['meta']
     if meta['recipe'] != record['recipe'] or meta['seed'] != 2026:
