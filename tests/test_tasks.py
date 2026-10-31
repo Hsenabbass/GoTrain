@@ -13,7 +13,7 @@ from PIL import Image
 import rasterio
 from rasterio.transform import from_origin
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from gotrain.data import ManifestData, prepare, task_spec, validate_task, fit_normalization
+from gotrain.data import ManifestData, prepare, task_spec, validate_task, fit_normalization, open_task
 from gotrain.models import CANDIDATES, candidate_info, candidate_normalization, build_candidate, logits_for, set_training_mode
 ROOT = Path(__file__).resolve().parents[1]
 CACHE = ROOT / 'artifacts/weights/m3'
@@ -33,6 +33,9 @@ class TaskChecks(unittest.TestCase):
         for task in contracts['tasks']:
             got=task_spec(task,contracts,inspection)
             self.assertEqual(got['channels'],contracts['tasks'][task]['channels'])
+            with patch('gotrain.data.DevelopmentData') as adapter:
+                opened=open_task('/unused',task,'valid',contracts,inspection)
+                self.assertEqual(opened.spec,got)
             self.assertEqual(got['rgb_indices'],[3,2,1] if task in ('m-eurosat','m-brick-kiln') else [0,1,2])
         self.assertEqual(contracts,original)
 
@@ -61,6 +64,9 @@ class TaskChecks(unittest.TestCase):
                 with rasterio.open(root/(split+'.tif'),'w',driver='GTiff',height=32,width=48,count=4,dtype='uint8',crs='EPSG:4326',transform=transform) as f:f.write(np.full((4,*shape),255,np.uint8))
                 with rasterio.open(root/(split+'-mask.tif'),'w',driver='GTiff',height=32,width=48,count=1,dtype='uint8',crs='EPSG:4326',transform=transform) as f:f.write(np.full(shape,2,np.uint8),1)
             p=root/'manifest.json';value={'task':spec('segmentation',4),'splits':{s:[{'image':s+'.tif','mask':s+'-mask.tif'}] for s in ('train','valid')}};p.write_text(json.dumps(value))
+            bad=copy.deepcopy(value);bad['splits']['train'][0]['mask']='mask.jpg';p.write_text(json.dumps(bad))
+            with self.assertRaises(ValueError):ManifestData(p,'train')
+            p.write_text(json.dumps(value))
             x,y=ManifestData(p,'train',True)[0];self.assertEqual(tuple(x.shape),(4,32,48));self.assertEqual(tuple(y.shape),shape);self.assertTrue((y==2).all())
             with rasterio.open(root/'train-mask.tif','r+') as f:f.transform=from_origin(1,32,1,1)
             with self.assertRaises(ValueError):ManifestData(p,'train')[0]

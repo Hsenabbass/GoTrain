@@ -221,5 +221,7 @@ def open_task(root, task_id, split, contracts=None, inspection=None, manifest=No
         if task_id is not None:
             raise ValueError('Choose benchmark ID or manifest, not both')
         return ManifestData(manifest, split, augment)
-    task_spec(task_id, contracts, inspection)
-    return DevelopmentData(root, task_id, split, contracts, inspection, augment=augment)
+    spec = task_spec(task_id, contracts, inspection)
+    dataset = DevelopmentData(root, task_id, split, contracts, inspection, augment=augment)
+    dataset.spec = spec
+    return dataset
