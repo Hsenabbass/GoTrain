@@ -77,5 +77,150 @@
       "source_commit": "25ce62455755f22faa588b03969e74c73afdd5dc",
       "verified_date_local": "2026-11-01"
     }
+  },
+  "packages": {
+    "verification": {
+      "source_commit": "ae7c24697d72e3f4acb01da2043ba76013ee2177",
+      "passed": true,
+      "models": [
+        {
+          "version": "v1-c3cff36a601c1968a7576b0a",
+          "task": "m-eurosat",
+          "run_id": "20261031T170743193186Z-m-eurosat-manual",
+          "archive": "gotrain-m-eurosat-v1-c3cff36a601c1968a7576b0a.zip",
+          "sha256": "629592dc718ab8d2e55098af9594097459b2ea834c3d12a8bcc8d81ab523792a",
+          "bytes": 41692918,
+          "redistribution_status": "unresolved_private_research_only",
+          "passed": true,
+          "logit_max_absolute_delta": 0.0,
+          "class_ids_exact": true,
+          "network_checkout_cache_denied": true,
+          "approved_example": {
+            "split": "valid",
+            "index": 0,
+            "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475"
+          },
+          "comparison": "CPU float32 original M3 builder versus extracted standalone runtime",
+          "logit_atol": 1e-05,
+          "logit_rtol": 1e-05
+        },
+        {
+          "version": "v1-ecfaec564931378d3d6370fc",
+          "task": "m-brick-kiln",
+          "run_id": "20261031T172944640241Z-m-brick-kiln-manual",
+          "archive": "gotrain-m-brick-kiln-v1-ecfaec564931378d3d6370fc.zip",
+          "sha256": "7ace7485a50c3961ebd77ef7528294e7f6428dbb9e6969a383a93326e31f7641",
+          "bytes": 41678760,
+          "redistribution_status": "unresolved_private_research_only",
+          "passed": true,
+          "logit_max_absolute_delta": 0.0,
+          "class_ids_exact": true,
+          "network_checkout_cache_denied": true,
+          "approved_example": {
+            "split": "valid",
+            "index": 0,
+            "partition_sha256": "f09f5afd36cd57f4cd78e444a6a3169e0c8489c6fbfcf32cda9e96fa41082c0e"
+          },
+          "comparison": "CPU float32 original M3 builder versus extracted standalone runtime",
+          "logit_atol": 1e-05,
+          "logit_rtol": 1e-05
+        },
+        {
+          "version": "v1-681a536e87d754d96e40eabe",
+          "task": "m-pv4ger-seg",
+          "run_id": "20261031T174535869393Z-m-pv4ger-seg-manual",
+          "archive": "gotrain-m-pv4ger-seg-v1-681a536e87d754d96e40eabe.zip",
+          "sha256": "63f85aef88d640a08da33067dc11da5a04cf9267d176ab5b08cf1e11a729fc32",
+          "bytes": 122302733,
+          "redistribution_status": "unresolved_private_research_only",
+          "passed": true,
+          "logit_max_absolute_delta": 0.0,
+          "class_ids_exact": true,
+          "network_checkout_cache_denied": true,
+          "approved_example": {
+            "split": "valid",
+            "index": 0,
+            "partition_sha256": "b4f3499171ac0c6f96b13d65297d26c124eca03f09c0cc7969d9cd13c5b290e5"
+          },
+          "comparison": "CPU float32 original M3 builder versus extracted standalone runtime",
+          "logit_atol": 1e-05,
+          "logit_rtol": 1e-05
+        },
+        {
+          "version": "v1-7118e7f1562c09c04d23168e",
+          "task": "m-chesapeake",
+          "run_id": "20261031T180108350357Z-m-chesapeake-manual",
+          "archive": "gotrain-m-chesapeake-v1-7118e7f1562c09c04d23168e.zip",
+          "sha256": "ec8bde364b25775842cee5f95161345647669dcba6aeecd35242c36815bc54d6",
+          "bytes": 122506602,
+          "redistribution_status": "unresolved_private_research_only",
+          "passed": true,
+          "logit_max_absolute_delta": 0.0,
+          "class_ids_exact": true,
+          "network_checkout_cache_denied": true,
+          "approved_example": {
+            "split": "valid",
+            "index": 0,
+            "partition_sha256": "c47269dadc9fe4758e4024a55cda01aa00277b654a441efb6f6594ae2ea5d17a"
+          },
+          "comparison": "CPU float32 original M3 builder versus extracted standalone runtime",
+          "logit_atol": 1e-05,
+          "logit_rtol": 1e-05
+        }
+      ],
+      "seconds": 53.88371617600205,
+      "device": "cpu",
+      "gpu_jobs": 0,
+      "test_payloads_opened": 0,
+      "historical_ledgers_unchanged": {
+        "m1": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+        "m2": "ad6fcf2aba67323cd21a4d7d8d6793a0a00d278419ee7565508a812053993ad2",
+        "m3": "76557cb9fba7c825d3b4607e6431cbd8a8204b5b417c5a209447bc2796032f2e"
+      },
+      "full_validation": "Reused M3 evidence; no repeated full-validation or test evaluation",
+      "redistribution": "Unresolved: private workspace verification only, no public weight distribution"
+    },
+    "contract_checks": {
+      "passed": 3,
+      "environment": "SageMaker verified venv CPU"
+    },
+    "storage_guard": {
+      "source_commit": "b609ef9",
+      "passed": true,
+      "check": "Mocked low free disk rejected before loading checkpoint or writing model weights"
+    },
+    "independent_recovery": {
+      "archive": "20261031T230047337223Z-recovery.tar.gz",
+      "archive_sha256": "e580a2186921c63cb7b94aebcb6d6f445a9f163c60c018e7e52063a2a8c99923",
+      "bytes": 332993949,
+      "files": 85,
+      "source_commit": "ae7c24697d72e3f4acb01da2043ba76013ee2177",
+      "receiver": "C:\\Users\\moham\\Documents\\ChatGPT\\GoTrain-backups\\snapshots\\20261031T230047337223Z-recovery.tar.gz",
+      "all_member_checksums_verified": true,
+      "restored_evidence_sha256": "5454709ac70faffdb95a7cca0b7baf5a99139afaa887878fda78a487688bb816",
+      "restored_packages": [
+        {
+          "archive": "gotrain-m-eurosat-v1-c3cff36a601c1968a7576b0a.zip",
+          "sha256": "629592dc718ab8d2e55098af9594097459b2ea834c3d12a8bcc8d81ab523792a",
+          "bytes": 41692918
+        },
+        {
+          "archive": "gotrain-m-brick-kiln-v1-ecfaec564931378d3d6370fc.zip",
+          "sha256": "7ace7485a50c3961ebd77ef7528294e7f6428dbb9e6969a383a93326e31f7641",
+          "bytes": 41678760
+        },
+        {
+          "archive": "gotrain-m-pv4ger-seg-v1-681a536e87d754d96e40eabe.zip",
+          "sha256": "63f85aef88d640a08da33067dc11da5a04cf9267d176ab5b08cf1e11a729fc32",
+          "bytes": 122302733
+        },
+        {
+          "archive": "gotrain-m-chesapeake-v1-7118e7f1562c09c04d23168e.zip",
+          "sha256": "ec8bde364b25775842cee5f95161345647669dcba6aeecd35242c36815bc54d6",
+          "bytes": 122506602
+        }
+      ],
+      "local_ml_execution": false
+    }
   }
 }

@@ -163,3 +163,12 @@ Source/evidence have a verified independent 71-file recovery snapshot; this is n
 a claim of full live-service state or uploaded-dataset recovery. SageMaker's Git
 credential expired; source reached it through checksum-verified Git bundles in the
 existing JupyterLab session. No new credentials or cloud packages were created.
+
+
+## Shared package handoff (4.1)
+
+The [CPU package/prediction contract](prediction.md) is implemented and verified
+for the four retained models. No prediction/download HTTP endpoint is added here;
+that UI integration belongs to 4.3. The remaining 4.2 runner can call the operator
+export interface after selecting an eligible fully validated checkpoint. Training
+admission remains disabled until durable-job/ledger integration and acceptance pass.

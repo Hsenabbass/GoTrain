@@ -192,3 +192,14 @@ limitations, and [M4 evidence](m4-evidence.json) owns results/independent recove
 GitHub credential expiry prevented authenticated pulls; checksum-verified source
 bundles fast-forwarded main without creating or modifying credentials. The request
 service remains on source 25ce624. No historical GPU ledger or test data changed.
+
+
+## M4 standalone prediction verification (2026-11-01)
+
+Reused the renewed Opera JupyterLab session and existing Python 3.12 venv.
+No dependency installs or GPU jobs. Four extracted packages passed CPU float32
+comparison/CLI checks outside the checkout with network/cache/checkout reads
+denied. [Prediction contract](prediction.md) owns commands; [M4 evidence](m4-evidence.json)
+owns measurements and independent recovery receipt. Request-service process
+remains on its earlier verified source; the canonical checkout includes the
+package implementation.

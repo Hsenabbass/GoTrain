@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** 4.2 request/import slice verified; the complete 4.2 issue remains open. Package and durable GPU-job integration are not implemented.
+**Status:** 4.1 package/prediction checks passed for all four retained models; independent recovery verification and all four ZIP restorations passed. Public weight redistribution remains unresolved. The 4.2 request/import slice is verified; durable GPU-job integration remains open.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -231,9 +231,9 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Outcome / issue | Check and environment | Result | Evidence |
 | --- | --- | --- | --- |
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
-| Standalone model use / 4.1 | Fresh-process package prediction/parity for four retained models on SageMaker, offline and outside checkout | Unverified | Record during implementation |
+| Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
-| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Not implemented; package contract prerequisite open | Keep 4.2 open |
+| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Not implemented; shared CPU package contract is now available | Keep 4.2 open |
 | Usable workspace / 4.3 | Real browser walkthrough, downloaded-package prediction and independent backup verification | Unverified | Record during implementation |
 
 ## Handoff
@@ -244,14 +244,18 @@ service on SageMaker. Source 25ce624 passed 15 CPU checks in 1.705 s, including
 real image-adapter checks. Live Claude preflight, conflicting labels, meaningful
 reply, real ZIP upload/template download, refresh and an idle service restart
 passed. Exact records and independent recovery receipt: [M4 evidence](../m4-evidence.json).
-**Blockers:** the 4.1 package/prediction contract is still absent. Durable M4 GPU
-admission/ledger, custom-task runner integration, stop and train-to-package checks
+**Package handoff:** the [standalone contract](../prediction.md) is implemented.
+All four extracted packages passed fresh-process CPU parity/CLI checks with zero
+logit delta, exact IDs and network/checkout/cache denial. Shape/channel rejection
+and segmentation mask/geospatial round trips passed. No training/test access.
+Independent package recovery verification and all four ZIP restorations passed.
+Public redistribution permission remains unresolved and is recorded in every package.
+**Blockers:** durable M4 GPU admission/ledger, custom-task runner integration, stop and train-to-package checks
 remain unimplemented. This request-validation slice does not complete 4.2.
-**Next action:** obtain the 4.1 shared contract, then implement and verify the
-remaining durable-job/runner work without changing M1–M3 ledgers or test isolation.
+**Next action:** plan and confirm the remaining durable-job/runner work without changing M1–M3 ledgers or test isolation.
 **Synchronization:** implementation and sanitized evidence are pushed directly to
-main. The running SageMaker source is the verified 25ce624; later documentation
-commits do not change the running implementation. GitHub credential expiry was
+main. Package runtime verified at ae7c246; b609ef9 passed the added storage guard
+check. The already-running request service remains on source 25ce624. GitHub credential expiry was
 worked around by checksum-verified Git bundles through the existing Opera session,
 not by creating credentials. No cloud packages were installed or upgraded.
 

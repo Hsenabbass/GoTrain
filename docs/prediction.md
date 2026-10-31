@@ -1,7 +1,9 @@
 # Model packages and standalone prediction
 
-4.1 implementation is in progress. Runtime verification and independent package
-backup are pending; do not infer working packages from the source alone.
+All four retained packages passed CPU prediction/CLI verification on SageMaker at
+source ae7c246, outside the checkout with network/cache access denied. Predictions
+matched the original M3 builders exactly. Independent recovery transfer, member
+verification and restoration of all four package ZIPs passed. [M4 evidence](m4-evidence.json) records verified results and receipts.
 
 ## Shared contract
 
@@ -15,7 +17,10 @@ Future custom-task runs use the same task specification and export interface.
 A selected immutable version is `v1-<24 hex>` from canonical model metadata. It
 binds inference weights, preprocessing, runtime, dependencies, terms and history
 checksums, origin checkpoint/run, training code, validation and dataset identity.
-Exports refuse to overwrite an existing version. Trials remain in compact history;
+Exports refuse to overwrite an existing version and preserve 15 GiB free disk
+plus staging space. Source b609ef9 additionally passed the low-space rejection
+check on SageMaker; package prediction contents are unchanged from ae7c246.
+Trials remain in compact history;
 only selected full-validation checkpoints become model versions. No M5 status is
 implied. The ZIP filename is `gotrain-<task>-<version>.zip`, with one clean folder.
 
@@ -43,17 +48,23 @@ Overlay stretch/opacity affect display only, never prediction inputs.
 Use the existing verified Python 3.12 environment; no new installation is needed.
 
 ```bash
-PYTHONPATH=src python -m gotrain.packages
-python scripts/verify_packages.py
+# First export and verify together, using an empty destination:
+python scripts/verify_packages.py --packages artifacts/models
+
+# Alternatively export only (do not run both against the same destination):
+PYTHONPATH=src python -m gotrain.packages --destination artifacts/models
 ```
 
+Use existing verified versions for normal operation. Exports never overwrite;
+choose a new empty destination only when a fresh verification is necessary.
 The verifier exports all four retained M3 models, extracts each outside the
 checkout, and uses a fresh isolated Python process. Network, initialization-cache
 and checkout reads are denied. Compare CPU float32 logits with the original M3
 model builder (`atol=rtol=1e-5`) and require identical predicted IDs. Each uses the
 approved official validation example at index 0; no test samples or new training.
 Exercise CLI prediction, incompatible shape/channel rejection and mask/CRS/transform
-round trips. Reuse existing M3 full-validation evidence. Evidence is written under
+round trips (synthetic geographic metadata wrapped around the validation image).
+Reuse existing M3 full-validation evidence. Evidence is written under
 `artifacts/runs/m4-package-checks/`; frozen M1–M3 ledger hashes must remain unchanged.
 
 After extracting a trusted package elsewhere:

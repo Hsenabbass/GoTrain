@@ -147,3 +147,23 @@ matched sender/receiver and its sidecar. Every member verified. Restored evidenc
 JSON SHA-256 c14d3b534f3004b7f414d02e048d2283e5bae43652db11518b14f591a0449968 matched.
 This snapshot covers source and verification evidence, not full service/user-data
 restoration. The existing custodian Mac snapshots remain unchanged.
+
+
+## M4 standalone model packages (4.1)
+
+All four selected M3 models have immutable CPU prediction packages under SageMaker
+`artifacts/models/`. The [package contract](prediction.md) owns usage and restrictions;
+[M4 evidence](m4-evidence.json) owns version IDs, ZIP hashes and exact checks.
+Four fresh-process/offline comparisons passed at ae7c246 with zero logit delta;
+b609ef9 additionally passed low-disk rejection. No retraining, GPU jobs or test access.
+
+Independent Windows snapshot: `20261031T230047337223Z-recovery.tar.gz`, 332,993,949 bytes,
+85 files, source `ae7c24697d72e3f4acb01da2043ba76013ee2177`.
+SHA-256 `e580a2186921c63cb7b94aebcb6d6f445a9f163c60c018e7e52063a2a8c99923` matched sender, receiver and sidecar; all
+member hashes verified. The snapshot is under
+`C:/Users/moham/Documents/ChatGPT/GoTrain-backups/snapshots/`. All four packaged
+model ZIPs were restored as opaque bytes under the sibling `models/` directory
+and matched their original export SHA-256 values. No local ML execution occurred.
+The restored evidence JSON SHA-256 is `5454709ac70faffdb95a7cca0b7baf5a99139afaa887878fda78a487688bb816`.
+Packages remain private research outputs; public redistribution permission for the
+derived weights is unresolved. No dataset images are included in these ZIPs.
