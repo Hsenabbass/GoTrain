@@ -47,6 +47,8 @@ class PackageContractTests(unittest.TestCase):
             checks = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.iterdir()}
             (directory / 'checksums.json').write_text(json.dumps(checks))
             verify_package(directory)
+            (directory / '__pycache__').mkdir()
+            verify_package(directory)  # Ordinary Python imports create this directory.
             (directory / 'weights.pt').write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError, 'checksum'):
                 verify_package(directory)

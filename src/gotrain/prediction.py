@@ -20,7 +20,11 @@ def verify_package(directory):
     directory = Path(directory).resolve()
     checks = json.loads((directory / 'checksums.json').read_text())
     expected = {'model.json', 'weights.pt', 'predict.py', 'requirements.txt', 'README.md', 'TERMS.md', 'history.json'}
-    if set(checks) != expected or {p.name for p in directory.iterdir()} != expected | {'checksums.json'}:
+    cache = directory / '__pycache__'
+    if cache.is_symlink() or (cache.exists() and not cache.is_dir()):
+        raise ValueError('Invalid Python runtime cache directory')
+    actual = {p.name for p in directory.iterdir() if p.name != '__pycache__'}
+    if set(checks) != expected or actual != expected | {'checksums.json'}:
         raise ValueError('Package contents differ from the versioned contract')
     for name, checksum in checks.items():
         path = directory / name
