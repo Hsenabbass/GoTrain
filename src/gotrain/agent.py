@@ -174,18 +174,22 @@ def create_agent(controller):
                          max_tokens=controller.caps['agent']['max_output_tokens'],
                          boto_client_config=Config(connect_timeout=5, read_timeout=30, retries={'total_max_attempts': 1}))
     agent = Agent(model=model, tools=[wrap(getattr(controller, name)) for name in
-                  ('inspect_task', 'train_candidate', 'read_result', 'verify_prediction', 'select_candidate')],
+                  getattr(controller, 'tool_names', ('inspect_task', 'train_candidate', 'read_result', 'verify_prediction', 'select_candidate'))],
                   callback_handler=None, load_tools_from_directory=False,
-                  system_prompt='You run bounded geospatial experiments. Use only supplied tools. Inspect first, train a starting recipe, read evidence, run one justified configuration change, and select both candidates. Keep prior best if changes fail. Explain hypotheses and decisions. Never access test. Stop on exhausted budget or fatal failure; at most one eligible retry. Verify prediction on the selected best at the end.')
+                  system_prompt=getattr(controller, 'system_prompt', 'You run bounded geospatial experiments. Use only supplied tools. Inspect first, train a starting recipe, read evidence, run one justified configuration change, and select both candidates. Keep prior best if changes fail. Explain hypotheses and decisions. Never access test. Stop on exhausted budget or fatal failure; at most one eligible retry. Verify prediction on the selected best at the end.'))
     return agent
 
 
-def run_agent(folder):
-    controller = Controller(folder)
+def run_agent(folder, task=None, resume=False):
+    if task:
+        from .search import SearchController
+        controller = SearchController(folder, task, resume)
+    else:
+        controller = Controller(folder)
     agent = create_agent(controller)
     try:
-        result = agent('Complete one EuroSAT improvement cycle without asking routine human questions.')
-        controller.state.update(status='agent_returned', response=str(result))
+        result = agent('Complete the bounded search for '+task+' using inspect_task and finish_search. Do not ask routine human questions.' if task else 'Complete one EuroSAT improvement cycle without asking routine human questions.')
+        controller.state.update(status=controller.state['status'] if task and controller.state.get('stage')=='done' else 'incomplete' if task else 'agent_returned', response=str(result))
     except BaseException as exc:
         controller.state.update(status='failed', error=str(exc))
         raise
@@ -198,18 +202,27 @@ def main():
         raise RuntimeError('Run only on canonical SageMaker checkout')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--worker', type=Path, help=argparse.SUPPRESS)
+    parser.add_argument('--task', choices=tuple(read(ROOT/'configs/tasks.json')['tasks']))
+    parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.worker:
-        run_agent(args.worker)
+        run_agent(args.worker,args.task,args.resume)
         return
-    directory = ROOT / 'artifacts/agent'
+    directory = ROOT / ('artifacts/agent-m3' if args.task else 'artifacts/agent')
     directory.mkdir(parents=True, exist_ok=True)
     with (directory / 'controller.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        folder = directory / datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+        folder = directory / (args.task or datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
+        command = [sys.executable, str(ROOT/'scripts/agent.py'), '--worker',str(folder)]
+        seconds = read(ROOT/('configs/m3.json' if args.task else 'configs/m2.json'))['agent']['max_wall_seconds']
+        if args.task:command += ['--task',args.task]
+        if args.resume:
+            command += ['--resume']
+            created = read(folder/'session.json')['created_utc']
+            seconds -= (datetime.now(timezone.utc)-datetime.fromisoformat(created)).total_seconds()
+        if seconds<=0:raise RuntimeError('Session wall allowance exhausted')
         try:
-            run_with_watchdog([sys.executable, str(ROOT / 'scripts/agent.py'), '--worker', str(folder)],
-                              read(ROOT / 'configs/m2.json')['agent']['max_wall_seconds'], directory / 'agent.log')
+            run_with_watchdog(command, seconds, directory/'agent.log')
         except BaseException:
             if (folder / 'session.json').exists():
                 state = read(folder / 'session.json'); state['status'] = 'interrupted'; write_json(folder / 'session.json', state)

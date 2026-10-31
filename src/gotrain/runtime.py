@@ -22,6 +22,8 @@ def tree_bytes(directory):
 
 
 def validate_recipe(recipe, contracts, caps):
+    if caps.get('allocation') == 'm3':
+        return validate_search_recipe(recipe, contracts, caps)
     allowed = {'task', 'description', 'model', 'smoke', 'epochs', 'steps', 'wall_seconds', 'batch_size', 'lr', 'weight_decay', 'train_limit', 'valid_limit', 'augment', 'normalization'}
     if set(recipe) - allowed:
         raise ValueError('Unknown recipe fields')
@@ -60,10 +62,10 @@ class Budget:
         except BlockingIOError:
             self.lock.close()
             raise RuntimeError('Another M1 job holds the GPU budget lock')
-        if allocation not in ('m1', 'm2'):
+        if allocation not in ('m1', 'm2', 'm3'):
             self.close()
             raise ValueError('Unknown allocation')
-        for other in ('m1', 'm2'):
+        for other in ('m1', 'm2', 'm3'):
             path = self.root / ('artifacts/' + other + '-budget.json')
             if path.exists() and json.loads(path.read_text()).get('active'):
                 self.close()
@@ -78,7 +80,7 @@ class Budget:
             self.close()
             raise RuntimeError('Unsettled reservation: inspect previous job before resuming')
 
-    def begin(self, run_id, category, seconds, retry_of=None):
+    def begin(self, run_id, category, seconds, retry_of=None, task_id=None, job_type=None):
         deadline = datetime.fromisoformat(self.caps['submission_deadline_local']).replace(tzinfo=ZoneInfo(self.caps['timezone']))
         if datetime.now(ZoneInfo(self.caps['timezone'])) + timedelta(seconds=seconds + self.caps['final_submission_reserve_seconds']) >= deadline:
             raise RuntimeError('Submission reserve prevents this job')
@@ -93,8 +95,13 @@ class Budget:
             limit = 2 if category == 'four_reference_runs' else 1 if category == 'failure_reserve' else None
             if limit is not None and attempts >= limit:
                 raise RuntimeError('M2 attempt allowance exhausted')
+        if self.allocation == 'm3':
+            if job_type == 'train' and sum(r.get('task_id') == task_id and r.get('job_type') == 'train' for r in self.ledger['runs']) >= self.caps['agent']['max_training_runs']:
+                raise RuntimeError('M3 task attempt limit reached')
+            if retry_of and any(r.get('retry_of') for r in self.ledger['runs']):
+                raise RuntimeError('M3 shared retry exhausted')
         self.started = time.monotonic()
-        reservation = {'allocation': self.allocation, 'run_id': run_id, 'category': category, 'seconds': seconds, 'retry_of': retry_of, 'started_monotonic': self.started, 'owner_pid': os.getpid()}
+        reservation = {'task_id': task_id, 'job_type': job_type, 'allocation': self.allocation, 'run_id': run_id, 'category': category, 'seconds': seconds, 'retry_of': retry_of, 'started_monotonic': self.started, 'owner_pid': os.getpid()}
         self.ledger['active'] = reservation
         self.ledger['charged_seconds'] += seconds
         self.ledger['categories'][category] = self.ledger['categories'].get(category, 0) + seconds
@@ -130,3 +137,48 @@ class Guard:
             raise RuntimeError('Artifact storage cap reached')
         if torch_module and (torch_module.cuda.memory_allocated() > limits['gpu_allocated_limit_gib'] * 2**30 or torch_module.cuda.memory_reserved() > limits['gpu_reserved_limit_gib'] * 2**30):
             raise RuntimeError('GPU memory cap reached')
+
+
+def validate_search_recipe(recipe, contracts, caps):
+    from .models import CANDIDATES
+    allowed = {'task', 'description', 'model', 'smoke', 'epochs', 'steps', 'wall_seconds',
+               'batch_size', 'lr', 'weight_decay', 'augment', 'normalization', 'seed',
+               'optimizer', 'schedule', 'loss', 'head_only', 'backbone_lr_ratio', 'phase', 'train_limit', 'valid_limit'}
+    if set(recipe) - allowed:
+        raise ValueError('Unknown search recipe fields')
+    spec = contracts['tasks'][recipe['task']]
+    name = recipe['model']
+    legacy = 'resnet18' if spec['kind'] == 'classification' else 'fcn_resnet50'
+    if name != legacy and (name not in CANDIDATES or CANDIDATES[name][0] != spec['kind']):
+        raise ValueError('Unsupported model/task pairing')
+    for key in ('smoke', 'augment', 'head_only'):
+        if type(recipe.get(key)) is not bool:
+            raise ValueError('Boolean recipe field required')
+    phases = {'probe':30, 'screen':150, 'tune':300, 'final':600, 'confirm':600}
+    if recipe.get('phase') not in phases or recipe['smoke'] != (recipe['phase'] == 'probe'):
+        raise ValueError('Invalid search phase')
+    for key, maximum in [('epochs',50), ('steps',10000), ('wall_seconds',phases[recipe['phase']]), ('batch_size',spec['batch_size_ceiling'])]:
+        if type(recipe.get(key)) is not int or not 0 < recipe[key] <= maximum:
+            raise ValueError('Search recipe exceeds ' + key)
+    if recipe['batch_size'] < 2 or recipe.get('seed') not in (2026,2027):
+        raise ValueError('Invalid batch or seed')
+    if recipe.get('schedule') not in ('constant','cosine') or recipe['optimizer'] not in ('sgd','adamw') or recipe['loss'] not in ('ce','weighted_ce','ce_dice'):
+        raise ValueError('Unsupported optimizer/loss')
+    if recipe['loss'] == 'ce_dice' and spec['kind'] != 'segmentation':
+        raise ValueError('Dice requires segmentation')
+    if recipe['normalization'] != ('pretrained' if name in CANDIDATES else 'train_standardize'):
+        raise ValueError('Wrong normalization for candidate')
+    if recipe['head_only'] and (name not in CANDIDATES or spec['channels'] != 3):
+        raise ValueError('Head-only requires a three-channel pretrained model')
+    low, high = (1e-5,1e-3) if recipe['optimizer'] == 'adamw' else (1e-3,1e-1)
+    for key,lo,hi in [('lr',low,high),('weight_decay',0,1e-2),('backbone_lr_ratio',.01,1)]:
+        value = recipe.get(key)
+        if type(value) not in (int,float) or not math.isfinite(value) or not lo <= value <= hi:
+            raise ValueError('Invalid ' + key)
+    if recipe['smoke']:
+        for key in ('train_limit','valid_limit'):
+            if type(recipe.get(key)) is not int or not recipe['batch_size'] <= recipe[key] <= 64:
+                raise ValueError('Invalid probe subset')
+    elif 'train_limit' in recipe or 'valid_limit' in recipe:
+        raise ValueError('Only probes permit subsets')
+    return spec
