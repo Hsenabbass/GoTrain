@@ -80,7 +80,9 @@ class SearchController(Controller):
                 'remaining_shared_seconds':1200-ledger['categories'].get('shared',0),
                 'remaining_tool_calls':32-self.state['tool_calls'],
                 'remaining_model_requests':24-self.state['model_requests'],
-                'allowed_candidates':self.state['shortlist']}
+                'allowed_candidates':self.state['shortlist'],
+                'remaining_training_attempts':5-sum(r.get('task_id')==self.state['task'] and r.get('job_type')=='train' for r in ledger.get('runs',[])),
+                'phase_caps_seconds':{'probe':30,'screen':150,'tune':300,'final':600,'confirm':600}}
 
     def inspect_task(self):
         """Inspect trusted task/candidates and cheap label-only baselines before search."""
@@ -93,6 +95,8 @@ class SearchController(Controller):
         self.save()
         return {'task':self.spec,'candidates':[candidate_info(c,self.spec) for c,v in CANDIDATES.items() if v[0]==self.spec['kind']],
                 'reference':self.read_result(self.state['reference']),
+                'prior_trials':[{**t,'result':self.read_result(t['run_id'])} for t in self.state['trials']],
+                'prior_selections':[d for d in self.state['decisions'] if 'kept' in d],
                 'diagnostics':{'majority_fraction':majority,'foreground_fraction':foreground,
                                'all_background_macro_iou':(1-foreground)/len({0}|{int(k) for k,n in counts.items() if int(n)>0}) if self.spec['kind']=='segmentation' else None},
                 'context':self.context()}
