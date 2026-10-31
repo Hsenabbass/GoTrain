@@ -37,7 +37,7 @@ per milestone. Promote shared logic to `src/gotrain/` when reuse is demonstrated
 | Hackathon requirements | Original challenge PDF | Keep the source intact; record organizer clarifications with date and source in the relevant milestone. |
 | Agreed project direction and milestone boundaries | `PROJECT_PLAN.md` | Revise when an agreed decision changes scope or constraints; link detailed plans. |
 | Detailed milestone scope, sequence, decisions, evidence | Milestone document | Keep current during work; link implementation issues and durable shared docs. |
-| Task state, discussion, acceptance, milestone completion | GitHub issues and milestones | Use overview checklists for outcomes; implementation issues for individual tasks. Close with evidence. |
+| Task state, discussion, acceptance, milestone completion | GitHub issues and milestones | Use milestone documents for broad outcomes and acceptance evidence; numbered implementation issues for individual tasks. Close with evidence. |
 | Working setup, interfaces, data contracts | Focused shared docs, once created | Update in the same change as behavior; move reusable instructions out of milestone notes and leave links. |
 | Reusable operational references and storage locations | `RESOURCES.md` | Update when a location or verification state changes; keep research references in the project plan. |
 | Exact run settings and measurements | Versioned configs and durable run records | Link records from milestone evidence; do not hand-maintain duplicate score tables across docs. |
@@ -54,6 +54,9 @@ Preserve uncertainty explicitly instead of silently choosing a convenient value.
    and detail only this milestone. Resolve or label unknowns. When authorized to
    track work on GitHub, create small issues with prerequisites, tools/data,
    completion checks, and links to the plan; assign them to the existing milestone.
+   Title tasks `<milestone>.<task>: <action>`: `1.1`, `1.2`, then `2.1`, `2.2`,
+   and so on. Keep assigned task numbers stable; append the next number for new
+   work. GitHub `#` numbers remain link identifiers. Do not create overview issues.
 2. **Implement:** work in small changes tied to an issue. Use `codex/<short-name>`
    branches by default. Put reusable code and configuration in the shared folders.
    Update affected instructions and contracts alongside behavior. Record material
@@ -64,8 +67,8 @@ Preserve uncertainty explicitly instead of silently choosing a convenient value.
 4. **Handoff:** update the milestone's short current-state/blocker/next-action
    section before ending substantial work. Update GitHub issue state when connected
    and authorized; if synchronization is pending, say exactly what remains to sync.
-5. **Complete:** check each outcome against evidence, update the overview issue
-   and milestone, and promote lasting instructions into shared docs. Update README
+5. **Complete:** check each outcome against evidence in the milestone document,
+   close the completed task issues and milestone, and promote lasting instructions into shared docs. Update README
    status and the project plan where needed. Keep the milestone document as the
    completion record, then plan the next milestone.
 

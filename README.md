@@ -8,7 +8,7 @@ Built for the AUB ACM × RASID hackathon, 31 October–1 November 2026.
 
 - **[Project plan](docs/PROJECT_PLAN.md):** our goals, approach, five milestones, dependencies, and when to use each tool.
 - **[Repository workflow](docs/WORKFLOW.md):** folder conventions and how plans, code, evidence, and documentation stay consistent.
-- **[GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones):** progress and milestone tracking issues.
+- **[GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones):** milestone progress and implementation tasks.
 - **[Challenge brief](GoTrain%20Challenge.pdf):** the source of the hackathon requirements.
 
 ## What we are building
@@ -23,11 +23,11 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 | Milestone | Outcome |
 | --- | --- |
-| [1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/issues/1) | Verified tools, understood data, and working reference recipes. |
-| [2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/issues/2) | Claude completes a measured improvement cycle through reliable tools. |
-| [3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/issues/3) | The agent works across all four tasks with trustworthy comparisons. |
-| [4. Make results usable](https://github.com/Hsenabbass/GoTrain/issues/4) | Versioned model packages and an interface for running and using them. |
-| [5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/issues/5) | One final test evaluation per task, complete evidence, and a rehearsed demo. |
+| [1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/milestone/1) | Verified tools, understood data, and working reference recipes. |
+| [2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/milestone/2) | Claude completes a measured improvement cycle through reliable tools. |
+| [3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/milestone/3) | The agent works across all four tasks with trustworthy comparisons. |
+| [4. Make results usable](https://github.com/Hsenabbass/GoTrain/milestone/4) | Versioned model packages and an interface for running and using them. |
+| [5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/milestone/5) | One final test evaluation per task, complete evidence, and a rehearsed demo. |
 
 ## Rules we build around
 
@@ -40,8 +40,8 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 **Planning only: no agent, training pipeline, or UI is implemented yet.** SageMaker, Bedrock, GPU capacity, and storage permissions still need verification.
 
-[M1 is planned](docs/milestones/m1-foundation.md), with implementation tasks linked from [overview #1](https://github.com/Hsenabbass/GoTrain/issues/1). Execution has not started.
+[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). Execution has not started.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 
-Reusable access routes and storage references belong in the [resource index](docs/RESOURCES.md). Codex follows [AGENTS.md](AGENTS.md); detailed milestone plans will live in `docs/milestones/` as each milestone is planned.
+Reusable access routes and storage references belong in the [resource index](docs/RESOURCES.md). Codex follows [AGENTS.md](AGENTS.md); detailed milestone plans live in `docs/milestones/` as each milestone is planned.

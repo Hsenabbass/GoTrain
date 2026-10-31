@@ -81,13 +81,13 @@ The organizers provide SageMaker/Bedrock access according to the brief, but neit
 
 The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent preparation can overlap, but each completion check depends on evidence from the preceding milestone. Capture documentation and demo evidence throughout.
 
-| GitHub milestone | Overview issue | Depends on |
-| --- | --- | --- |
-| [M1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/milestone/1) | [#1](https://github.com/Hsenabbass/GoTrain/issues/1) | Organizer access and team access. |
-| [M2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/milestone/2) | [#2](https://github.com/Hsenabbass/GoTrain/issues/2) | M1. |
-| [M3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/milestone/3) | [#3](https://github.com/Hsenabbass/GoTrain/issues/3) | M2. |
-| [M4. Make results usable](https://github.com/Hsenabbass/GoTrain/milestone/4) | [#4](https://github.com/Hsenabbass/GoTrain/issues/4) | M3; design may start after M2 interfaces stabilize. |
-| [M5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/milestone/5) | [#5](https://github.com/Hsenabbass/GoTrain/issues/5) | M3 evidence and M4 packages/demo. |
+| GitHub milestone | Depends on |
+| --- | --- |
+| [M1. Establish the foundation](https://github.com/Hsenabbass/GoTrain/milestone/1) | Organizer access and team access. |
+| [M2. Build the autonomous engine](https://github.com/Hsenabbass/GoTrain/milestone/2) | M1. |
+| [M3. Demonstrate reliable improvement](https://github.com/Hsenabbass/GoTrain/milestone/3) | M2. |
+| [M4. Make results usable](https://github.com/Hsenabbass/GoTrain/milestone/4) | M3; design may start after M2 interfaces stabilize. |
+| [M5. Finalize the submission](https://github.com/Hsenabbass/GoTrain/milestone/5) | M3 evidence and M4 packages/demo. |
 
 ### M1. Establish the foundation
 
@@ -147,7 +147,7 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 The [repository workflow](WORKFLOW.md) defines file locations, authoritative sources, and the planning-to-completion update cycle. Use the [milestone template](milestones/TEMPLATE.md) for each detailed plan and the [resource index](RESOURCES.md) for reusable access and storage references.
 
-- Use one GitHub milestone and one overview issue per milestone. The overview issue holds the broad completion checklist and links back here.
+- Use one GitHub milestone per milestone and actionable issues titled `<milestone>.<task>: <action>` (for example, `1.1: Verify access`). Keep milestone outcomes and acceptance evidence in the project plan and detailed milestone document; do not create milestone overview issues. GitHub issue numbers remain stable link identifiers.
 - Before starting a milestone, expand only that milestone into small implementation issues with prerequisites, needed tools/data, and a clear completion check.
 - Close issues using evidence, not just code being written. Update this document when an agreed decision changes.
 - Keep detailed setup and experiment instructions in linked documentation as they become real. Do not invent commands for components that are not implemented yet.

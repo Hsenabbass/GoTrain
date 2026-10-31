@@ -4,19 +4,19 @@
      remove unused prompts. Link shared facts rather than copying them. -->
 
 **Status:** not started | in progress | blocked | complete
-**GitHub:** <milestone link> · <overview issue link>
+**GitHub:** <milestone link>
 **Direction:** <link to the relevant PROJECT_PLAN.md section>
 
 ## Outcome and scope
 
-<What this milestone delivers, its boundaries, and prerequisites. Use the overview
-issue for the broad completion checklist.>
+<What this milestone delivers, its boundaries, prerequisites, and broad acceptance
+outcomes. Keep acceptance evidence in this document.>
 
 ## Work sequence
 
 | Step / issue | Prerequisites | Tools, inputs, outputs | Completion check |
 | --- | --- | --- | --- |
-| <Small actionable task; link issue when created> | <Dependency> | <Needed resources and resulting deliverable> | <Observable evidence> |
+| <N.1: Action; link issue when created> | <Dependency> | <Needed resources and resulting deliverable> | <Observable evidence> |
 
 ## Decisions and open questions
 
@@ -40,5 +40,5 @@ it supersedes. Link lasting shared contracts once promoted.>
 
 ## Completion
 
-<Fill when complete: overview acceptance/evidence, links to reusable docs and
+<Fill when complete: milestone acceptance/evidence, links to reusable docs and
 deliverables, remaining limitations or follow-up issues, and next milestone.>

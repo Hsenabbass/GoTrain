@@ -1,7 +1,7 @@
 # M1: Establish the foundation
 
 **Status:** not started; detailed plan prepared 2026-10-31.
-**GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1) · [Overview #1](https://github.com/Hsenabbass/GoTrain/issues/1)
+**GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
 ## Outcome and scope
@@ -29,13 +29,13 @@ its implementation issue; use that issue for ongoing discussion and evidence.
 
 | Step / issue | Prerequisites | Tools, inputs, outputs | Completion check |
 | --- | --- | --- | --- |
-| [#6 Verify access](https://github.com/Hsenabbass/GoTrain/issues/6) | Organizer access and team permissions | SageMaker GPU, Bedrock/Strands, PyTorch, storage, GitHub → verified setup and capacity inventory | Required model responds and calls a harmless tool; GPU, persistence/disconnect and SageMaker clone/push checks have sanitized evidence. |
-| [#7 Inspect data](https://github.com/Hsenabbass/GoTrain/issues/7) | #6 | GEO-Bench/Hugging Face; selected train/validation splits → sourced data contracts | All four task versions, loader IDs, channels/scales, labels, split handling and data issues documented without loading test samples. |
-| [#8 Set contracts and budgets](https://github.com/Hsenabbass/GoTrain/issues/8) | #6, #7 | Data contracts, organizer rules, bounded calibration → input/output, metric and budget definitions | Scoring rules and numeric caps recorded before reference training; unresolved requirements remain explicit. |
-| [#9 Build manual foundation](https://github.com/Hsenabbass/GoTrain/issues/9) | #8 | PyTorch, verified dependencies, configs, storage → shared train/validation path and run records | Split/metric/preprocessing/budget checks pass; a small run saves a checkpoint and reloads for prediction. |
-| [#10 Classification references](https://github.com/Hsenabbass/GoTrain/issues/10) | #9 | EuroSAT then Brick-Kiln → two fixed recipes and validation records | Full-validation scores, traceable configs/logs/checkpoints and checkpoint revalidation evidence. |
-| [#11 Segmentation references](https://github.com/Hsenabbass/GoTrain/issues/11) | #9 | PV4GER-Seg then Chesapeake → two fixed recipes and validation records | Full-validation scores, correct mask/channel handling and checkpoint revalidation evidence. |
-| [#12 Acceptance and handoff](https://github.com/Hsenabbass/GoTrain/issues/12) | #10, #11 and all earlier evidence | Fresh-process SageMaker checks and documentation review → completed evidence record | Every overview outcome evidenced; four reference results usable by M2/M3; docs and GitHub agree. |
+| [1.1 (#6) Verify access](https://github.com/Hsenabbass/GoTrain/issues/6) | Organizer access and team permissions | SageMaker GPU, Bedrock/Strands, PyTorch, storage, GitHub → verified setup and capacity inventory | Required model responds and calls a harmless tool; GPU, persistence/disconnect and SageMaker clone/push checks have sanitized evidence. |
+| [1.2 (#7) Inspect data](https://github.com/Hsenabbass/GoTrain/issues/7) | #6 | GEO-Bench/Hugging Face; selected train/validation splits → sourced data contracts | All four task versions, loader IDs, channels/scales, labels, split handling and data issues documented without loading test samples. |
+| [1.3 (#8) Set contracts and budgets](https://github.com/Hsenabbass/GoTrain/issues/8) | #6, #7 | Data contracts, organizer rules, bounded calibration → input/output, metric and budget definitions | Scoring rules and numeric caps recorded before reference training; unresolved requirements remain explicit. |
+| [1.4 (#9) Build manual foundation](https://github.com/Hsenabbass/GoTrain/issues/9) | #8 | PyTorch, verified dependencies, configs, storage → shared train/validation path and run records | Split/metric/preprocessing/budget checks pass; a small run saves a checkpoint and reloads for prediction. |
+| [1.5 (#10) Classification references](https://github.com/Hsenabbass/GoTrain/issues/10) | #9 | EuroSAT then Brick-Kiln → two fixed recipes and validation records | Full-validation scores, traceable configs/logs/checkpoints and checkpoint revalidation evidence. |
+| [1.6 (#11) Segmentation references](https://github.com/Hsenabbass/GoTrain/issues/11) | #9 | PV4GER-Seg then Chesapeake → two fixed recipes and validation records | Full-validation scores, correct mask/channel handling and checkpoint revalidation evidence. |
+| [1.7 (#12) Acceptance and handoff](https://github.com/Hsenabbass/GoTrain/issues/12) | #10, #11 and all earlier evidence | Fresh-process SageMaker checks and documentation review → completed evidence record | Every milestone outcome evidenced; four reference results usable by M2/M3; docs and GitHub agree. |
 
 Work within each task family may proceed as its data contract is ready, but no
 reference run precedes its verified metric and numeric caps. Classification and
@@ -107,6 +107,11 @@ Planning decision, 2026-10-31: follow the agreed manual-first hybrid approach an
 defer numeric budgets and recipe choices to observed capacity. This elaborates the
 project plan without replacing a previous decision or broadening M1's outcome.
 
+Tracking update, 2026-10-31: at the user's request, tasks use titles 1.1–1.7
+(GitHub #6–#12). Milestone documents hold acceptance outcomes; redundant overview
+issues were retired as not planned. This supersedes the earlier overview-issue
+convention, with no change to M1 scope or completion requirements.
+
 ## Documentation and deliverables
 
 Follow the [repository workflow](../WORKFLOW.md): create these implementation files
@@ -147,7 +152,7 @@ for verification. A run record owns the exact numeric score.
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** M1 planned; implementation issues #6–#12 created under M1.
+**Current state:** M1 planned; tasks 1.1–1.7 (GitHub #6–#12) created under M1.
 No runtime implementation, installation, cloud verification or training has started.
 **Blockers:** organizer access/permissions and runtime capacity remain unverified;
 metrics, numeric budgets and recipes depend on the planned checks.
@@ -157,6 +162,6 @@ route and verify the provided environment.
 
 ## Completion
 
-Not complete. Keep overview #1 and M1 open until every broad acceptance outcome has
+Not complete. Keep M1 open until every broad acceptance outcome has
 evidence. At completion, summarize the four run IDs, shared contract/setup links,
 remaining limitations and the M2 handoff here; detail M2 only afterward.

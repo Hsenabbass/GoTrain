@@ -6,6 +6,8 @@ milestone document, when one exists, and its linked GitHub issues.
 
 - Detail one milestone at a time. Use `docs/milestones/TEMPLATE.md`; do not
   prefill future milestones or create speculative code, dependencies, or folders.
+  Name actionable issues `<milestone>.<task>: <action>` (such as `1.1`, `2.1`).
+  Use milestones and their documents for outcomes; do not create overview issues.
 - Follow the workflow's source-of-truth table. Update affected documentation
   alongside code/configuration changes; link shared facts instead of copying them.
 - Separate proposed, implemented, and verified work. Record checks and evidence;
