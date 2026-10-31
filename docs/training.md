@@ -59,8 +59,7 @@ wall seconds, batch size, learning rate, weight decay, augmentation and
 come from the frozen [task contract](../configs/tasks.json). Only `smoke: true`
 permits `train_limit`/`valid_limit`; reference jobs traverse full official splits.
 The [M1 caps](../configs/m1.json) remain authoritative and cannot be widened by a
-recipe. Final recipes and any pretrained initialization are chosen/verified in
-1.5/1.6, not by these smoke configurations.
+recipe. The [1.5 classification recipes/results](references.md) are frozen and verified with random initialization; segmentation recipes remain task 1.6. These reference recipes are separate from smoke configurations.
 
 Each unique UTC/task run has `artifacts/runs/<run-id>/` containing:
 
@@ -107,5 +106,4 @@ remain there on SageMaker. Their metrics are explicitly subset diagnostics.
 Follow [storage/recovery](storage.md) for snapshots. For 1.4, the independent backup
 includes source, test/run/reload/timing records and a settled-ledger copy, **not the
 large reproducible random-initialized smoke weights**. Restore the ledger copy to
-`artifacts/m1-budget.json` only after confirming there is no active job. Valuable
-accepted reference checkpoints are backed up when those runs exist.
+`artifacts/m1-budget.json` only after confirming there is no active job. The two accepted classification checkpoints now have verified independent backups; see [receipts](RESOURCES.md#recovery-verification).

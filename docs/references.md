@@ -47,9 +47,50 @@ $PY scripts/train.py train --recipe configs/reference-m-brick-kiln.json --data-r
 $PY scripts/train.py verify --run-id <brick-kiln-run-id> --data-root data/geo-bench/datasets
 ```
 
-Results are pending. Accept only finite complete-validation metrics, saved
-checkpoints with source/config/data/preprocessing provenance, and fresh-process
-revalidation within absolute 1e-6. No test sample is accessed. Full logs/checkpoints
-remain under their run directories; small result summaries and safe locations are
-linked here after verification. Independent checkpoint backup follows
-[storage/recovery](storage.md).
+## Verified classification results (2026-10-31)
+
+| Task | Full-validation accuracy | Validation images | Full epochs / total steps | Training wall time | Fresh-process score delta |
+| --- | --- | --- | --- | --- | --- |
+| EuroSAT | **87.00%** | 1,000 | 10 / 630 | 169.69 s | 0 |
+| Brick-Kiln | **97.80%** (977/999) | 999 | 4 / 2,334 | 575.81 s | 0 |
+
+Brick-Kiln also trained part of epoch 5 before the wall-time reserve stopped
+training; its final partial-epoch checkpoint received full validation. Its
+`budget_exhausted` status records that planned stop, not a failed evaluation.
+The selected best checkpoint scored higher than the last checkpoint (97.50%).
+Brick-Kiln positive-class precision, recall and F1 are each **96.73%**;
+EuroSAT macro-F1 is **86.84%**. Confusion matrices and all class metrics are in
+[the raw result record](classification.json); accuracy alone selected the models.
+These are modest single-seed starting points, with no tuning or test evaluation.
+
+Both ran on the provided Tesla T4 from clean frozen source commit
+`828cbf0d2a95df69ceae18e2883ce0c7fd9d3812`, with exact recipe/data/partition/contract
+hashes in that record. Saved normalization used all 2,000 EuroSAT / 15,063 Brick-Kiln
+training images only. Both selected `best.pt` checkpoints passed separate-process
+full-validation and prediction revalidation with **zero score difference**
+(tolerance 1e-6). No final test payload was opened or official split changed.
+
+Run directories, relative to SageMaker `/home/sagemaker-user/GoTrain/`:
+
+- EuroSAT: `artifacts/runs/20261031T142814768185Z-m-eurosat-manual/`.
+- Brick-Kiln: `artifacts/runs/20261031T143113863281Z-m-brick-kiln-manual/`.
+- Controller logs, executed batch driver, settled ledger and combined report:
+  `artifacts/runs/classification-checks/`.
+
+Each run retains its selected checkpoint, `record.json`, training/controller logs,
+timing and timestamped `revalidation-*.json`. The raw result record includes the
+selected checkpoint paths, sizes and SHA-256 values. The operator marked
+`is_reference: true` only after complete validation and successful revalidation;
+the manual runner deliberately leaves acceptance to this explicit step.
+
+Both selected model/optimizer checkpoints and their records now have independent,
+checksum-verified recovery copies on the custodian Mac. See the exact snapshot
+receipts in [resources](RESOURCES.md#recovery-verification) and
+[restore instructions](storage.md). Checkpoint restoration was byte-verified
+locally; ML execution/revalidation ran only on SageMaker.
+
+The two training runs consumed **745.49 s**; fresh-process revalidation consumed
+**19.11 s**. The settled M1 ledger total, including earlier reserved access,
+calibration and foundation smoke work, is **860.08 / 3,600 s**, with no active
+reservation. This is the 1.5 evidence snapshot; `artifacts/m1-budget.json` remains
+the live authority for subsequent work. Task **1.6** is next; M1 remains open.

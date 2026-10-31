@@ -40,12 +40,12 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
-**Tasks 1.1–1.4 are complete.** The shared manual training/validation foundation
+**Tasks 1.1–1.5 are complete.** The shared manual training/validation foundation
 passed its safety/metric checks and classification/segmentation smoke runs,
 including fresh-process checkpoint reloads. See the [training guide](docs/training.md).
-No accepted reference model, autonomous engine or UI exists yet.
+Two [classification references](docs/references.md) are verified: EuroSAT **87.00%** and Brick-Kiln **97.80%** full-validation accuracy, with exact checkpoint revalidation and independent model backups. The autonomous engine and UI belong to later milestones.
 
-[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). The four selected datasets are downloaded and train/validation inspection is complete; see the [data contracts and findings](docs/data.md). Test payloads remain sealed. [Evaluation contracts and measured budgets](docs/data.md#evaluation-and-checkpoint-rules-13) are fixed. Task 1.5 is next; reference training belongs to 1.5/1.6. Current training results are smoke checks only.
+[M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). The four selected datasets are downloaded and train/validation inspection is complete; see the [data contracts and findings](docs/data.md). Test payloads remain sealed. [Evaluation contracts and measured budgets](docs/data.md#evaluation-and-checkpoint-rules-13) are fixed. Task **1.6** is next: the two segmentation references. M1 remains in progress.
 
 Use the project plan as the shared direction and GitHub milestones to track delivery. We will break down **one milestone at a time** into implementation issues, with clear completion checks. Keep setup instructions, decisions, experiment evidence, and progress current as the project develops. Do not commit credentials, downloaded datasets, or large model files; store artifacts separately and record their locations.
 

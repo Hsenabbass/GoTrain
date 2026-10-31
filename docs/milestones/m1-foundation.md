@@ -1,6 +1,6 @@
 # M1: Establish the foundation
 
-**Status:** in progress; tasks 1.1–1.4 completed 2026-10-31; tasks 1.5–1.7 not started.
+**Status:** in progress; tasks 1.1–1.5 completed 2026-10-31; tasks 1.6–1.7 not started.
 **GitHub:** [M1](https://github.com/Hsenabbass/GoTrain/milestone/1)
 **Direction:** [Agreed M1 outcome](../PROJECT_PLAN.md#m1-establish-the-foundation)
 
@@ -131,6 +131,12 @@ working data/artifacts, and independent local recovery copies. Follow the shared
 [resource index](../RESOURCES.md#recovery-verification). This does not advance task
 1.3 or change test isolation.
 
+Classification reference decision, 2026-10-31 (1.5): freeze modest random-initialized,
+all-channel ResNet18 recipes before either run; no imported weights or tuning search.
+Both full-validation checkpoint revalidations passed exactly. Brick-Kiln stopped
+at the agreed wall reserve; complete validation makes its selected checkpoint
+eligible. See [recipes/results](../references.md) and [independent backups](../RESOURCES.md#recovery-verification).
+
 ## Documentation and deliverables
 
 Follow the [repository workflow](../WORKFLOW.md): create these implementation files
@@ -164,8 +170,8 @@ for verification. A run record owns the exact numeric score.
 | Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
 | Evaluation and budget contracts (1.3) | Versioned official metric sources; four-task bounded T4 calibration, no test access | Complete 2026-10-31; frozen primary/diagnostic rules and explicit caps; judging metrics still pending | [Data/evaluation contracts](../data.md), [capacity](../setup.md#capacity-calibration-and-m1-budgets), [task settings](../../configs/tasks.json), [caps](../../configs/m1.json) |
 | Shared foundation (1.4) | 12 focused SageMaker checks; two bounded smoke jobs and fresh-process checkpoint reloads | Complete 2026-10-31; two optimizer updates per task, reload score delta 0; no reference results | [Manual guide](../training.md), [raw evidence](../foundation.json), [dependencies](../../requirements.txt) |
-| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
-| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
+| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 87.00% accuracy on 1,000 images; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../classification.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 97.80% accuracy on 999 images; planned cap stop; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../classification.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
 | PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Unverified | Pending |
 | Reproducible handoff (1.7) | Fresh-process setup/checkpoint checks and consistency review | Unverified | Pending |
@@ -173,22 +179,19 @@ for verification. A run record owns the exact numeric score.
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** tasks 1.1–1.4 are complete. Required access passed; the four
+**Current state:** tasks 1.1–1.5 are complete. Required access passed; the four
 selected archives are verified and train/validation inspection is documented in
 [data contracts](../data.md). Approved recovery snapshots and sealed archive
 caching follow [storage/recovery](../storage.md); actual transfer/verification
 status is maintained in [resources](../RESOURCES.md#recovery-verification).
 Capacity calibration and the manual foundation checks/smoke reloads passed;
-no accepted reference model or autonomous engine exists.
+two [classification references](../references.md) are accepted and independently backed up. The autonomous engine belongs to M2.
 **Constraints:** preserve the active JupyterLab session and official splits; test
 payloads remain sealed. Approved GoTrain-only GitHub access expires 2026-11-01.
 The verification venv inherits existing conflicts; direct versions and tested
 paths are recorded in the setup/training guides. Quotas and judging/presentation details remain pending.
-**Next action:** task 1.5: freeze classification recipes, verify any selected
-weights and record full-validation EuroSAT/Brick-Kiln references under the existing
-caps. Segmentation references remain 1.6; no agent orchestration is added here.
-**Pending synchronization:** none after this completion change and small evidence
-backup are published/verified and task 1.4 is closed on GitHub.
+**Next action:** task 1.6: freeze and record PV4GER-Seg/Chesapeake segmentation references under the existing contracts/caps. No agent orchestration is added here.
+**Pending synchronization:** none after this completion change is published, local/GitHub/SageMaker source matches and task 1.5 is closed on GitHub. Both selected classification models already have verified independent backups.
 
 ## Completion
 

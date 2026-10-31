@@ -1,0 +1,1096 @@
+{
+  "kind": "M1_classification_references",
+  "frozen_source_commit": "828cbf0d2a95df69ceae18e2883ce0c7fd9d3812",
+  "completed": true,
+  "test_payloads_opened": 0,
+  "initialization": "random; no imported weights",
+  "results": [
+    {
+      "task": "m-eurosat",
+      "recipe_path": "configs/reference-m-eurosat.json",
+      "recipe_sha256": "11c87bb39258a070aa5e8fc3327507d22efc7bff7c42e2eb5f98d591ed4731fd",
+      "record": {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual",
+        "status": "completed",
+        "created_utc": "20261031T142814768185Z",
+        "recipe": {
+          "task": "m-eurosat",
+          "description": "Frozen M1 classification reference: random-initialized ResNet18, all 13 channels; no tuning search",
+          "model": "resnet18",
+          "smoke": false,
+          "epochs": 10,
+          "steps": 5000,
+          "wall_seconds": 600,
+          "batch_size": 32,
+          "lr": 0.01,
+          "weight_decay": 0.0001,
+          "augment": true,
+          "normalization": "train_standardize"
+        },
+        "source_commit": "828cbf0d2a95df69ceae18e2883ce0c7fd9d3812",
+        "dirty": false,
+        "seed": 2026,
+        "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+        "partition_sha256": "2a27f538ec717f0744e0d4e5bcbbeb92fdd7d9a4a4c223c09285c314847a1475",
+        "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+        "budget_contract_sha256": "245bf05cab4fc8ded0249713d4beb557270304566077b14f912da864bfbf6e02",
+        "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+        "retry_of": null,
+        "is_reference": true,
+        "environment": {
+          "torch": "2.8.0",
+          "torchvision": "0.24.0",
+          "numpy": "1.26.4",
+          "geobench": "1.1.0",
+          "h5py": "3.16.0"
+        },
+        "gpu": "Tesla T4",
+        "best_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "steps": 630,
+        "optimizer_updates": 630,
+        "amp_skipped_steps": 0,
+        "amp_initial_scale": 1024,
+        "epochs_completed": 10,
+        "last_validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "normalization": {
+          "fitted_on": "train",
+          "samples": 2000,
+          "mean": [
+            0.13599473825319364,
+            0.1125533093378004,
+            0.10549950435484712,
+            0.09573444476032128,
+            0.1219668072307868,
+            0.20516191654693944,
+            0.2433601782539854,
+            0.2360096063509143,
+            0.07511640884836412,
+            0.0012288121994568977,
+            0.1848902175330206,
+            0.11312693937997342,
+            0.26654380858583365
+          ],
+          "std": [
+            0.02513308414449546,
+            0.03396836987169816,
+            0.03967319709611072,
+            0.059283580803257754,
+            0.05550129187562743,
+            0.0852502011274389,
+            0.10815674900341289,
+            0.11151143991807927,
+            0.040457003360858404,
+            0.00047965781450942527,
+            0.09788258788367193,
+            0.07452817708385286,
+            0.12238791986140692
+          ]
+        },
+        "peak_allocated_bytes": 201756672,
+        "peak_reserved_bytes": 239075328,
+        "checkpoint": "best.pt",
+        "checkpoint_sha256": "6217e9063e82b8f108285a4f3aea520a41a3f0c58e548a5c710b91fa60a922b8",
+        "eligible_reference": true,
+        "selection_scope": "full_validation",
+        "reference_acceptance": {
+          "task": "1.5",
+          "accepted_utc": "2026-10-31T14:31:13.810234+00:00",
+          "recipe_sha256": "11c87bb39258a070aa5e8fc3327507d22efc7bff7c42e2eb5f98d591ed4731fd",
+          "revalidation_file": "revalidation-20261031T142814768185Z-m-eurosat-manual-verify-20261031T143104519912Z.json"
+        }
+      },
+      "timing": {
+        "elapsed_seconds": 169.68591434200061,
+        "ledger": "artifacts/m1-budget.json"
+      },
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "6217e9063e82b8f108285a4f3aea520a41a3f0c58e548a5c710b91fa60a922b8",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 1000,
+          "accuracy": 0.87,
+          "macro_iou": 0.7759964325681492,
+          "macro_f1": 0.8683813426398667,
+          "per_class_iou": [
+            0.64,
+            0.8571428571428571,
+            0.7142857142857143,
+            0.5573770491803278,
+            0.853448275862069,
+            0.7454545454545455,
+            0.7037037037037037,
+            0.7927927927927928,
+            0.9056603773584906,
+            0.9900990099009901
+          ],
+          "per_class_precision": [
+            0.7619047619047619,
+            0.8888888888888888,
+            0.8173076923076923,
+            0.7555555555555555,
+            0.8608695652173913,
+            0.8913043478260869,
+            0.9047619047619048,
+            0.8888888888888888,
+            0.9411764705882353,
+            0.9900990099009901
+          ],
+          "per_class_recall": [
+            0.8,
+            0.96,
+            0.85,
+            0.68,
+            0.99,
+            0.82,
+            0.76,
+            0.88,
+            0.96,
+            1.0
+          ],
+          "per_class_f1": [
+            0.7804878048780488,
+            0.9230769230769231,
+            0.8333333333333334,
+            0.7157894736842105,
+            0.9209302325581395,
+            0.8541666666666666,
+            0.8260869565217391,
+            0.8844221105527639,
+            0.9504950495049505,
+            0.9950248756218906
+          ],
+          "support": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "union": [
+            125,
+            112,
+            119,
+            122,
+            116,
+            110,
+            108,
+            111,
+            106,
+            101
+          ],
+          "confusion_matrix": [
+            [
+              80,
+              2,
+              4,
+              10,
+              0,
+              0,
+              4,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              96,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              4,
+              85,
+              2,
+              1,
+              3,
+              2,
+              2,
+              1,
+              0
+            ],
+            [
+              11,
+              2,
+              2,
+              68,
+              5,
+              3,
+              2,
+              4,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              99,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              5,
+              3,
+              6,
+              3,
+              0,
+              82,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              8,
+              1,
+              5,
+              2,
+              0,
+              2,
+              76,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              10,
+              1,
+              0,
+              88,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              96,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              100
+            ]
+          ],
+          "split": "valid",
+          "images": 1000,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.87
+        },
+        "prediction": {
+          "prediction_shape": [
+            1
+          ],
+          "probability_shape": [
+            1,
+            10
+          ],
+          "class_ids": [
+            4
+          ],
+          "prediction_sha256": "f0a0278e4372459cca6159cd5e71cfee638302a7b9ca9b05c34181ac0a65ac5d",
+          "max_probability_sum_error": 1.1920928955078125e-07
+        },
+        "passed": true
+      },
+      "revalidation_file": "revalidation-20261031T142814768185Z-m-eurosat-manual-verify-20261031T143104519912Z.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T142814768185Z-m-eurosat-manual/best.pt",
+      "checkpoint_bytes": 89804623
+    },
+    {
+      "task": "m-brick-kiln",
+      "recipe_path": "configs/reference-m-brick-kiln.json",
+      "recipe_sha256": "9bd336a280894c780e8fb21d662e457bd0d0ee824ce28e0be230d261dbcb06c1",
+      "record": {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual",
+        "status": "budget_exhausted",
+        "created_utc": "20261031T143113863281Z",
+        "recipe": {
+          "task": "m-brick-kiln",
+          "description": "Frozen M1 classification reference: random-initialized ResNet18, all 13 channels; no tuning search",
+          "model": "resnet18",
+          "smoke": false,
+          "epochs": 10,
+          "steps": 5000,
+          "wall_seconds": 600,
+          "batch_size": 32,
+          "lr": 0.01,
+          "weight_decay": 0.0001,
+          "augment": true,
+          "normalization": "train_standardize"
+        },
+        "source_commit": "828cbf0d2a95df69ceae18e2883ce0c7fd9d3812",
+        "dirty": false,
+        "seed": 2026,
+        "data_revision": "1e5754337032f097396db62cc15a5ff88f4618e8",
+        "partition_sha256": "f09f5afd36cd57f4cd78e444a6a3169e0c8489c6fbfcf32cda9e96fa41082c0e",
+        "task_contract_sha256": "fd0d352daa1dee0c30bb46325af1b8e29259d680816b891dd176934974227141",
+        "budget_contract_sha256": "245bf05cab4fc8ded0249713d4beb557270304566077b14f912da864bfbf6e02",
+        "data_root": "/home/sagemaker-user/GoTrain/data/geo-bench/datasets",
+        "retry_of": null,
+        "is_reference": true,
+        "environment": {
+          "torch": "2.8.0",
+          "torchvision": "0.24.0",
+          "numpy": "1.26.4",
+          "geobench": "1.1.0",
+          "h5py": "3.16.0"
+        },
+        "gpu": "Tesla T4",
+        "best_validation": {
+          "valid": true,
+          "count": 999,
+          "accuracy": 0.977977977977978,
+          "macro_iou": 0.9519792370381139,
+          "macro_f1": 0.9753353264382676,
+          "per_class_iou": [
+            0.9673590504451038,
+            0.9365994236311239
+          ],
+          "per_class_precision": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_recall": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_f1": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "support": [
+            663,
+            336
+          ],
+          "union": [
+            674,
+            347
+          ],
+          "confusion_matrix": [
+            [
+              652,
+              11
+            ],
+            [
+              11,
+              325
+            ]
+          ],
+          "split": "valid",
+          "images": 999,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.977977977977978,
+          "positive_precision": 0.9672619047619048,
+          "positive_recall": 0.9672619047619048,
+          "positive_f1": 0.9672619047619048,
+          "foreground_iou": 0.9365994236311239,
+          "foreground_f1": 0.9672619047619048
+        },
+        "steps": 2334,
+        "optimizer_updates": 2334,
+        "amp_skipped_steps": 0,
+        "amp_initial_scale": 1024,
+        "epochs_completed": 4,
+        "last_validation": {
+          "valid": true,
+          "count": 999,
+          "accuracy": 0.974974974974975,
+          "macro_iou": 0.9451218466498603,
+          "macro_f1": 0.9716965415950345,
+          "per_class_iou": [
+            0.9633431085043989,
+            0.9269005847953217
+          ],
+          "per_class_precision": [
+            0.9718934911242604,
+            0.9814241486068112
+          ],
+          "per_class_recall": [
+            0.9909502262443439,
+            0.9434523809523809
+          ],
+          "per_class_f1": [
+            0.9813293502613891,
+            0.9620637329286799
+          ],
+          "support": [
+            663,
+            336
+          ],
+          "union": [
+            682,
+            342
+          ],
+          "confusion_matrix": [
+            [
+              657,
+              6
+            ],
+            [
+              19,
+              317
+            ]
+          ],
+          "split": "valid",
+          "images": 999,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.974974974974975,
+          "positive_precision": 0.9814241486068112,
+          "positive_recall": 0.9434523809523809,
+          "positive_f1": 0.9620637329286799,
+          "foreground_iou": 0.9269005847953217,
+          "foreground_f1": 0.9620637329286799
+        },
+        "normalization": {
+          "fitted_on": "train",
+          "samples": 15063,
+          "mean": [
+            0.057220559571847886,
+            0.06689992117252566,
+            0.08798783431263234,
+            0.08075838299738371,
+            0.1127903614013259,
+            0.19607438118796122,
+            0.20758353733431376,
+            0.20394844497966222,
+            0.162546311188484,
+            0.11355893586680793,
+            0.3234161049664658,
+            0.3524155372597577,
+            0.2684420810114119
+          ],
+          "std": [
+            0.01900889307100074,
+            0.02343662045534812,
+            0.02728135839038237,
+            0.035885973591213816,
+            0.03619011724331792,
+            0.0721654748410342,
+            0.0813798123379823,
+            0.07896068464108642,
+            0.07889502406871907,
+            0.06925833291901685,
+            0.14150314188209015,
+            0.10806211005256397,
+            0.09321963455201514
+          ]
+        },
+        "peak_allocated_bytes": 201428992,
+        "peak_reserved_bytes": 239075328,
+        "checkpoint": "best.pt",
+        "checkpoint_sha256": "e8ffdf64d8b1e5915b205e55dacb576d8a7ff537e0b5d96a2750fbe0ae740ab0",
+        "eligible_reference": true,
+        "selection_scope": "full_validation",
+        "reference_acceptance": {
+          "task": "1.5",
+          "accepted_utc": "2026-10-31T14:40:59.602022+00:00",
+          "recipe_sha256": "9bd336a280894c780e8fb21d662e457bd0d0ee824ce28e0be230d261dbcb06c1",
+          "revalidation_file": "revalidation-20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T144049760485Z.json"
+        }
+      },
+      "timing": {
+        "elapsed_seconds": 575.8074031819997,
+        "ledger": "artifacts/m1-budget.json"
+      },
+      "revalidation": {
+        "kind": "full_checkpoint_revalidation",
+        "checkpoint_sha256": "e8ffdf64d8b1e5915b205e55dacb576d8a7ff537e0b5d96a2750fbe0ae740ab0",
+        "primary_delta": 0.0,
+        "validation": {
+          "valid": true,
+          "count": 999,
+          "accuracy": 0.977977977977978,
+          "macro_iou": 0.9519792370381139,
+          "macro_f1": 0.9753353264382676,
+          "per_class_iou": [
+            0.9673590504451038,
+            0.9365994236311239
+          ],
+          "per_class_precision": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_recall": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "per_class_f1": [
+            0.9834087481146304,
+            0.9672619047619048
+          ],
+          "support": [
+            663,
+            336
+          ],
+          "union": [
+            674,
+            347
+          ],
+          "confusion_matrix": [
+            [
+              652,
+              11
+            ],
+            [
+              11,
+              325
+            ]
+          ],
+          "split": "valid",
+          "images": 999,
+          "full_split": true,
+          "primary_name": "accuracy",
+          "primary": 0.977977977977978,
+          "positive_precision": 0.9672619047619048,
+          "positive_recall": 0.9672619047619048,
+          "positive_f1": 0.9672619047619048,
+          "foreground_iou": 0.9365994236311239,
+          "foreground_f1": 0.9672619047619048
+        },
+        "prediction": {
+          "prediction_shape": [
+            1
+          ],
+          "probability_shape": [
+            1,
+            2
+          ],
+          "class_ids": [
+            0
+          ],
+          "prediction_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+          "max_probability_sum_error": 0.0
+        },
+        "passed": true
+      },
+      "revalidation_file": "revalidation-20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T144049760485Z.json",
+      "checkpoint_path": "/home/sagemaker-user/GoTrain/artifacts/runs/20261031T143113863281Z-m-brick-kiln-manual/best.pt",
+      "checkpoint_bytes": 89771535
+    }
+  ],
+  "current_task": "m-brick-kiln",
+  "phase": "complete",
+  "current_run": "20261031T143113863281Z-m-brick-kiln-manual",
+  "budget": {
+    "charged_seconds": 860.0841460890006,
+    "categories": {
+      "earlier_access_accounting_reserve": 60,
+      "calibration": 12.981162112002494,
+      "foundation_smoke": 22.49666953600172,
+      "four_reference_runs": 745.4933175240003,
+      "checkpoint_revalidation": 19.112996916996053
+    },
+    "active": null,
+    "runs": [
+      {
+        "run_id": "20261031T141019422084Z-m-eurosat-smoke",
+        "category": "foundation_smoke",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 19236.213848287,
+        "owner_pid": 5571,
+        "elapsed_seconds": 10.146754183999292,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T141029637033Z-m-pv4ger-seg-smoke",
+        "category": "foundation_smoke",
+        "seconds": 90,
+        "retry_of": null,
+        "started_monotonic": 19246.428776069,
+        "owner_pid": 5590,
+        "elapsed_seconds": 12.349915352002427,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 20311.559399102,
+        "owner_pid": 5853,
+        "elapsed_seconds": 169.68591434200061,
+        "status": "completed"
+      },
+      {
+        "run_id": "20261031T142814768185Z-m-eurosat-manual-verify-20261031T143104519912Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 20481.30410828,
+        "owner_pid": 5883,
+        "elapsed_seconds": 9.280974672998127,
+        "status": "verified"
+      },
+      {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual",
+        "category": "four_reference_runs",
+        "seconds": 600,
+        "retry_of": null,
+        "started_monotonic": 20490.654429129,
+        "owner_pid": 5901,
+        "elapsed_seconds": 575.8074031819997,
+        "status": "budget_exhausted"
+      },
+      {
+        "run_id": "20261031T143113863281Z-m-brick-kiln-manual-verify-20261031T144049760485Z",
+        "category": "checkpoint_revalidation",
+        "seconds": 60,
+        "retry_of": null,
+        "started_monotonic": 21066.544670683,
+        "owner_pid": 6003,
+        "elapsed_seconds": 9.832022243997926,
+        "status": "verified"
+      }
+    ]
+  }
+}
