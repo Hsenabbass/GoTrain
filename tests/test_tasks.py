@@ -44,6 +44,10 @@ class TaskChecks(unittest.TestCase):
             p=root/'manifest.json';p.write_text(json.dumps(value))
             train=ManifestData(p,'train');x,y=train[0];self.assertEqual(tuple(x.shape),(3,32,48));self.assertEqual(y.item(),2)
             self.assertTrue((x==1).all());self.assertEqual(fit_normalization(train)['fitted_on'],'train')
+            Image.fromarray(np.full((32,48,3),128,np.uint8)).save(root/'train.jpg')
+            jpg=copy.deepcopy(value);jpg['splits']['train'][0]['image']='train.jpg';p.write_text(json.dumps(jpg))
+            self.assertEqual(tuple(ManifestData(p,'train')[0][0].shape),(3,32,48))
+            p.write_text(json.dumps(value))
             with self.assertRaises(ValueError):ManifestData('/missing','test')
             with self.assertRaises(ValueError):ManifestData(p,'valid',augment=True)
             for name in ('../outside.png','/tmp/outside.png','train.png'):
@@ -85,13 +89,22 @@ class TaskChecks(unittest.TestCase):
 
     def test_real_reviewed_backbones(self):
         torch.set_num_threads(2)
+        if not (CACHE/'receipts.json').exists():
+            self.skipTest('Requires reviewed pretrained cache; see training.md')
         receipts=json.loads((CACHE/'receipts.json').read_text())
         for candidate, (kind,_,_) in CANDIDATES.items():
             with self.subTest(candidate=candidate):
                 s=spec(kind,4 if kind=='segmentation' else 3)
                 if candidate=='resnet18_imagenet':s['rgb_indices']=[2,1,0]
                 receipt=receipts[candidate]
-                model=build_candidate(candidate,s,CACHE/receipt['filename'],receipt,head_only=True)
+                model=build_candidate(candidate,s,CACHE/receipt['filename'],receipt,head_only=kind=='classification')
+                original=torch.load(CACHE/receipt['filename'],map_location='cpu',weights_only=True)
+                if candidate=='resnet18_imagenet':
+                    self.assertTrue(torch.equal(model.conv1.weight[:,2],original['conv1.weight'][:,0]))
+                if candidate=='fcn_imagenet':
+                    self.assertTrue(torch.equal(model.backbone.conv1.weight[:,:3],original['conv1.weight']))
+                    with self.assertRaises(ValueError):build_candidate(candidate,s,CACHE/receipt['filename'],receipt,head_only=True)
+                del original
                 model.eval()
                 with torch.no_grad():output=logits_for(model,torch.ones(1,s['channels'],32,48),s)
                 self.assertEqual(output.shape[1],3)
@@ -99,5 +112,5 @@ class TaskChecks(unittest.TestCase):
                 set_training_mode(model)
                 self.assertFalse(any(m.training for m in model.modules() if isinstance(m,torch.nn.BatchNorm2d)))
                 with torch.no_grad():self.assertTrue(torch.isfinite(logits_for(model,torch.ones(1,s['channels'],32,48),s)).all())
-                self.assertTrue(any(p.requires_grad for p in model.parameters()));self.assertTrue(any(not p.requires_grad for p in model.parameters()))
+                self.assertTrue(any(p.requires_grad for p in model.parameters()));self.assertEqual(any(not p.requires_grad for p in model.parameters()),kind=='classification')
                 del model

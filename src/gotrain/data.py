@@ -156,7 +156,8 @@ class ManifestData:
                     if type(row['label']) is not int or not 0 <= row['label'] < self.spec['classes']:
                         raise ValueError('Invalid class label')
                 else:
-                    self.resolve(row['mask'])
+                    if self.resolve(row['mask']).suffix.lower() not in ('.png', '.tif', '.tiff'):
+                        raise ValueError('Class masks must use lossless PNG or TIFF')
         self.rows = splits[split]
         self.count = self.official_count = len(self.rows)
 

@@ -268,3 +268,51 @@ output tokens/request, 60 seconds); 1.3 makes no new Bedrock calls. Model-weight
 retrieval later has a 120-second cap and one transient retry; record provenance
 and license when choosing reference recipes. Calibration uses random weights and
 selects no final model or performance target.
+
+## Reusable image tasks (3.1)
+
+`task_spec(id, contracts, inspection)` returns a copy of a GEO-Bench task with
+corrected band names and explicit RGB positions; the frozen files are unchanged.
+`open_task(...)` chooses the existing benchmark adapter or `ManifestData` for a
+local manifest. Test/all splits are rejected before any read. Controller/runner
+integration for model search belongs to 3.2; these adapters do not launch jobs.
+
+A new local manifest has this shape (paths are relative to the manifest):
+
+```json
+{
+  "task": {
+    "kind": "classification", "classes": 2,
+    "channels": 3, "height": 64, "width": 64,
+    "band_names": ["R", "G", "B"], "rgb_indices": [0, 1, 2],
+    "input_divisors": [255, 255, 255],
+    "primary_metric": "accuracy", "ignore_index": null
+  },
+  "splits": {
+    "train": [{"image": "train/a.png", "label": 0}],
+    "valid": [{"image": "valid/b.png", "label": 1}]
+  }
+}
+```
+
+For segmentation use `kind: segmentation`, `primary_metric: macro_iou` and
+`mask: path/to/mask.png` instead of `label`. IDs must be contiguous integers
+0..classes-1. Store the class meanings with the task's metadata. Images may be
+PNG/JPEG/GeoTIFF; categorical masks must be lossless PNG or single-band TIFF.
+Explicit RGB positions are required only for ImageNet candidates. Never infer
+wavelengths or units from channel count. Fixed divisors precede normalization.
+
+The manifest permits nonempty train/valid only; keep tests outside it. Paths cannot
+escape its directory and the same resolved image cannot occur twice. Inputs must
+match the declared task dimensions; different tasks can have different dimensions.
+Segmentation image/mask shape and GeoTIFF CRS/transform must match. Missing pixels,
+invalid IDs and unsupported shapes stop loading; there is no silent repair.
+Pre-window large rasters by scene before creating the manifest; automatic tiling,
+reprojection, ignored-label policies and variable-size collation are not provided
+by this adapter. Content-duplicate/group leakage review remains part of inspection.
+
+Normalization may be training-fitted or the explicit candidate policy below; do
+not combine both blindly. `candidate_normalization` uses ImageNet RGB statistics
+on the verified RGB positions after scaling. Extra channels use train-fitted
+statistics, not copied RGB statistics. Benchmarks retain their original masks,
+scales, official membership and primary metric definitions.

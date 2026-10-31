@@ -76,6 +76,8 @@ def build_candidate(candidate, spec, weights_path, receipt, head_only=False):
     from torchvision.models import mobilenet_v3_small
     from torchvision.models.segmentation import deeplabv3_mobilenet_v3_large
     info = candidate_info(candidate, spec)
+    if head_only and spec['channels'] != 3:
+        raise ValueError('Adapted extra channels need fine-tuning, not a frozen backbone')
     path = Path(weights_path)
     if (receipt.get('url') != info['url'] or receipt.get('weight_id') != info['weight_id']
             or receipt.get('terms_reviewed') is not True or receipt.get('target_finetuned') is not False

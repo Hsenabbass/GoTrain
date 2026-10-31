@@ -150,3 +150,42 @@ acceptance passed. Confirm the full cycle, checkpoint reload and backup before
 accepting 2.2. No broad restart guarantee or agent code-edit sandbox is claimed.
 
 The first real cycle passed on 2026-10-31: see [M2 results and limitations](milestones/m2-engine.md#results-and-limitations) and [exact evidence](m2-evidence.json). The two normal M2 training attempts are now consumed; the ledger preserves usage across invocations. Do not relaunch or reset it for more search; a later milestone must version its allocation.
+
+## Reusable model choices (3.1)
+
+`candidate_info(id, spec)` lists one of four supported ImageNet-backbone choices:
+`resnet18_imagenet`, `mobilenet_small_imagenet`, `fcn_imagenet`, and
+`deeplab_mobile_imagenet`. Classification/segmentation compatibility and explicit
+RGB mapping are checked first. These choices do not replace the frozen random
+M1 recipes. A shared [task/manifest contract](data.md#reusable-image-tasks-31)
+provides the input dimensions, channels and classes.
+
+`build_candidate(id, spec, path, receipt, head_only=False)` loads local tensor
+weights with `weights_only=True` and strict backbone matching, replaces the output
+head, and copies RGB input weights to the verified positions. Extra channels are
+explicitly random and must be fine-tuned; head-only mode is restricted to three
+channels. Call `set_training_mode` each epoch to preserve the chosen frozen
+batch-normalization policy (and disable frozen-backbone dropout in head-only mode).
+Use `candidate_normalization` on scaled inputs. Native grids are retained; this
+is an explicit fine-tuning geometry choice, not the default ImageNet crop recipe.
+
+The trusted operator supplies a receipt with exact official weight URL/enum,
+full SHA-256, reviewed terms, `target_finetuned: false`, and held-out overlap
+`none_known` or `unknown_recorded`. Known overlap is rejected; unknown overlap
+is a recorded limitation, not a cleanliness guarantee. Receipts must not be
+supplied by LLM text. No downloading, Hub code execution or installation happens
+inside a model builder. Bounded automatic retrieval and search are 3.2 work.
+
+For the SageMaker CPU acceptance run, all four official backbones were cached in
+`artifacts/weights/m3/`; `receipts.json` pins their sources/hashes and the reviewed
+research-use context. Downstream redistribution terms need review in M4. No new
+packages were installed. Run `python -m unittest discover -s tests -v` in the
+verification venv. The real-weight integration test reports a skip if this cache
+is absent; the remaining task/guard fixtures need no downloads. Restoring cache
+weights must use the recorded official URLs, enforce the plan's download caps,
+and verify both filename hash prefix and full receipt SHA-256. The four cached
+files total 181,806,878 bytes; carry that transfer usage into 3.2's M3 accounting.
+
+CPU checks establish adapter/model compatibility only. Optimizer/search settings,
+GPU throughput, real training gains and task-driven controller wiring are still
+3.2/3.3 work; do not run the M2 EuroSAT controller expecting the new search yet.
