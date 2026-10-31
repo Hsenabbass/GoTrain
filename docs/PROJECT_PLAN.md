@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. Later milestones remain unplanned in detail; test evaluation and the UI remain pending.
+**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. [M4 is planned](milestones/m4-product.md), with implementation not started; M5 remains unplanned in detail. Test evaluation and the UI remain pending.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -134,9 +134,13 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M4. Make results usable
 
+**Detailed plan:** [M4 product plan](milestones/m4-product.md). Three planned tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal dark conversation workspace. Custom-manifest training integration is required; the UI must use the real engine. Implementation has not started.
+
 **Depends on:** M3's stable engine, saved candidates, prediction tools, and artifact records. UI design can begin earlier once M2's interfaces are stable.
 
 **Cover:** package models with weights, architecture/configuration, preprocessing, channel order, class mapping, dependencies, and prediction entry point. Add versions and export/download tools. Build the chat-style interface around the engine: supported dataset import, task description, live progress, results/decision summaries, prediction previews, comparisons, and export.
+
+**Product direction:** a restrained ChatGPT-style dark workspace: instructions and data attachment in the composer, runtime/resource controls, honest stage progress, inline single-image prediction, model/experiment history and one-click package download. Start with manifest ZIP uploads, registered SageMaker data and the four prepared benchmarks. Add custom-task runner wiring, persistent jobs and stop-after-current-experiment behavior. Detailed limits and first-version exclusions live in the M4 plan.
 
 **Tools and external checks:** choose UI/backend tools when planning this milestone. Begin with supported local uploads and dataset references; add S3 or other cloud imports only after checking permissions and formats. Use filesystem storage or verified S3 for artifacts. Interactive predictions use compatible user data or allowed validation examples, never the protected test split during development.
 
