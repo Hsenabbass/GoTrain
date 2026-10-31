@@ -29,13 +29,9 @@ membership and channel/label metadata. Prove this path with a small non-GEO-Benc
 fixture for each task type, with different channel/class counts and image sizes;
 that verifies plumbing, not real-world accuracy.
 
-New datasets still need a readable format, valid labels and enough training and
-validation examples. If bands, units, class meanings or splits are unclear, ask
-for the missing facts before training. Text/tabular classification, multilabel,
-instance segmentation, video and arbitrary file formats need another adapter or
-task contract; calling them classification/segmentation does not make them
-compatible. M4 owns user-facing imports, upload UI and broader format adapters.
-This is a reusable image pipeline, not a claim to handle literally every dataset.
+The scope is these two image task types only. Keep the manifest path simple;
+do not build extra format adapters or spend time on other modalities. New tasks
+still need valid labels and clear band/unit/split metadata. M4 owns upload UI.
 
 ## Resources reviewed first
 
@@ -46,6 +42,7 @@ search ranges and budgets are our engineering choices, not published guarantees.
 | --- | --- |
 | [GEO-Bench official repository](https://github.com/ServiceNow/geo-bench#known-issues) | EuroSAT/Brick-Kiln have incorrect band metadata; the existing corrected contracts remain authoritative for our pinned data. |
 | [Torchvision 0.24 models/weights](https://docs.pytorch.org/vision/0.24/models.html) | Reuse installed architectures; record explicit weight versions and their preprocessing. Weight terms need checking separately. |
+| [PyTorch transfer-learning tutorial](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) | Frozen-backbone head training and full fine-tuning are alternatives; a mandatory warm-up is unnecessary. |
 | [TorchGeo pretrained model catalog](https://docs.torchgeo.org/en/stable/api/models.html#pretrained-weights) | Find sensor/band-compatible pretrained backbones; use it as a catalog, not a reason to install another whole stack. |
 | [Hugging Face model cards](https://huggingface.co/docs/hub/model-cards) | Inspect intended task, library, datasets and license before admitting a checkpoint. A model card is evidence to review, not a guarantee of compatibility. |
 | [scikit-learn leakage guidance](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage) and [grouped splitting](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data) | Fit preprocessing only on training data; keep related examples together when defining splits for new data. No scikit-learn dependency is required for these rules. |
@@ -91,6 +88,12 @@ If grouping metadata is unavailable, record the leakage risk. Test stays sealed.
   loss term only when rare-class/foreground errors justify it; retain the same
   primary metric. Avoid stacking oversampling and weighting without evidence.
 
+Before GPU search, calculate cheap majority-class/all-background validation
+baselines from existing labels and inspect per-class/foreground scores. These are
+diagnostics, not replacement benchmark metrics. They expose a misleadingly good
+headline score. Verify the input/output path can learn a tiny training-only batch
+when a candidate fails to learn; do not launch a larger search to hide a data bug.
+
 Freeze the data contract separately from candidate settings. Model-specific
 preprocessing is part of the pipeline, not a change to benchmark membership.
 
@@ -100,7 +103,11 @@ Keep a small supported model catalog, then choose **at most two new candidates
 per task initially**, alongside its retained reference. Do not train every model
 in the catalog. Rank candidates by task, sensor/bands, object size, label volume,
 pretraining match, measured memory/runtime, and download/dependency cost. Record
-one short reason per choice. These are useful priors, not predictions of accuracy.
+one short reason per choice. Choose candidates that test different hypotheses
+(e.g. transfer learning versus a faster architecture), rather than near-duplicates.
+A frozen pretrained backbone with a trained linear head is a cheap alternative
+for small datasets; it counts as a candidate, not a free extra trial. These are
+useful priors, not predictions of accuracy.
 
 | Data/task | First choices to consider; only admit compatible ones |
 | --- | --- |
@@ -141,8 +148,12 @@ retry inside that time/byte allowance. Skip oversized or unavailable candidates.
 
 For each new model/input recipe, use a short training-only probe to check shapes,
 finite loss, peak VRAM, steps/second and data-loading cost. Choose the largest
-stable batch within existing task ceilings; do not add loader workers unless I/O
-is the measured bottleneck. Verify image/mask transforms and prediction shapes.
+stable batch that gives good measured throughput within existing task ceilings; do not add loader workers unless I/O
+is the measured bottleneck. Verify image/mask transforms and prediction shapes. The largest batch is not
+necessarily fastest or best for learning; use a smaller one when warranted.
+For tiny segmentation batches, explicitly freeze pretrained batch-normalization
+statistics or use a compatible normalization policy; do not silently update them
+from one image. Record that policy as part of the recipe.
 
 Screen candidates cheaply on training data with the same full validation split.
 Use equal screening wall caps, log actual steps/epochs, and inspect learning curves.
@@ -167,8 +178,10 @@ validate them. No Optuna/service is needed for this small search.
 | Training good, validation poor | Try weight decay or mild augmentation; do not just train longer. |
 | Rare classes / panels missed | Try class-weighted cross-entropy or segmentation CE + Dice, checking class diagnostics. |
 
-Start with a short pretrained head warm-up, then fine-tune the backbone at a lower
-learning rate; keep the warm-up short enough to leave a real fine-tuning budget.
+A short pretrained head warm-up is an option, not a mandatory stage. Skip it
+when the model/data match is good or the trial is short; full fine-tuning and a
+frozen-backbone head are alternatives within the same candidate/trial limits.
+When fine-tuning, use a lower backbone LR than the new head and record both.
 Use one recorded scheduler, e.g. cosine decay, not a scheduler search. For AdamW
 fine-tuning, initial learning-rate range `1e-5–1e-3` and weight decay `1e-6–1e-2`
 (log-uniform) are proposed starting ranges, not universal optima. SGD recipes use
@@ -193,6 +206,9 @@ Two seeds are a repeatability check, not proof of significance. If confirmation
 cannot fit, label the gain provisional; report every seed, not only the best.
 Select by the frozen full-validation metric; keep the earlier pipeline on ties.
 A repeatability claim compares seed results, not the luckiest checkpoint across seeds.
+Choose the recipe using the recorded comparisons, then retain the predetermined
+primary seed (2026) checkpoint for that recipe; the extra seed is confirmation,
+not another chance to cherry-pick the exported model.
 
 Reload the retained checkpoint in a fresh process and reproduce full-validation
 score/prediction within the existing tolerance. Retain model, channel/preprocessing
@@ -224,7 +240,13 @@ receiving copy per [storage/recovery](../storage.md). Test evaluation remains M5
   At most 600 seconds, 50 epochs or 10,000 steps per run, first cap wins; final
   reference/candidate comparison uses the same 600-second cap. Save the existing
   validation reserve. Counts are ceilings, not a requirement to spend them.
-- Before execution, 3.2 must turn these into versioned enforced settings and reserve
+- **Planning review, 2026-10-31:** keep alternatives conditional, not mandatory
+  extra stages. No extra format work. Cheap trivial baselines, diverse candidates,
+  optional head-only training, explicit small-batch normalization and a fixed
+  export seed address weaknesses in the first plan without adding issues.
+- 3.1 verifies contracts, transforms and model shapes on SageMaker CPU. Defer GPU
+  throughput/training probes to 3.2 after its allocation is enforced; no uncharged
+  GPU setup work. Before execution, 3.2 must turn these into versioned enforced settings and reserve
   a feasible task schedule using observed throughput. Keep a M3 ledger under the
   shared GPU lock; never reset M1/M2. Keep existing VRAM/disk/storage guards and
   the two-hour final-submission buffer. Record any inadequate convergence budget
@@ -252,7 +274,7 @@ receiving copy per [storage/recovery](../storage.md). Test evaluation remains M5
 ## Handoff
 
 **Last updated:** 2026-10-31.
-**Current state:** research and plan only. M1/M2 remain complete; M3 adapter, model catalog, tuning and new limits are not implemented. Sources are not proof of SageMaker compatibility.
+**Current state:** research and adversarial plan review complete; three issues remain planned/open. M1/M2 remain complete; M3 adapter, model catalog, tuning and new limits are not implemented. Sources are not proof of SageMaker compatibility.
 **Blockers:** none for planning. Dataset metadata gaps, exact weight licenses/preprocessing, candidate throughput and usable remaining budget are admission checks during implementation, not assumed facts.
 **Next action:** implement 3.1 when authorized. Keep shared code/docs; add only what the first working pipeline needs.
 **Synchronization:** plan and three linked issues published together; local/GitHub source aligned at the planning commit. SageMaker has not been updated by this planning task. No execution or installs performed.
