@@ -10,6 +10,17 @@ and documentation proportional to the task, and avoid speculative layers or
 repeated checks. Time-box investigations, report concrete blockers early, and stop
 once acceptance checks pass. Add complexity only to solve a demonstrated need.
 
+## Plan for fast delivery
+
+Use a few outcome-sized issues, normally 2–3 per milestone. Group complementary
+implementation, checks and documentation; do not make each file, check or handoff
+its own issue. Start with the shortest path to a useful working result. Reuse
+verified code, contracts and evidence; repeat checks only for changed behavior,
+failures or a concrete unresolved concern. Time-box investigation and cut optional
+scope before adding infrastructure or abstractions. Stop when acceptance passes.
+Create a file only when an existing home cannot hold the content clearly; keep
+related milestone evidence together. Preserve evaluation integrity and backups.
+
 ## Where things belong
 
 | Location | Purpose |

@@ -1,7 +1,8 @@
 # M<N>: <Title>
 
 <!-- Copy to m<N>-<short-name>.md when this milestone is planned. Keep it short;
-     remove unused prompts. Link shared facts rather than copying them. -->
+     remove unused prompts. Prefer 2–3 outcome-sized issues, with checks/docs included.
+     Reuse verified work and stop at acceptance. Link shared facts instead of copying. -->
 
 **Status:** not started | in progress | blocked | complete
 **GitHub:** <milestone link>

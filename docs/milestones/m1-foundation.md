@@ -166,20 +166,29 @@ Access evidence is in the [setup record](../setup.md); reference evidence is lin
 | Required access (1.1) | SageMaker GPU, exact Bedrock/Strands, storage and Git checks | Complete 2026-10-31; recorded limitations accepted | [2026-10-31 setup evidence](../setup.md) |
 | Data inspection/contracts (1.2) | Four SHA-256-verified archives; full train/valid labels, 64 pixel samples per split, eight segmentation previews; split/file guards | Complete 2026-10-31; channel corrections and Chesapeake no-data question recorded; no test payload access | [Data contracts](../data.md), [inspection JSON](../data-inspection.json) |
 | Evaluation and budget contracts (1.3) | Versioned official metric sources; four-task bounded T4 calibration, no test access | Complete 2026-10-31; frozen primary/diagnostic rules and explicit caps; judging metrics still pending | [Data/evaluation contracts](../data.md), [capacity](../setup.md#capacity-calibration-and-m1-budgets), [task settings](../../configs/tasks.json), [caps](../../configs/m1.json) |
-| Shared foundation (1.4) | 12 focused SageMaker checks; two bounded smoke jobs and fresh-process checkpoint reloads | Complete 2026-10-31; two optimizer updates per task, reload score delta 0; no reference results | [Manual guide](../training.md), [raw evidence](../foundation.json), [dependencies](../../requirements.txt) |
-| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 87.00% accuracy on 1,000 images; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../classification.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
-| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 97.80% accuracy on 999 images; planned cap stop; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../classification.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
-| PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.901692; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../segmentation.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
-| Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.405280; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../segmentation.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
-| Reproducible handoff (1.7) | Fresh-process safety/setup and all four retained checkpoint revalidations on SageMaker | Complete 2026-10-31; 12 checks + 5 edge cases; four full-validation deltas 0; settled budgets | [Handoff evidence](../handoff.json), [reference guide](../references.md) |
+| Shared foundation (1.4) | 12 focused SageMaker checks; two bounded smoke jobs and fresh-process checkpoint reloads | Complete 2026-10-31; two optimizer updates per task, reload score delta 0; no reference results | [Manual guide](../training.md), [raw evidence](../m1-evidence.json), [dependencies](../../requirements.txt) |
+| EuroSAT reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 87.00% accuracy on 1,000 images; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Brick-Kiln reference (1.5) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; 97.80% accuracy on 999 images; planned cap stop; revalidation delta 0; selected model backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| PV4GER-Seg reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.901692; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Chesapeake reference (1.6) | Full validation and saved-checkpoint revalidation on SageMaker | Complete 2026-10-31; macro IoU 0.405280; full validation, delta 0; selected model independently backed up | [Recipes/results](../references.md), [raw evidence](../m1-evidence.json), [recovery receipts](../RESOURCES.md#recovery-verification) |
+| Reproducible handoff (1.7) | Fresh-process safety/setup and all four retained checkpoint revalidations on SageMaker | Complete 2026-10-31; 12 checks + 5 edge cases; four full-validation deltas 0; settled budgets | [Handoff evidence](../m1-evidence.json), [reference guide](../references.md) |
+
+Documentation consolidation, 2026-10-31: at the user's request, combine the
+foundation, classification, segmentation and handoff JSON reports into
+[one M1 evidence file](../m1-evidence.json), under the corresponding named keys.
+All original values are preserved; historical commits/backups retain the original
+files. Keep calibration and data-inspection records separate because the runner
+and backup utility consume them directly. Existing runtime modules, recipes and
+shared operational guides remain useful and are retained. Future planning follows
+the [fast-delivery guidance](../WORKFLOW.md#plan-for-fast-delivery).
 
 ## Handoff
 
 **Last updated:** 2026-10-31.
 **Current state:** M1 and tasks 1.1–1.7 complete. Required access, the four selected datasets/contracts, manual runner/resource enforcement and four accepted reference checkpoints have linked evidence above. All four selected model/optimizer files have independent checksum-verified recovery copies on the custodian Mac; source is in GitHub/local Git. The active JupyterLab session remains open.
 **Constraints/limitations:** preserve official splits and sealed test payloads. Exact organizer quotas and judging/presentation details remain unknown; the deadline is 2026-11-01 at 15:00 Asia/Beirut with the agreed submission reserve. GoTrain-only GitHub access expires 2026-11-01. The tested venv inherits 17 dependency conflicts; the verified direct versions are not a universal environment lock. Restart/expiry persistence, S3 permissions and another shared backup destination remain unverified. Single-seed references establish starting points, not retraining stability. See [setup](../setup.md), [data contracts](../data.md) and [recovery coverage](../RESOURCES.md#recovery-verification).
-**Next action:** plan M2 using the accepted checkpoints, canonical manual runner and frozen data/evaluation contracts. Version new experiment budgets while preserving historical usage; protect evaluation/records before allowing agent edits. Reuse the verified Strands/Bedrock model/region and pin the runtime dependencies when adding tools. No M2 engine or detailed future milestone plan is included here.
-**Synchronization:** documentation, numbered GitHub task closures and M1 completion are published together; local/GitHub/SageMaker source is aligned at the completion commit.
+**Next action:** follow the [M2 plan](m2-engine.md), reusing the accepted checkpoints, canonical runner and frozen contracts. M2 remains unimplemented; use configuration-only tools first and preserve historical budgets.
+**Synchronization:** M1 completion was published at its completion commit. The later documentation consolidation and M2 plan are published separately; SageMaker source has not been updated by this cleanup.
 
 ## Completion
 
@@ -190,4 +199,4 @@ All broad M1 outcomes have evidence in the table above. The four starting runs a
 - `m-pv4ger-seg`: `20261031T144800853991Z-m-pv4ger-seg-manual`.
 - `m-chesapeake`: `20261031T145719482888Z-m-chesapeake-manual`.
 
-Exact recipes, scores, source/data/checkpoint hashes and fresh-process checks are linked in [reference results](../references.md) and [handoff evidence](../handoff.json). No final-test invocation, autonomous improvement cycle or UI was added.
+Exact recipes, scores, source/data/checkpoint hashes and fresh-process checks are linked in [reference results](../references.md) and [handoff evidence](../m1-evidence.json). No final-test invocation, autonomous improvement cycle or UI was added.

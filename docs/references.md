@@ -1,7 +1,7 @@
 # M1 reference results
 
 Task [1.5](https://github.com/Hsenabbass/GoTrain/issues/10): classification starting
-points, separate from the [foundation smoke checks](foundation.json). These are
+points, separate from the [foundation smoke checks](m1-evidence.json). These are
 fixed manual baselines for later comparisons, not a tuning search or promised scores.
 
 ## Frozen classification recipes
@@ -60,7 +60,7 @@ training; its final partial-epoch checkpoint received full validation. Its
 The selected best checkpoint scored higher than the last checkpoint (97.50%).
 Brick-Kiln positive-class precision, recall and F1 are each **96.73%**;
 EuroSAT macro-F1 is **86.84%**. Confusion matrices and all class metrics are in
-[the raw result record](classification.json); accuracy alone selected the models.
+[the raw result record](m1-evidence.json); accuracy alone selected the models.
 These are modest single-seed starting points, with no tuning or test evaluation.
 
 Both ran on the provided Tesla T4 from clean frozen source commit
@@ -144,7 +144,7 @@ current remaining budget, not a fresh allocation per command or clone.
 
 PV foreground IoU / F1: **0.844123 / 0.915474**. Chesapeake land-only target-0-ignored macro IoU: **0.477636** (diagnostic only). The primary Chesapeake metric retains all seven classes.
 
-Each run uses all 3,000 official training images for fitted normalization and the complete official validation split for global confusion-matrix scoring. No test payload or split modification occurred. Epoch totals count complete epochs; a time-capped run may include an additional partial epoch followed by complete validation. `budget_exhausted` records the agreed wall reserve, not an incomplete score. Exact statuses, class diagnostics, normalization, memory, recipe/data/partition hashes and checkpoint sizes/hashes are in [segmentation.json](segmentation.json).
+Each run uses all 3,000 official training images for fitted normalization and the complete official validation split for global confusion-matrix scoring. No test payload or split modification occurred. Epoch totals count complete epochs; a time-capped run may include an additional partial epoch followed by complete validation. `budget_exhausted` records the agreed wall reserve, not an incomplete score. Exact statuses, class diagnostics, normalization, memory, recipe/data/partition hashes and checkpoint sizes/hashes are in [M1 evidence: segmentation](m1-evidence.json).
 
 Both ran from clean frozen source `2786dfc31b4faa00a90a1da0ac22729cf3afc995` on the provided T4. Each selected `best.pt` was revalidated in a separate process with score delta 0.
 
@@ -155,7 +155,7 @@ Paths are relative to SageMaker `/home/sagemaker-user/GoTrain/`. Batch execution
 
 ## M1 reproducibility handoff (1.7)
 
-[handoff.json](handoff.json) records the final fresh-process revalidation of **all four retained checkpoints**, with full-validation score delta 0 and matching hashes, recipe/source/data provenance, image/pixel counts and prediction shapes. The SageMaker safety suite passed all 12 tests; five explicit cases cover empty foreground, one correct foreground pixel, a missed pixel, a hallucinated pixel and an all-ignored diagnostic. Empty foreground is not dropped from primary scoring; globally absent classes follow the frozen union rule.
+[M1 evidence: handoff](m1-evidence.json) records the final fresh-process revalidation of **all four retained checkpoints**, with full-validation score delta 0 and matching hashes, recipe/source/data provenance, image/pixel counts and prediction shapes. The SageMaker safety suite passed all 12 tests; five explicit cases cover empty foreground, one correct foreground pixel, a missed pixel, a hallucinated pixel and an all-ignored diagnostic. Empty foreground is not dropped from primary scoring; globally absent classes follow the frozen union rule.
 
 Final charged M1 GPU-job wall time: **2044.41 / 3,600 s**; reference training **1846.77 / 2,400 s**, checkpoint revalidation **102.16 / 240 s**. No active reservation remains. This is a completion snapshot; the live ledger remains authoritative. CPU checks/backup transfer are separate from GPU-job wall accounting.
 

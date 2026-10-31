@@ -100,7 +100,7 @@ or adversarial sandbox guarantee is claimed.
 
 ## Evidence and backup
 
-[foundation.json](foundation.json) records the SageMaker checks and both smoke
+[M1 evidence: foundation](m1-evidence.json) records the SageMaker checks and both smoke
 reloads. Exact run directories are in that report; full logs and smoke checkpoints
 remain there on SageMaker. Their metrics are explicitly subset diagnostics.
 Follow [storage/recovery](storage.md) for snapshots. For 1.4, the independent backup

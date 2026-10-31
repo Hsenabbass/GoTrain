@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1 is complete](milestones/m1-foundation.md): tasks 1.1–1.7 passed, including required access, data/evaluation contracts, resource guards and all four [reference models](references.md). Their full-validation scores reproduced exactly in fresh processes, and selected model backups are independently verified. M2 planning is next; later milestones remain unplanned in detail. The autonomous engine/UI are not implemented; final submission models and the UI framework remain unselected.
+**Status:** [M1 is complete](milestones/m1-foundation.md): tasks 1.1–1.7 passed, including required access, data/evaluation contracts, resource guards and all four [reference models](references.md). Their full-validation scores reproduced exactly in fresh processes, and selected model backups are independently verified. [M2 is planned in two issues](milestones/m2-engine.md); later milestones remain unplanned in detail. The autonomous engine/UI are not implemented; final submission models and the UI framework remain unselected.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -109,6 +109,8 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 **Done when:** required access works; a minimal Strands agent responds; repeatable training/validation recipes work; the four starting results and their settings are recorded. Detailed task contracts and budgets are documented.
 
 ### M2. Build the autonomous engine
+
+**Detailed plan:** [M2 engine plan](milestones/m2-engine.md). Two outcome-sized issues; reuse M1 and demonstrate one configuration-only cycle on EuroSAT before expanding.
 
 **Depends on:** M1's task contract, working recipes, evaluation definitions, and verified runtime.
 

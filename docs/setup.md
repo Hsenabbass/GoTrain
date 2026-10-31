@@ -125,7 +125,7 @@ Two bounded smoke runs then completed training, subset validation and automatic
 fresh-process checkpoint reloads: EuroSAT in **10.15 seconds**, PV4GER-Seg in
 **12.35 seconds**, with two successful optimizer updates each. Both reload primary
 score deltas were **0**; prediction hashes matched and probability sums passed.
-These are smoke diagnostics, not reference scores. [Raw foundation evidence](foundation.json)
+These are smoke diagnostics, not reference scores. [Raw foundation evidence](m1-evidence.json)
 owns run IDs, configs, versions, normalization, memory, checksums and settled budget
 charges. [Training guide](training.md) owns verified commands/record format.
 
