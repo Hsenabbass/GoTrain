@@ -38,7 +38,7 @@ class Controller:
         self.save()
 
     def record(self, run_id):
-        if run_id not in [self.state['best'], *self.state['runs']]:
+        if run_id not in [self.state['best'], self.state.get('reference'), *self.state['runs']]:
             raise ValueError('Unregistered run ID')
         record = read(ROOT / 'artifacts/runs' / run_id / 'record.json')
         if record['recipe']['task'] != self.state['task']:
