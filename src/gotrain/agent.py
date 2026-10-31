@@ -188,7 +188,14 @@ def run_agent(folder, task=None, resume=False):
         controller = Controller(folder)
     agent = create_agent(controller)
     try:
-        result = agent('Complete the bounded search for '+task+' using inspect_task and finish_search. Do not ask routine human questions.' if task else 'Complete one EuroSAT improvement cycle without asking routine human questions.')
+        instruction = ('Complete the bounded search for '+task+' using inspect_task and finish_search. Do not ask routine human questions.'
+                       if task else 'Complete one EuroSAT improvement cycle without asking routine human questions.')
+        if task and resume:
+            instruction += (' Resume existing work: inspect_task includes prior_trials and prior_selections. '
+                            'Do not repeat completed stages or shortlist again. If a final trial exists, '
+                            'select it, verify the retained best, then finish. Reuse the supplied results; '
+                            'preserve all counters and budgets.')
+        result = agent(instruction)
         controller.state.update(status=controller.state['status'] if task and controller.state.get('stage')=='done' else 'incomplete' if task else 'agent_returned', response=str(result))
     except BaseException as exc:
         controller.state.update(status='failed', error=str(exc))
