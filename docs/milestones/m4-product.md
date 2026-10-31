@@ -233,7 +233,7 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
 | Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
-| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Not implemented; shared CPU package contract is now available | Keep 4.2 open |
+| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Admission/accounting CPU-verified; runner/supervisor integration pending | Keep 4.2 open |
 | Usable workspace / 4.3 | Real browser walkthrough, downloaded-package prediction and independent backup verification | Unverified | Record during implementation |
 
 ## Handoff
@@ -292,7 +292,8 @@ source and verification evidence, not a full live-service/user-dataset restore.
 User authorized admission/accounting foundation only before the next detailed
 step. Implemented the independent M4 policy/ledger, immutable request admission,
 shared-lock exclusion, trial/model-call charging and finalization reserves.
-Verification is pending on SageMaker CPU with isolated fixture ledgers; no live
-reservation or worker launch. Training remains disabled. Next: verify these
-primitives, independently recover the evidence, then propose step 2 custom-data
-runner integration for confirmation. See the [service contract](../service.md).
+Verification passed on SageMaker CPU at e96e01b: 67 tests, including 11 new
+admission checks, in 3.453 s. M1–M3 ledger hashes were unchanged; no real M4
+ledger/reservation, GPU job, Bedrock request or test access. The 77-file snapshot
+was independently checksum-verified and evidence JSON restored. Training remains
+disabled. Next: propose step 2 custom-data runner integration for confirmation. See the [service contract](../service.md).

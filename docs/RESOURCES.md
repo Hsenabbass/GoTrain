@@ -167,3 +167,18 @@ and matched their original export SHA-256 values. No local ML execution occurred
 The restored evidence JSON SHA-256 is `5454709ac70faffdb95a7cca0b7baf5a99139afaa887878fda78a487688bb816`.
 Packages remain private research outputs; public redistribution permission for the
 derived weights is unresolved. No dataset images are included in these ZIPs.
+
+
+## M4 admission foundation (4.2 step 1)
+
+Source e96e01b passed 67 SageMaker CPU checks (11 new admission/accounting
+cases). Real M1–M3 ledgers stayed unchanged; no real M4 ledger/job was created.
+Training remains disabled. [Service contract](service.md) owns primitives and
+limits; [M4 evidence](m4-evidence.json) owns the checks and receiver receipt.
+
+Independent snapshot `20261031T231800860133Z-recovery.tar.gz`: 4,726,072 bytes, 77 files,
+source `e96e01b13dd0586eea5f4b82f188d810567502e0`. Receiver directory:
+`C:/Users/moham/Documents/ChatGPT/GoTrain-backups/snapshots/`.
+SHA-256 `775fe9ae849c8fed98010c1dd461a894958f6d5f4d45c50fb85c2fd4753a9cbc` matched sender/receiver/sidecar and all members verified.
+Restored evidence JSON SHA-256 `756be885797ce03c8784c11638d08c73dd0d99b511fb1da7734ae8d87bbbaf88` matched.
+This is source/CPU-check recovery, not live worker restart verification.

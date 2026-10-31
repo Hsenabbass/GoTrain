@@ -176,7 +176,9 @@ admission remains disabled until durable-job/ledger integration and acceptance p
 
 ## 4.2 step 1: admission/accounting foundation
 
-Implemented, pending SageMaker verification. No worker launches or enabled Start
+Verified on SageMaker CPU at e96e01b: 67 tests passed (11 new admission
+checks), using isolated fixture ledgers and no real M4 reservation. Independent
+snapshot/member verification and evidence restoration passed. No worker launches or enabled Start
 action in this step. `configs/service.json` retains `training_enabled: false`.
 `configs/m4.json` owns the separate 3,600-second M4 GPU-job pool, inherited
 submission deadline/buffer, 600-second maximum trial and 15 GiB disk reserve.

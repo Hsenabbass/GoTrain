@@ -222,5 +222,37 @@
       ],
       "local_ml_execution": false
     }
+  },
+  "admission_step_1": {
+    "verification": {
+      "source_commit": "e96e01b13dd0586eea5f4b82f188d810567502e0",
+      "passed": 67,
+      "new_admission_checks": 11,
+      "seconds": 3.453,
+      "environment": "SageMaker verified venv CPU",
+      "command": "python -m unittest discover -s tests -v",
+      "log_sha256": "b10c69ee859e92b3716fbbed858767119515214bc5cee808c816b6bef2a6e333",
+      "historical_ledgers_unchanged": {
+        "m1": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+        "m2": "ad6fcf2aba67323cd21a4d7d8d6793a0a00d278419ee7565508a812053993ad2",
+        "m3": "76557cb9fba7c825d3b4607e6431cbd8a8204b5b417c5a209447bc2796032f2e"
+      },
+      "live_m4_ledger_created": false,
+      "training_enabled": false,
+      "gpu_jobs": 0,
+      "bedrock_requests": 0,
+      "test_payloads_opened": 0,
+      "scope": "step_1_primitives_only_no_worker_or_recovery_supervisor"
+    },
+    "independent_recovery": {
+      "archive": "20261031T231800860133Z-recovery.tar.gz",
+      "sha256": "775fe9ae849c8fed98010c1dd461a894958f6d5f4d45c50fb85c2fd4753a9cbc",
+      "bytes": 4726072,
+      "files": 77,
+      "source_commit": "e96e01b13dd0586eea5f4b82f188d810567502e0",
+      "receiver": "C:\\Users\\moham\\Documents\\ChatGPT\\GoTrain-backups\\snapshots\\20261031T231800860133Z-recovery.tar.gz",
+      "all_member_checksums_verified": true,
+      "restored_evidence_sha256": "756be885797ce03c8784c11638d08c73dd0d99b511fb1da7734ae8d87bbbaf88"
+    }
   }
 }
