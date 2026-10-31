@@ -39,6 +39,8 @@ The agent comes first. A chat-style interface will later support dataset imports
 
 ## Current status and team workflow
 
+A separate [local UI prototype](ui/README.md) explores the planned workspace with simulated interactions. Run `node ui/server.mjs` and open `http://localhost:5173`. All UI source lives under `ui/`; demo content does not represent training results or milestone completion.
+
 **Tasks 1.1 and 1.2 are complete; no autonomous engine, training pipeline, or UI is implemented yet.** SageMaker GPU execution, Bedrock/Strands response and tool use, and storage across a browser reload have passed initial checks. SageMaker GitHub clone/push also passed; operating agreements and remaining limits are documented; see the [verification record](docs/setup.md).
 
 [M1 is planned](docs/milestones/m1-foundation.md), with tasks **1.1–1.7** in [milestone M1](https://github.com/Hsenabbass/GoTrain/milestone/1). The four selected datasets are downloaded and train/validation inspection is complete; see the [data contracts and findings](docs/data.md). Test payloads remain sealed. Task 1.3 is next; training has not started.

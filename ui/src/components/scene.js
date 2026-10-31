@@ -1,0 +1,9 @@
+// Original illustrative aerial scene, generated locally; never benchmark imagery.
+export function scene(id='aerial',overlay=true) {
+ let buildings='';
+ for(let r=0;r<5;r++) for(let c=0;c<6;c++) {
+ const x=30+c*112+(r%2)*12,y=25+r*94;
+ buildings+=`<g transform="translate(${x} ${y}) rotate(-12 35 25)"><rect x="4" y="6" width="73" height="52" rx="2" fill="#18352e" opacity=".28"/><rect width="73" height="52" rx="2" fill="${['#b8b6a6','#b5aa95','#d0c9b6'][(r+c)%3]}"/><path d="M0 26h73M36 0v52" stroke="#8e9385" stroke-width="1"/>${(r+c)%3!==0?`<rect x="12" y="9" width="46" height="29" fill="#304f58"/><path d="M12 19h46M12 29h46M24 9v29M35 9v29M46 9v29" stroke="#78918b" stroke-width="1"/>${overlay?'<rect class="mask" x="10" y="7" width="50" height="33" fill="#96e9ad" fill-opacity=".38" stroke="#b5ffc5" stroke-width="2"/>':''}`:''}</g>`;
+ }
+ return `<svg viewBox="0 0 720 490" role="img" aria-label="Illustrative aerial neighborhood with solar panel ${overlay?'prediction overlays':'rooftops'}" id="${id}" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grain-${id}" width="13" height="13" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="1" fill="#ffffff" opacity=".07"/></pattern></defs><rect width="720" height="490" fill="#71816a"/><path d="M0 112L720 242M0 310L720 440" stroke="#c8c4ae" stroke-width="42"/><path d="M0 112L720 242M0 310L720 440" stroke="#9c9f90" stroke-width="29"/>${buildings}<path d="M440 -40L348 540" stroke="#c7c6b3" stroke-width="52"/><path d="M440 -40L348 540" stroke="#929b90" stroke-width="38"/><path d="M440 -40L348 540" stroke="#dad8bf" stroke-width="1.5" stroke-dasharray="12 13"/><g fill="#405d45">${Array.from({length:22},(_,i)=>`<circle cx="${(i*137+19)%720}" cy="${(i*83+66)%490}" r="${9+i%7}"/>`).join('')}</g><rect width="720" height="490" fill="url(#grain-${id})"/></svg>`;
+}

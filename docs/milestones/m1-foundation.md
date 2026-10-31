@@ -166,6 +166,8 @@ for verification. A run record owns the exact numeric score.
 
 ## Handoff
 
+**Parallel UI work:** the user authorized an isolated localhost prototype under `ui/` while teammates continue M1. The current design uses a neutral task-submission workspace, bottom task input, model-result delivery, and optional keyboard-controlled Rover Run game. Conversation replies and the cat companion were removed at the user's request. It uses mock interactions only and does not advance ML tasks or verify engine capabilities; see [UI instructions](../../ui/README.md).
+
 **Last updated:** 2026-10-31.
 **Current state:** tasks 1.1 and 1.2 are complete. Required access passed; the four
 selected archives are verified and train/validation inspection is documented in
