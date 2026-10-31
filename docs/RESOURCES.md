@@ -8,7 +8,7 @@ model/region requirements, and research references. See the
 | Resource | Stable reference or access route | Verification / details |
 | --- | --- | --- |
 | GitHub repository | [Hsenabbass/GoTrain](https://github.com/Hsenabbass/GoTrain) | Local clone push and GitHub issue read/write observed 2026-10-31; SageMaker clone and disposable-branch push verified 2026-10-31 using explicitly approved GoTrain-only access expiring 2026-11-01; other teammates' access unverified. See [setup evidence](setup.md). |
-| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 in progress](milestones/m3-improvement.md): 3.1–3.2 verified, 3.3 next. |
+| Milestones and tasks | [Milestones](https://github.com/Hsenabbass/GoTrain/milestones); [milestone index](PROJECT_PLAN.md#five-milestones) | Five milestones established; redundant overview issues deleted with user approval; [M1 breakdown](milestones/m1-foundation.md#work-sequence) created; M1 and tasks 1.1–1.7 complete; [M2 complete](milestones/m2-engine.md): 2.1–2.2 verified; [M3 in progress](milestones/m3-improvement.md): 3.1–3.2 verified; 3.3 partly verified and paused locally, with detached cloud work continuing. |
 | SageMaker / JupyterLab | Obtain the organizer's temporary access link privately. | Existing Safari session verified 2026-10-31; GPU execution passed. See [setup evidence](setup.md). Keep the current session open; organizers can renew access as needed. Do not store access links here. |
 | Bedrock / Strands | Provided SageMaker role; requirements in the project plan. | Required model response and one tool call verified 2026-10-31; M2 autonomous tool cycle verified; quota lookup denied by role; organizer limits pending. See [setup evidence](setup.md). |
 | GEO-Bench / Hugging Face | Selected tasks in the project plan. | GEO-Bench 1.1.0; four selected archives SHA-256 verified at pinned revision, train/valid inspection complete 2026-10-31. SageMaker `/home/sagemaker-user/GoTrain/data/geo-bench/`; test payloads sealed. See [data contracts/evidence](data.md). |
@@ -20,6 +20,14 @@ model/region requirements, and research references. See the
 
 ## Recovery verification
 
+- **3.3 m-pv4ger-seg snapshot:** `snapshots/20261031T175520425747Z-recovery.tar.gz`, 792374176 bytes, 89 files; source `548cba035604b428244750e61f9572ba81d8e204`. SHA-256: `c511171b0884f440d556ba801aaf61c60c7c1a4e69ab0739a842f75cab5395ba`. Sender/receiver and all members verified; all three included best checkpoints restored as opaque bytes with matching run hashes. No local ML execution.
+
+
+- **3.3 m-eurosat snapshot:** `snapshots/20261031T171958125015Z-recovery.tar.gz`, 257415743 bytes, 87 files; source `682ae9bd1f0c58f5a8a8664d39083e633478490a`. SHA-256: `ba0dd3eff42a772df158cb511072659b5ac656fa75abf7890994114b6d5c1c97`. Sender/receiver and all members verified; retained checkpoint restored as opaque bytes with matching run hash. No local ML execution.
+
+- **3.3 m-brick-kiln snapshot:** `snapshots/20261031T174053988987Z-recovery.tar.gz`, 244094554 bytes, 93 files; source `548cba035604b428244750e61f9572ba81d8e204`. SHA-256: `27bd165bb377d0759b46a073168b2506e3d118d274c16008b8832051e221649c`. Sender/receiver and all members verified; retained checkpoint restored as opaque bytes with matching run hash. No local ML execution.
+
+
 - **Task 3.2 snapshot:** `snapshots/20261031T165243901214Z-recovery.tar.gz`,
   4,650,590 bytes, 83 files; source `de409588a349254c33aea1260744b227fe68c623`.
   Archive SHA-256: `063a9d8d33b86e47203bcc647a2e4f375a16221c1cbd4a7a0cc953b87266746b`.
@@ -27,7 +35,7 @@ model/region requirements, and research references. See the
   matches [M3 search record](m3-evidence.json), and the included M3 ledger is
   settled at 41.27 seconds (shared). Includes source, guard checks, smoke/reload
   records, failed-launch logs, session journals and probe driver. Reproducible
-  smoke weights remain on SageMaker and are excluded; no full-task M3 model exists.
+  smoke weights remain on SageMaker and are excluded; this snapshot predates the full-task M3 searches.
 
 - **Task 3.1 snapshot:** `snapshots/20261031T163751487996Z-recovery.tar.gz`,
   4,614,686 bytes, 51 files; source `1cab13a27889e1ace2672ef3501f8c4f1f003884`.

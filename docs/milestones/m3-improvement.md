@@ -1,6 +1,6 @@
 # M3: Find better models efficiently
 
-**Status:** in progress; 3.1–3.2 complete, 3.3 not started. Pipeline/search items below remain planned unless evidenced.
+**Status:** paused locally at user request; 3.1–3.2 complete, 3.3 in progress. Detached SageMaker work continues. Pipeline/search items below remain planned unless evidenced.
 **GitHub:** [M3](https://github.com/Hsenabbass/GoTrain/milestone/3)
 **Direction:** [Agreed M3 outcome](../PROJECT_PLAN.md#m3-demonstrate-reliable-improvement)
 
@@ -308,7 +308,7 @@ prompt-evaluation service or ask for hidden chain-of-thought.
 | --- | --- | --- | --- |
 | Task preparation/model admission (3.1) | 6 new task/model checks + 19 existing checks on SageMaker CPU, using all four real ImageNet backbones | Pass 2026-10-31; 25 tests in 2.264 s; no GPU/Bedrock/test access | Source `1cab13a`; [M3 evidence](../m3-evidence.json); `artifacts/runs/m3-task-checks/`; [independent snapshot](../RESOURCES.md#recovery-verification) |
 | Search and recovery guards (3.2) | 35 SageMaker checks; classification/segmentation two-update GPU probes and fresh-process reloads | Pass 2026-10-31; both reload deltas 0; M3 shared usage 41.27 s including two failed operator launches | Guard source `de40958`; [M3 evidence](../m3-evidence.json); `artifacts/runs/m3-search-checks/`; [independent snapshot](../RESOURCES.md#recovery-verification) |
-| Four task comparisons (3.3) | Full validation, seed records, checkpoint reload and independent backup | Not run | One M3 evidence record and resource receipts when available |
+| Four task comparisons (3.3) | Full validation, seed records, checkpoint reload and independent backup | Three tasks verified; Chesapeake still running at pause | [Live M3 evidence](../m3-evidence.json); [independent receipts](../RESOURCES.md#recovery-verification) |
 
 ### 3.1 revision and limits
 
@@ -356,13 +356,34 @@ still need trusted registration/runner wiring before autonomous training is
 advertised. Generic preparation remains available from 3.1. Live interruption,
 full-task search and actual score/seed comparisons remain 3.3 acceptance work.
 
+### 3.3 revision
+
+Live execution exposed a request-ID collision with a 3.2 verification session,
+repeated full-training normalization work, and a gap allowing new training after
+a fatal result. Trial IDs now include the session path, pending/fatal work blocks
+new GPU jobs, and resumed agents receive prior trials plus reviewed operator notes.
+Full runs reuse the identical verified M1 training statistics after checking their
+contract, partition, data version and sample count; RGB pretrained models use their
+fixed reviewed statistics. This avoids rescanning data for every recipe.
+
+Failed and repeated probes/screens remain recorded and charged. No budget, attempt,
+request counter or elapsed clock was reset. A Bedrock connection loss after EuroSAT
+final training was resumed from the completed run, without retraining it. A separate
+planned interruption between GPU jobs preserved the ledger, prior best and history.
+The revised guards passed 38 SageMaker checks. A connection closed before any
+Bedrock response gets one retry, counted within the existing request cap; partial
+responses are never replayed. Exact results, costs and independent
+backup receipts are recorded with the [M3 evidence](../m3-evidence.json).
+
 ## Handoff
 
-**Last updated:** 2026-10-31.
-**Current state:** 3.1–3.2 complete. Preparation/model APIs, bounded search controller, M3 limits and runner integration are verified with scripted guards and two GPU smoke/reload jobs. Evidence/source and settled-ledger recovery are independently checksum-verified. No full-task M3 results yet.
-**Blockers:** none for 3.3. Keep exact organizer quotas and judging/presentation details as existing follow-ups. Use the verified venv; base Jupyter Python cannot run the data loader.
-**Next action:** run 3.3 when authorized. Preserve 41.27 seconds of shared M3 usage and 181,806,878 downloaded weight bytes. Each task initially has its 1,500-second allocation; shared pool has 1,158.73 seconds left. Choose fewer tuning attempts if reserving paired seed confirmation within the five-attempt ceiling. Do not reset ledgers or probe scores into references.
-**Synchronization:** source/evidence/docs published to local/GitHub main. Guards verified at `de40958`, GPU runner at `a4671c3`; fast-forward SageMaker to the completion commit for final docs before 3.3.
+**Last updated:** 2026-10-31, pause requested; PV4GER-Seg backup download and independent verification completed.
+**Current state:** 3.3 remains open. EuroSAT retained 0.966 accuracy, Brick-Kiln retained 0.981981982 accuracy, and PV4GER-Seg retained 0.948054264 macro-IoU. Each selected primary-seed checkpoint passed fresh-process validation/prediction with delta 0. Gains remain single-seed/provisional. All 38 checks passed on SageMaker at `548cba0`; M1/M2 ledger hashes are unchanged and test payloads remain sealed.
+**Pause boundary:** the PV4GER-Seg download, all member checks and three checkpoint restorations completed; local work is now paused. Chesapeake's final run was launched at `20261031T180108350357Z` with its original 600-second cap. The detached SageMaker supervisor continues after the laptop closes, including selection/reload and a staging snapshot if successful. A staging archive is not an independent backup.
+**Recovery locations:** canonical SageMaker checkout `/home/sagemaker-user/GoTrain`; supervisor/evidence at `artifacts/runs/m3-searches/` (`execute.py`, `supervisor.log`, `evidence.json`, `review.json`, incident and recovery records); live task sessions at `artifacts/agent-m3/<task>/session.json`; GPU usage at `artifacts/m3-budget.json`. Source `548cba0`. Reconnect to the existing JupyterLab console; use the verified venv. No kernel variables are required to recover these files.
+**Next action:** inspect the supervisor log, Chesapeake session and settled ledger before any resume. Do not relaunch completed tasks, reset counters/ledgers, or repeat training. If Chesapeake finished, verify its existing result, transfer its completed archive, verify all hashes/restoration, refresh the four-task evidence and finish 3.3. If interrupted, diagnose first and use `--resume` only within remaining limits. Complete docs, close 3.3/M3 and publish main only after acceptance passes.
+**M4 handoff to finish:** selected run records/checkpoints contain architecture, channel order, normalization and class metadata. The local manifest preparation API is verified, but custom-task registration/runner wiring and the UI remain unimplemented. Packaging must preserve exact preprocessing and review weight terms; current prediction construction still expects cached initialization weights.
+**Synchronization:** implementation is pushed on `codex/m3-results`; main remains the completed 3.2 state until 3.3 is complete. This pause handoff is published on the working branch. No M4 work has started.
 
 ## Completion
 

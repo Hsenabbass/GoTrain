@@ -174,7 +174,7 @@ full SHA-256, reviewed terms, `target_finetuned: false`, and held-out overlap
 `none_known` or `unknown_recorded`. Known overlap is rejected; unknown overlap
 is a recorded limitation, not a cleanliness guarantee. Receipts must not be
 supplied by LLM text. No downloading, Hub code execution or installation happens
-inside a model builder. Bounded automatic retrieval and search are 3.2 work.
+inside a model builder. Bounded retrieval and search are described below.
 
 For the SageMaker CPU acceptance run, all four official backbones were cached in
 `artifacts/weights/m3/`; `receipts.json` pins their sources/hashes and the reviewed
@@ -201,8 +201,11 @@ in 3.3; 3.2 verifies guards and short integration probes only.
 Each task has one durable session at `artifacts/agent-m3/<task>/session.json`.
 `--task <id> --resume` reopens that session, preserving request/tool counters,
 shortlist, trial history, prompt/context hashes and elapsed wall time. It recovers
-a recorded completed pending request by its unique description instead of
-launching it again. Changed contracts/prompts/caps, expired/completed sessions,
+a recorded completed pending request by a session-scoped unique description instead
+of launching it again. The resumed agent receives prior trials/selections and is
+told to continue from its recorded stage. A pending request blocks new GPU work;
+a fatal trial blocks further training until operator diagnosis. Reviewed recovery
+notes are included in trusted context, with counters and elapsed time preserved. Changed contracts/prompts/caps, expired/completed sessions,
 active/stale GPU reservations or unresolved pending requests block restart. Inspect
 the job/ledger before settling a stale reservation; there is no blind refund or
 mid-epoch training resume. Failed retries remain new, charged attempts.
@@ -232,14 +235,24 @@ Numeric proposals are seeded and limited to two. Changes inherit allowed setting
 from their parent screen/tuning recipe; confirmation cannot silently change them.
 The runner saves epoch loss/validation curves and full weight receipts. It builds
 and normalizes candidates through the 3.1 APIs and freezes pretrained BN statistics
-at each training epoch. Frozen random reference recipes stay separate; an M3
+at each training epoch. Full M3 runs reuse M1’s complete train-only normalization
+statistics when task/data/partition hashes and training sample counts match. RGB
+pretrained candidates use their reviewed fixed statistics without an unnecessary
+training-data scan. Extra-channel probes still fit their bounded training subset.
+The run records the reused statistics’ source; preprocessing values are unchanged.
+Frozen random reference recipes stay separate; an M3
 reference confirmation uses SGD, constant LR and its original epoch/step limits.
+
+A connection that closes before returning any Bedrock event is retried once;
+both wire requests count against the existing request cap. Partial responses are
+never replayed. Retries and returned token receipts stay in the session.
 
 The fixed system prompt, task/config hashes, compact tool arguments/results and
 actual model/token usage are saved with the session. Claude sees candidate IDs,
 metrics/curves and remaining budgets, not arbitrary files or code. Text from Hub
 metadata is untrusted. Scripted boundary tests verify enforcement; they do not
-prove that an LLM can never misinterpret text. The real autonomous search is 3.3.
+prove that an LLM can never misinterpret text. The live four-task search is
+recorded in [3.3 evidence and handoff](milestones/m3-improvement.md).
 
 Cache loading checks the 3.1 receipts/hashes; missing supported enum weights may
 be restored only from their recorded official URL, within 120 seconds and a
@@ -259,6 +272,7 @@ unattended recovery from arbitrary instance loss are established by 3.2 checks.
 3.2 verification passed 35 SageMaker checks and both bounded GPU probes with reload
 delta 0. See [M3 evidence](m3-evidence.json). M3 usage is already 41.27 seconds
 (shared), including 6.25 seconds for two failed base-interpreter launches. Always
-launch from the verification venv. The full autonomous searches have not run.
+launch from the verification venv. These are historical 3.2 costs, not the current
+ledger total. Full autonomous comparisons belong to [3.3 evidence](m3-evidence.json).
 Smoke checkpoints stay on SageMaker; their reproducible weights are excluded from
 the independent source/record/reload/ledger snapshot, following the M1 smoke policy.
