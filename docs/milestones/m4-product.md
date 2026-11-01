@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** Core delivery has recorded acceptance; follow-up fixes implemented, testing deferred by the user. Keep 4.2–4.3 open for verification and the outstanding custom segmentation ZIP download checksum. Existing SageMaker results and backup receipts are preserved; no new runtime verification is claimed. M5 has not started. Packages remain private research artifacts while public redistribution permission is unresolved.
+**Status:** Core delivery and a six-image visible classification demo passed on SageMaker. Late ZIP attachment and refresh/reconnect are verified at d60b46b; keep 4.2–4.3 open for remaining targeted regressions and the custom segmentation ZIP download checksum. M5 has not started. Packages remain private research artifacts while public redistribution permission is unresolved.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -233,9 +233,9 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
 | Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
-| Durable GPU jobs and train→package / 4.2 | Recorded live classification/segmentation training, stop and reconnect | Earlier runtime acceptance recorded; follow-up draft attachment fix untested | [Evidence](../m4-evidence.json#final_delivery) |
-| Usable workspace / 4.3 | Recorded browser/package acceptance plus current follow-up review | New reconnect/chat-switch fixes untested; custom segmentation ZIP independent download hash still pending | [Evidence](../m4-evidence.json#final_delivery) |
-| Follow-up fixes / 4.2–4.3 | Static source/diff review only, 2026-11-01 | Implemented; tests, browser exercises and cloud execution explicitly deferred | Follow-up section below |
+| Durable GPU jobs and train→package / 4.2 | Recorded live classification/segmentation training, stop and reconnect | Earlier acceptance plus live late-ZIP attachment verified at d60b46b | [Evidence](../m4-evidence.json#final_delivery) |
+| Usable workspace / 4.3 | Recorded browser/package acceptance plus current follow-up review | Refresh/reconnect passed; transient-read/cross-chat checks and segmentation ZIP receipt pending | [Evidence](../m4-evidence.json#final_delivery) |
+| Follow-up fixes / 4.2–4.3 | Scoped SageMaker demo, 2026-11-01 | 15 request checks and visible classification workflow passed; remaining targeted checks pending | Follow-up section below |
 
 ## Handoff
 
@@ -245,18 +245,18 @@ recorded below and in [M4 evidence](../m4-evidence.json). Follow-up code now all
 an initially missing dataset to be attached to the same unresolved draft, retries
 read-only progress requests with backoff, and separates training-start IDs and
 attachment state across chats. Attached/frozen datasets and limits remain protected.
-**Verification:** static source/diff review only for these fixes. No tests, browser
-exercises, agent calls, inference or training were run, as requested by the user.
-Earlier acceptance does not verify the changed code.
-**Blockers:** deferred follow-up regression checks; the custom segmentation ZIP's
-independent download checksum still has no verified receipt. Do not change its
-false evidence flag without receiving and hashing the actual archive.
-**Next action:** when testing is authorized, check missing-data clarification,
-attached/frozen-data rejection, connection-loss recovery without duplicate starts,
-chat switching/refresh/start-key reuse, and the pending archive checksum. Preserve
-all existing counters, test isolation and backup receipts. Do not start M5.
-**Synchronization:** this follow-up is tracked in open 4.2–4.3; documentation and
-code are published together on main. No new cloud deployment is claimed.
+**Verification:** the subsequently authorized visible demo deployed d60b46b on
+SageMaker. Fifteen existing request checks and the six-image clarification→late ZIP
+attachment→training→refresh/reconnect→prediction→history→download path passed.
+The synthetic result is integration evidence, not an accuracy benchmark.
+**Remaining:** transient progress-read and cross-chat regressions, saved-data late
+attachment UI path, and the independent segmentation ZIP checksum receipt.
+**Recovery:** a new 89-file snapshot passed cloud verification; its independent
+transfer is still downloading. Do not claim a completed receiver backup yet.
+**Next action:** finish receiver hash/member verification, then the remaining scoped
+M4 checks when requested. Preserve budgets and test isolation; do not start M5.
+**Synchronization:** 4.2–4.3 stay open with the scoped live evidence. Runtime source
+is d60b46b; this documentation update records the demo without code changes.
 
 ## Completion
 
@@ -376,7 +376,11 @@ and backup receipts live in [M4 evidence](../m4-evidence.json).
 - Training-start IDs are persisted per conversation. History navigation clears
   the previous chat's attachment/pending state and distinguishes a missing job
   (404) from a connection failure before enabling a new start.
-- No tests were run. Existing cloud evidence is historical, not verification of
-  these fixes. No independent segmentation ZIP download receipt was available;
-  that field remains false in the original evidence. The source changes are not
-  claimed deployed to SageMaker. M5 remains untouched.
+- Initially untested at the user’s request; the subsequent authorized visible demo
+  deployed d60b46b and passed 15 existing request tests, late ZIP attachment, live
+  training, browser refresh/reconnect, prediction, history and model download.
+  Four training/two validation images took one attempt and about 40 seconds; this
+  synthetic fixture proves workflow integration only. Exact receipts and remaining
+  checks are in [M4 evidence](../m4-evidence.json).
+  Transient-read failure injection, cross-chat regressions, saved-data attachment
+  and the independent segmentation ZIP receipt remain pending. M5 is untouched.

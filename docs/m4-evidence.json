@@ -339,7 +339,7 @@
     "chat_ui_commit": "10d580fdcde7e6414de5d409b3e480bb684ec64a",
     "checks": {
       "full_cpu_suite_passed": 96,
-      "full_cpu_suite_seconds": 33.970,
+      "full_cpu_suite_seconds": 33.97,
       "focused_stop_suite_passed": 17,
       "focused_stop_suite_seconds": 1.469,
       "javascript_syntax_passed": true
@@ -420,5 +420,57 @@
       "validation_selected_not_test_finalized": true,
       "public_weight_redistribution": "unresolved_private_research_only"
     }
+  },
+  "visible_demo": {
+    "date": "2026-11-01",
+    "source_commit": "d60b46bb482b01570a2bb8962fe77eec0bd7e963",
+    "environment": "Authenticated SageMaker service; native Safari UI",
+    "dataset": {
+      "id": "dataset_8e7977a1b2c4424dac9cda3e616e6494",
+      "train": 4,
+      "valid": 2,
+      "description": "Synthetic red versus blue RGB classification; workflow integration only"
+    },
+    "job_id": "job_337a287f32224e3c823e9e19d506a5a4",
+    "run_id": "job_337a287f32224e3c823e9e19d506a5a4-trial_4f93af13e0cf417e8dcbe9cef949f402",
+    "version": "v1-42d42786173c207b9e274e07",
+    "attempts": 1,
+    "model_requests_ui": 11,
+    "elapsed_seconds_ui": 40,
+    "gpu_job_seconds": 15.252344031992834,
+    "pool_charged_seconds": 77.99484466199647,
+    "active_reservation": null,
+    "validation_accuracy": 1.0,
+    "verified": [
+      "15 existing request tests passed on SageMaker",
+      "Missing-data clarification then ZIP attachment continued same draft",
+      "Browser refresh reattached to same active job",
+      "Completed package publication",
+      "Validation example predicted red; UI probabilities 89.5% red / 10.5% blue, uncalibrated",
+      "Model history displayed selected experiment and reason",
+      "Downloaded model ZIP; seven internal member checksums matched",
+      "Local JavaScript syntax checks passed"
+    ],
+    "package": {
+      "path": "/Users/hsen/Downloads/gotrain-dataset_8e7977a1b2c4424dac9cda3e616e6494-v1-42d42786173c207b9e274e07.zip",
+      "sha256": "e8279f06a1309685f6d80dd9c6809b27a9f8d4554d3c03dd571f6151631360f9",
+      "bytes": 41563436,
+      "matches_sagemaker_source": true
+    },
+    "pending": [
+      "Transient progress-read failure injection",
+      "Cross-chat request-ID and stale-response checks",
+      "Saved-data late attachment UI path",
+      "Independent custom segmentation ZIP download checksum"
+    ],
+    "recovery": {
+      "archive": "20261101T103037574090Z-recovery.tar.gz",
+      "sha256": "2484d826fedcf8b32a7f0b2b3274d14acef591a7235dfb6d276448e392e3dc0a",
+      "files": 89,
+      "cloud_verified": true,
+      "receiver_verified": false
+    },
+    "protected_test_access": false,
+    "m5_started": false
   }
 }

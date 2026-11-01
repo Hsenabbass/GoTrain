@@ -228,3 +228,19 @@ checkpoints plus the acceptance record byte-for-byte. The classification package
 was independently received and hash-verified. The segmentation package has a checksum recorded in M4 evidence, but its
 independent download hash is still unverified. Both selected checkpoints were
 restored; this is not a receipt for independent download verification of that ZIP.
+
+
+## M4 visible six-image demo
+
+Runtime source `d60b46bb482b01570a2bb8962fe77eec0bd7e963` completed one
+synthetic classification attempt. Exact run/package receipts and pending checks
+are in [M4 evidence](m4-evidence.json). The downloaded 41,563,436-byte model ZIP
+is in the Mac's `Downloads/`; its complete hash matched SageMaker and all seven
+package member hashes passed. No local ML execution occurred.
+
+Snapshot `20261101T103037574090Z-recovery.tar.gz` contains 89 files: source,
+selected checkpoint/record, job receipt and model ZIP. Cloud member verification
+passed, SHA-256 `2484d826fedcf8b32a7f0b2b3274d14acef591a7235dfb6d276448e392e3dc0a`.
+Safari is downloading `m4-visible-demo-recovery.tar.gz.bin` into the Mac's
+`Downloads/`. Receiver completion/hash/member verification is pending: this is
+a staged recovery snapshot, not yet a completed independent backup.

@@ -7,8 +7,8 @@ It admits only frozen, feasible requests through the shared M4 ledger and lock.
 Live classification and segmentation fixtures completed bounded train-to-package
 acceptance. Training stays on SageMaker; test data remains sealed.
 
-Current follow-up attachment/reconnect/chat-switch fixes are implemented but
-untested; see the [M4 handoff](milestones/m4-product.md#handoff). The dated step
+The visible demo verified late ZIP attachment and refresh/reconnect at d60b46b;
+transient-read/cross-chat regression checks remain pending; see the [M4 handoff](milestones/m4-product.md#handoff). The dated step
 records below describe earlier configurations, not the current training flag or
 verification of the follow-up code. M5 has not started.
 
@@ -105,7 +105,7 @@ The agent checks intent against labels/metadata and asks necessary questions.
 Replies retain the same conversation, attachment and limits. A draft/needs-input
 conversation that has no dataset can bind a validated upload or saved-data ID
 on its next reply; an attached dataset cannot be replaced and frozen requests
-remain immutable. This follow-up change awaits deferred regression checks. Up to four wire
+remain immutable. The late ZIP attachment path passed the visible demo; remaining rejection/idempotency checks are tracked in M4. Up to four wire
 requests are charged before invocation, including failed calls, against the same
 overall model allowance. Prompt/context hashes and returned usage receipts are
 retained. Receipts may be incomplete after interrupted responses; no billing or
