@@ -19,8 +19,7 @@ The disconnected local preview remains a design view, not a live training servic
 
 ## Current handoff
 
-Earlier core acceptance and recovery receipts are in [M4 evidence](../m4-evidence.json).
-The latest missing-attachment, reconnect and chat-switch fixes are implemented but
-untested at the user's request. The custom segmentation package's independent
-download hash remains pending. 4.2–4.3 stay open for these checks; M5 has not started.
-Do not treat previous cloud checks as verification of the follow-up source changes.
+M4 is complete. Live request/history/saved-data workflows, targeted request/UI
+regressions, model exports and independent recovery passed. See the
+[M4 product handoff](m4-product.md#handoff) and [evidence](../m4-evidence.json)
+for exact environments, simulation boundaries and receipts. M5 has not started.

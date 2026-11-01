@@ -58,5 +58,8 @@ backoff without sending Start again. Training-start request IDs use the separate
 navigation clears another chat's file/pending state before restoring the selection.
 A subsequently authorized six-image SageMaker demo passed late ZIP attachment,
 training, refresh/reconnect, prediction, history and download at d60b46b.
-Transient-read failure injection and cross-chat regressions remain pending. See the current
+Six deterministic UI checks now cover retries, stale responses, per-chat start IDs,
+history state restoration, connection errors and busy navigation. Live Safari
+verified chat switching and saved-data clarification. Network failures were
+simulated in fixtures; no production network fault was induced. See the current
 [M4 handoff](../docs/milestones/m4-product.md#handoff) before final sign-off.

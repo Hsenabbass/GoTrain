@@ -8,7 +8,8 @@ Live classification and segmentation fixtures completed bounded train-to-package
 acceptance. Training stays on SageMaker; test data remains sealed.
 
 The visible demo verified late ZIP attachment and refresh/reconnect at d60b46b;
-transient-read/cross-chat regression checks remain pending; see the [M4 handoff](milestones/m4-product.md#handoff). The dated step
+17 SageMaker request checks and six deterministic UI recovery/history checks now
+pass, alongside live saved-data/history verification; see the [M4 handoff](milestones/m4-product.md#handoff). The dated step
 records below describe earlier configurations, not the current training flag or
 verification of the follow-up code. M5 has not started.
 

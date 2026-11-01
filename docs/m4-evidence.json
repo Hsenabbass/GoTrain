@@ -386,7 +386,8 @@
         "archive_bytes": 122484302,
         "archive_sha256": "a99ad39bba91e4775ee4234e82c6e49fd3b7f6773feb288f7fc9c51549d093de",
         "isolated_cpu_parity": true,
-        "independent_download_hash_verified": false
+        "independent_download_hash_verified": true,
+        "independent_receiver_path": "/Users/hsen/Desktop/GoTrain-backups/models/gotrain-dataset_ba4c4fcbd85e40ecbd3accfab0cca965-v1-f950b9f41cfa0220096d4aba.zip"
       }
     ],
     "stop_and_reconnect": {
@@ -457,12 +458,7 @@
       "bytes": 41563436,
       "matches_sagemaker_source": true
     },
-    "pending": [
-      "Transient progress-read failure injection",
-      "Cross-chat request-ID and stale-response checks",
-      "Saved-data late attachment UI path",
-      "Independent custom segmentation ZIP download checksum"
-    ],
+    "pending": [],
     "recovery": {
       "archive": "20261101T103037574090Z-recovery.tar.gz",
       "sha256": "2484d826fedcf8b32a7f0b2b3274d14acef591a7235dfb6d276448e392e3dc0a",
@@ -475,7 +471,8 @@
       "whole_archive_sha256_matches": true
     },
     "protected_test_access": false,
-    "m5_started": false
+    "m5_started": false,
+    "followup_verification": "closure_checks"
   },
   "targeted_ui_regression": {
     "date": "2026-11-01",
@@ -487,10 +484,7 @@
       "A and B use distinct Start IDs; returning to A reuses its ID; both persisted in storage"
     ],
     "limitations": [
-      "This is a deterministic JavaScript fixture, not live Safari failure injection",
-      "Full history-navigation attachment/limits and error-state UI acceptance remains pending",
-      "Saved-data late attachment live UI path remains pending",
-      "122484302-byte segmentation ZIP independent download checksum remains pending; three-minute time box precludes transfer at observed speed"
+      "Minimal DOM, mocked API/timers; not live network failure injection. Subsequent full history-handler fixtures, live browser history/saved-data checks and download receipt are recorded under closure_checks."
     ]
   },
   "closure_checks": {
@@ -544,8 +538,23 @@
       "new_training_attempts": 0,
       "protected_test_access": false
     },
-    "pending": [
-      "Independent segmentation ZIP download SHA-256 verification"
-    ]
+    "pending": [],
+    "status": "complete",
+    "segmentation_download": {
+      "bytes": 122484302,
+      "sha256": "a99ad39bba91e4775ee4234e82c6e49fd3b7f6773feb288f7fc9c51549d093de",
+      "matches_trusted_export_receipt": true,
+      "package_member_hashes_verified": 7,
+      "receiver_path": "/Users/hsen/Desktop/GoTrain-backups/models/gotrain-dataset_ba4c4fcbd85e40ecbd3accfab0cca965-v1-f950b9f41cfa0220096d4aba.zip"
+    },
+    "recovery": {
+      "archive": "20261101T104753190791Z-recovery.tar.gz",
+      "source_commit": "c8c3d70250e8a27944c13b6f28e50c410616b060",
+      "sha256": "3019356e64cd8199c45fec603132d11c5d9d5b603ec80059850c2486aa70e51b",
+      "bytes": 4786196,
+      "files": 89,
+      "receiver_verified": true,
+      "receiver_path": "/Users/hsen/Desktop/GoTrain-backups/snapshots/20261101T104753190791Z-recovery.tar.gz"
+    }
   }
 }

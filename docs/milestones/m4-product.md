@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** Core delivery and a six-image visible classification demo passed on SageMaker. Late ZIP attachment and refresh/reconnect are verified at d60b46b; keep 4.2–4.3 open for remaining targeted regressions and the custom segmentation ZIP download checksum. M5 has not started. Packages remain private research artifacts while public redistribution permission is unresolved.
+**Status:** Complete. Tasks 4.1–4.3 passed their required outcomes and M4 is closed. Remaining documented product/validation limitations are preserved; no M5 work or protected test access.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -234,35 +234,39 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
 | Durable GPU jobs and train→package / 4.2 | Recorded live classification/segmentation training, stop and reconnect | Earlier acceptance plus live late-ZIP attachment verified at d60b46b | [Evidence](../m4-evidence.json#final_delivery) |
-| Usable workspace / 4.3 | Recorded browser/package acceptance plus current follow-up review | Refresh/reconnect passed; transient-read/cross-chat checks and segmentation ZIP receipt pending | [Evidence](../m4-evidence.json#final_delivery) |
-| Follow-up fixes / 4.2–4.3 | Scoped SageMaker demo, 2026-11-01 | 15 request checks and visible classification workflow passed; remaining targeted checks pending | Follow-up section below |
+| Usable workspace / 4.3 | Recorded browser/package acceptance plus current follow-up review | Live refresh/chat switching and saved-data attachment passed; deterministic error/race guards and independent segmentation ZIP receipt passed | [Evidence](../m4-evidence.json#final_delivery) |
+| Follow-up fixes / 4.2–4.3 | Scoped SageMaker demo, 2026-11-01 | 17 SageMaker request checks, six deterministic UI checks and live follow-up workflows passed | Follow-up section below |
 
 ## Handoff
 
 **Last updated:** 2026-11-01 (Asia/Beirut).
-**Current state:** earlier core M4 live acceptance and independent recovery are
-recorded below and in [M4 evidence](../m4-evidence.json). Follow-up code now allows
-an initially missing dataset to be attached to the same unresolved draft, retries
-read-only progress requests with backoff, and separates training-start IDs and
-attachment state across chats. Attached/frozen datasets and limits remain protected.
-**Verification:** the subsequently authorized visible demo deployed d60b46b on
-SageMaker. Fifteen existing request checks and the six-image clarification→late ZIP
-attachment→training→refresh/reconnect→prediction→history→download path passed.
-The synthetic result is integration evidence, not an accuracy benchmark.
-**Remaining:** transient progress-read and cross-chat regressions, saved-data late
-attachment UI path, and the independent segmentation ZIP checksum receipt.
-**Recovery:** the new 89-file snapshot passed cloud and independent receiver
-verification: complete SHA-256 and every member matched. Its permanent Mac path
-and checksum are recorded in [resources](../RESOURCES.md).
-**Next action:** perform the remaining scoped M4 checks when requested. Preserve budgets and test isolation; do not start M5.
-**Synchronization:** 4.2–4.3 stay open with the scoped live evidence. Runtime source
-is d60b46b; this documentation update records the demo without code changes.
+**Current state:** M4 is complete. Versioned exports, supported import/clarification,
+bounded durable jobs, progress, direct prediction, history and downloads are usable.
+**Verification:** 17 SageMaker request checks and six deterministic JavaScript UI
+checks passed. Live Safari verified classification↔segmentation history restores
+each chat's dataset/limits/model, and saved-data selection plus clarification
+continues the same draft with limits and charged calls preserved. Earlier live
+classification/segmentation training and package parity evidence is reused.
+Network failures and racing responses were simulated in automated checks; the
+production connection was not deliberately interrupted. Exact receipts are in
+[M4 evidence](../m4-evidence.json).
+**Recovery:** the segmentation ZIP matched its trusted export hash and all seven
+member checksums. The final-check snapshot matched its cloud SHA-256 and all 89
+members at the independent receiver. Both are saved outside the repo; actual
+paths/receipts are in [resources](../RESOURCES.md#m4-closure-recovery).
+**Limitations:** one shared authenticated workspace, supported manifest/data
+contracts only, validation-selected models and private research exports. Synthetic
+checks establish integration rather than real-world accuracy. Redistribution
+permission and final test evaluation remain outside the completed M4 outcome.
+**Next action:** await the user's next direction; do not start M5 automatically.
+**Synchronization:** code, evidence and documentation are published on main;
+4.1–4.3 and the M4 milestone are closed on GitHub.
 
 ## Completion
 
-Core runtime acceptance is recorded. Final M4 sign-off awaits the deferred checks
-and segmentation ZIP receipt above. 4.1 remains complete; 4.2–4.3 remain open.
-M5 has not started.
+M4's required outcome passed. Task and milestone closure are supported by the
+verification/recovery receipts above. No protected test split was opened; M5 has
+not started.
 
 ## Implementation history
 
@@ -396,3 +400,16 @@ live Safari network-failure or complete history-navigation acceptance check.
 Full history state/error checks, saved-data late attachment and the independent
 122 MB segmentation ZIP receipt remain pending. The observed transfer rate makes
 the latter exceed the user's three-minute time box. No training or M5 work.
+
+
+## Final follow-up acceptance (2026-11-01)
+
+The remaining checks described in the dated implementation notes are complete.
+Seventeen SageMaker request tests cover late saved-data binding, idempotency,
+replacement/frozen-request rejection and unchanged limits/charges. Six local
+JavaScript fixtures cover polling retries, stale responses, separate persisted
+start IDs, history state restoration, 404 versus connection errors, and busy
+navigation. Live Safari history and saved-data clarification checks passed.
+The M4 ledger stayed at 77.99484466199647 GPU-job seconds with no active reservation;
+M1–M3 ledger hashes remained unchanged. Export and recovery receiver receipts are
+in [M4 evidence](../m4-evidence.json). No new training or M5 work.

@@ -225,9 +225,9 @@ Independent snapshot `20261101T011658427603Z-recovery.tar.gz` is 761,801,322 byt
 with SHA-256 `f8f21322ddf71750c5d627ffe8accd6fa974c2037f8802f416e4855401684769`.
 The receiver verified all 174 members and restored both selected `best.pt`
 checkpoints plus the acceptance record byte-for-byte. The classification package
-was independently received and hash-verified. The segmentation package has a checksum recorded in M4 evidence, but its
-independent download hash is still unverified. Both selected checkpoints were
-restored; this is not a receipt for independent download verification of that ZIP.
+was independently received and hash-verified. The segmentation ZIP was subsequently received and independently hash-verified;
+see [M4 closure recovery](#m4-closure-recovery) for the new receiver receipt.
+Both original selected checkpoints were restored as recorded in earlier evidence.
 
 
 ## M4 visible six-image demo
@@ -246,3 +246,23 @@ matched SageMaker and all 89 member hashes passed. Saved under
 `/Users/hsen/Desktop/GoTrain-backups/snapshots/20261101T103037574090Z-recovery.tar.gz`
 with its `.sha256` sidecar. This is a verified independent recovery copy of the
 runtime source, selected checkpoint/record, job receipt and exported model.
+
+
+## M4 closure recovery
+
+Final-check source `c8c3d70250e8a27944c13b6f28e50c410616b060` and the SageMaker
+request-check log, saved-data conversation and sanitized receipt are preserved in
+`20261101T104753190791Z-recovery.tar.gz` (4,786,196 bytes, 89 files).
+SHA-256 `3019356e64cd8199c45fec603132d11c5d9d5b603ec80059850c2486aa70e51b`
+matched SageMaker and the receiver; all 89 member hashes passed. Permanent copy:
+`/Users/hsen/Desktop/GoTrain-backups/snapshots/20261101T104753190791Z-recovery.tar.gz`
+with a checksum sidecar.
+
+The original 122,484,302-byte custom segmentation model ZIP was independently
+received. SHA-256 `a99ad39bba91e4775ee4234e82c6e49fd3b7f6773feb288f7fc9c51549d093de`
+matched its trusted export receipt and all seven package member hashes passed.
+Permanent copy:
+`/Users/hsen/Desktop/GoTrain-backups/models/gotrain-dataset_ba4c4fcbd85e40ecbd3accfab0cca965-v1-f950b9f41cfa0220096d4aba.zip`
+with a checksum sidecar. Local operations only copied/hashed opaque artifacts;
+no local ML execution or protected test access. Packages remain private research
+outputs. These receipts complete M4 recovery acceptance; M5 remains untouched.
