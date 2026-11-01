@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="345.6pt" viewBox="0 0 720 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-01T14:03:37.113966</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 345.6 
+L 720 345.6 
+L 720 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 178.81 276.928 
+L 708.12 276.928 
+L 708.12 36.96 
+L 178.81 36.96 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 178.81 47.867636 
+L 633.357464 47.867636 
+L 633.357464 93.794526 
+L 178.81 93.794526 
+z
+" clip-path="url(#pcab24ac496)" style="fill: #9ba9b7"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 178.81 105.276249 
+L 639.573678 105.276249 
+L 639.573678 151.203139 
+L 178.81 151.203139 
+z
+" clip-path="url(#pcab24ac496)" style="fill: #137c83"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 178.81 162.684861 
+L 610.609562 162.684861 
+L 610.609562 208.611751 
+L 178.81 208.611751 
+z
+" clip-path="url(#pcab24ac496)" style="fill: #b9c3cd"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 178.81 220.093474 
+L 656.728669 220.093474 
+L 656.728669 266.020364 
+L 178.81 266.020364 
+z
+" clip-path="url(#pcab24ac496)" style="fill: #137c83"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="mf3607eaf57" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf3607eaf57" x="178.81" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="178.81" y="292.286281" transform="rotate(-0 178.81 292.286281)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#mf3607eaf57" x="279.630952" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="279.630952" y="292.286281" transform="rotate(-0 279.630952 292.286281)">20</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#mf3607eaf57" x="380.451905" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="380.451905" y="292.286281" transform="rotate(-0 380.451905 292.286281)">40</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mf3607eaf57" x="481.272857" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="481.272857" y="292.286281" transform="rotate(-0 481.272857 292.286281)">60</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#mf3607eaf57" x="582.09381" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="582.09381" y="292.286281" transform="rotate(-0 582.09381 292.286281)">80</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mf3607eaf57" x="682.914762" y="276.928" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="682.914762" y="292.286281" transform="rotate(-0 682.914762 292.286281)">100</text>
+     </g>
+    </g>
+    <g id="text_7">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="443.465" y="306.932219" transform="rotate(-0 443.465 306.932219)">Full-validation macro IoU (%)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_7">
+      <defs>
+       <path id="m1c8f82c72d" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m1c8f82c72d" x="178.81" y="70.831081" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="171.81" y="75.010222" transform="rotate(-0 171.81 75.010222)">Frozen M1 reference</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m1c8f82c72d" x="178.81" y="128.239694" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="171.81" y="133.333209" transform="rotate(-0 171.81 133.333209)">FCN pretrained Â· screen</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m1c8f82c72d" x="178.81" y="185.648306" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="171.81" y="190.741822" transform="rotate(-0 171.81 190.741822)">DeepLab Mobile Â· screen</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m1c8f82c72d" x="178.81" y="243.056919" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="171.81" y="248.150434" transform="rotate(-0 171.81 248.150434)">FCN pretrained Â· final: KEEP</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 178.81 276.928 
+L 178.81 36.96 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 178.81 276.928 
+L 708.12 276.928 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="638.398511" y="73.866394" transform="rotate(-0 638.398511 73.866394)">90.17</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="644.614726" y="131.275006" transform="rotate(-0 644.614726 131.275006)">91.40</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="615.65061" y="188.683619" transform="rotate(-0 615.65061 188.683619)">85.66</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="661.769717" y="246.092231" transform="rotate(-0 661.769717 246.092231)">94.81</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 13.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="443.465" y="21.96" transform="rotate(-0 443.465 21.96)">PV4GER-Seg: compare screens, invest in FCN, retain final</text>
+   </g>
+  </g>
+  <g id="text_17">
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="360" y="336.96" transform="rotate(-0 360 336.96)">Screening informs the next experiment; only the final trial promotes. Single seed; no causal claim.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pcab24ac496">
+   <rect x="178.81" y="36.96" width="529.31" height="239.968"/>
+  </clipPath>
+ </defs>
+</svg>
