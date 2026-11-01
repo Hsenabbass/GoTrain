@@ -142,7 +142,8 @@ function watchJob() {
       }
       if (state.package) {
         text('p', `Version ${state.package.version}. Validation selected; not final test evaluated.`, view);
-        if (state.package.validation) text('p', `${state.package.validation.primary_name}: ${Number(state.package.validation.primary).toFixed(4)} on validation.`, view);
+        const selected = (await api('models')).find(row => row.version === state.package.version);
+        if (selected?.validation) text('p', `${selected.validation.primary_name}: ${Number(selected.validation.primary).toFixed(4)} on validation.`, view);
         const actions = document.createElement('div'); actions.className = 'model-actions'; view.append(actions);
         action('Try model', () => openModel(state.package.version, view), actions);
         const link = text('a', 'Download model', actions); link.href = `api/models/${state.package.version}/download`; link.download = '';
