@@ -2,11 +2,13 @@ const app = document.querySelector('#app');
 const storageKey = 'gotrain-message-draft-v1';
 const sessionKey = 'gotrain-request-session-v1';
 app.innerHTML = `<header class="topbar"><a class="brand" href="./">GoTrain</a><span id="connection">Connecting…</span></header>
-<main><section class="workspace" aria-labelledby="title"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg></div><h1 id="title">What would you like to build?</h1><p class="intro">Tell the agent your goal and constraints.</p>
-<form id="message-form"><label class="sr-only" for="message">Message to the agent</label><textarea id="message" name="message" rows="5" maxlength="4000" placeholder="Explain what you want the model to do, the data you have, and any time or compute limits. You can also name a prepared dataset, such as EuroSAT." aria-describedby="preview-note"></textarea>
+<main><section class="workspace" aria-labelledby="title"><div id="welcome" class="welcome"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg></div><h1 id="title">What would you like to build?</h1><p class="intro">Tell the agent your goal and constraints.</p></div>
+<section id="request-state" class="conversation" aria-label="Conversation" aria-live="polite" hidden></section>
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<form id="message-form"><label class="sr-only" for="message">Message to the agent</label><textarea id="message" name="message" rows="3" maxlength="4000" placeholder="Message GoTrain about your model, data, and constraints…" aria-describedby="preview-note"></textarea>
 <div id="attachment" class="attachment" hidden><span id="filename"></span><button id="remove-file" type="button" aria-label="Remove selected dataset">×</button></div>
 <div class="composer-actions"><label class="upload-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5"/></svg><span>Upload dataset</span><input id="dataset" type="file" accept=".zip,application/zip" aria-label="Upload dataset" aria-describedby="preview-note"></label><button class="send-button" id="send" type="submit" disabled>Send <span aria-hidden="true">↑</span></button></div></form>
-<p id="preview-note" class="note">Checking workspace availability…</p><p id="status" class="status" role="status" aria-live="polite"></p><section id="request-state" class="request-state" aria-label="Agent request" hidden></section></section></main>`;
+<p id="preview-note" class="note">Checking workspace availability…</p><section id="extras" class="tools" aria-label="Other options"></section></section></main>`;
 const message = document.querySelector('#message');
 const dataset = document.querySelector('#dataset');
 const send = document.querySelector('#send');
@@ -14,9 +16,7 @@ const status = document.querySelector('#status');
 const panel = document.querySelector('#request-state');
 let connected = false, busy = false, health = null;
 let jobPoll = 0;
-const extras = document.createElement('section');
-extras.className = 'request-state';
-panel.parentNode.insertBefore(extras, panel);
+const extras = document.querySelector('#extras');
 let modelList = [];
 let session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
 function persist() {
@@ -55,21 +55,36 @@ function text(tag, value, parent = panel) {
   parent.append(element);
   return element;
 }
+function displayTime(value) {
+  if (!value) return 'Earlier';
+  const date = new Date(value);
+  return Number.isNaN(date.valueOf()) ? 'Earlier' : date.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+}
+function chatMessage(role, content, createdAt, className = '') {
+  const row = document.createElement('article');
+  row.className = `message-row ${role} ${className}`.trim();
+  const avatar = text('span', role === 'user' ? 'You' : 'G', row);
+  avatar.className = 'avatar';
+  const body = document.createElement('div'); body.className = 'message-body'; row.append(body);
+  const meta = document.createElement('div'); meta.className = 'message-meta'; body.append(meta);
+  text('strong', role === 'user' ? 'You' : 'GoTrain', meta);
+  text('time', displayTime(createdAt), meta).dateTime = createdAt || '';
+  if (content) text('p', content, body);
+  panel.append(row);
+  return body;
+}
 function showRecord(record) {
   panel.replaceChildren();
   panel.hidden = false;
+  document.querySelector('#welcome').hidden = true;
   session.conversationId = record.id;
   session.datasetId = record.dataset_id;
   session.limits = record.limits;
   const needsInput = record.status === 'needs_input';
-  text('h2', needsInput ? 'A little more information' : record.status === 'ready_for_review' ? 'Review your request' : 'Checking your request');
-  if (record.questions?.length) {
-    const list = document.createElement('ul');
-    for (const question of record.questions) text('li', question, list);
-    panel.append(list);
-    message.placeholder = 'Reply here to continue the same request…';
-  }
+  for (const entry of record.messages || []) chatMessage(entry.role === 'user' ? 'user' : 'assistant', entry.content, entry.created_at);
+  if (needsInput) message.placeholder = 'Reply to GoTrain…';
   if (record.summary) {
+    const body = chatMessage('assistant', 'I understand the request. Review it below, then start training when you are ready.', record.reviewed_at, 'summary-message');
     const summary = record.summary;
     const list = document.createElement('dl');
     for (const [label, value] of Object.entries({Goal: summary.goal, Dataset: summary.dataset_id,
@@ -77,11 +92,11 @@ function showRecord(record) {
       'GPU allowance': `${summary.limits.gpu_seconds / 60} minutes`})) {
       text('dt', label, list); text('dd', value, list);
     }
-    panel.append(list);
+    body.append(list);
     const button = text('button', 'Start training');
     button.type = 'button';
     button.disabled = !health?.training_enabled || Boolean(session.jobRequested);
-    button.className = 'send-button';
+    button.className = 'primary-action'; body.append(button);
     button.addEventListener('click', async () => {
       button.disabled = true;
       session.startRequest ||= `request_${crypto.randomUUID().replaceAll('-', '')}`;
@@ -91,9 +106,10 @@ function showRecord(record) {
       } catch (error) { status.textContent = error.message; }
       watchJob(); // Read any saved intent even if the start response disconnected.
     });
-    text('p', health?.training_enabled ? 'Your request is prepared.' : 'Request prepared. Training is not enabled yet; no GPU work has started.');
+    text('small', health?.training_enabled ? 'No training starts until you press the button.' : 'Training is not enabled; no GPU work has started.', body);
   }
-  text('small', `${record.model_requests} model request(s) used. Validation only; test data stays sealed.`);
+  const footer = text('small', `${record.model_requests} model request(s) used · validation only · test data stays sealed.`);
+  footer.className = 'conversation-note';
   if (record.status !== 'checking') {
     const reset = text('button', 'New request');
     reset.type = 'button';
@@ -104,6 +120,7 @@ function showRecord(record) {
       message.value = '';
       message.placeholder = 'Explain what you want the model to do, the data you have, and any time or compute limits.';
       panel.hidden = true;
+      document.querySelector('#welcome').hidden = false;
       status.textContent = '';
       showAttachment(); persist(); updateSend(); message.focus();
     });
@@ -119,10 +136,18 @@ function watchJob() {
     try {
       const state = await api(`conversations/${conversation}/job`);
       if (poll !== jobPoll || session.conversationId !== conversation) return;
+      const signature = `${state.status}|${state.stage || ''}|${state.attempts || 0}|${state.model_requests || 0}`;
+      if (session.jobSignature !== signature) {
+        session.jobSignature = signature;
+        session.jobUpdatedAt = new Date().toISOString();
+        persist();
+      }
       let view = document.querySelector('#job-state');
-      if (!view) { view = document.createElement('div'); view.id = 'job-state'; panel.append(view); }
+      if (!view) { view = chatMessage('assistant', '', session.jobUpdatedAt, 'job-message'); view.id = 'job-state'; }
       view.replaceChildren();
-      text('h2', state.status === 'ready' ? 'Ready' : state.status === 'selected' ? 'Model selected' : state.stage || state.status, view);
+      const heading = document.createElement('div'); heading.className = 'job-heading'; view.append(heading);
+      text('strong', state.status === 'ready' ? 'Model ready' : state.status === 'selected' ? 'Model selected' : state.stage || state.status, heading);
+      text('time', `Updated ${displayTime(session.jobUpdatedAt)}`, heading);
       if (state.elapsed_seconds !== undefined) text('p', `${Math.floor(state.elapsed_seconds)} seconds elapsed · ${state.attempts || 0} attempts · ${state.model_requests || 0} model requests`, view);
       if (state.gpu_seconds !== undefined) text('small', `${Math.ceil(state.gpu_seconds)} GPU-job seconds charged or reserved.`, view);
       if (state.best) text('p', `Selected model: ${state.best}`, view);

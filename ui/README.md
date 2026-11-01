@@ -1,7 +1,10 @@
 # GoTrain message interface
 
-One message composer for the desired model and constraints, plus Upload dataset
-and Send. No sidebar, dataset grid, game or simulated training/results.
+A compact chat timeline for the desired model and constraints, plus Upload
+dataset and Send. User and GoTrain messages remain in chronological order with
+timestamps. Persisted training updates report the current stage, elapsed time,
+attempts and model-request usage in the same timeline. There is no sidebar,
+dataset grid, game or simulated training/results.
 
 ## Connected service
 
@@ -16,11 +19,11 @@ request. Refresh/service restart restores persisted records without reissuing a
 model call. New request clears only the browser's current draft reference; it
 does not delete server history. File references and conversation IDs are opaque.
 
-Training is not enabled yet: Start training remains disabled. The implemented
-job protocol adds inline persisted progress and Stop after current experiment,
-with read-only reconnect and a stable start key. These controls follow the health
-flag and saved real job records. Package integration and live GPU acceptance
-remain pending; no fake progress or scores appear.
+Start training follows the service health flag. The job protocol adds persisted
+chat-style progress and Stop after current experiment, with read-only reconnect
+and a stable start key. Completed jobs expose only their verified package,
+validation result, history and prediction controls; no fake progress or scores
+appear.
 
 Message drafts use gotrain-message-draft-v1; the current conversation, validated
 dataset ID and safe-retry key use gotrain-request-session-v1 in localStorage.

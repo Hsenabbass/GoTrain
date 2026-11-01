@@ -302,7 +302,8 @@ class Requests:
             if len(record['messages']) >= self.caps['max_messages']:
                 raise RequestError('Conversation message limit reached')
             data = self.dataset(record['dataset_id']) if record['dataset_id'] else None
-            record['messages'].append({'role': 'user', 'content': message.strip()})
+            record['messages'].append({'role': 'user', 'content': message.strip(),
+                                       'created_at': datetime.now(timezone.utc).isoformat()})
             record.update(status='needs_input', questions=[], error=None)
             index[request_id] = {'fingerprint': fingerprint, 'conversation': record['id']}
             self.save(record)
@@ -395,11 +396,13 @@ class Requests:
         record.update(dataset_id=dataset_id, questions=questions, goal=decision['goal'], proposed_limits=limits,
                       status='needs_input' if questions else 'ready_for_review')
         if questions:
-            record['messages'].append({'role': 'assistant', 'content': '\n'.join(questions)})
+            record['messages'].append({'role': 'assistant', 'content': '\n'.join(questions),
+                                       'created_at': datetime.now(timezone.utc).isoformat()})
         if not questions:
             record['summary'] = {'dataset_id': dataset_id, 'dataset_version': data['sha256'],
                                  'task': data['task'], 'counts': data['counts'], 'goal': decision['goal'],
                                  'limits': limits, 'validation_only': True}
+            record['reviewed_at'] = datetime.now(timezone.utc).isoformat()
 
     def reconcile_interrupted_preflights(self):
         """Operator-only recovery: never reissue a potentially charged model call."""

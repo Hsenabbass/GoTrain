@@ -161,6 +161,7 @@ class RequestChecks(unittest.TestCase):
         self.assertEqual(second['model_requests'], 2)
         self.assertEqual(len(second['messages']), 3)
         self.assertEqual(second['messages'][1]['role'], 'assistant')
+        self.assertTrue(all(message.get('created_at') for message in second['messages']))
         self.assertEqual(second['status'], 'ready_for_review')
 
     def test_four_wire_calls_are_a_persistent_cap_even_on_failure(self):
