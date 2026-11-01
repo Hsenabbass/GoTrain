@@ -128,7 +128,10 @@ include a still-image fallback and verify playback/legibility once.
 verified CSV gains and relative file links, and visually reviewed both figures.
 No new training, inference or test access. All new assets are tracked in Git.
 On 2026-11-01, user feedback prompted a shorter brief in spoken language, with
-implementation detail left in the linked evidence and results notes.
+implementation detail left in the linked evidence and results notes. A further
+user revision refocused it for organizers who already know the challenge: remove
+problem/definition/motivation sections and expand delivery, agent decisions,
+four-task evidence, demo behavior and anticipated technical questions.
 
 Planning review confirmed the existing four M1→M3 comparisons and M4 reliability
 receipts. No experiments, UI changes or media production were run. During work,
