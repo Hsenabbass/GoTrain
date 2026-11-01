@@ -159,13 +159,16 @@ def create_agent(controller):
                 received = False
                 try:
                     async for event in super().stream(*args, **kwargs):
-                        if hasattr(controller, 'check_event'):
-                            controller.check_event()
                         received = True
                         if 'metadata' in event:
                             controller.state['usage'].append(event['metadata'])
                             controller.save()
                         yield event
+                    # Drain the current bounded response before stopping. The
+                    # installed Bedrock bridge waits for each yielded event's
+                    # acknowledgement; raising inside it can strand its thread.
+                    if hasattr(controller, 'check_event'):
+                        controller.check_event()
                     return
                 except ConnectionClosedError:
                     # A stale connection after a long tool call may close before

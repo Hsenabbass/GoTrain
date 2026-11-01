@@ -102,6 +102,7 @@ function showRecord(record) {
       session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
       dataset.value = '';
       message.value = '';
+      message.placeholder = 'Explain what you want the model to do, the data you have, and any time or compute limits.';
       panel.hidden = true;
       status.textContent = '';
       showAttachment(); persist(); updateSend(); message.focus();
@@ -141,6 +142,7 @@ function watchJob() {
       }
       if (state.package) {
         text('p', `Version ${state.package.version}. Validation selected; not final test evaluated.`, view);
+        if (state.package.validation) text('p', `${state.package.validation.primary_name}: ${Number(state.package.validation.primary).toFixed(4)} on validation.`, view);
         const actions = document.createElement('div'); actions.className = 'model-actions'; view.append(actions);
         action('Try model', () => openModel(state.package.version, view), actions);
         const link = text('a', 'Download model', actions); link.href = `api/models/${state.package.version}/download`; link.download = '';
@@ -235,10 +237,11 @@ async function openModel(version, parent) {
       } catch (error) { resultBox.replaceChildren(); text('p', error.message, resultBox); }
       finally { upload.disabled = exampleButton.disabled = false; }
     }
-    const upload = action('Predict image', () => run(false), box);
-    const exampleButton = action('Try validation example', () => run(true), box);
-    const download = text('a', 'Download model', box); download.href = `api/models/${version}/download`; download.download = '';
-    action('Model history', async () => { try { showHistory(await api(`models/${version}/history`), box); } catch (error) { status.textContent = error.message; } }, box);
+    const actions = document.createElement('div'); actions.className = 'model-actions'; box.append(actions);
+    const upload = action('Predict image', () => run(false), actions);
+    const exampleButton = action('Try validation example', () => run(true), actions);
+    const download = text('a', 'Download model', actions); download.href = `api/models/${version}/download`; download.download = '';
+    action('Model history', async () => { try { showHistory(await api(`models/${version}/history`), box); } catch (error) { status.textContent = error.message; } }, actions);
   } catch (error) { status.textContent = error.message; }
 }
 

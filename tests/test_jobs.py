@@ -100,6 +100,31 @@ class JobTests(unittest.TestCase):
             self.assertEqual(lease.owned()[1]['model_requests'],2)
             lease.finish('stopped')
 
+    def test_stop_drains_current_model_stream_before_propagating(self):
+        import asyncio
+        from unittest.mock import patch
+        from strands.models import BedrockModel
+        from gotrain.admission import Admission
+        from gotrain.agent import create_agent
+        self.start()
+        drained=[]
+        async def current_response(_model,*args,**kwargs):
+            yield {'messageStart': {'role':'assistant'}}
+            self.jobs.stop(self.record['id'])
+            yield {'messageStop': {'stopReason':'end_turn'}}
+            drained.append(True)
+        with Admission(self.root,self.policy) as lease:
+            lease.admit(self.store,self.record['id'],self.key)
+            controller=JobController(lease,self.folder(),FakeRunner)
+            agent=create_agent(controller)
+            async def consume():
+                async for _event in agent.model.stream(messages=[]): pass
+            with patch.object(BedrockModel,'stream',current_response):
+                with self.assertRaises(StopRequested): asyncio.run(consume())
+            self.assertEqual(drained,[True])
+            self.assertEqual(lease.owned()[1]['model_requests'],3)
+            lease.finish('stopped')
+
     def test_supervisor_persists_selection_and_settles_once(self):
         self.start()
         def factory(controller):
