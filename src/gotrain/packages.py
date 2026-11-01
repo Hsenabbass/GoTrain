@@ -134,7 +134,7 @@ ZIP checksum with a trusted registry/receipt before extracting any received ZIP.
         (stage / 'checksums.json').write_text(json.dumps(checks, indent=2))
         verify_package(stage)
         task = model['task']
-        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', task):
+        if not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,79}', task):
             raise ValueError('Task needs a safe registered identifier')
         folder = destination / (task + '-' + model['version'])
         archive = destination / ('gotrain-' + task + '-' + model['version'] + '.zip')
