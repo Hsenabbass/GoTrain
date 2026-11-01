@@ -218,3 +218,15 @@ now show primary score, Macro F1 and validation image/split coverage in a compac
 table; expanded trials expose accuracy, IoU, F1 and key training settings. Missing
 measurements stay explicit. Syntax and 11 UI checks pass. No backend changes,
 new training or screenshots; 5.1 remains open for review.
+
+
+### 5.1 staged presentation captures — 2026-11-01
+
+User approved eight manually staged product screenshots and requested their
+addition to the shared repository. [Capture folder and guide](../figures/m5/ui-captures/READ-ME.txt)
+contains eight cropped 3024 × 1718 PNGs and a contact sheet, covering task setup,
+proposal review, progress, experiment comparison/details, model use, prediction
+and saved models. Names, timings, scores and predictions are fictional product
+illustrations; they are not training or benchmark evidence. Keep that distinction
+in presentation captions. The actual tiny-run verification is recorded above.
+Screenshots do not close 5.1 or establish submission completion.

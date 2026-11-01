@@ -1,0 +1,23 @@
+GoTrain — staged product-screen capture pack
+
+Eight cropped PNGs, 3024 × 1718 pixels. Browser chrome is removed.
+Added to the repository for the shared presentation handoff at the user’s request.
+
+These are manually staged product illustrations, not recordings of executed training.
+Chat names, timestamps, dataset sizes, experiment scores, timings and predictions
+are invented. The neighborhood image is an illustration. Use these to explain the
+product experience; use separately verified M1–M4 results for measured claims.
+Suggested presentation caption: “Illustrative product workflow.”
+The saved-model overview is a staged composition of existing model-library functions.
+
+01-new-task.png              Describe a task in natural language.
+02-review-proposal.png       Review dataset, task and compute limits before training.
+03-training-progress.png     Follow workflow stages, usage and the current experiment.
+04-experiment-comparison.png Compare four validation results and selection decisions.
+05-selected-experiment.png   Inspect the chosen recipe, metrics and training settings.
+06-use-model.png             Review the selected model and prepare an input.
+07-prediction-result.png     Read a predicted class and its probability distribution.
+08-saved-models.png          Return to datasets and previously selected models.
+
+No live-training video is included. For a short edited walkthrough, sequence
+01 → 02 → 03 → 04 → 07, with approximately 3–5 seconds per frame.
