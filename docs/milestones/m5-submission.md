@@ -16,8 +16,8 @@ No new model search, backend features or benchmark training is planned.
 | Task | Owner / dependency | Scope and handoff |
 | --- | --- | --- |
 | [5.1: Polish the existing interface for the demo](https://github.com/Hsenabbass/GoTrain/issues/23) | User; independent of 5.2 | Refine existing typography, spacing, composer/attachments, limit displays, progress/results, history and responsive/keyboard behavior. Preserve the current visual direction, features, API and request/metric/budget contracts. Own focused checks of changed UI. Hand off final UI revision and clean compose/progress/result screenshots with brief factual captions; 5.3 selects images. |
-| [5.2: Prepare the presentation brief, results and checks](https://github.com/Hsenabbass/GoTrain/issues/24) | Friend; independent of 5.1 | Reuse M1â€“M4 evidence against the completed M4 backend/model contracts. Produce a concise presentation rehearsal brief, organizer-tool role map, draft pipeline schema and practice Q&As, alongside the results document, comparisons, figures and reliability summary. Run only justified tiny saved-model checks; no dependency on polished UI. |
-| [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25) | After both handoffs | Use final UI/screenshots from 5.1 and rehearsal content/evidence/figures from 5.2. Select the final story and slide content here; deliver a short professional deck, a 1â€“2 minute real demo video and a short speaking script. Briefly check the final integrated demo, then rehearse once. |
+| [5.2: Prepare the presentation brief, results and checks](https://github.com/Hsenabbass/GoTrain/issues/24) | Friend; independent of 5.1 | Reuse M1–M4 evidence against the completed M4 backend/model contracts. Produce a concise presentation rehearsal brief, organizer-tool role map, draft pipeline schema and practice Q&As, alongside the results document, comparisons, figures and reliability summary. Run only justified tiny saved-model checks; no dependency on polished UI. |
+| [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25) | After both handoffs | Use final UI/screenshots from 5.1 and rehearsal content/evidence/figures from 5.2. Select the final story and slide content here; deliver a short professional deck, a 1–2 minute real demo video and a short speaking script. Briefly check the final integrated demo, then rehearse once. |
 
 ### Keep parallel work independent
 
@@ -33,7 +33,7 @@ No new model search, backend features or benchmark training is planned.
 
 ### Prepare simple technical practice material
 
-5.2 creates `docs/m5-presentation-brief.md` during execution: roughly 2â€“3 pages of
+5.2 creates `docs/m5-presentation-brief.md` during execution: roughly 2–3 pages of
 clear practice material, not a slide deck. Use short sections and a few sentences
 per topic, with internal source links:
 
@@ -42,8 +42,8 @@ per topic, with internal source links:
   validation results, prediction, experiment history and download).
 - Generality: image classification versus semantic segmentation, the shared data
   adapter, four benchmarks/custom fixtures, and supported-format/metadata limits.
-- Pipeline: inspect/clarify â†’ freeze task/limits â†’ prepare/shortlist â†’ bounded
-  experiments â†’ validate/select â†’ package/predict. Supply a simple draft schema.
+- Pipeline: inspect/clarify → freeze task/limits → prepare/shortlist → bounded
+  experiments → validate/select → package/predict. Supply a simple draft schema.
 - Operation: Claude reasons and chooses; Strands connects typed tools; trusted
   software trains, scores, records decisions and enforces limits. Explain one real
   keep/reject example and the user-facing workflow.
@@ -53,7 +53,7 @@ per topic, with internal source links:
 - Organizer-tool mapping: tool, purpose, actual use and evidence for SageMaker,
   Claude Sonnet through Bedrock, Strands, the four GEO-Bench datasets and GitHub.
   Label supporting tools such as PyTorch/service/UI separately from requirements.
-- Key results and honest limitations, plus 4â€“6 short practice Q&As. Link detailed
+- Key results and honest limitations, plus 4–6 short practice Q&As. Link detailed
   numbers/plots to `docs/m5-results.md` rather than duplicating source records.
 
 Reuse the project plan, setup/service/training docs and existing evidence; inspect
@@ -85,7 +85,7 @@ separately from existing full-validation benchmark comparisons.
 
 ### Presentation and video
 
-Target **3â€“5 minutes total, including video**, with presenters doing most of the
+Target **3–5 minutes total, including video**, with presenters doing most of the
 explanation. In 5.3, review the practice brief and choose what best fits the slot;
 do not try to include every topic. Five visual-first slides are a starting option:
 problem/product image; hybrid agent/tool schema; results/experiment insight;
@@ -93,8 +93,8 @@ demo video; takeaways/limits. Keep unused explanations and Q&As in backup notes.
 Use actual polished UI images, legible charts, consistent typography and restrained
 color. Keep text short and supporting details/source links in speaker notes.
 
-The video is **1â€“2 minutes**, preferably 60â€“90 seconds to leave speaking time:
-instruction/data â†’ clarification/limits â†’ real progress â†’ prediction â†’ history/export.
+The video is **1–2 minutes**, preferably 60–90 seconds to leave speaking time:
+instruction/data → clarification/limits → real progress → prediction → history/export.
 Reuse existing completed runs, clearly mark cuts/resumed results and avoid new
 training solely for footage. Hide private access URLs and credentials. Save an
 editable deck, PDF, MP4, figure/screenshot assets and a timed speaking script;
@@ -102,9 +102,9 @@ include a still-image fallback and verify playback/legibility once.
 
 ## Decisions and open questions
 
-- **2026-11-01, revised user direction:** supersedes the sequential UIâ†’release-check
+- **2026-11-01, revised user direction:** supersedes the sequential UI→release-check
   plan. UI polish and results work are parallel; only presentation depends on both.
-  The video is now 1â€“2 minutes, within the total 3â€“5 minute presentation slot.
+  The video is now 1–2 minutes, within the total 3–5 minute presentation slot.
 - **2026-11-01, expanded content handoff:** 5.2 also prepares a simple technical
   rehearsal brief and required-tool explanations. Final narrative/slide selection
   stays in 5.3; 5.1 supplies factual screenshot captions independently.
@@ -122,7 +122,15 @@ include a still-image fallback and verify playback/legibility once.
 
 ## Verification and evidence
 
-Planning review confirmed the existing four M1â†’M3 comparisons and M4 reliability
+5.2 delivered the [practice brief](../m5-presentation-brief.md),
+[results and checks](../m5-results.md), exact CSV and PNG/SVG figures in
+`docs/figures/m5/`. Local checks matched the four comparisons to M1/M3 records,
+verified CSV gains and relative file links, and visually reviewed both figures.
+No new training, inference or test access. All new assets are tracked in Git.
+On 2026-11-01, user feedback prompted a shorter brief in spoken language, with
+implementation detail left in the linked evidence and results notes.
+
+Planning review confirmed the existing four M1→M3 comparisons and M4 reliability
 receipts. No experiments, UI changes or media production were run. During work,
 link each task's screenshots, results/figures and final media; back up valuable
 artifacts using [storage and recovery](../storage.md) and record actual locations.
