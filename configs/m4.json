@@ -4,7 +4,30 @@
   "submission_deadline_local": "2026-11-01T15:00:00",
   "timezone": "Asia/Beirut",
   "submission_reserve_seconds": 7200,
-  "reserves": {"setup": 60, "final": 600, "verify": 60, "package": 60},
-  "phase_seconds": {"probe": 30, "screen": 150, "tune": 300, "final": 600, "verify": 60},
-  "disk_reserve_bytes": 16106127360
+  "reserves": {
+    "setup": 60,
+    "final": 600,
+    "verify": 60,
+    "package": 60
+  },
+  "phase_seconds": {
+    "probe": 30,
+    "screen": 150,
+    "tune": 300,
+    "final": 600,
+    "verify": 60
+  },
+  "disk_reserve_bytes": 16106127360,
+  "single_conversation_reserve_exception": {
+    "conversation_id": "conversation_96899fead659441fa89d5cb85b84f697",
+    "dataset_id": "dataset_8e7977a1b2c4424dac9cda3e616e6494",
+    "expires_utc": "2026-11-01T12:40:00+00:00",
+    "maximum_limits": {
+      "runtime_seconds": 900,
+      "gpu_seconds": 720,
+      "attempts": 2,
+      "model_requests": 12
+    },
+    "reason": "User-authorized single tiny M5 UI integration run; retain deadline and all accounting. Remove after settlement."
+  }
 }
