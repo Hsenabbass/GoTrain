@@ -101,3 +101,5 @@ model inputs survive tab changes and background updates; delayed model loads do
 not change the selected tab; offline history/model views make no API calls.
 Safari accessibility inspection confirmed the persistent tabs and preview flow.
 Visual approval, live SageMaker verification and screenshot handoff remain pending.
+
+Experiment comparison shows recorded validation scores, Macro F1 and evaluation coverage; expanded trials show key recipe settings. Use model keeps validation performance visible and distinguishes it from uncalibrated per-image probabilities.

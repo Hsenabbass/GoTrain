@@ -207,3 +207,11 @@ remained active; all four prior jobs and 77.995 charged seconds were preserved.
 The temporary exception/code are removed after settlement; reconciliation receipts
 remain with runtime evidence. Independent recovery transfer is pending below.
 5.1 remains open for user review; 5.2 handoff was preserved.
+
+
+5.1 copy/comparison follow-up: clarified Use model instructions and added a visible
+validation scorecard, distinct from per-image prediction probabilities. Experiments
+now show primary score, Macro F1 and validation image/split coverage in a compact
+table; expanded trials expose accuracy, IoU, F1 and key training settings. Missing
+measurements stay explicit. Syntax and 11 UI checks pass. No backend changes,
+new training or screenshots; 5.1 remains open for review.

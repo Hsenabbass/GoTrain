@@ -251,9 +251,24 @@ function showHistory(history, parent) {
   const head = document.createElement('div'); head.className = 'section-heading'; parent.append(head);
   text('h3', 'Candidates & experiments', head);
   action('Refresh', () => loadExperiments(), head);
-  text('p', session.demo ? 'Illustrative workflow records · no models trained or scores measured.' : 'Recorded attempts for this task. Expand a candidate for its configuration and evidence. Refresh to retrieve new results.', parent).className = 'section-description';
+  text('p', session.demo ? 'Illustrative workflow records · no models trained or scores measured.' : 'Compare measured validation results below. Open a trial for training settings and the agent’s reasoning. Full-split and subset scores have different evaluation coverage.', parent).className = 'section-description';
   const rows = history.experiments || [];
   if (!rows.length) text('p', 'No experiment records yet. They appear once a trial is recorded.', parent).className = 'empty-note';
+  if (rows.length) {
+    const wrap = document.createElement('div'); wrap.className = 'comparison-wrap'; parent.append(wrap);
+    const table = document.createElement('table'); table.className = 'comparison-table'; wrap.append(table);
+    text('caption', 'Validation comparison · higher scores are better', table);
+    const header = document.createElement('tr'); table.append(header);
+    for (const label of ['Trial', 'Primary score', 'Macro F1', 'Images']) { const th = text('th', label, header); th.setAttribute('scope', 'col'); }
+    for (const [index, row] of rows.entries()) {
+      const metric = row.best_validation || row.last_validation;
+      const tr = document.createElement('tr'); table.append(tr);
+      text('td', `${String(index + 1).padStart(2,'0')}${row.run_id === history.selected_run ? ' · Selected' : ''}`, tr);
+      text('td', metric ? formatMetric(metric) : 'Not measured', tr);
+      text('td', percent(metric?.macro_f1), tr);
+      text('td', metric?.images == null ? '—' : `${metric.images} · ${metric.full_split === true ? 'full' : metric.full_split === false ? 'subset' : 'scope unrecorded'}`, tr);
+    }
+  }
   for (const [index, row] of rows.entries()) {
     const selected = row.run_id === history.selected_run;
     const detail = document.createElement('details'); detail.className = 'experiment'; parent.append(detail);
@@ -270,6 +285,11 @@ function showHistory(history, parent) {
     const linked = (history.decisions || []).filter(d => d.candidate === row.run_id);
     for (const decision of linked) text('p', `${decision.kept === true ? 'Kept' : decision.kept === false ? 'Not selected' : 'Decision'}: ${decision.reason || 'No reason recorded'}`, body).className = 'decision-reason';
     const facts = document.createElement('dl'); body.append(facts);
+    const recipe = row.recipe || {};
+    const measures = metric ? [['Validation score', formatMetric(metric)], ['Accuracy', percent(metric.accuracy)], ['Macro F1', percent(metric.macro_f1)], ['Macro IoU', percent(metric.macro_iou)], ['Validation images', metric.images], ['Evaluation coverage', metric.full_split === true ? 'Entire validation split' : metric.full_split === false ? 'Validation subset' : 'Not recorded']] : [['Validation', 'No measured score recorded']];
+    for (const [name, value] of [...measures, ['Phase', recipe.phase], ['Optimizer', recipe.optimizer], ['Learning rate', recipe.lr], ['Batch size', recipe.batch_size], ['Epoch limit', recipe.epochs], ['Augmentation', typeof recipe.augment === 'boolean' ? (recipe.augment ? 'Enabled' : 'Disabled') : undefined]]) {
+      if (value !== undefined && value !== null && value !== '—') { text('dt', name, facts); text('dd', String(value), facts); }
+    }
     for (const [name, value] of [['Run ID', row.run_id], ['Parent', row.parent_run], ['GPU seconds', row.gpu_job_seconds], ['Completed epochs', row.epochs_completed], ['Steps', row.steps]]) {
       if (value !== undefined && value !== null) { text('dt', name, facts); text('dd', String(value), facts); }
     }
@@ -286,8 +306,9 @@ function showHistory(history, parent) {
     text('p', decision.reason || decision.hypothesis || 'No explanation recorded.', item);
   }
 }
+function percent(value) { return typeof value === 'number' && Number.isFinite(value) ? `${(value * 100).toFixed(2)}%` : '—'; }
 function formatMetric(metric) {
-  return `${metricLabel(metric.primary_name)} ${(Number(metric.primary) * 100).toFixed(2)}%`;
+  return `${metricLabel(metric.primary_name) || 'Score'} ${percent(metric.primary)}`;
 }
 function setWorkspaceTab(name) {
   activeTab = name;
@@ -344,16 +365,21 @@ async function openModel(version, parent) {
     const box = document.createElement('section'); box.className = 'prediction-view'; parent.append(box);
     const spec = model.task_spec;
     const toolbar = document.createElement('div'); toolbar.className = 'model-toolbar'; box.append(toolbar);
-    text('h3', model.label || model.task || 'Selected model', toolbar);
-    const intro = text('p', 'Explore a prediction with your image or an approved validation example.', box); intro.className = 'model-intro';
+    text('h3', spec.kind === 'segmentation' ? 'Map the classes in an image' : 'Classify an image', toolbar);
+    const intro = text('p', 'Try the trained model on a matching image, or load a saved validation example. Prediction uses the selected model without retraining.', box); intro.className = 'model-intro';
+    const scorecard = document.createElement('div'); scorecard.className = 'model-scorecard'; box.append(scorecard);
+    text('small', 'SELECTED MODEL · VALIDATION', scorecard);
+    text('strong', formatMetric(model.validation), scorecard);
+    text('p', `${model.validation.images == null ? 'Recorded validation result' : `${model.validation.images} validation images`} · ${model.validation.full_split === true ? 'full split' : model.validation.full_split === false ? 'subset' : 'coverage not recorded'}. This measures performance across labeled examples, not certainty for your next image.`, scorecard);
     const modelDetails = document.createElement('details'); modelDetails.className = 'model-details'; box.append(modelDetails);
-    text('summary', 'Model details & usage terms', modelDetails);
+    text('summary', 'Task, model version & usage terms', modelDetails);
+    text('p', model.label || model.task || 'Selected model', modelDetails);
     text('small', `Version ${version}. Private research package; see TERMS.md for redistribution restrictions.`, modelDetails);
     text('p', `Input: ${spec.width} × ${spec.height} pixels, ${spec.channels} bands in this order: ${spec.band_names.join(', ')}.`, box);
     text('small', `Input scaling divisors: ${spec.input_divisors.join(', ')}. No resizing or band conversion.`, modelDetails);
     text('p', `${metricLabel(model.validation.primary_name)}: ${(Number(model.validation.primary) * 100).toFixed(2)}% on validation · not final test evaluated.`, modelDetails);
     const inputZone = document.createElement('div'); inputZone.className = 'image-input'; box.append(inputZone);
-    text('strong', 'Choose an image', inputZone);
+    text('strong', '1. Choose your input', inputZone);
     text('p', 'PNG, JPEG or GeoTIFF · up to 32 MiB · original dimensions required', inputZone);
     const file = document.createElement('input'); file.type = 'file'; file.accept = '.png,.jpg,.jpeg,.tif,.tiff'; file.setAttribute('aria-label', 'Image for prediction'); inputZone.append(file);
     const label = document.createElement('label'); label.className = 'compatibility';
@@ -369,7 +395,7 @@ async function openModel(version, parent) {
       }
     });
     const resultBox = document.createElement('div'); resultBox.setAttribute('role', 'status'); resultBox.className = 'prediction-result'; box.append(resultBox);
-    text('p', 'Your prediction will appear here.', resultBox);
+    text('p', 'Your result will appear here: ranked class probabilities for classification, or a class overlay and downloadable mask for segmentation.', resultBox);
     async function run(example) {
       resultBox.replaceChildren(); text('p', 'Predicting…', resultBox);
       upload.disabled = exampleButton.disabled = true;
@@ -389,12 +415,13 @@ async function openModel(version, parent) {
         if (prediction.result.probabilities) {
           text('small', 'PREDICTED CLASS', resultBox);
           text('h2', prediction.result.class_name ?? `Class ${prediction.result.class_id}`, resultBox);
-          text('small', 'Class probabilities (not calibrated):', resultBox);
+          text('small', 'Scores for this image · uncalibrated probabilities', resultBox);
           for (const [i, p] of [...prediction.result.probabilities.entries()].sort((a,b) => b[1]-a[1])) {
             const row = document.createElement('div'); row.className = 'probability'; resultBox.append(row);
             text('span', model.class_names[i] ?? `Class ${i}`, row); text('strong', `${(p * 100).toFixed(1)}%`, row);
             const bar = document.createElement('meter'); bar.min = 0; bar.max = 1; bar.value = p; bar.setAttribute('aria-label', model.class_names[i] ?? `Class ${i}`); row.append(bar);
           }
+          text('p', 'The highest score determines the predicted class. These probabilities are not validation accuracy or a guarantee of correctness.', resultBox);
         } else {
           const imageUrl = name => `api/predictions/${prediction.id}/${name}`;
           if (prediction.artifacts.includes('input-preview.png')) {
@@ -417,7 +444,8 @@ async function openModel(version, parent) {
     const actions = document.createElement('div'); actions.className = 'model-actions'; box.insertBefore(actions, resultBox);
     const upload = action('Run prediction', () => run(false), actions);
     upload.className = 'primary-action';
-    const exampleButton = action('Use validation example', () => run(true), actions);
+    const exampleButton = action('Try a validation example', () => run(true), actions);
+    text('p', 'The example uses a saved validation image with a known input format. To evaluate accuracy on your own data, predictions also need ground-truth labels.', box).className = 'section-description';
     const download = text('a', 'Download package', toolbar); download.href = `api/models/${version}/download`; download.download = '';
     action('View experiments', () => selectWorkspaceTab('experiments'), actions);
   } catch (error) {

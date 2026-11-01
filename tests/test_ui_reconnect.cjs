@@ -58,4 +58,9 @@ assert.match(labels(run('document.querySelector("#experiments-content").children
 assert.match(labels(run('document.querySelector("#model-content").children')),/does not produce a model/);
 console.log('PASS offline experiment preview is labelled and makes no API calls');
 
+run('session={};showHistory({selected_run:"zero",experiments:[{run_id:"zero",recipe:{model:"fixture",lr:0.001,batch_size:4},best_validation:{primary_name:"accuracy",primary:0,accuracy:0,macro_f1:0,images:2,full_split:true}},{run_id:"missing",recipe:{}}]},document.querySelector("#experiments-content"))');
+const comparison=labels(run('document.querySelector("#experiments-content").children'));
+assert.match(comparison,/Accuracy 0.00%/);assert.match(comparison,/Not measured/);assert.match(comparison,/2 · full/);assert.match(comparison,/Learning rate/);assert.doesNotMatch(comparison,/NaN/);
+console.log('PASS comparison preserves zero scores and distinguishes missing measurements');
+
 })().catch(e=>{console.error(e);process.exitCode=1});
