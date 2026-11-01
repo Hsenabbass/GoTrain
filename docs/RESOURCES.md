@@ -213,3 +213,17 @@ source `dd3d152e2a00821364739986dbe6a63bb9c33ea3`, under
 SHA-256 `ee12c51855e2fcd254f88ddf7b7a875eb5b6696668c080696b8e66fbd9885168` matched sender/receiver/sidecar; all members verified.
 Restored evidence JSON SHA-256 `0c0299182fdc8d073ade56f46642b8fa506d2ab1820cc0c237ac6931fd849016` matched.
 This covers source and CPU/process evidence, not live GPU restart acceptance.
+
+## M4 final delivery and recovery
+
+The accepted M4 runtime source is `20d88f21a2b51fd6b7cee190191e7551c7507ac6`;
+the connected chat/history UI and one-command launcher are `10d580f`. The two synthetic integration
+jobs used 62.74250063000363 GPU-job seconds total and published verified private
+packages for classification and segmentation. No protected test payload was opened.
+
+Independent snapshot `20261101T011658427603Z-recovery.tar.gz` is 761,801,322 bytes
+with SHA-256 `f8f21322ddf71750c5d627ffe8accd6fa974c2037f8802f416e4855401684769`.
+The receiver verified all 174 members and restored both selected `best.pt`
+checkpoints plus the acceptance record byte-for-byte. The classification package
+was independently received and hash-verified. The segmentation package uses the
+same private-artifact transfer route and checksum recorded in M4 evidence.

@@ -1,11 +1,11 @@
-# Request and dataset service (4.2, partial)
+# Request, dataset and durable-job service (4.2)
 
 The composer can submit a message and supported manifest ZIP to a loopback-only
 FastAPI service. The service validates data, runs bounded Claude/Strands semantic
 preflight, and retains the conversation and proposed job summary across refresh.
-It does **not** admit GPU training yet. The published 4.2 remains open until the
-complete train-to-package integration and live GPU/recovery acceptance pass.
-Shared packaging and CPU/process-verified runner/supervisor code are implemented.
+It admits only frozen, feasible requests through the shared M4 ledger and lock.
+Live classification and segmentation fixtures completed bounded train-to-package
+acceptance. Training stays on SageMaker; test data remains sealed.
 
 ## Run
 
@@ -40,11 +40,12 @@ preview. All inference and agent/training execution stays on SageMaker.
 ## Dataset contract
 
 Upload one ZIP with `manifest.json` at its root and exactly its referenced files.
-Limits: 512 MiB compressed, 2 GiB expanded, 25,000 members, 2 MiB manifest, 120
-seconds expansion/validation allowance and a 15 GiB free-space reserve. Full image
+Browser limits: 32 MiB compressed, 2 GiB expanded, 25,000 members, 2 MiB manifest,
+120 seconds expansion/validation allowance and a 15 GiB free-space reserve. Full image
 decoding runs in a separate process capped at 90 seconds. One import runs at a time;
-a second receives a busy response. The real proxy's lower transfer limit, if any,
-must be established separately; these are application ceilings.
+a second receives a busy response. Exactly 33,554,432 bytes passed authenticated
+proxy upload and full validation; this verifies the application boundary, not the
+proxy's unknown maximum.
 
 Only PNG/JPEG/GeoTIFF inputs and lossless PNG/TIFF class-ID masks are supported.
 Reject links, special files, traversal, hidden paths, nested archives, executables,
@@ -120,7 +121,7 @@ records needs_input without refunding model calls. Never silently delete a lock
 or reset counters. Interrupted GPU jobs are never relaunched automatically; see the step 3 contract below.
 
 `POST api/conversations/<id>/start` returns 409 while the training flag is false.
-The implemented launch protocol is described under step 3 below. The UI leaves Start training disabled. No M1/M2/M3
+The implemented launch protocol is described under step 3 below. The UI enables Start training only when service health permits it. No M1/M2/M3
 ledger/config or completed session is modified, and no test samples are accessed.
 
 ## Durable state and verification
@@ -283,7 +284,7 @@ usage and selection live under `artifacts/service/jobs/<conversation>/`; the GPU
 ledger remains the authoritative charge record. No database or queue.
 
 
-## Remaining M4 delivery/workspace (implementation, verification pending)
+## M4 delivery/workspace
 
 The user authorized all remaining M4 work. Selection now enters trusted CPU
 verification/export before Ready. Published versions reuse the 4.1 package
@@ -300,14 +301,13 @@ Classification returns uncalibrated probabilities; segmentation returns masks,
 aligned overlays/legend and geographic metadata where supplied. Every model has
 a validation-only example, without test access. One image operation runs at a time.
 
-Browser dataset import is deliberately capped at a verifiable operational 32 MiB,
-superseding the initial proposed 512 MiB ceiling. Its boundary transfer is pending
-verification. Larger prepared ZIPs already on SageMaker can use the operator-only
+Browser dataset import is deliberately capped at a verified operational 32 MiB,
+superseding the initial proposed 512 MiB ceiling. Larger prepared ZIPs already on SageMaker can use the operator-only
 `python scripts/register_dataset.py data/imports/<prepared>.zip` route (2 GiB
 compressed/expanded ceiling), which reuses the same import validation and protected
 registry. No cloud URL/path instruction from chat is executed.
 
-UI additions remain inline: saved data, existing models, prediction, history and
-verified download. No sidebar/dashboard. Models remain private research artifacts;
-public weight redistribution permission is unresolved. Training is still disabled
-until CPU verification passes and the authorized bounded live checks begin.
+The UI keeps saved data, existing models, prediction and verified downloads in the
+conversation, with a simple sidebar for saved chats. There is no dashboard. Models remain private research artifacts;
+public weight redistribution permission is unresolved. The live gates passed with
+62.74250063000363 total GPU-job seconds across the accepted M4 runs.

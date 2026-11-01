@@ -1,6 +1,6 @@
 # M4: Make results usable
 
-**Status:** 4.1 package/prediction checks passed for all four retained models; independent recovery verification and all four ZIP restorations passed. Public weight redistribution remains unresolved. The 4.2 request/import slice is verified; durable GPU-job integration remains open.
+**Status:** Complete. Four retained and two custom-integration packages passed standalone verification. Supported imports, durable bounded jobs, reconnect/stop, live classification and segmentation train→package paths, the conversation workspace and independent recovery are verified. Test access stayed sealed. Public weight redistribution remains unresolved; packages are private research artifacts.
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
 **Direction:** [Agreed M4 outcome](../PROJECT_PLAN.md#m4-make-results-usable)
 
@@ -24,7 +24,7 @@ multi-user service.
 
 | Moment | First-version behavior |
 | --- | --- |
-| Start | One message composer with dataset attachment and Send. No sidebar, dataset grid, dashboard or extra view navigation. Saved request IDs restore the current draft. |
+| Start | One message composer with dataset attachment and Send, plus a simple saved-chat sidebar. No dataset grid, dashboard or extra view navigation. Saved request IDs restore the current draft. |
 | Compose | Multiline task instruction, attachment button, compact time-limit control and submit. Attached data appears as a removable filename/dataset chip. Additional limits live in one small options popover. |
 | Validate | Import sheet shows task type, sample/split counts, channels and any blocking problem. Check both dataset completeness and instruction clarity/compatibility. Ask only questions needed to resolve the task; never make the user configure an architecture or learning rate. Invalid imports explain the specific fix before training starts. |
 | Run | One compact progress block in the conversation: Inspecting → Preparing → Comparing → Refining when used → Verifying → Ready. Show current operation, elapsed time and remaining allowance, with restrained motion. Expand for trials and short evidence-based decisions. Skipped stages are marked honestly; no fabricated percentage or ETA. |
@@ -36,7 +36,7 @@ consistent spacing and simple icons. One accent is sufficient; status color has
 meaning. Avoid ornamental gradients, floating shapes, repeated rounded cards,
 gratuitous badges and generic assistant filler. Make keyboard focus, contrast,
 attachment errors and reduced-motion behavior work. The composer stays reachable;
-the sidebar collapses on narrow screens. Review empty, importing, running, failed,
+the conversation layout collapses cleanly on narrow screens. Review empty, importing, running, failed,
 stopped and completed states in the real app, not only the happy-path screenshot.
 
 ### Data import: what the attachment button supports
@@ -57,7 +57,7 @@ pre-windowed. No automatic splitting, reprojection, tiling or unlabeled training
 The import guide should explain these requirements plainly without exposing the
 engine's internal record structure in the main conversation.
 
-Start with a **512 MiB compressed / 2 GiB expanded / 25,000-file** browser import
+Use a **32 MiB compressed / 2 GiB expanded / 25,000-file** browser import
 ceiling, streaming to disk and preserving the existing free-space reserve. Check
 actual expanded bytes, paths and file counts; reject traversal, links, nested
 archives and executables. Publish any lower limit imposed by the real proxy after
@@ -164,7 +164,7 @@ leaderboards, notifications and broad cloud imports are outside this first versi
 | --- | --- | --- | --- |
 | [4.1: Package versioned models and standalone prediction](https://github.com/Hsenabbass/GoTrain/issues/20) | Completed M3 | Retained checkpoints/records + existing PyTorch/Rasterio → shared prediction API/CLI, immutable versions and downloadable ZIPs | All four selected models load and predict in a fresh process outside the checkout, with network and initialization-cache access unavailable. Match checkpoint outputs within declared device-appropriate tolerances; verify labels, shapes, preprocessing, checksums and terms. Reuse M3 full-validation evidence. |
 | [4.2: Connect supported imports to durable bounded jobs](https://github.com/Hsenabbass/GoTrain/issues/21) | M3; shared package/prediction contract from 4.1 | Manifest adapter + controller/runner/ledger + thin Python service → validated imports, task recognition/clarification, custom-task registration, user limits, persisted jobs/progress and stop | Non-GEO classification and segmentation imports each complete one bounded live train→validate→select→package path on SageMaker. Focused cases cover declared type, ambiguous intent, instruction/label conflict, missing metadata and infeasible limits: blockers launch no training, replies resolve the same draft, and preflight calls remain charged. Refresh/reconnect and service restart reattach without duplicate work or reset usage. Invalid imports, double-submit and stop preserve records and prior best. |
-| [4.3: Deliver and verify the minimal conversation workspace](https://github.com/Hsenabbass/GoTrain/issues/22) | 4.1–4.2 contracts | Real service/data/packages → dark composer, live stages, inline prediction, history and downloads | Teammate completes import→instruction/limits→run→prediction→history→download through the authenticated SageMaker route. Exercise one clarification→reply→continue interaction with attachment/options preserved and no redundant task picker. Review responsive/error/stopped states, verify download inference, and create/transfer/check independent recovery snapshots. No mock results or test access. |
+| [4.3: Deliver and verify the minimal conversation workspace](https://github.com/Hsenabbass/GoTrain/issues/22) | 4.1–4.2 contracts | Real service/data/packages → neutral chat timeline, live stages, inline prediction, history and downloads | Teammate completes import→instruction/limits→run→prediction→history→download through the authenticated SageMaker route. Exercise one clarification→reply→continue interaction with attachment/options preserved and no redundant task picker. Review responsive/error/stopped states, verify download inference, and create/transfer/check independent recovery snapshots. No mock results or test access. |
 
 Each task includes relevant checks and documentation. In 4.2, verify proxy access,
 prefix-relative assets/API calls and a bounded upload/download **first**, before
@@ -337,5 +337,28 @@ tasks will establish integration, not real-world accuracy. No M5 test access.
 
 All 95 SageMaker CPU checks passed at 6b01867 (33.802 seconds), including fresh
 offline custom-package parity, prediction compatibility, publication failure,
-history/download and reserved-final-budget behavior. Training is now enabled for
-the authorized bounded live acceptance checks; their results remain pending.
+history/download and reserved-final-budget behavior.
+
+## Final M4 handoff (2026-11-01)
+
+M4 is complete. Canonical acceptance at source `20d88f21a2b51fd6b7cee190191e7551c7507ac6`
+passed 95 SageMaker CPU checks and 17 focused stop checks. One synthetic
+classification and one synthetic segmentation request each exercised the real
+import→clarification→bounded job→full validation→selection→standalone verification
+→package path. They used 62.74250063000363 GPU-job seconds total. Segmentation
+also exercised service restart/reconnect and stop-after-current-experiment; the
+focused real-model stop regression reached terminal state in 2.034 seconds without
+launching a GPU attempt. These fixtures prove integration, not accuracy.
+
+The neutral conversation workspace exposes timestamped messages, a saved-chat
+sidebar, real durable progress, prediction, history and downloads. The exact 32 MiB browser boundary
+passed the authenticated proxy; the proxy's own maximum remains unknown. All
+four historical ledgers remained byte-identical and protected test access remained
+false. Six packages passed isolated CPU parity; redistribution remains unresolved,
+so they stay private research artifacts.
+
+Independent snapshot `20261101T011658427603Z-recovery.tar.gz` (761,801,322 bytes,
+SHA-256 `f8f21322ddf71750c5d627ffe8accd6fa974c2037f8802f416e4855401684769`)
+passed all 174 member checks at the receiver. Both selected checkpoints and the
+acceptance record were restored byte-for-byte. Exact run IDs, hashes, limitations
+and backup receipts live in [M4 evidence](../m4-evidence.json).

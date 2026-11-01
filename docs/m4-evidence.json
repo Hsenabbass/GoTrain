@@ -332,5 +332,93 @@
       "all_member_checksums_verified": true,
       "restored_evidence_sha256": "0c0299182fdc8d073ade56f46642b8fa506d2ab1820cc0c237ac6931fd849016"
     }
+  },
+  "final_delivery": {
+    "status": "verified",
+    "runtime_source_commit": "20d88f21a2b51fd6b7cee190191e7551c7507ac6",
+    "chat_ui_commit": "10d580fdcde7e6414de5d409b3e480bb684ec64a",
+    "checks": {
+      "full_cpu_suite_passed": 96,
+      "full_cpu_suite_seconds": 33.970,
+      "focused_stop_suite_passed": 17,
+      "focused_stop_suite_seconds": 1.469,
+      "javascript_syntax_passed": true
+    },
+    "browser_upload_boundary": {
+      "verified_bytes": 33554432,
+      "authenticated_proxy": true,
+      "proxy_maximum_claimed": false
+    },
+    "custom_models": [
+      {
+        "task": "classification",
+        "dataset_id": "dataset_8e0f324fd6cc444892ca624c447e2c4b",
+        "conversation_id": "conversation_592c594e06704cc29a5be796c8a19f1b",
+        "job_id": "job_3cde22a3f6e048649d576cb331528f32",
+        "run_id": "job_3cde22a3f6e048649d576cb331528f32-trial_61c157f0586f4a04a2282dff44ee8309",
+        "status": "ready",
+        "attempts": 1,
+        "model_requests": 11,
+        "gpu_job_seconds": 15.052178552999976,
+        "validation_primary_name": "accuracy",
+        "validation_primary": 1.0,
+        "version": "v1-4dc2acb6e95fd2f4effa939a",
+        "archive": "gotrain-dataset_8e0f324fd6cc444892ca624c447e2c4b-v1-4dc2acb6e95fd2f4effa939a.zip",
+        "archive_bytes": 41563500,
+        "archive_sha256": "f272a3e92825a4b3db5d0d0a537e023e8ca96087915b8f1ec10435a6f6fd310b",
+        "isolated_cpu_parity": true,
+        "independent_download_hash_verified": true
+      },
+      {
+        "task": "segmentation",
+        "dataset_id": "dataset_ba4c4fcbd85e40ecbd3accfab0cca965",
+        "conversation_id": "conversation_3fea8943e6a24aaf83478c7532467f76",
+        "job_id": "job_4010923572f341ff84caf6d763b4f700",
+        "run_id": "job_4010923572f341ff84caf6d763b4f700-trial_11ae7c2f2c984ac2a7fe99779de117a1",
+        "status": "stopped_with_selected_package",
+        "attempts": 2,
+        "model_requests": 9,
+        "gpu_job_seconds": 47.69032207700366,
+        "validation_primary_name": "macro_iou",
+        "validation_primary": 0.8942701980644929,
+        "version": "v1-f950b9f41cfa0220096d4aba",
+        "archive": "gotrain-dataset_ba4c4fcbd85e40ecbd3accfab0cca965-v1-f950b9f41cfa0220096d4aba.zip",
+        "archive_bytes": 122484302,
+        "archive_sha256": "a99ad39bba91e4775ee4234e82c6e49fd3b7f6773feb288f7fc9c51549d093de",
+        "isolated_cpu_parity": true,
+        "independent_download_hash_verified": false
+      }
+    ],
+    "stop_and_reconnect": {
+      "service_restart_reattached_active_segmentation_job": true,
+      "stop_preserved_selected_model_and_package": true,
+      "focused_real_model_stop_to_terminal_seconds": 2.033938760003366,
+      "focused_stop_gpu_attempts": 0
+    },
+    "accounting": {
+      "total_gpu_job_seconds": 62.74250063000363,
+      "active_reservation": null,
+      "m1_sha256": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+      "m2_sha256": "ad6fcf2aba67323cd21a4d7d8d6793a0a00d278419ee7565508a812053993ad2",
+      "m3_sha256": "76557cb9fba7c825d3b4607e6431cbd8a8204b5b417c5a209447bc2796032f2e",
+      "protected_test_access": false
+    },
+    "independent_recovery": {
+      "archive": "20261101T011658427603Z-recovery.tar.gz",
+      "receiver": "C:\\Users\\moham\\Documents\\ChatGPT\\GoTrain-backups\\snapshots\\20261101T011658427603Z-recovery.tar.gz",
+      "bytes": 761801322,
+      "files": 174,
+      "sha256": "f8f21322ddf71750c5d627ffe8accd6fa974c2037f8802f416e4855401684769",
+      "all_member_checksums_verified": true,
+      "classification_checkpoint_restored_sha256": "382f3b9d75141a477f7051538b6a4b87fd09baec5a9a1ed8fe0f2eac18beb3e0",
+      "segmentation_checkpoint_restored_sha256": "1bbf4414546e8901d7a5648c1de5d1d78028c5afd7f395a084caf7133d8468b7",
+      "acceptance_record_restored_sha256": "18c1ad8a1fe944e8011bcf7fb1d5dc3fe6d0c1e8ccb2ebb8b2152a77049a6a45",
+      "receiver_verified": true
+    },
+    "limitations": {
+      "synthetic_custom_runs_are_integration_only": true,
+      "validation_selected_not_test_finalized": true,
+      "public_weight_redistribution": "unresolved_private_research_only"
+    }
   }
 }

@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md) and [M2](milestones/m2-engine.md) are complete. Four verified references are retained; one autonomous EuroSAT cycle rejected a lower-scoring change and preserved the prior best, with checkpoint reload and independent backups verified. [M3 is complete](milestones/m3-improvement.md): reusable preparation/search tools and four bounded autonomous searches are verified, with selected checkpoints and independent backups. Validation gains remain single-seed/provisional. [M4 is in progress](milestones/m4-product.md): the simple composer and request/import preflight are verified; all four standalone packages passed CPU verification. The runner/supervisor passed CPU/process checks; package integration and live GPU acceptance remain pending, and public weight redistribution permission is unresolved. M5 remains unplanned in detail; test evaluation stays sealed.
+**Status:** [M1](milestones/m1-foundation.md), [M2](milestones/m2-engine.md), [M3](milestones/m3-improvement.md) and [M4](milestones/m4-product.md) are complete. M4 verified supported imports, durable bounded jobs, reconnect/stop, two live custom train→package paths, six standalone packages and the minimal conversation workspace. Validation remains provisional; the custom runs are synthetic integration fixtures, test evaluation stays sealed and public weight redistribution permission is unresolved. M5 remains unplanned in detail.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -134,15 +134,15 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M4. Make results usable
 
-**Detailed plan:** [M4 product plan](milestones/m4-product.md). Three tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal conversation workspace. Custom-manifest training integration is required; the UI must use the real engine. The request/import slice is verified; complete GPU-job/package integration is pending.
+**Detailed plan:** [M4 product plan](milestones/m4-product.md). Three tasks (4.1–4.3) cover standalone versioned packages/prediction, supported imports and durable bounded jobs, and the minimal conversation workspace. Custom-manifest training and the real UI/service path are verified.
 
-**UI preparation:** [M4 workspace handoff](milestones/m4-workspace.md). The minimal UI was approved and 4.2 authorized. Each subsequent step still requires its detailed plan and user confirmation before implementation.
+**UI:** [M4 workspace handoff](milestones/m4-workspace.md). Later user direction superseded the early dark concept with a neutral conversation timeline, compact composer and saved-chat sidebar.
 
 **Depends on:** M3's stable engine, saved candidates, prediction tools, and artifact records. UI design can begin earlier once M2's interfaces are stable.
 
 **Cover:** package models with weights, architecture/configuration, preprocessing, channel order, class mapping, dependencies, and prediction entry point. Add versions and export/download tools. Build the chat-style interface around the engine: supported dataset import, task description, live progress, results/decision summaries, prediction previews, comparisons, and export.
 
-**Product direction:** a restrained ChatGPT-style dark workspace: instructions and data attachment in the composer, runtime/resource controls, honest stage progress, inline single-image prediction, model/experiment history and one-click package download. Start with manifest ZIP uploads, registered SageMaker data and the four prepared benchmarks. Add custom-task runner wiring, persistent jobs and stop-after-current-experiment behavior. Detailed limits and first-version exclusions live in the M4 plan.
+**Product delivered:** a restrained neutral conversation workspace with instructions and data attachment in the composer, saved chat history, honest durable progress, inline single-image prediction, model/experiment history and package download. It supports manifest ZIP uploads, registered SageMaker data, prepared benchmarks, persistent custom-task jobs and stop-after-current-experiment behavior.
 
 **Tools and external checks:** choose UI/backend tools when planning this milestone. Begin with supported local uploads and dataset references; add S3 or other cloud imports only after checking permissions and formats. Use filesystem storage or verified S3 for artifacts. Interactive predictions use compatible user data or allowed validation examples, never the protected test split during development.
 

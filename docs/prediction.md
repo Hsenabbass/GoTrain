@@ -3,7 +3,7 @@
 All four retained packages passed CPU prediction/CLI verification on SageMaker at
 source ae7c246, outside the checkout with network/cache access denied. Predictions
 matched the original M3 builders exactly. Independent recovery transfer, member
-verification and restoration of all four package ZIPs passed. [M4 evidence](m4-evidence.json) records verified results and receipts.
+verification and restoration of all four retained package ZIPs passed. M4 also published one synthetic classification and one synthetic segmentation integration package under the same contract; both passed fresh isolated CPU parity with checkout/cache/network denied. [M4 evidence](m4-evidence.json) records verified results and receipts.
 
 ## Shared contract
 
