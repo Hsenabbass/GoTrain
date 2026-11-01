@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md), [M2](milestones/m2-engine.md), [M3](milestones/m3-improvement.md) and [M4](milestones/m4-product.md) are complete. M4 verification covers supported imports and clarification, bounded durable jobs, usable model packages, live UI workflows, targeted request/reconnect/chat-state guards and independent export/recovery checks. Validation remains provisional; custom fixtures prove integration, test splits remain sealed and packages remain private research artifacts while public redistribution permission is unresolved. M5 has not started and remains unplanned in detail.
+**Status:** [M1](milestones/m1-foundation.md), [M2](milestones/m2-engine.md), [M3](milestones/m3-improvement.md) and [M4](milestones/m4-product.md) are complete. M4 verification covers supported imports and clarification, bounded durable jobs, usable model packages, live UI workflows, targeted request/reconnect/chat-state guards and independent export/recovery checks. Validation remains provisional; custom fixtures prove integration, test splits remain sealed and packages remain private research artifacts while public redistribution permission is unresolved. [M5 is planned](milestones/m5-submission.md) around UI polish, brief release checks and slides/demo video; implementation has not started.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -152,13 +152,20 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M5. Finalize the submission
 
-**Depends on:** M3's validated model selection and evidence; M4's usable packages/demo. Optional UI polish must not delay required submission work.
+**Detailed plan:** [M5 submission plan](milestones/m5-submission.md). Three tasks:
+5.1 polish the minimal UI, 5.2 check/freeze the release, and 5.3 produce slides and
+a real demo video. Most effort goes to the interface and presentation.
 
-**Cover:** freeze one pipeline per task using validation evidence, run each test split once, and store final scores with complete logs. Finish reproducible setup/run instructions, clean the repository, assemble the presentation, and rehearse the demo. Describe the route to production/GoPilot and any unfinished extras.
+**Depends on:** completed M3/M4 evidence, retained pipelines and usable packages.
 
-**Tools and external checks:** use the protected GEO-Bench test evaluator on SageMaker, final artifact storage, GitHub, and presentation tooling. Confirm the exact deadline and submission/presentation format. After seeing test results, do not tune and test again.
+**Cover:** practical UI improvements, one focused release check, one final test
+evaluation per benchmark using frozen pipelines, and a concise slide deck/demo
+video. Reuse verified training and recovery work; no new search or retraining for
+footage. Preserve protected evaluation, budgets and private export restrictions.
 
-**Done when:** the GitHub repository, four final test scores with their logs, and presentation are ready for submission; a teammate can follow the instructions and use the exported models. Limitations and resource budgets are explicit.
+**Done when:** the polished UI, four final test scores/logs, editable slides/PDF,
+playable demo video and reproducible handoff are saved and consistent with GitHub.
+Organizer submission requirements take priority over optional polish.
 
 ## How we track progress
 
