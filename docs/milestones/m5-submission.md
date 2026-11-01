@@ -175,3 +175,27 @@ checks for workspace persistence, stale history/model responses and offline API
 isolation. Safari accessibility inspection verified the new UI loads; no
 screenshots, training or inference. Live deployment is still pending; user reviews
 localhost:5173 first. 5.1 remains open and uncommitted; 5.2 files untouched.
+
+
+### 5.1 live tiny-data verification — 2026-11-01
+
+Deployed UI on SageMaker and completed the user-requested real workflow at
+source `361e177`, using the existing synthetic red/blue dataset (4 train, 2 valid).
+Conversation `conversation_96899fead659441fa89d5cb85b84f697` produced one selected
+MobileNetV3-small candidate in about 37 seconds, with 14.552 GPU seconds charged.
+The agent used its reviewed 50-epoch default rather than the requested one epoch;
+the tiny run still completed quickly. Validation accuracy was 2/2, integration
+evidence only. No official test payloads accessed.
+
+Safari verified live progress, expandable experiment settings and selection reason,
+then Use model → Use validation example returned red (56.7%; uncalibrated).
+Package: `v1-113414a4f05394d02ed9558b`.
+Run: `job_c68edcf97c8542b4a139f1bef51e1111-trial_9288911a9c5944f4bab64028b8fbd9ed`.
+Ten local UI checks and 13 SageMaker admission checks passed. No screenshots.
+
+A user-authorized deadline-reserve exception was restricted to this conversation,
+dataset, capped limits and a 12:40 UTC expiry. Normal deadline and other guards
+remained active; all four prior jobs and 77.995 charged seconds were preserved.
+The temporary exception/code are removed after settlement; reconciliation receipts
+remain with runtime evidence. Independent recovery transfer is pending below.
+5.1 remains open for user review; 5.2 handoff was preserved.
