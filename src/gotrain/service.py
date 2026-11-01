@@ -1,4 +1,4 @@
-"""Same-origin request/import API. Training admission intentionally stays disabled.
+"""Same-origin request, bounded training and verified model delivery API.
 
 Serve only on loopback behind the existing authenticated SageMaker proxy.
 Local mode is an explicit non-agent development preview, never a cloud substitute.

@@ -18,5 +18,5 @@
   "minimum_runtime_seconds": 780,
   "minimum_gpu_seconds": 660,
   "minimum_model_requests": 6,
-  "training_enabled": false
+  "training_enabled": true
 }

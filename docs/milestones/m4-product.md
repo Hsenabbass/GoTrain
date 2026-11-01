@@ -334,3 +334,8 @@ download and operator import are implemented pending CPU/proxy/live verification
 The browser import operational cap is now 32 MiB pending boundary proof; larger
 prepared inputs use the approved operator path. Two explicitly synthetic custom
 tasks will establish integration, not real-world accuracy. No M5 test access.
+
+All 95 SageMaker CPU checks passed at 6b01867 (33.802 seconds), including fresh
+offline custom-package parity, prediction compatibility, publication failure,
+history/download and reserved-final-budget behavior. Training is now enabled for
+the authorized bounded live acceptance checks; their results remain pending.
