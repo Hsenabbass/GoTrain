@@ -241,6 +241,8 @@ package member hashes passed. No local ML execution occurred.
 Snapshot `20261101T103037574090Z-recovery.tar.gz` contains 89 files: source,
 selected checkpoint/record, job receipt and model ZIP. Cloud member verification
 passed, SHA-256 `2484d826fedcf8b32a7f0b2b3274d14acef591a7235dfb6d276448e392e3dc0a`.
-Safari is downloading `m4-visible-demo-recovery.tar.gz.bin` into the Mac's
-`Downloads/`. Receiver completion/hash/member verification is pending: this is
-a staged recovery snapshot, not yet a completed independent backup.
+Independent transfer completed: 103,207,263 bytes. Receiver whole-archive SHA-256
+matched SageMaker and all 89 member hashes passed. Saved under
+`/Users/hsen/Desktop/GoTrain-backups/snapshots/20261101T103037574090Z-recovery.tar.gz`
+with its `.sha256` sidecar. This is a verified independent recovery copy of the
+runtime source, selected checkpoint/record, job receipt and exported model.

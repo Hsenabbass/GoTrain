@@ -468,7 +468,11 @@
       "sha256": "2484d826fedcf8b32a7f0b2b3274d14acef591a7235dfb6d276448e392e3dc0a",
       "files": 89,
       "cloud_verified": true,
-      "receiver_verified": false
+      "receiver_verified": true,
+      "receiver_path": "/Users/hsen/Desktop/GoTrain-backups/snapshots/20261101T103037574090Z-recovery.tar.gz",
+      "bytes": 103207263,
+      "member_hashes_verified": 89,
+      "whole_archive_sha256_matches": true
     },
     "protected_test_access": false,
     "m5_started": false

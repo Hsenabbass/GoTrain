@@ -251,10 +251,10 @@ attachment→training→refresh/reconnect→prediction→history→download path
 The synthetic result is integration evidence, not an accuracy benchmark.
 **Remaining:** transient progress-read and cross-chat regressions, saved-data late
 attachment UI path, and the independent segmentation ZIP checksum receipt.
-**Recovery:** a new 89-file snapshot passed cloud verification; its independent
-transfer is still downloading. Do not claim a completed receiver backup yet.
-**Next action:** finish receiver hash/member verification, then the remaining scoped
-M4 checks when requested. Preserve budgets and test isolation; do not start M5.
+**Recovery:** the new 89-file snapshot passed cloud and independent receiver
+verification: complete SHA-256 and every member matched. Its permanent Mac path
+and checksum are recorded in [resources](../RESOURCES.md).
+**Next action:** perform the remaining scoped M4 checks when requested. Preserve budgets and test isolation; do not start M5.
 **Synchronization:** 4.2–4.3 stay open with the scoped live evidence. Runtime source
 is d60b46b; this documentation update records the demo without code changes.
 
