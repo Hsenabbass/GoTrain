@@ -181,6 +181,23 @@ class Requests:
             raise RequestError('Conversation not found', 404)
         return read_json(path)
 
+    def conversations(self):
+        """Return a compact, newest-first index without exposing request internals."""
+        rows = []
+        for path in (self.root / 'conversations').glob('conversation_*.json'):
+            try:
+                record = read_json(path)
+                first = next((item.get('content', '') for item in record.get('messages', [])
+                              if item.get('role') == 'user'), 'Untitled request')
+                title = ' '.join(first.split()) or 'Untitled request'
+                rows.append({'id': record['id'], 'title': title[:80],
+                             'status': record.get('status', 'draft'),
+                             'updated_at': record.get('updated_utc'),
+                             'dataset_id': record.get('dataset_id')})
+            except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+                continue
+        return sorted(rows, key=lambda row: row.get('updated_at') or '', reverse=True)
+
     def dataset(self, dataset):
         if dataset in self.benchmarks:
             return self.benchmarks[dataset]

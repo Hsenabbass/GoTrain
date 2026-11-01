@@ -189,6 +189,10 @@ def create_app(store=None, *, local=False, jobs=None):
         return store.submit(value.message, value.request_id, value.dataset_id,
                             value.limits, value.conversation_id)
 
+    @app.get('/api/conversations')
+    def conversations():
+        return store.conversations()
+
     @app.get('/api/conversations/{conversation_id}')
     def conversation(conversation_id: str):
         return store.get(conversation_id)

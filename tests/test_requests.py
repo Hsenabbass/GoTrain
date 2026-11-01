@@ -223,6 +223,9 @@ class RequestChecks(unittest.TestCase):
             response = client.post('/api/conversations', json=payload, headers=headers)
             self.assertEqual(response.status_code, 200, response.text)
             record = response.json()
+            history = client.get('/api/conversations').json()
+            self.assertEqual(history[0]['id'], record['id'])
+            self.assertEqual(history[0]['title'], 'classify land cover')
             self.assertEqual(client.get('/api/conversations/' + record['id']).json(), record)
             self.assertEqual(client.post('/api/conversations/' + record['id'] + '/start', headers=headers).status_code, 409)
             bad = {**payload, 'request_id': request_id(), 'limits': {'attempts': True}}

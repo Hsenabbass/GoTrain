@@ -3,8 +3,9 @@
 A compact chat timeline for the desired model and constraints, plus Upload
 dataset and Send. User and GoTrain messages remain in chronological order with
 timestamps. Persisted training updates report the current stage, elapsed time,
-attempts and model-request usage in the same timeline. There is no sidebar,
-dataset grid, game or simulated training/results.
+attempts and model-request usage in the same timeline. A simple history sidebar
+lists saved conversations and reopens them from the service. There is no dataset
+grid, game or simulated training/results.
 
 ## Connected service
 

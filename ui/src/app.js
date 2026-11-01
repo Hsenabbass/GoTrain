@@ -1,14 +1,15 @@
 const app = document.querySelector('#app');
 const storageKey = 'gotrain-message-draft-v1';
 const sessionKey = 'gotrain-request-session-v1';
-app.innerHTML = `<header class="topbar"><a class="brand" href="./">GoTrain</a><span id="connection">Connecting…</span></header>
-<main><section class="workspace" aria-labelledby="title"><div id="welcome" class="welcome"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg></div><h1 id="title">What would you like to build?</h1><p class="intro">Tell the agent your goal and constraints.</p></div>
+app.innerHTML = `<div class="shell"><aside id="sidebar" class="sidebar"><div class="sidebar-head"><a class="brand" href="./">GoTrain</a><button id="close-history" class="icon-button" type="button" aria-label="Close history">×</button></div><button id="new-chat" class="new-chat" type="button"><span>＋</span> New chat</button><p class="history-label">Chats</p><nav id="chat-history" aria-label="Chat history"><p class="history-empty">No chats yet</p></nav><div id="connection" class="connection">Connecting…</div></aside><div id="sidebar-shade" class="sidebar-shade"></div>
+<section class="chat"><header class="topbar"><button id="open-history" class="icon-button" type="button" aria-label="Open history">☰</button><span>GoTrain</span><span id="mobile-connection">Connecting…</span></header>
+<main><section class="workspace" aria-labelledby="title"><div id="welcome" class="welcome"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg></div><h1 id="title">What do you want to train?</h1><p class="intro">Describe the outcome, dataset, and constraints. GoTrain will clarify the request before any training starts.</p></div>
 <section id="request-state" class="conversation" aria-label="Conversation" aria-live="polite" hidden></section>
 <p id="status" class="status" role="status" aria-live="polite"></p>
-<form id="message-form"><label class="sr-only" for="message">Message to the agent</label><textarea id="message" name="message" rows="3" maxlength="4000" placeholder="Message GoTrain about your model, data, and constraints…" aria-describedby="preview-note"></textarea>
+<div class="composer-wrap"><form id="message-form"><label class="sr-only" for="message">Message to the agent</label><textarea id="message" name="message" rows="2" maxlength="4000" placeholder="Message GoTrain…" aria-describedby="preview-note"></textarea>
 <div id="attachment" class="attachment" hidden><span id="filename"></span><button id="remove-file" type="button" aria-label="Remove selected dataset">×</button></div>
 <div class="composer-actions"><label class="upload-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5"/></svg><span>Upload dataset</span><input id="dataset" type="file" accept=".zip,application/zip" aria-label="Upload dataset" aria-describedby="preview-note"></label><button class="send-button" id="send" type="submit" disabled>Send <span aria-hidden="true">↑</span></button></div></form>
-<p id="preview-note" class="note">Checking workspace availability…</p><section id="extras" class="tools" aria-label="Other options"></section></section></main>`;
+<p id="preview-note" class="note">Checking workspace availability…</p><section id="extras" class="tools" aria-label="Other options"></section></div></section></main></section></div>`;
 const message = document.querySelector('#message');
 const dataset = document.querySelector('#dataset');
 const send = document.querySelector('#send');
@@ -19,6 +20,8 @@ let jobPoll = 0;
 const extras = document.querySelector('#extras');
 let modelList = [];
 let session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
+const sidebar = document.querySelector('#sidebar');
+const historyNav = document.querySelector('#chat-history');
 function persist() {
   try {
     localStorage.setItem(storageKey, message.value);
@@ -59,6 +62,39 @@ function displayTime(value) {
   if (!value) return 'Earlier';
   const date = new Date(value);
   return Number.isNaN(date.valueOf()) ? 'Earlier' : date.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+}
+function resetRequest() {
+  jobPoll += 1;
+  session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
+  dataset.value = ''; message.value = '';
+  message.placeholder = 'Message GoTrain…';
+  panel.hidden = true; panel.replaceChildren();
+  document.querySelector('#welcome').hidden = false;
+  status.textContent = ''; showAttachment(); persist(); updateSend(); message.focus();
+  historyNav.querySelectorAll('[aria-current]').forEach(item => item.removeAttribute('aria-current'));
+  sidebar.classList.remove('open');
+}
+async function loadHistory() {
+  if (!connected) return;
+  const rows = await api('conversations');
+  historyNav.replaceChildren();
+  if (!rows.length) { const empty = text('p', 'No chats yet', historyNav); empty.className = 'history-empty'; return; }
+  for (const row of rows) {
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'history-item';
+    if (row.id === session.conversationId) button.setAttribute('aria-current', 'page');
+    const title = text('span', row.title, button); title.className = 'history-title';
+    const meta = text('small', `${displayTime(row.updated_at)} · ${row.status.replaceAll('_', ' ')}`, button); meta.className = 'history-meta';
+    button.addEventListener('click', async () => {
+      status.textContent = '';
+      try {
+        const record = await api('conversations/' + encodeURIComponent(row.id));
+        session.jobRequested = false;
+        try { const state = await api(`conversations/${row.id}/job`); session.jobRequested = Boolean(state?.status); } catch { /* No job belongs to this chat. */ }
+        showRecord(record); sidebar.classList.remove('open'); await loadHistory();
+      } catch (error) { status.textContent = error.message; }
+    });
+    historyNav.append(button);
+  }
 }
 function chatMessage(role, content, createdAt, className = '') {
   const row = document.createElement('article');
@@ -114,18 +150,10 @@ function showRecord(record) {
     const reset = text('button', 'New request');
     reset.type = 'button';
     reset.className = 'new-request';
-    reset.addEventListener('click', () => {
-      session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
-      dataset.value = '';
-      message.value = '';
-      message.placeholder = 'Explain what you want the model to do, the data you have, and any time or compute limits.';
-      panel.hidden = true;
-      document.querySelector('#welcome').hidden = false;
-      status.textContent = '';
-      showAttachment(); persist(); updateSend(); message.focus();
-    });
+    reset.addEventListener('click', resetRequest);
   }
   persist();
+  loadHistory().catch(() => {});
   if (session.jobRequested) watchJob();
 }
 
@@ -316,6 +344,10 @@ document.querySelector('#remove-file').addEventListener('click', () => {
   session.datasetId = session.datasetName = null;
   showAttachment(); persist();
 });
+document.querySelector('#new-chat').addEventListener('click', resetRequest);
+document.querySelector('#open-history').addEventListener('click', () => sidebar.classList.add('open'));
+document.querySelector('#close-history').addEventListener('click', () => sidebar.classList.remove('open'));
+document.querySelector('#sidebar-shade').addEventListener('click', () => sidebar.classList.remove('open'));
 document.querySelector('#message-form').addEventListener('submit', async event => {
   event.preventDefault();
   if (!message.value.trim() || busy) return;
@@ -362,11 +394,14 @@ async function connect() {
     health = await api('health');
     connected = health.service === 'gotrain';
     document.querySelector('#connection').textContent = health.preflight_enabled ? 'SageMaker connected' : 'Service preview';
+    document.querySelector('#mobile-connection').textContent = health.preflight_enabled ? 'Connected' : 'Preview';
     document.querySelector('#preview-note').textContent = 'Attach a labeled manifest ZIP, or name a prepared dataset. Sending checks the request before any training.';
     if (session.conversationId) showRecord(await api('conversations/' + encodeURIComponent(session.conversationId)));
+    await loadHistory();
     await loadSavedOptions();
   } catch {
     document.querySelector('#connection').textContent = 'Design preview';
+    document.querySelector('#mobile-connection').textContent = 'Offline';
     document.querySelector('#preview-note').textContent = 'Preview only. Messages and selected files stay on this device until the service is connected.';
   }
   showAttachment(); updateSend();
