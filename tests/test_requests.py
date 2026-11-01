@@ -164,6 +164,45 @@ class RequestChecks(unittest.TestCase):
         self.assertTrue(all(message.get('created_at') for message in second['messages']))
         self.assertEqual(second['status'], 'ready_for_review')
 
+    def test_late_saved_dataset_preserves_draft_and_duplicate_reply_charge(self):
+        self.agent(decision('needs_input', dataset=None, questions=['Attach data.']))
+        first = self.store.submit('Classify the image labels.', request_id())
+        self.assertIsNone(first['dataset_id'])
+        self.agent(decision())
+        key = request_id()
+        second = self.store.submit('Use these labels.', key, 'm-eurosat',
+                                   conversation=first['id'])
+        again = self.store.submit('Use these labels.', key, 'm-eurosat',
+                                  conversation=first['id'])
+        self.assertEqual(first['id'], second['id'])
+        self.assertEqual(first['limits'], second['limits'])
+        self.assertEqual(second['dataset_id'], 'm-eurosat')
+        self.assertEqual(second['model_requests'], 2)
+        self.assertEqual(second, again)
+        self.assertEqual(len(second['messages']), 3)
+        with self.assertRaises(RequestError):
+            self.store.submit('Change frozen request.', request_id(), 'm-eurosat',
+                              conversation=second['id'])
+
+    def test_late_attachment_rejects_invalid_ids_replacements_and_limit_changes(self):
+        self.agent(decision('needs_input', dataset=None, questions=['Attach data.']))
+        first = self.store.submit('Classify the image labels.', request_id())
+        for dataset, limits in [('dataset_' + '0' * 32, None),
+                                ('m-eurosat', {'attempts': 1})]:
+            with self.assertRaises(RequestError):
+                self.store.submit('Use data.', request_id(), dataset, limits,
+                                  conversation=first['id'])
+        unchanged = self.store.get(first['id'])
+        self.assertIsNone(unchanged['dataset_id'])
+        self.assertEqual(unchanged['model_requests'], first['model_requests'])
+        self.agent(decision('needs_input', questions=['Clarify the target.']))
+        bound = self.store.submit('Use these labels.', request_id(), 'm-eurosat',
+                                  conversation=first['id'])
+        with self.assertRaises(RequestError):
+            self.store.submit('Replace dataset.', request_id(), 'm-brick-kiln',
+                              conversation=bound['id'])
+        self.assertEqual(self.store.get(bound['id'])['model_requests'], 2)
+
     def test_four_wire_calls_are_a_persistent_cap_even_on_failure(self):
         def broken(_context, reserve, _receipt):
             reserve()

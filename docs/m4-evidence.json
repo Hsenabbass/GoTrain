@@ -492,5 +492,60 @@
       "Saved-data late attachment live UI path remains pending",
       "122484302-byte segmentation ZIP independent download checksum remains pending; three-minute time box precludes transfer at observed speed"
     ]
+  },
+  "closure_checks": {
+    "date": "2026-11-01",
+    "runtime_source_commit": "d60b46bb482b01570a2bb8962fe77eec0bd7e963",
+    "backend": {
+      "environment": "SageMaker verified service Python; explicit non-ML interpreter/decoder doubles",
+      "command": "python -m unittest discover -s artifacts/runs/m4-close-checks -p test_requests.py -v",
+      "passed": 17,
+      "seconds": 1.797,
+      "new_cases": [
+        "Late saved-data binding preserves draft, limits and charged calls; duplicate reply is idempotent; frozen request rejects edits",
+        "Invalid dataset ID, changed limits and existing dataset replacement rejected without extra charge"
+      ]
+    },
+    "ui": {
+      "command": "node tests/test_ui_reconnect.cjs",
+      "environment": "Local Node VM; real app functions with minimal DOM, mocked API and timers",
+      "passed": 6,
+      "coverage": [
+        "Transient GET retry recovers without Start replay",
+        "Stale progress response ignored after switching chat",
+        "Distinct persisted A/B start IDs; A reused on return",
+        "History handler restores attachment/limits and clears prior file/message/pending state; job 404 permits draft",
+        "Job 503 preserves selected chat and displays failure instead of treating job as missing",
+        "Navigation blocked during submission"
+      ],
+      "limitation": "Network failure and racing responses simulated deterministically, not induced on the live production connection"
+    },
+    "live_browser": {
+      "environment": "Safari authenticated SageMaker service",
+      "passed": [
+        "Classification to segmentation chat restored segmentation data and 20/15-minute limits with stopped selected model",
+        "Return to classification restored its own data, 13/11-minute limits, same completed model and disabled Start",
+        "Saved-data selection attached the existing six-image import to an unresolved hello draft; reply reached ready_for_review without training"
+      ],
+      "saved_data_conversation": "conversation_ea964595506c43b498e7425566b39969",
+      "saved_data_model_requests_before": 2,
+      "saved_data_model_requests_after": 4,
+      "saved_data_limits": {
+        "runtime_seconds": 1200,
+        "gpu_seconds": 900,
+        "attempts": 5,
+        "model_requests": 24
+      }
+    },
+    "accounting": {
+      "m1_m2_m3_ledger_hashes_unchanged": true,
+      "m4_charged_seconds": 77.99484466199647,
+      "active_reservation": null,
+      "new_training_attempts": 0,
+      "protected_test_access": false
+    },
+    "pending": [
+      "Independent segmentation ZIP download SHA-256 verification"
+    ]
   }
 }
