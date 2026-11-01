@@ -1,7 +1,7 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-class E {constructor(){this.value='';this.files=[];this.children=[];this.handlers={};this.classList={remove(){}};}append(...x){this.children.push(...x)}replaceChildren(){this.children=[]}setAttribute(){}removeAttribute(){}querySelectorAll(){return []}addEventListener(k,f){this.handlers[k]=f}focus(){}}
+class E {constructor(){this.value='';this.files=[];this.children=[];this.handlers={};this.classList={remove(){}};}append(...x){this.children.push(...x)}insertBefore(child,before){const i=this.children.indexOf(before);this.children.splice(i<0?this.children.length:i,0,child)}querySelector(){return null}replaceChildren(){this.children=[]}setAttribute(){}removeAttribute(){}querySelectorAll(){return []}addEventListener(k,f){this.handlers[k]=f}focus(){}}
 const els=new Map(),storage=new Map(),timers=[],calls=[];let fail=false,waiter=null,router=null;
-const context={document:{querySelector:s=>{if(!els.has(s))els.set(s,new E());return els.get(s)},createElement:()=>new E(),baseURI:'http://example/'},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},crypto:{randomUUID:require('crypto').randomUUID},URL,Date,Number,Boolean,JSON,Math,setTimeout:(f,ms)=>timers.push({f,ms}),fetch:async(url,opts)=>{const path=url.pathname;calls.push([path,opts.method||'GET',opts.body]);if(router)return router(path,opts);if(path.endsWith('/job')){if(waiter)return waiter;if(fail){fail=false;throw Error('network')}return{ok:true,json:async()=>({status:'ready',attempts:1})}}return{ok:true,json:async()=>[]}}};
+const context={document:{querySelector:s=>{if(!els.has(s))els.set(s,new E());return els.get(s)},createElement:()=>new E(),createTextNode:value=>({textContent:value}),baseURI:'http://example/'},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},crypto:{randomUUID:require('crypto').randomUUID},URL,Date,Number,Boolean,JSON,Math,setTimeout:(f,ms)=>timers.push({f,ms}),fetch:async(url,opts)=>{const path=url.pathname;calls.push([path,opts.method||'GET',opts.body]);if(router)return router(path,opts);if(path.endsWith('/job')){if(waiter)return waiter;if(fail){fail=false;throw Error('network')}return{ok:true,json:async()=>({status:'ready',attempts:1})}}return{ok:true,json:async()=>[]}}};
 vm.createContext(context);let source=fs.readFileSync('ui/src/app.js','utf8');source=source.replace(/connect\(\);\s*$/, '');vm.runInContext(source,context);
 const run=x=>vm.runInContext(x,context),flush=()=>new Promise(r=>setImmediate(r));
 (async()=>{
@@ -21,5 +21,41 @@ jobError=503;await run('historyNav.children[0].handlers.click()');await flush();
 console.log('PASS connection error preserves current chat rather than treating job as missing');
 const count=calls.length;run('busy=true');await run('historyNav.children[0].handlers.click()');assert.equal(calls.length,count);run('busy=false');
 console.log('PASS history navigation blocked during active submission');
+
+// Workspace views must stay independent from polling and stale responses.
+run('session={conversationId:"A",jobRequested:true,limits:{}};currentModelVersion=null;resetBench()');
+let historyResolve;
+router=async path=>path.endsWith('/history')?new Promise(r=>historyResolve=r):response([]);
+const pendingHistory=run('selectWorkspaceTab("experiments")');await flush();
+run('chatNavigation++;session={conversationId:"B",jobRequested:false,limits:{}};resetBench()');
+historyResolve(response({experiments:[{run_id:'old-A',status:'completed',recipe:{candidate:'WRONG CHAT'}}],decisions:[]}));await pendingHistory;
+assert.equal(run('document.querySelector("#experiments-content").children.length'),0);
+console.log('PASS stale experiment response cannot leak across tasks');
+const model={version:'v-test',label:'Fixture classifier',task_spec:{width:32,height:32,channels:3,band_names:['R','G','B'],input_divisors:[255,255,255]},validation:{primary_name:'accuracy',primary:.8},class_names:['a','b']};
+router=async path=>response(path==='/api/models'?[model]:{experiments:[],decisions:[]});
+await run('openModel("v-test")');
+const modelPanel=run('document.querySelector("#model-content").children[0]');
+await run('selectWorkspaceTab("overview")');
+run('renderRun({status:"running",stage:"Comparing",attempts:1},"B",true)');
+await run('selectWorkspaceTab("model")');
+assert.strictEqual(run('document.querySelector("#model-content").children[0]'),modelPanel);
+assert.equal(run('activeTab'),'model');
+assert.equal(run('document.querySelector("#bench-content").hidden'),true);
+console.log('PASS model controls survive tab switches and background run updates');
+let modelResolve;
+router=async()=>new Promise(r=>modelResolve=r);
+const pendingModel=run('openModel("v-test")');await flush();
+await run('selectWorkspaceTab("overview")');modelResolve(response([model]));await pendingModel;
+assert.equal(run('activeTab'),'overview');
+console.log('PASS delayed model load does not steal the selected workspace tab');
+const beforePreview=calls.length;
+run('connected=false;session={demo:true,previewElapsed:30};currentModelVersion=null;loadedModelVersion=null');
+await run('selectWorkspaceTab("experiments")');await run('selectWorkspaceTab("model")');
+assert.equal(calls.length,beforePreview);
+const labels=xs=>xs.flatMap(x=>[x.textContent||'',labels(x.children||[])]).join(' ');
+assert.match(labels(run('document.querySelector("#experiments-content").children')),/Illustrative/);
+assert.match(labels(run('document.querySelector("#experiments-content").children')),/Decision log/);
+assert.match(labels(run('document.querySelector("#model-content").children')),/does not produce a model/);
+console.log('PASS offline experiment preview is labelled and makes no API calls');
 
 })().catch(e=>{console.error(e);process.exitCode=1});

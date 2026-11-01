@@ -1,11 +1,14 @@
 # GoTrain message interface
 
-A compact chat timeline for the desired model and constraints, plus Upload
-dataset and Send. User and GoTrain messages remain in chronological order with
-timestamps. Persisted training updates report the current stage, elapsed time,
-attempts and model-request usage in the same timeline. A simple history sidebar
-lists saved conversations and reopens them from the service. There is no dataset
-grid, game or simulated training/results.
+A conversation workspace for task instructions and clarification, with a left
+workflow rail and a compact right task panel. Overview, Experiments and Use model
+are persistent tabs. Run updates change in place; experiment records expose
+candidate configurations, validation metrics, failures and selection decisions.
+Model inputs and predictions survive tab switches. The panel uses a neutral slate
+palette with indigo accents and is capped at 480px on wide screens.
+
+Saved conversations reopen from the service. The disconnected preview offers an
+explicitly labelled UI simulation only; it does not train or predict.
 
 ## Connected service
 
@@ -63,3 +66,38 @@ history state restoration, connection errors and busy navigation. Live Safari
 verified chat switching and saved-data clarification. Network failures were
 simulated in fixtures; no production network fault was induced. See the current
 [M4 handoff](../docs/milestones/m4-product.md#handoff) before final sign-off.
+
+## M5 UI review (in progress)
+
+The local UI now separates conversation from a right-hand proposal/run/model
+workspace, with a left workflow rail, consistent actions, stable run counters,
+ranked classification probabilities and a larger segmentation viewer. Only
+observed stages receive completion marks; missing historical stages are labelled
+not recorded. Existing request, prediction, metric and budget contracts remain.
+
+JavaScript syntax and ten deterministic UI checks pass locally (six recovery checks plus four workspace/navigation checks).
+User visual review, live-service verification, responsive/keyboard review and
+5.3 screenshots/captions remain pending. No new training or inference was run.
+SageMaker still serves the previous UI; this revision is available locally at
+http://localhost:5173 for design review only. No screenshots captured and 5.1
+is not complete.
+
+The disconnected preview includes a replayable 30-second UI simulation for visual
+review. Its stages, counters and decision text are explicitly illustrative; it
+makes no training/prediction requests and produces no package or score. Changing
+conversation cancels playback. This is not live-service verification.
+
+### Rework review
+
+Experiments is available during and after runs via the existing read-only history
+API. It is a snapshot: Refresh retrieves subsequent results without collapsing
+open candidates on every poll. A selected model's history uses the active task's
+full history when applicable, or its package history when opened independently.
+Missing records/metrics are labelled, never inferred. The preview includes two
+illustrative candidates with no scores and an example decision explanation.
+
+Verified locally: stale history responses are discarded after chat changes;
+model inputs survive tab changes and background updates; delayed model loads do
+not change the selected tab; offline history/model views make no API calls.
+Safari accessibility inspection confirmed the persistent tabs and preview flow.
+Visual approval, live SageMaker verification and screenshot handoff remain pending.

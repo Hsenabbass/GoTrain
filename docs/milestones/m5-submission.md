@@ -1,6 +1,6 @@
 # M5: Polish the experience and prepare the presentation
 
-**Status:** Planned; implementation not started.
+**Status:** 5.1 implemented locally for user review; not complete. 5.2/5.3 status remains tracked independently.
 **GitHub:** [M5](https://github.com/Hsenabbass/GoTrain/milestone/5)
 **Direction:** [Project plan](../PROJECT_PLAN.md#m5-finalize-the-submission)
 
@@ -130,14 +130,47 @@ artifacts using [storage and recovery](../storage.md) and record actual location
 ## Handoff
 
 **Last updated:** 2026-11-01.
-**Current state:** Three open implementation issues created in M5; plan only.
+**Current state:** Three open implementation issues. 5.1 local UI revision awaits user review; see review handoff below.
 **Blockers:** None for parallel 5.1/5.2. Final official test scores and organizer
 media requirements remain submission-readiness items, separate from tiny smoke checks.
-**Next action:** User starts 5.1 and friend starts 5.2 independently; 5.3 follows both.
-**Synchronization:** Plan and GitHub issues agree; no implementation started.
+**Next action:** User reviews 5.1 in Safari; live verification and screenshots follow review. Friend proceeds independently with 5.2; 5.3 follows both handoffs.
+**Synchronization:** Local 5.1 changes are uncommitted; GitHub issue remains open. No completion or screenshot handoff claimed.
 
 ## Completion
 
 Pending task deliverables and saved/synchronized evidence. Do not mark the overall
 submission complete while required official test scores or other brief items are
 missing; record any organizer-approved change explicitly.
+
+### 5.1 review handoff — 2026-11-01
+
+User authorized implementation of the researched three-area UI direction, with
+screenshots and completion explicitly deferred until their review. Local UI
+implementation is in progress on main: workflow rail, separate conversation and
+right-hand proposal/run/model workspace, clearer controls and model presentation.
+JavaScript syntax and all six existing deterministic UI recovery checks passed.
+No training, inference, protected test access or screenshots. The live SageMaker
+UI has not been updated: Safari's upload dialog did not permit the transfer.
+Local design preview is the immediate review surface; live verification and
+screenshot/caption handoff to 5.3 remain pending. 5.2 remains independent.
+
+User requested a quick running-workflow preview. Added a labelled, replayable
+30-second offline UI simulation; counters and stages are illustrative. Syntax and
+six recovery checks still pass. This does not establish live execution or change
+5.1's pending review/completion status.
+
+### 5.1 compact workspace rework — awaiting review
+
+User requested a narrower right panel, persistent candidate/decision access and
+no green. Replaced the accumulated styles with a unified neutral slate/indigo
+layout; desktop task panel is capped at 480px. Overview, Experiments and Use model
+tabs retain their content while run counters update. Existing history APIs now
+surface expandable candidates, settings, metrics, failures and a decision log;
+Refresh retrieves new records. Offline demo contains labelled illustrative
+candidate records without fabricated scores. No backend/API changes.
+
+Local syntax checks and ten deterministic UI checks passed, including four new
+checks for workspace persistence, stale history/model responses and offline API
+isolation. Safari accessibility inspection verified the new UI loads; no
+screenshots, training or inference. Live deployment is still pending; user reviews
+localhost:5173 first. 5.1 remains open and uncommitted; 5.2 files untouched.
