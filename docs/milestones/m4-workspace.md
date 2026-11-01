@@ -1,66 +1,26 @@
-# M4: Make results usable
+# M4 workspace: UI preparation record
 
-**Status:** UI design accepted; integrated on main. Backend status is owned by [M4 product handoff](m4-product.md).
+**Status:** UI preparation was accepted and integrated on main. Current M4 scope,
+verification and next action are owned by the [M4 product handoff](m4-product.md#handoff).
 **GitHub:** [M4](https://github.com/Hsenabbass/GoTrain/milestone/4)
-**Direction:** [Project plan](../PROJECT_PLAN.md#m4-make-results-usable)
 
-## Outcome and scope
+## Accepted direction
 
-Make the M3 engine and selected models usable through a minimal message interface,
-model packages, predictions and exports. Final test evaluation stays in M5.
+The original simplified composer preview was approved on 2026-10-31. Later user
+instructions added a neutral conversation timeline and saved-chat sidebar. The
+workspace now connects supported attachments and task clarification to bounded
+jobs, progress, prediction, model history and downloads. There is no dataset grid,
+game, dashboard or simulated result.
 
-User direction, 2026-10-31: simplify the UI first, show it for confirmation, then
-present a detailed plan and obtain confirmation before each implementation step.
-Update GitHub issues and shared documentation after completed work.
+Early per-step confirmation gates were superseded by authorization for the
+remaining M4 implementation. All work stays on main; agent/training execution
+stays on SageMaker. Source history preserves the original preview and decisions.
+The disconnected local preview remains a design view, not a live training service.
 
-## Work sequence
+## Current handoff
 
-| Step / issue | Scope | Completion check |
-| --- | --- | --- |
-| [4.1: Simplify the UI for the agreed workspace scope](https://github.com/Hsenabbass/GoTrain/issues/18) | One message composer, dataset selection and Send; no extra navigation or dashboards | Local syntax/browser checks and reviewable preview. Design accepted; source integrated on main. |
-
-Next backend step remains unapproved; present its detailed plan after UI review.
-
-## Decisions and boundaries
-
-The latest user request supersedes the earlier four-dataset sidebar and three-view
-UI proposal: users should describe their goal and constraints in one message and
-attach a dataset. Preserve the neutral visual style. Remove dataset cards, view
-tabs, game, artificial results, progress simulation and fake exports.
-
-The file chooser currently selects a local file only. Send displays an explicit
-not-connected status; no message or file is transmitted. Draft text persists
-locally; file selections do not persist. No arbitrary file formats are advertised
-as trainable. No cloud jobs, package installations or backend changes occur here.
-
-The engine still supports four registered benchmark tasks; new dataset autonomous
-training requires format validation, trusted registration/reference setup and
-runner wiring. M3's manifest preparation API is not a complete upload-to-training
-path. Plan this gap explicitly before activating upload/send integration. Natural
-language constraints must be translated to allowed typed settings and enforced
-by the existing trusted controller, not treated as new permissions or budget caps.
-
-Model packaging still needs architecture/preprocessing/provenance preservation,
-weight-term review and removal or packaging of cached initialization dependencies.
-M1/M2/M3 usage stays intact; completed M3 sessions must not be restarted.
-
-## Verification and evidence
-
-Local Node syntax and whitespace checks; desktop/mobile browser review of message
-entry, disabled empty Send, explicit disconnected submission, draft persistence,
-file selection/removal and layout. See the issue and [UI instructions](../../ui/README.md).
-No SageMaker/GPU/Bedrock results are claimed for this design change.
-
-## Handoff
-
-**Last updated:** 2026-11-01.
-**Current state:** message-only UI accepted and integrated on main. Its real service
-can validate requests/imports and ask necessary questions; see [service guide](../service.md).
-**Blockers:** complete GPU-job and package integration remain pending in 4.2.
-**Next action:** follow the authoritative [M4 product handoff](m4-product.md).
-**Synchronization:** UI issue closed after user acceptance; future work is on main.
-
-## Completion
-
-UI preparation is complete; M4 is not. Each later step still requires the agreed
-plan/confirmation gate. Final-test evaluation remains M5.
+Earlier core acceptance and recovery receipts are in [M4 evidence](../m4-evidence.json).
+The latest missing-attachment, reconnect and chat-switch fixes are implemented but
+untested at the user's request. The custom segmentation package's independent
+download hash remains pending. 4.2–4.3 stay open for these checks; M5 has not started.
+Do not treat previous cloud checks as verification of the follow-up source changes.

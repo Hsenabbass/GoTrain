@@ -7,6 +7,11 @@ It admits only frozen, feasible requests through the shared M4 ledger and lock.
 Live classification and segmentation fixtures completed bounded train-to-package
 acceptance. Training stays on SageMaker; test data remains sealed.
 
+Current follow-up attachment/reconnect/chat-switch fixes are implemented but
+untested; see the [M4 handoff](milestones/m4-product.md#handoff). The dated step
+records below describe earlier configurations, not the current training flag or
+verification of the follow-up code. M5 has not started.
+
 ## Run
 
 On the canonical SageMaker checkout, reuse the verified environment. Do not upgrade
@@ -97,7 +102,10 @@ EuroSAT, Brick-Kiln, PV4GER-Seg or Chesapeake lets preflight choose that registe
 reference. Other URLs and arbitrary server paths are unsupported.
 
 The agent checks intent against labels/metadata and asks necessary questions.
-Replies retain the same conversation, attachment and limits. Up to four wire
+Replies retain the same conversation, attachment and limits. A draft/needs-input
+conversation that has no dataset can bind a validated upload or saved-data ID
+on its next reply; an attached dataset cannot be replaced and frozen requests
+remain immutable. This follow-up change awaits deferred regression checks. Up to four wire
 requests are charged before invocation, including failed calls, against the same
 overall model allowance. Prompt/context hashes and returned usage receipts are
 retained. Receipts may be incomplete after interrupted responses; no billing or
@@ -108,8 +116,8 @@ Request defaults and ceilings are versioned in `configs/service.json`: 20-minute
 runtime (max 40), 15-minute GPU allowance (max 25), five attempts and 24 model
 requests. Text may propose lower limits; it cannot increase them. The proposed
 workflow needs at least 780 seconds runtime, 660 GPU seconds and six remaining
-model calls; smaller requests remain blocked. Actual cost probes and global M4
-admission/usage are still pending; a preflight summary does not reserve resources.
+model calls; smaller requests remain blocked. Global M4 admission/accounting is implemented; a preflight summary itself does
+not reserve resources. Earlier live acceptance is recorded in M4 evidence.
 
 States implemented here: draft, checking, needs_input and ready_for_review.
 `GET api/conversations/<id>` reconnects without model calls or usage resets.

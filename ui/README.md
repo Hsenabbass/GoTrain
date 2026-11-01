@@ -48,3 +48,14 @@ is needed for this design-only mode.
 Run npm run check from ui/, or node --check on src/app.js and server.mjs.
 Backend verification and current restrictions are recorded in [M4 evidence](../docs/m4-evidence.json).
 All agent and ML execution stays on the provided SageMaker instance.
+
+## Follow-up implementation (verification deferred)
+
+Unresolved chats without a dataset can attach one in a reply. Existing attachments
+and frozen requests remain protected. Transient progress-read failures retry with
+backoff without sending Start again. Training-start request IDs use the separate
+`gotrain-start-requests-v1` browser storage map, keyed by conversation; history
+navigation clears another chat's file/pending state before restoring the selection.
+These fixes have only been statically reviewed. Tests and browser exercises were
+explicitly deferred by the user; no new live deployment is claimed. See the current
+[M4 handoff](../docs/milestones/m4-product.md#handoff) before final sign-off.

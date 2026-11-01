@@ -225,5 +225,6 @@ Independent snapshot `20261101T011658427603Z-recovery.tar.gz` is 761,801,322 byt
 with SHA-256 `f8f21322ddf71750c5d627ffe8accd6fa974c2037f8802f416e4855401684769`.
 The receiver verified all 174 members and restored both selected `best.pt`
 checkpoints plus the acceptance record byte-for-byte. The classification package
-was independently received and hash-verified. The segmentation package uses the
-same private-artifact transfer route and checksum recorded in M4 evidence.
+was independently received and hash-verified. The segmentation package has a checksum recorded in M4 evidence, but its
+independent download hash is still unverified. Both selected checkpoints were
+restored; this is not a receipt for independent download verification of that ZIP.

@@ -1,6 +1,7 @@
 const app = document.querySelector('#app');
 const storageKey = 'gotrain-message-draft-v1';
 const sessionKey = 'gotrain-request-session-v1';
+const startsKey = 'gotrain-start-requests-v1';
 app.innerHTML = `<div class="shell"><aside id="sidebar" class="sidebar"><div class="sidebar-head"><a class="brand" href="./">GoTrain</a><button id="close-history" class="icon-button" type="button" aria-label="Close history">×</button></div><button id="new-chat" class="new-chat" type="button"><span>＋</span> New chat</button><p class="history-label">Chats</p><nav id="chat-history" aria-label="Chat history"><p class="history-empty">No chats yet</p></nav><div id="connection" class="connection">Connecting…</div></aside><div id="sidebar-shade" class="sidebar-shade"></div>
 <section class="chat"><header class="topbar"><button id="open-history" class="icon-button" type="button" aria-label="Open history">☰</button><span>GoTrain</span><span id="mobile-connection">Connecting…</span></header>
 <main><section class="workspace" aria-labelledby="title"><div id="welcome" class="welcome"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg></div><h1 id="title">What do you want to train?</h1><p class="intro">Describe the outcome, dataset, and constraints. GoTrain will clarify the request before any training starts.</p></div>
@@ -17,6 +18,8 @@ const status = document.querySelector('#status');
 const panel = document.querySelector('#request-state');
 let connected = false, busy = false, health = null;
 let jobPoll = 0;
+let chatNavigation = 0;
+let startRequests = {};
 const extras = document.querySelector('#extras');
 let modelList = [];
 let session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
@@ -26,16 +29,21 @@ function persist() {
   try {
     localStorage.setItem(storageKey, message.value);
     localStorage.setItem(sessionKey, JSON.stringify(session));
+    localStorage.setItem(startsKey, JSON.stringify(startRequests));
   } catch { /* The request still works without browser storage. */ }
 }
 try {
   message.value = localStorage.getItem(storageKey) || '';
   const saved = JSON.parse(localStorage.getItem(sessionKey));
   if (saved && typeof saved === 'object') session = {...session, ...saved};
+  const starts = JSON.parse(localStorage.getItem(startsKey));
+  if (starts && typeof starts === 'object' && !Array.isArray(starts)) startRequests = starts;
+  if (session.conversationId && session.startRequest) startRequests[session.conversationId] ||= session.startRequest;
 } catch { /* Storage is optional. */ }
 function updateSend() {
   send.disabled = busy || !connected || !message.value.trim();
   message.disabled = dataset.disabled = document.querySelector('#remove-file').disabled = busy;
+  document.querySelector('#new-chat').disabled = busy;
   send.textContent = busy ? 'Checking…' : 'Send ↑';
 }
 function showAttachment() {
@@ -49,7 +57,11 @@ async function api(path, options = {}) {
     ...options, headers: {'X-GoTrain-Request': '1', ...options.headers},
   });
   const value = await response.json();
-  if (!response.ok) throw new Error(typeof value.detail === 'string' ? value.detail : 'The request was invalid. Check your message, dataset and limits.');
+  if (!response.ok) {
+    const error = new Error(typeof value.detail === 'string' ? value.detail : 'The request was invalid. Check your message, dataset and limits.');
+    error.status = response.status;
+    throw error;
+  }
   return value;
 }
 function text(tag, value, parent = panel) {
@@ -64,6 +76,8 @@ function displayTime(value) {
   return Number.isNaN(date.valueOf()) ? 'Earlier' : date.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
 }
 function resetRequest() {
+  if (busy) return;
+  chatNavigation += 1;
   jobPoll += 1;
   session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
   dataset.value = ''; message.value = '';
@@ -85,13 +99,28 @@ async function loadHistory() {
     const title = text('span', row.title, button); title.className = 'history-title';
     const meta = text('small', `${displayTime(row.updated_at)} · ${row.status.replaceAll('_', ' ')}`, button); meta.className = 'history-meta';
     button.addEventListener('click', async () => {
+      if (busy) return;
+      const navigation = ++chatNavigation;
+      jobPoll += 1;
+      busy = true; updateSend();
       status.textContent = '';
       try {
         const record = await api('conversations/' + encodeURIComponent(row.id));
-        session.jobRequested = false;
-        try { const state = await api(`conversations/${row.id}/job`); session.jobRequested = Boolean(state?.status); } catch { /* No job belongs to this chat. */ }
-        showRecord(record); sidebar.classList.remove('open'); await loadHistory();
-      } catch (error) { status.textContent = error.message; }
+        let jobRequested = false;
+        try { const state = await api(`conversations/${row.id}/job`); jobRequested = Boolean(state?.status); }
+        catch (error) { if (error.status !== 404) throw error; }
+        if (navigation !== chatNavigation) return;
+        session = {conversationId: record.id, datasetId: record.dataset_id,
+          datasetName: record.dataset_id, limits: record.limits, pending: null, jobRequested};
+        dataset.value = ''; message.value = '';
+        showRecord(record); showAttachment(); updateSend(); sidebar.classList.remove('open');
+      } catch (error) {
+        if (navigation !== chatNavigation) return;
+        status.textContent = error.message;
+        if (session.jobRequested) watchJob();
+      } finally {
+        busy = false; updateSend();
+      }
     });
     historyNav.append(button);
   }
@@ -115,10 +144,12 @@ function showRecord(record) {
   document.querySelector('#welcome').hidden = true;
   session.conversationId = record.id;
   session.datasetId = record.dataset_id;
+  session.boundDatasetId = record.dataset_id;
+  session.recordStatus = record.status;
   session.limits = record.limits;
   const needsInput = record.status === 'needs_input';
   for (const entry of record.messages || []) chatMessage(entry.role === 'user' ? 'user' : 'assistant', entry.content, entry.created_at);
-  if (needsInput) message.placeholder = 'Reply to GoTrain…';
+  message.placeholder = needsInput ? 'Reply to GoTrain…' : 'Message GoTrain…';
   if (record.summary) {
     const body = chatMessage('assistant', 'I understand the request. Review it below, then start training when you are ready.', record.reviewed_at, 'summary-message');
     const summary = record.summary;
@@ -135,12 +166,13 @@ function showRecord(record) {
     button.className = 'primary-action'; body.append(button);
     button.addEventListener('click', async () => {
       button.disabled = true;
-      session.startRequest ||= `request_${crypto.randomUUID().replaceAll('-', '')}`;
+      const conversation = record.id;
+      startRequests[conversation] ||= `request_${crypto.randomUUID().replaceAll('-', '')}`;
       session.jobRequested = true; persist();
       try {
-        await api(`conversations/${session.conversationId}/start`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({request_id:session.startRequest})});
-      } catch (error) { status.textContent = error.message; }
-      watchJob(); // Read any saved intent even if the start response disconnected.
+        await api(`conversations/${conversation}/start`, {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({request_id:startRequests[conversation]})});
+      } catch (error) { if (session.conversationId === conversation) status.textContent = error.message; }
+      if (session.conversationId === conversation) watchJob(); // Reconnect; never replay Start while polling.
     });
     text('small', health?.training_enabled ? 'No training starts until you press the button.' : 'Training is not enabled; no GPU work has started.', body);
   }
@@ -153,11 +185,14 @@ function showRecord(record) {
 
 function watchJob() {
   const poll = ++jobPoll, conversation = session.conversationId;
+  let failures = 0;
   async function tick() {
     if (poll !== jobPoll || session.conversationId !== conversation || !session.jobRequested) return;
     try {
       const state = await api(`conversations/${conversation}/job`);
       if (poll !== jobPoll || session.conversationId !== conversation) return;
+      if (failures) status.textContent = '';
+      failures = 0;
       const signature = `${state.status}|${state.stage || ''}|${state.attempts || 0}|${state.model_requests || 0}`;
       if (session.jobSignature !== signature) {
         session.jobSignature = signature;
@@ -198,7 +233,13 @@ function watchJob() {
         catch (error) { status.textContent = error.message; }
       }, view);
       if (active) setTimeout(tick, 2000);
-    } catch (error) { status.textContent = error.message; }
+    } catch (error) {
+      if (poll !== jobPoll || session.conversationId !== conversation) return;
+      if (error.status === 400 || error.status === 403) { status.textContent = error.message; return; }
+      failures += 1;
+      status.textContent = 'Progress connection interrupted. Reconnecting without restarting training…';
+      setTimeout(tick, Math.min(30000, 2000 * 2 ** Math.min(failures - 1, 4)));
+    }
   }
   tick();
 }
@@ -301,7 +342,7 @@ async function loadSavedOptions() {
     option.textContent = `${row.task.description || row.id} · ${row.task.kind} · ${row.counts.train} train / ${row.counts.valid} validation`; select.append(option);
   }
   action('Attach saved data', () => {
-    if (session.conversationId) { status.textContent = 'Start a new request to change the dataset.'; return; }
+    if (busy || !canAttachDataset()) { status.textContent = 'Start a new chat to replace an attached or frozen dataset.'; return; }
     session.datasetId = select.value; session.datasetName = select.options[select.selectedIndex].textContent;
     dataset.value = ''; showAttachment(); persist();
   }, saved);
@@ -317,8 +358,11 @@ async function loadSavedOptions() {
 }
 
 message.addEventListener('input', () => { updateSend(); status.textContent = ''; persist(); });
+function canAttachDataset() {
+  return !session.conversationId || (!session.boundDatasetId && !session.jobRequested && ['draft', 'needs_input'].includes(session.recordStatus));
+}
 dataset.addEventListener('change', () => {
-  if (session.conversationId) {
+  if (!canAttachDataset()) {
     status.textContent = 'This attachment belongs to an existing request. Finish that request before changing its dataset.';
     dataset.value = '';
     return;
@@ -328,7 +372,7 @@ dataset.addEventListener('change', () => {
   persist();
 });
 document.querySelector('#remove-file').addEventListener('click', () => {
-  if (session.conversationId) {
+  if (!canAttachDataset()) {
     status.textContent = 'The dataset is preserved for replies to this request.';
     return;
   }

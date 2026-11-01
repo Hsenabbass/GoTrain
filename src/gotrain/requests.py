@@ -310,8 +310,13 @@ class Requests:
                     raise RequestError('Preflight already active or interrupted; operator must reconcile before retry', 409)
                 if record['status'] in ('ready_for_review', 'running', 'stopping', 'ready'):
                     raise RequestError('This request is frozen; create a new draft for a different task', 409)
-                if dataset_id not in (None, record['dataset_id']) or limits != record['limits']:
+                if limits != record['limits']:
                     raise RequestError('Replies must preserve the draft dataset and limits', 409)
+                if dataset_id not in (None, record['dataset_id']):
+                    if record['dataset_id'] is not None or record['status'] not in ('draft', 'needs_input'):
+                        raise RequestError('Replies cannot replace an existing dataset', 409)
+                    self.dataset(dataset_id)  # Resolve a validated ID before binding it to this draft.
+                    record['dataset_id'] = dataset_id
             else:
                 record = {'id': 'conversation_' + uuid.uuid4().hex, 'status': 'draft',
                           'dataset_id': dataset_id, 'limits': limits, 'messages': [],
