@@ -171,6 +171,8 @@ class JobTests(unittest.TestCase):
         parent="import subprocess,sys,time; p=subprocess.Popen([sys.executable,'-c',sys.argv[1]],stdout=subprocess.PIPE,text=True); print(p.stdout.readline().strip(),flush=True); time.sleep(10)"
         process=subprocess.Popen([sys.executable,'-c',parent,child],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env={**os.environ,'PYTHONPATH':str(ROOT/'src')})
         self.addCleanup(lambda:process.kill() if process.poll() is None else None)
+        self.addCleanup(process.stdout.close)
+        self.addCleanup(process.stderr.close)
         pid=int(process.stdout.readline().strip()); saved=identity(pid)
         process.kill(); process.wait(timeout=2)
         for _ in range(40):
@@ -204,6 +206,8 @@ supervise(root,store,sys.argv[2],sys.argv[3],agent_factory=factory,runner_factor
         def launch(folder,intent):
             parent_code="import subprocess,sys,time; p=subprocess.Popen([sys.executable,'-c',*sys.argv[1:]],start_new_session=True); print(p.pid,flush=True); time.sleep(10)"
             parent=subprocess.Popen([sys.executable,'-c',parent_code,child,str(self.root),self.record['id'],intent['nonce']],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env={**os.environ,'PYTHONPATH':str(ROOT/'src')+os.pathsep+str(ROOT/'tests')})
+            self.addCleanup(parent.stdout.close)
+            self.addCleanup(parent.stderr.close)
             processes.extend([parent,int(parent.stdout.readline().strip())])
         self.jobs.launcher=launch
         self.start()
