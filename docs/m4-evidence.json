@@ -286,5 +286,51 @@
       "all_member_checksums_verified": true,
       "restored_evidence_sha256": "972759602f50107a3b213f80a7f044e54ea72a8b40abe1bf983b14fdb8886cb4"
     }
+  },
+  "supervisor_step_3": {
+    "verification": {
+      "source_commit": "dd3d152e2a00821364739986dbe6a63bb9c33ea3",
+      "runtime_source_commit": "ed46b8c356d8262620c38aaa1ec490cb335902b2",
+      "full_suite": {
+        "passed": 89,
+        "seconds": 4.139,
+        "source_commit": "ed46b8c",
+        "log_sha256": "d18f7900d9a6a7033f18187b5c82257286487688bfd9a9addaa4834360385fc9"
+      },
+      "focused_suite": {
+        "passed": 14,
+        "seconds": 1.245,
+        "source_commit": "dd3d152",
+        "log_sha256": "9ebc6dfed36e7700c71b9d4f8eabedb37103c254256fb6cb3bd6fd83b35ca48e"
+      },
+      "environment": "SageMaker verified venv CPU",
+      "historical_ledgers_unchanged": {
+        "m1": "57666df39af50bb97b94261b84bd3dd7b7a18dd0a81124434d61c79ac49f6e41",
+        "m2": "ad6fcf2aba67323cd21a4d7d8d6793a0a00d278419ee7565508a812053993ad2",
+        "m3": "76557cb9fba7c825d3b4607e6431cbd8a8204b5b417c5a209447bc2796032f2e"
+      },
+      "live_m4_ledger_created": false,
+      "training_enabled": false,
+      "gpu_jobs": 0,
+      "bedrock_requests": 0,
+      "test_payloads_opened": 0,
+      "idle_service_loopback_checks": {
+        "health_training_disabled": true,
+        "existing_conversation_unchanged": true,
+        "new_job_route_present": true,
+        "live_start_rejected_without_launch": true
+      },
+      "scope": "step_3_CPU_process_fixtures_no_live_GPU_or_agent_inference"
+    },
+    "independent_recovery": {
+      "archive": "20261101T000423753306Z-recovery.tar.gz",
+      "sha256": "ee12c51855e2fcd254f88ddf7b7a875eb5b6696668c080696b8e66fbd9885168",
+      "bytes": 4750705,
+      "files": 82,
+      "source_commit": "dd3d152e2a00821364739986dbe6a63bb9c33ea3",
+      "receiver": "C:\\Users\\moham\\Documents\\ChatGPT\\GoTrain-backups\\snapshots\\20261101T000423753306Z-recovery.tar.gz",
+      "all_member_checksums_verified": true,
+      "restored_evidence_sha256": "0c0299182fdc8d073ade56f46642b8fa506d2ab1820cc0c237ac6931fd849016"
+    }
   }
 }

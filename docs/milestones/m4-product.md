@@ -233,7 +233,7 @@ request handlers; see [FastAPI's background-task caveat](https://fastapi.tiangol
 | Plan consistency | Local read-only review of code, M3 evidence/handoff, GitHub M3 tasks and existing M4 issue search; documentation diff/link checks | Planning only; no runtime claim | This document; M3's existing evidence remains authoritative |
 | Standalone model use / 4.1 | Four fresh-process CPU package/CLI checks outside checkout, with network/cache denial; independent ZIP restoration | All four passed; zero logit delta; backup verified | [Contract](../prediction.md), [evidence](../m4-evidence.json) |
 | Imports and request clarification / 4.2 slice | 15 SageMaker CPU checks; real proxy upload/download, Claude conflict→reply, refresh and service restart | Verified for preflight only; no GPU job | [Evidence](../m4-evidence.json), [service contract](../service.md) |
-| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Admission/worker routing CPU-verified; supervisor/live GPU acceptance pending | Keep 4.2 open |
+| Durable GPU jobs and train→package / remaining 4.2 | M4 runner/ledger, live classification/segmentation training and stop behavior | Admission/worker/supervisor CPU-process verified; package/live GPU acceptance pending | Keep 4.2 open |
 | Usable workspace / 4.3 | Real browser walkthrough, downloaded-package prediction and independent backup verification | Unverified | Record during implementation |
 
 ## Handoff
@@ -255,7 +255,8 @@ remain unimplemented. This request-validation slice does not complete 4.2.
 **Next action:** plan and confirm the remaining durable-job/runner work without changing M1–M3 ledgers or test isolation.
 **Synchronization:** implementation and sanitized evidence are pushed directly to
 main. Package runtime verified at ae7c246; b609ef9 passed the added storage guard
-check. The already-running request service remains on source 25ce624. GitHub credential expiry was
+check. The idle service was subsequently updated to dd3d152 after step 3;
+its saved draft was unchanged and training remained disabled. GitHub credential expiry was
 worked around by checksum-verified Git bundles through the existing Opera session,
 not by creating credentials. No cloud packages were installed or upgraded.
 
@@ -315,7 +316,11 @@ and stop/reconnect are step 3, package wiring step 4, live acceptance step 5.
 
 Confirmed by the user; work stays on main. Implemented one detached supervisor,
 bounded existing-agent wiring, saved launch/owner/progress/selection, read-only
-reconnect and stop-after-current-experiment. CPU/process tests pending; no live
-GPU/model calls. UI changes are limited to inline progress/stop, gated by the
-still-disabled training flag. Next: verify and independently recover evidence,
-then propose step 4 standalone verification/export integration.
+reconnect and stop-after-current-experiment. Runtime ed46b8c passed 89 SageMaker CPU checks; 14 focused supervisor checks
+passed at dd3d152 after test-pipe cleanup. Real detached-process reconnect, stop,
+parent-death protection and tool-schema construction passed with CPU fixtures.
+An idle service restart preserved the saved conversation and rejected live Start.
+Independent 82-file snapshot/member verification and evidence restoration passed.
+No live GPU/model calls. UI changes are limited to inline progress/stop, gated by the
+still-disabled training flag. Next: confirm step 4 standalone verification/export
+integration; live GPU/agent acceptance remains step 5.

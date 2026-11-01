@@ -4,7 +4,8 @@ The composer can submit a message and supported manifest ZIP to a loopback-only
 FastAPI service. The service validates data, runs bounded Claude/Strands semantic
 preflight, and retains the conversation and proposed job summary across refresh.
 It does **not** admit GPU training yet. The published 4.2 remains open until the
-4.1 package contract, M4 runner/ledger, durable jobs and train-to-package checks pass.
+complete train-to-package integration and live GPU/recovery acceptance pass.
+Shared packaging and CPU/process-verified runner/supervisor code are implemented.
 
 ## Run
 
@@ -116,10 +117,10 @@ the same ID is rejected. Stale store locks and interrupted checking records bloc
 automatic replay. After confirming no old service/request worker is active, an
 operator may call `Requests.reconcile_interrupted_preflights()` to mark interrupted
 records needs_input without refunding model calls. Never silently delete a lock
-or reset counters. GPU jobs are not implemented or resumed by this service yet.
+or reset counters. Interrupted GPU jobs are never relaunched automatically; see the step 3 contract below.
 
-`POST api/conversations/<id>/start` always returns 409 with the outstanding
-packaging/runner prerequisite. The UI leaves Start training disabled. No M1/M2/M3
+`POST api/conversations/<id>/start` returns 409 while the training flag is false.
+The implemented launch protocol is described under step 3 below. The UI leaves Start training disabled. No M1/M2/M3
 ledger/config or completed session is modified, and no test samples are accessed.
 
 ## Durable state and verification
@@ -242,7 +243,13 @@ Package export integration and real GPU acceptance remain later steps.
 
 ## 4.2 step 3: detached supervisor and reconnect
 
-Implemented, CPU/process verification pending. Training remains disabled until
+Runtime ed46b8c passed all 89 SageMaker CPU checks in 4.139 s. The 14 supervisor
+checks passed again in 1.245 s at dd3d152 after test-pipe cleanup; real agent tool
+schemas constructed without inference. Independent recovery/restoration passed.
+The idle service was updated to dd3d152 on the same loopback/proxy route; saved
+conversation bytes were unchanged and Start rejected without a real reservation.
+Process recovery/stop used CPU fixtures, not live GPU/Bedrock execution.
+Training remains disabled until
 package integration and live acceptance. Start takes a persistent `request_id` at
 `POST /api/conversations/{id}/start`; read state at `GET .../{id}/job` and request
 stop at `POST .../{id}/stop`. Same-origin/header checks apply to mutations; IDs are

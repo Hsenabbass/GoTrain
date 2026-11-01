@@ -203,3 +203,13 @@ denied. [Prediction contract](prediction.md) owns commands; [M4 evidence](m4-evi
 owns measurements and independent recovery receipt. Request-service process
 remains on its earlier verified source; the canonical checkout includes the
 package implementation.
+
+
+## M4 supervisor service update (2026-11-01)
+
+The idle loopback service was restarted at source dd3d152 using its existing private
+origin environment and proxy route. No access/dependency changes. Health retained
+training disabled, a saved conversation was byte-identical, the new job route was
+present, and Start returned 409 without creating a real M4 reservation.
+Supervisor recovery/stop checks used isolated CPU processes; live GPU/agent
+acceptance remains pending. [M4 evidence](m4-evidence.json) owns test and recovery receipts.

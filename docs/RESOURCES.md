@@ -197,3 +197,19 @@ source `9397fa461f53054ae1e2296fe932d936ca9365ae`, under
 SHA-256 `5651f4f095a493b80e72a40adb420fa1af56400c7a1ebfbbb320419140dcdd95` matched sender/receiver/sidecar; all members verified.
 Restored evidence JSON SHA-256 `972759602f50107a3b213f80a7f044e54ea72a8b40abe1bf983b14fdb8886cb4` matched.
 This covers source and CPU checks, not a live training/reconnect run.
+
+
+## M4 supervisor and reconnect (4.2 step 3)
+
+Runtime ed46b8c passed 89 SageMaker CPU checks; 14 supervisor checks passed at
+dd3d152 after test stream cleanup. The idle service is now on dd3d152, still
+loopback-only behind the existing proxy, with training disabled. Saved conversation
+bytes and historical ledger hashes were unchanged; no real M4 job or model call.
+See the [service contract](service.md) and [M4 evidence](m4-evidence.json).
+
+Independent snapshot `20261101T000423753306Z-recovery.tar.gz`: 4,750,705 bytes, 82 files,
+source `dd3d152e2a00821364739986dbe6a63bb9c33ea3`, under
+`C:/Users/moham/Documents/ChatGPT/GoTrain-backups/snapshots/`.
+SHA-256 `ee12c51855e2fcd254f88ddf7b7a875eb5b6696668c080696b8e66fbd9885168` matched sender/receiver/sidecar; all members verified.
+Restored evidence JSON SHA-256 `0c0299182fdc8d073ade56f46642b8fa506d2ab1820cc0c237ac6931fd849016` matched.
+This covers source and CPU/process evidence, not live GPU restart acceptance.

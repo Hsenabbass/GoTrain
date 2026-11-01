@@ -16,8 +16,11 @@ request. Refresh/service restart restores persisted records without reissuing a
 model call. New request clears only the browser's current draft reference; it
 does not delete server history. File references and conversation IDs are opaque.
 
-Training is not enabled yet: Start training remains disabled. Packaging and
-M4 GPU job/ledger integration are still pending. No fake progress or scores appear.
+Training is not enabled yet: Start training remains disabled. The implemented
+job protocol adds inline persisted progress and Stop after current experiment,
+with read-only reconnect and a stable start key. These controls follow the health
+flag and saved real job records. Package integration and live GPU acceptance
+remain pending; no fake progress or scores appear.
 
 Message drafts use gotrain-message-draft-v1; the current conversation, validated
 dataset ID and safe-retry key use gotrain-request-session-v1 in localStorage.
