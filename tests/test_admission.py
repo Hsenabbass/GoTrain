@@ -47,33 +47,6 @@ class AdmissionTests(unittest.TestCase):
     def admit(self, lease):
         return lease.admit(self.store, self.record['id'], self.key)
 
-    def test_single_request_reserve_exception_is_bounded(self):
-        self.now = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
-        self.policy['single_conversation_reserve_exception'] = {
-            'conversation_id': self.record['id'], 'dataset_id': self.record['dataset_id'],
-            'expires_utc': '2026-11-01T12:10:00+00:00',
-            'maximum_limits': self.record['limits'].copy()}
-        with self.admission() as lease:
-            self.admit(lease)
-            lease.finish('completed')
-        with self.admission() as lease:
-            with self.assertRaisesRegex(RequestError, 'already admitted'):
-                self.admit(lease)
-
-    def test_exception_rejects_wrong_request_expiry_and_larger_limits(self):
-        self.now = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
-        exception = {'conversation_id': self.record['id'], 'dataset_id': self.record['dataset_id'],
-                     'expires_utc': '2026-11-01T12:10:00+00:00',
-                     'maximum_limits': self.record['limits'].copy()}
-        for change in ({'conversation_id': 'conversation_'+'f'*32},
-                       {'dataset_id': 'dataset_'+'f'*32},
-                       {'expires_utc': '2026-11-01T11:59:00+00:00'},
-                       {'maximum_limits': {**self.record['limits'], 'attempts': 1}}):
-            self.policy['single_conversation_reserve_exception'] = {**exception, **change}
-            with self.admission() as lease:
-                with self.assertRaisesRegex(RequestError, 'Submission reserve'):
-                    self.admit(lease)
-
     def test_freezes_request_and_preserves_preflight_charges(self):
         with self.admission() as lease:
             job = self.admit(lease)

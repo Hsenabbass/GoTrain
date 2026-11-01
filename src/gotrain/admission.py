@@ -101,16 +101,7 @@ class Admission:
                 raise RequestError('Insufficient remaining allowance: need 660 GPU seconds, 780 runtime seconds and six model calls', 409)
             deadline = datetime.fromisoformat(self.policy['submission_deadline_local']).replace(tzinfo=ZoneInfo(self.policy['timezone']))
             now = self.now()
-            reserve = self.policy['submission_reserve_seconds']
-            exception = self.policy.get('single_conversation_reserve_exception')
-            # A recorded operator exception applies once to one frozen request.
-            # Existing conversation deduplication above prevents reuse after admission.
-            if (exception and exception['conversation_id'] == conversation_id
-                    and exception['dataset_id'] == data['id']
-                    and now < datetime.fromisoformat(exception['expires_utc'])
-                    and all(limits[k] <= v for k, v in exception['maximum_limits'].items())):
-                reserve = 0
-            if now + timedelta(seconds=limits['runtime_seconds'] + reserve) >= deadline:
+            if now + timedelta(seconds=limits['runtime_seconds'] + self.policy['submission_reserve_seconds']) >= deadline:
                 raise RequestError('Submission reserve prevents admission', 409)
             if shutil.disk_usage(self.root).free < self.policy['disk_reserve_bytes']:
                 raise RequestError('Disk reserve prevents admission', 507)
