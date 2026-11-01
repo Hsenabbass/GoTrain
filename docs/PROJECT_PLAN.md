@@ -1,6 +1,6 @@
 # GoTrain: initial project plan
 
-**Status:** [M1](milestones/m1-foundation.md), [M2](milestones/m2-engine.md), [M3](milestones/m3-improvement.md) and [M4](milestones/m4-product.md) are complete. M4 verification covers supported imports and clarification, bounded durable jobs, usable model packages, live UI workflows, targeted request/reconnect/chat-state guards and independent export/recovery checks. Validation remains provisional; custom fixtures prove integration, test splits remain sealed and packages remain private research artifacts while public redistribution permission is unresolved. [M5 is planned](milestones/m5-submission.md) around UI polish, brief release checks and slides/demo video; implementation has not started.
+**Status:** [M1](milestones/m1-foundation.md), [M2](milestones/m2-engine.md), [M3](milestones/m3-improvement.md) and [M4](milestones/m4-product.md) are complete. M4 verification covers supported imports and clarification, bounded durable jobs, usable model packages, live UI workflows, targeted request/reconnect/chat-state guards and independent export/recovery checks. Validation remains provisional; custom fixtures prove integration, test splits remain sealed and packages remain private research artifacts while public redistribution permission is unresolved. [M5 is planned](milestones/m5-submission.md) around independent UI polish and reused-results/small-data checks, followed by slides/demo video; implementation has not started.
 
 [Repository home](../README.md) · [GitHub milestones](https://github.com/Hsenabbass/GoTrain/milestones) · [Challenge brief](../GoTrain%20Challenge.pdf)
 
@@ -152,20 +152,23 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 ### M5. Finalize the submission
 
-**Detailed plan:** [M5 submission plan](milestones/m5-submission.md). Three tasks:
-5.1 polish the minimal UI, 5.2 check/freeze the release, and 5.3 produce slides and
-a real demo video. Most effort goes to the interface and presentation.
+**Detailed plan:** [M5 presentation plan](milestones/m5-submission.md).
+[5.1: Polish the existing interface for the demo](https://github.com/Hsenabbass/GoTrain/issues/23)
+(user) and [5.2: Summarize experiments, results and small-data checks](https://github.com/Hsenabbass/GoTrain/issues/24)
+(friend) are independent. [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25)
+depends on both handoffs.
 
-**Depends on:** completed M3/M4 evidence, retained pipelines and usable packages.
+**Cover:** polish the existing UI without changing backend contracts; reuse M1–M4
+experiments/results with only justified tiny validation-input smoke checks; make
+a professional visual-first deck and 1–2 minute video for a 3–5 minute total slot.
+UI checks belong to 5.1; 5.2 does not depend on interface changes. No new training,
+full benchmark reruns or test access is part of this revised small-data scope.
 
-**Cover:** practical UI improvements, one focused release check, one final test
-evaluation per benchmark using frozen pipelines, and a concise slide deck/demo
-video. Reuse verified training and recovery work; no new search or retraining for
-footage. Preserve protected evaluation, budgets and private export restrictions.
-
-**Done when:** the polished UI, four final test scores/logs, editable slides/PDF,
-playable demo video and reproducible handoff are saved and consistent with GitHub.
-Organizer submission requirements take priority over optional polish.
+**Readiness:** presentation deliverables are the working UI/screenshots, traceable
+comparisons/figures, editable slides/PDF, MP4 and short speaking script. The brief's
+four final official test scores remain pending and required unless organizers
+waive them; tiny or validation scores do not fulfill that submission requirement.
+Do not claim submission completion while this gate remains unresolved.
 
 ## How we track progress
 
