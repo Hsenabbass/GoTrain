@@ -146,12 +146,6 @@ function showRecord(record) {
   }
   const footer = text('small', `${record.model_requests} model request(s) used · validation only · test data stays sealed.`);
   footer.className = 'conversation-note';
-  if (record.status !== 'checking') {
-    const reset = text('button', 'New request');
-    reset.type = 'button';
-    reset.className = 'new-request';
-    reset.addEventListener('click', resetRequest);
-  }
   persist();
   loadHistory().catch(() => {});
   if (session.jobRequested) watchJob();
@@ -182,8 +176,6 @@ function watchJob() {
       if (state.error) text('p', state.error, view);
       if (state.audit_required) text('p', 'This run needs operator review. It will not restart automatically.', view);
       const active = !['ready', 'selected', 'stopped', 'failed', 'interrupted'].includes(state.status);
-      const reset = panel.querySelector('.new-request');
-      if (reset) reset.disabled = active;
       if (active && state.status !== 'stopping') {
         const stop = text('button', 'Stop after current experiment', view);
         stop.type = 'button'; stop.className = 'new-request';
