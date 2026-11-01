@@ -34,7 +34,7 @@ try {
   if (saved && typeof saved === 'object') session = {...session, ...saved};
 } catch { /* Storage is optional. */ }
 function updateSend() {
-  send.disabled = busy || !message.value.trim();
+  send.disabled = busy || !connected || !message.value.trim();
   message.disabled = dataset.disabled = document.querySelector('#remove-file').disabled = busy;
   send.textContent = busy ? 'Checking…' : 'Send ↑';
 }

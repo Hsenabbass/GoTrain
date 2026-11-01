@@ -9,7 +9,9 @@ grid, game or simulated training/results.
 
 ## Connected service
 
-Run the Python service on SageMaker as documented in [service setup](../docs/service.md).
+From the repository root on SageMaker, run `python start.py`. It selects the
+verified service environment and port automatically. See [service setup](../docs/service.md)
+for the explicit troubleshooting command.
 It serves these same UI files and their relative API routes behind the existing
 authenticated Studio proxy. A message and optional manifest ZIP are submitted
 only when Send is pressed. A named prepared benchmark is also supported.
@@ -36,7 +38,7 @@ reused by the same draft after refresh. Browser storage is optional.
 With Node.js 18 or later, run from the repository root:
 
 ```powershell
-node ui/server.mjs
+python start.py
 ```
 
 Open http://localhost:5173. This static server has no API. The UI explicitly
