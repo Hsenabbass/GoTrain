@@ -214,6 +214,7 @@ class RequestChecks(unittest.TestCase):
 
     def test_api_origin_strict_limits_and_disabled_start(self):
         self.agent(decision())
+        self.caps['training_enabled'] = False
         with TestClient(create_app(self.store)) as client:
             payload = {'message': 'classify land cover', 'request_id': request_id()}
             self.assertEqual(client.post('/api/conversations', json=payload).status_code, 403)
