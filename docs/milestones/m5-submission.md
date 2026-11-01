@@ -7,7 +7,7 @@
 ## Outcome and scope
 
 Improve the existing interface and turn completed experiments into a professional,
-visual presentation. The user handles UI polish; their friend handles results.
+visual presentation. The user handles UI polish; their friend prepares rehearsal content and results.
 These tasks run independently. Presentation and video use both completed handoffs.
 No new model search, backend features or benchmark training is planned.
 
@@ -15,13 +15,13 @@ No new model search, backend features or benchmark training is planned.
 
 | Task | Owner / dependency | Scope and handoff |
 | --- | --- | --- |
-| [5.1: Polish the existing interface for the demo](https://github.com/Hsenabbass/GoTrain/issues/23) | User; independent of 5.2 | Refine existing typography, spacing, composer/attachments, limit displays, progress/results, history and responsive/keyboard behavior. Preserve the current visual direction, features, API and request/metric/budget contracts. Own focused checks of changed UI. Hand off final UI revision and clean compose/progress/result screenshots. |
-| [5.2: Summarize experiments, results and small-data checks](https://github.com/Hsenabbass/GoTrain/issues/24) | Friend; independent of 5.1 | Reuse M1–M4 evidence against the completed M4 backend/model contracts. Produce a concise results document, four-dataset baseline/selected comparison, experiment/decision summary, chart assets and test/reliability summary. Run only justified tiny saved-model checks; no dependency on polished UI. |
-| [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25) | After both handoffs | Use final UI/screenshots from 5.1 and evidence/figures from 5.2. Deliver a professional five-slide deck, a 1–2 minute real demo video and a short speaking script. Briefly check the final integrated demo, then rehearse once. |
+| [5.1: Polish the existing interface for the demo](https://github.com/Hsenabbass/GoTrain/issues/23) | User; independent of 5.2 | Refine existing typography, spacing, composer/attachments, limit displays, progress/results, history and responsive/keyboard behavior. Preserve the current visual direction, features, API and request/metric/budget contracts. Own focused checks of changed UI. Hand off final UI revision and clean compose/progress/result screenshots with brief factual captions; 5.3 selects images. |
+| [5.2: Prepare the presentation brief, results and checks](https://github.com/Hsenabbass/GoTrain/issues/24) | Friend; independent of 5.1 | Reuse M1–M4 evidence against the completed M4 backend/model contracts. Produce a concise presentation rehearsal brief, organizer-tool role map, draft pipeline schema and practice Q&As, alongside the results document, comparisons, figures and reliability summary. Run only justified tiny saved-model checks; no dependency on polished UI. |
+| [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25) | After both handoffs | Use final UI/screenshots from 5.1 and rehearsal content/evidence/figures from 5.2. Select the final story and slide content here; deliver a short professional deck, a 1–2 minute real demo video and a short speaking script. Briefly check the final integrated demo, then rehearse once. |
 
 ### Keep parallel work independent
 
-- 5.1 owns UI files and directly affected UI documentation; 5.2 owns results and
+- 5.1 owns UI files and directly affected UI documentation; 5.2 owns rehearsal content, results and
   chart/evidence work. Coordinate shared-document edits and preserve teammate work
   on main; never change another person's active checkout.
 - 5.2 uses the stable [completed M4](m4-product.md#handoff) baseline (`88b5bf9`),
@@ -30,6 +30,35 @@ No new model search, backend features or benchmark training is planned.
   to 5.3. Do not make 5.2 wait for or retest UI polish.
 - Keep service contracts unchanged. A backend/new-feature proposal is outside 5.1
   and must not silently expand the parallel results task.
+
+### Prepare simple technical practice material
+
+5.2 creates `docs/m5-presentation-brief.md` during execution: roughly 2–3 pages of
+clear practice material, not a slide deck. Use short sections and a few sentences
+per topic, with internal source links:
+
+- Brief introduction, the problem and the agent's goal.
+- Inputs (instruction, supported labeled data, limits) and outputs (model package,
+  validation results, prediction, experiment history and download).
+- Generality: image classification versus semantic segmentation, the shared data
+  adapter, four benchmarks/custom fixtures, and supported-format/metadata limits.
+- Pipeline: inspect/clarify → freeze task/limits → prepare/shortlist → bounded
+  experiments → validate/select → package/predict. Supply a simple draft schema.
+- Operation: Claude reasons and chooses; Strands connects typed tools; trusted
+  software trains, scores, records decisions and enforces limits. Explain one real
+  keep/reject example and the user-facing workflow.
+- A few technical details in plain language: pretrained recipes/checkpoints,
+  consistent preprocessing, accuracy versus macro IoU, split isolation, budgets
+  and durable jobs. Avoid implementation trivia and unimplemented capabilities.
+- Organizer-tool mapping: tool, purpose, actual use and evidence for SageMaker,
+  Claude Sonnet through Bedrock, Strands, the four GEO-Bench datasets and GitHub.
+  Label supporting tools such as PyTorch/service/UI separately from requirements.
+- Key results and honest limitations, plus 4–6 short practice Q&As. Link detailed
+  numbers/plots to `docs/m5-results.md` rather than duplicating source records.
+
+Reuse the project plan, setup/service/training docs and existing evidence; inspect
+focused code only to resolve a claim. The brief helps the team rehearse now;
+**5.3 decides what enters the final presentation**. It must not wait for UI polish.
 
 ### Reuse the existing results; keep new checks tiny
 
@@ -40,8 +69,8 @@ full-validation scores, trials, decisions, resource use, run IDs and successful
 checkpoint reloads for all four datasets. [M4 evidence](../m4-evidence.json)
 contains live custom-data workflows, package/prediction checks and recovery.
 
-5.2 should take about **15–20 minutes of active work** by summarizing these records,
-not rerunning them. Create `docs/m5-results.md` during execution with one comparison
+Keep the results/checks portion short by summarizing these records, not rerunning
+them. The rehearsal brief adds content preparation, not new engineering. Create `docs/m5-results.md` during execution with one comparison
 row per dataset: metric, baseline, selected score, percentage-point gain, sample
 count and source run links. Add short experiment/keep-reject/failure explanations
 and chart-ready assets. Separate accuracy and macro-IoU panels; do not average
@@ -57,8 +86,10 @@ separately from existing full-validation benchmark comparisons.
 ### Presentation and video
 
 Target **3–5 minutes total, including video**, with presenters doing most of the
-explanation. Use five visual-first slides: problem/product image; intuitive hybrid
-agent/tool schema; results and experiment insight; demo video; takeaways/limits.
+explanation. In 5.3, review the practice brief and choose what best fits the slot;
+do not try to include every topic. Five visual-first slides are a starting option:
+problem/product image; hybrid agent/tool schema; results/experiment insight;
+demo video; takeaways/limits. Keep unused explanations and Q&As in backup notes.
 Use actual polished UI images, legible charts, consistent typography and restrained
 color. Keep text short and supporting details/source links in speaker notes.
 
@@ -74,6 +105,9 @@ include a still-image fallback and verify playback/legibility once.
 - **2026-11-01, revised user direction:** supersedes the sequential UI→release-check
   plan. UI polish and results work are parallel; only presentation depends on both.
   The video is now 1–2 minutes, within the total 3–5 minute presentation slot.
+- **2026-11-01, expanded content handoff:** 5.2 also prepares a simple technical
+  rehearsal brief and required-tool explanations. Final narrative/slide selection
+  stays in 5.3; 5.1 supplies factual screenshot captions independently.
 - **Submission gate:** the challenge's four final held-out test scores remain
   required unless organizers waive them. They have not been produced. The user's
   small-data-only scope does not authorize replacing them with subset/synthetic

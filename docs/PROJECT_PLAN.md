@@ -154,18 +154,22 @@ The delivery sequence is **M1 → M2 → M3 → M4 → M5**. Small independent p
 
 **Detailed plan:** [M5 presentation plan](milestones/m5-submission.md).
 [5.1: Polish the existing interface for the demo](https://github.com/Hsenabbass/GoTrain/issues/23)
-(user) and [5.2: Summarize experiments, results and small-data checks](https://github.com/Hsenabbass/GoTrain/issues/24)
+(user) and [5.2: Prepare the presentation brief, results and checks](https://github.com/Hsenabbass/GoTrain/issues/24)
 (friend) are independent. [5.3: Create the presentation and demo video](https://github.com/Hsenabbass/GoTrain/issues/25)
 depends on both handoffs.
 
 **Cover:** polish the existing UI without changing backend contracts; reuse M1–M4
-experiments/results with only justified tiny validation-input smoke checks; make
+experiments/results with only justified tiny validation-input smoke checks; prepare
+a clear technical practice brief covering the goal, inputs/outputs, generality,
+agent workflow and organizer tools; then select the final presentation content in
+5.3 and make
 a professional visual-first deck and 1–2 minute video for a 3–5 minute total slot.
 UI checks belong to 5.1; 5.2 does not depend on interface changes. No new training,
 full benchmark reruns or test access is part of this revised small-data scope.
 
 **Readiness:** presentation deliverables are the working UI/screenshots, traceable
-comparisons/figures, editable slides/PDF, MP4 and short speaking script. The brief's
+comparisons/figures and rehearsal brief, editable slides/PDF, MP4 and short speaking
+script. The brief's
 four final official test scores remain pending and required unless organizers
 waive them; tiny or validation scores do not fulfill that submission requirement.
 Do not claim submission completion while this gate remains unresolved.
