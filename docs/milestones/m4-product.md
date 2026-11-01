@@ -384,3 +384,15 @@ and backup receipts live in [M4 evidence](../m4-evidence.json).
   checks are in [M4 evidence](../m4-evidence.json).
   Transient-read failure injection, cross-chat regressions, saved-data attachment
   and the independent segmentation ZIP receipt remain pending. M5 is untouched.
+
+
+## Targeted three-minute check (2026-11-01)
+
+`node tests/test_ui_reconnect.cjs` passed three deterministic local JavaScript
+fixtures: transient GET retry without replaying Start; ignoring an in-flight
+progress response after changing chat; and separate persisted Start IDs for A/B
+with A reused on return. API, timers and a minimal DOM are mocked; this is not a
+live Safari network-failure or complete history-navigation acceptance check.
+Full history state/error checks, saved-data late attachment and the independent
+122 MB segmentation ZIP receipt remain pending. The observed transfer rate makes
+the latter exceed the user's three-minute time box. No training or M5 work.

@@ -476,5 +476,21 @@
     },
     "protected_test_access": false,
     "m5_started": false
+  },
+  "targeted_ui_regression": {
+    "date": "2026-11-01",
+    "command": "node tests/test_ui_reconnect.cjs",
+    "environment": "Local Node VM with minimal DOM, mocked API and timers; no agent/training/inference",
+    "passed": [
+      "Transient progress GET failure retries and recovers without POST/Start replay",
+      "In-flight progress response is ignored after changing conversation",
+      "A and B use distinct Start IDs; returning to A reuses its ID; both persisted in storage"
+    ],
+    "limitations": [
+      "This is a deterministic JavaScript fixture, not live Safari failure injection",
+      "Full history-navigation attachment/limits and error-state UI acceptance remains pending",
+      "Saved-data late attachment live UI path remains pending",
+      "122484302-byte segmentation ZIP independent download checksum remains pending; three-minute time box precludes transfer at observed speed"
+    ]
   }
 }
