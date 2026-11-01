@@ -266,3 +266,14 @@ Permanent copy:
 with a checksum sidecar. Local operations only copied/hashed opaque artifacts;
 no local ML execution or protected test access. Packages remain private research
 outputs. These receipts complete M4 recovery acceptance; M5 remains untouched.
+
+## 5.2 presentation evidence assets (2026-11-01)
+
+The [rehearsal brief](m5-presentation-brief.md), [results/readiness note](m5-results.md),
+CSV and PNG/SVG figures under `docs/figures/m5/`, and
+[reproduction script](../scripts/presentation_figures.py) are small tracked artifacts.
+Their independent recovery home is the origin GitHub repository on main, in the
+5.2 completion commit (see Git history). Local generation verified M1/M3 score and
+run matches, full-validation eligibility, reload deltas, CSV gains and file links;
+both figures were visually reviewed. No new runtime evidence, dataset or model
+artifact was produced. Existing SageMaker snapshots/model receipts remain unchanged.
