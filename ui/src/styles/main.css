@@ -2,3 +2,11 @@
 .request-state{margin-top:28px;border-top:1px solid #e5e5e5;padding:23px 0;text-align:left}.request-state h2{font-size:17px;font-weight:500;margin:0 0 17px}.request-state p,.request-state li{font-size:13px;line-height:1.8;color:#555}.request-state ul{padding-left:20px}.request-state dl{display:grid;grid-template-columns:135px 1fr;gap:12px;font-size:12px;line-height:1.7}.request-state dt{color:#777}.request-state dd{margin:0;overflow-wrap:anywhere}.request-state small{display:block;font-size:10px;line-height:1.8;color:#777;margin-top:20px}.request-state .send-button{margin-top:22px}
 
 .new-request{border:0;background:none;color:#666;text-decoration:underline;text-underline-offset:3px;padding:8px 0;margin-top:8px;font-size:11px}
+.model-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.history-view p,.request-state p{overflow-wrap:anywhere}
+.prediction-view,.history-view{margin-top:1.25rem;padding-top:1rem;border-top:1px solid #e5e5e5}
+.prediction-view img{display:block;max-width:100%;height:auto}
+.prediction-view input[type=file],.compatibility{display:block;margin:.75rem 0}
+.mask-layers{position:relative;max-width:480px}
+.mask-layers .mask-overlay{position:absolute;inset:0;width:100%;height:100%}
+.request-state select{max-width:100%;padding:.5rem;margin:.5rem 0}

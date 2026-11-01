@@ -324,3 +324,13 @@ Independent 82-file snapshot/member verification and evidence restoration passed
 No live GPU/model calls. UI changes are limited to inline progress/stop, gated by the
 still-disabled training flag. Next: confirm step 4 standalone verification/export
 integration; live GPU/agent acceptance remains step 5.
+
+
+## Remaining M4 authorization (2026-11-01)
+
+User authorized all remaining steps and 4.3 without further per-step confirmation.
+Work stays on main and reuses the current engine. Delivery, inline use/history/
+download and operator import are implemented pending CPU/proxy/live verification.
+The browser import operational cap is now 32 MiB pending boundary proof; larger
+prepared inputs use the approved operator path. Two explicitly synthetic custom
+tasks will establish integration, not real-world accuracy. No M5 test access.

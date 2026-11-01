@@ -21,6 +21,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from .requests import Requests, RequestError, benchmark_registry, read_json
+from .requests import atomic_json, opaque
 
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL = Path('/home/sagemaker-user/GoTrain')
@@ -78,6 +79,9 @@ def create_app(store=None, *, local=False, jobs=None):
         store = Requests(ROOT / 'artifacts/service', caps, benchmark_registry(ROOT),
                          validator=validate_on_sagemaker,
                          interpreter=None if local else BedrockPreflight())
+        if not local:
+            from .delivery import register_retained
+            register_retained(ROOT)
     caps = store.caps
     from .jobs import Jobs
     jobs = jobs or Jobs(ROOT,store)
@@ -85,6 +89,7 @@ def create_app(store=None, *, local=False, jobs=None):
     app.state.store = store
     pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix='dataset-import')
     import_lock = asyncio.Lock()
+    prediction_lock = asyncio.Lock()
 
     @app.exception_handler(RequestError)
     async def request_error(_request, exc):
@@ -141,7 +146,7 @@ def create_app(store=None, *, local=False, jobs=None):
         length = request.headers.get('content-length')
         if length and (not length.isdigit() or int(length) > caps['upload_bytes']):
             raise RequestError('Dataset ZIP exceeds the compressed upload limit', 413)
-        if import_lock.locked():
+        if import_lock.locked() or prediction_lock.locked():
             raise RequestError('Another dataset import is active; retry when it finishes', 409)
         await import_lock.acquire()
         path = store.root / 'uploads' / (uuid.uuid4().hex + '.zip')
@@ -206,6 +211,126 @@ def create_app(store=None, *, local=False, jobs=None):
     def stop(conversation_id: str):
         store.get(conversation_id)
         return jobs.stop(conversation_id)
+
+    @app.get('/api/models')
+    def models():
+        from .delivery import registry
+        return [{k:v for k,v in row.items() if k!='dataset'} for row in registry(ROOT).values()]
+
+    @app.get('/api/models/{version}/download')
+    def download(version: str):
+        from .delivery import package_path
+        path = package_path(ROOT,version)
+        return FileResponse(path,media_type='application/zip',filename=path.name)
+
+    @app.get('/api/models/{version}/history')
+    def model_history(version: str):
+        from .delivery import model_record
+        from .prediction import digest
+        row = model_record(ROOT,version)
+        folder = ROOT/'artifacts/models'/(row['task']+'-'+version)
+        meta = read_json(folder/'model.json')
+        if digest(folder/'history.json')!=meta['history_sha256']:
+            raise RequestError('History integrity check failed',409)
+        history = read_json(folder/'history.json')
+        return {'version':version,'selected_run':row['run_id'],'validation_only':True,
+                'experiments':history.get('experiments',history.get('trials',[])),
+                'decisions':history.get('decisions',[])}
+
+    @app.get('/api/conversations/{conversation_id}/history')
+    def conversation_history(conversation_id: str):
+        store.get(conversation_id)
+        view = jobs.get(conversation_id)
+        rows = []
+        for run_id in view.get('runs',[]):
+            path = ROOT/'artifacts/runs'/run_id/'record.json'
+            if path.resolve().parent.parent!=(ROOT/'artifacts/runs').resolve():
+                raise RequestError('Unregistered history path',409)
+            record = read_json(path)
+            rows.append({k:record[k] for k in ('run_id','parent_run','hypothesis','status','recipe','best_validation','error_type','steps','epochs_completed') if k in record})
+        return {'selected_run':view.get('best'),'experiments':rows,'decisions':view.get('decisions',[]),'validation_only':True}
+
+    async def perform_prediction(version, request, example=False):
+        from .delivery import model_record
+        if local:
+            raise RequestError('Prediction runs on SageMaker',503)
+        row = model_record(ROOT,version)
+        declaration = None
+        suffix = '.tif'
+        if not example:
+            header = request.headers.get('x-gotrain-input-contract','')
+            if len(header)>8192:
+                raise RequestError('Input declaration is too large')
+            try: declaration = json.loads(header)
+            except (json.JSONDecodeError,ValueError): raise RequestError('Declare the actual image band order and scaling')
+            expected = {k:row['task_spec'][k] for k in ('band_names','input_divisors')}
+            if declaration!=expected:
+                raise RequestError('Image channel order or units differ from this model')
+            media = request.headers.get('content-type','').split(';')[0]
+            suffix = {'image/png':'.png','image/jpeg':'.jpg','image/tiff':'.tif','image/geotiff':'.tif'}.get(media)
+            if suffix is None:
+                raise RequestError('Use PNG, JPEG or GeoTIFF')
+            length = request.headers.get('content-length','')
+            if length and (not length.isdigit() or int(length)>32*2**20):
+                raise RequestError('Single-image upload limit is 32 MiB',413)
+        if prediction_lock.locked() or import_lock.locked():
+            raise RequestError('Another image operation is active; retry when it finishes',409)
+        await prediction_lock.acquire()
+        prediction_id = 'prediction_'+uuid.uuid4().hex
+        directory = store.root/'predictions'/prediction_id
+        directory.mkdir(parents=True)
+        process = None
+        try:
+            if shutil.disk_usage(store.root).free<store.caps['disk_reserve_bytes']+128*2**20:
+                raise RequestError('Disk reserve prevents prediction',507)
+            image = directory/('input'+suffix)
+            if not example:
+                total = 0
+                async with asyncio.timeout(30):
+                    with image.open('xb') as target:
+                        async for chunk in request.stream():
+                            total += len(chunk)
+                            if total>32*2**20: raise RequestError('Single-image upload limit is 32 MiB',413)
+                            target.write(chunk)
+                atomic_json(directory/'input.json',declaration)
+            output = directory/'output'
+            command = [sys.executable,'-m','gotrain.delivery',version,str(output)]
+            command += ['--example'] if example else ['--image',str(image),'--declaration',str(directory/'input.json')]
+            process = await asyncio.create_subprocess_exec(*command,cwd=ROOT,
+                env={**os.environ,'PYTHONPATH':str(ROOT/'src'),'CUDA_VISIBLE_DEVICES':'','GOTRAIN_PREDICTION_PARENT':str(os.getpid())},
+                stdout=asyncio.subprocess.DEVNULL,stderr=asyncio.subprocess.PIPE)
+            _, error = await asyncio.wait_for(process.communicate(),timeout=65)
+            if process.returncode:
+                raise RequestError('Prediction failed: '+error.decode(errors='replace')[-500:])
+            result = read_json(output/'result.json')
+            artifacts = [name for name in ('mask.png','mask.tif','preview.png','overlay.png','input-preview.png') if (output/name).exists()]
+            value = {'id':prediction_id,'version':version,'result':result,'artifacts':artifacts,'example':example}
+            atomic_json(directory/'record.json',value)
+            return value
+        except TimeoutError:
+            raise RequestError('Prediction exceeded its time allowance',408)
+        finally:
+            if process and process.returncode is None:
+                process.kill(); await process.wait()
+            for name in ('input'+suffix,'input.json'): (directory/name).unlink(missing_ok=True)
+            if not (directory/'record.json').exists(): shutil.rmtree(directory)
+            prediction_lock.release()
+
+    @app.post('/api/models/{version}/predict')
+    async def predict(version: str, request: Request):
+        return await perform_prediction(version,request)
+
+    @app.post('/api/models/{version}/example')
+    async def predict_example(version: str, request: Request):
+        return await perform_prediction(version,request,True)
+
+    @app.get('/api/predictions/{prediction_id}/{name}')
+    def prediction_artifact(prediction_id: str, name: str):
+        opaque(prediction_id,'prediction')
+        directory = store.root/'predictions'/prediction_id
+        if not (directory/'record.json').exists() or name not in read_json(directory/'record.json')['artifacts']:
+            raise RequestError('Prediction artifact not found',404)
+        return FileResponse(directory/'output'/name,filename=name if name.startswith('mask') else None)
 
     @app.get('/')
     def index():

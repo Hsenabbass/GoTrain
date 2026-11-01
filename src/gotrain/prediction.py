@@ -185,6 +185,7 @@ def save_mask(mask, pixels, metadata, directory, geo=None, opacity=0.45):
         image = pixels[rgb].astype('float32').transpose(1, 2, 0)
         lo, hi = np.percentile(image, (2, 98), axis=(0, 1))
         image = np.clip((image - lo) / np.maximum(hi - lo, 1e-6), 0, 1) * 255
+        Image.fromarray(image.astype('uint8')).save(directory / 'input-preview.png')
         Image.fromarray(((1 - opacity) * image + opacity * preview).astype('uint8')).save(directory / 'overlay.png')
     (directory / 'result.json').write_text(json.dumps({'version': metadata['version'], 'class_names': metadata['class_names'], 'colors': palette.tolist(), 'overlay_opacity': opacity}, indent=2))
 

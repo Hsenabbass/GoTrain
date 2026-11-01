@@ -130,10 +130,42 @@ class JobTests(unittest.TestCase):
         view=self.jobs.get(self.record['id'])
         self.assertEqual((view['status'],view['best'],view['model_requests']),('stopped','finished_current_fixture',3))
 
+    def test_package_failure_never_reports_ready_or_loses_best(self):
+        self.start()
+        def factory(controller):
+            def run(_message):
+                controller.runner.runs.append('fixture_final')
+                controller.invoke('select_candidate',run_id='fixture_final',reason='CPU fixture')
+                controller.invoke('finish_search',reason='CPU fixture complete')
+            return run
+        def failed(*_): raise ValueError('Explicit package verification failure')
+        supervise(self.root,self.store,self.record['id'],self.launches[0]['nonce'],agent_factory=factory,runner_factory=FakeRunner,verify_source=False,finalizer=failed)
+        result=self.jobs.get(self.record['id'])
+        self.assertEqual((result['status'],result['best']),('failed','fixture_final'))
+        self.assertNotIn('package',result)
+
     def test_unfinished_agent_is_failed_and_never_ready(self):
         self.start()
         supervise(self.root,self.store,self.record['id'],self.launches[0]['nonce'],agent_factory=lambda _:lambda _message:None,runner_factory=FakeRunner,verify_source=False)
         self.assertEqual(self.jobs.get(self.record['id'])['status'],'failed')
+
+    def test_rejected_optional_budget_does_not_prevent_a_final_attempt(self):
+        from unittest.mock import patch
+        from gotrain.admission import Admission
+        self.start()
+        with Admission(self.root,self.policy) as lease:
+            lease.admit(self.store,self.record['id'],self.key)
+            controller=JobController(lease,self.folder(),FakeRunner)
+            controller.runner.recipe=lambda *_: {}
+            def rejected(*_): raise RequestError('Finalization reserve prevents optional tuning',409)
+            controller.runner.run_trial=rejected
+            with patch('gotrain.jobs.revision',return_value='explicit_CPU_fixture'):
+                result=controller.invoke('run_trial',candidate='resnet18',phase='tune',settings={},hypothesis='CPU budget fixture')
+            self.assertIn('reserve',result['error'])
+            self.assertFalse(controller.state.get('fatal',False))
+            controller.bound('model_requests')
+            self.assertEqual(lease.owned()[1]['model_requests'],3)
+            lease.finish('stopped')
 
     def test_terminal_display_cannot_hide_unsettled_reservation(self):
         from gotrain.admission import Admission

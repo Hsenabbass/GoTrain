@@ -14,6 +14,10 @@ const status = document.querySelector('#status');
 const panel = document.querySelector('#request-state');
 let connected = false, busy = false, health = null;
 let jobPoll = 0;
+const extras = document.createElement('section');
+extras.className = 'request-state';
+panel.parentNode.insertBefore(extras, panel);
+let modelList = [];
 let session = {conversationId: null, datasetId: null, datasetName: null, limits: {}, pending: null};
 function persist() {
   try {
@@ -117,13 +121,13 @@ function watchJob() {
       let view = document.querySelector('#job-state');
       if (!view) { view = document.createElement('div'); view.id = 'job-state'; panel.append(view); }
       view.replaceChildren();
-      text('h2', state.status === 'selected' ? 'Model selected' : state.stage || state.status, view);
+      text('h2', state.status === 'ready' ? 'Ready' : state.status === 'selected' ? 'Model selected' : state.stage || state.status, view);
       if (state.elapsed_seconds !== undefined) text('p', `${Math.floor(state.elapsed_seconds)} seconds elapsed · ${state.attempts || 0} attempts · ${state.model_requests || 0} model requests`, view);
       if (state.gpu_seconds !== undefined) text('small', `${Math.ceil(state.gpu_seconds)} GPU-job seconds charged or reserved.`, view);
       if (state.best) text('p', `Selected model: ${state.best}`, view);
       if (state.error) text('p', state.error, view);
       if (state.audit_required) text('p', 'This run needs operator review. It will not restart automatically.', view);
-      const active = !['selected', 'stopped', 'failed', 'interrupted'].includes(state.status);
+      const active = !['ready', 'selected', 'stopped', 'failed', 'interrupted'].includes(state.status);
       const reset = panel.querySelector('.new-request');
       if (reset) reset.disabled = active;
       if (active && state.status !== 'stopping') {
@@ -135,10 +139,132 @@ function watchJob() {
           catch (error) { status.textContent = error.message; stop.disabled = false; }
         });
       }
+      if (state.package) {
+        text('p', `Version ${state.package.version}. Validation selected; not final test evaluated.`, view);
+        const actions = document.createElement('div'); actions.className = 'model-actions'; view.append(actions);
+        action('Try model', () => openModel(state.package.version, view), actions);
+        const link = text('a', 'Download model', actions); link.href = `api/models/${state.package.version}/download`; link.download = '';
+      }
+      if (!active) action('History', async () => {
+        try { showHistory(await api(`conversations/${conversation}/history`), view); }
+        catch (error) { status.textContent = error.message; }
+      }, view);
       if (active) setTimeout(tick, 2000);
     } catch (error) { status.textContent = error.message; }
   }
   tick();
+}
+
+function action(label, callback, parent) {
+  const button = text('button', label, parent);
+  button.type = 'button'; button.className = 'new-request'; button.addEventListener('click', callback);
+  return button;
+}
+
+function showHistory(history, parent) {
+  parent.querySelector('.history-view')?.remove();
+  const box = document.createElement('div'); box.className = 'history-view'; parent.append(box);
+  text('h3', 'History', box);
+  text('p', `Selected run: ${history.selected_run || 'None yet'}. Validation only.`, box);
+  for (const row of history.experiments || []) {
+    const detail = document.createElement('details'); box.append(detail);
+    const metric = row.best_validation || row.last_validation;
+    text('summary', `${row.run_id} · ${row.status}${metric ? ` · ${metric.primary_name}: ${Number(metric.primary).toFixed(4)}` : ''}`, detail);
+    if (row.parent_run) text('p', `Parent: ${row.parent_run}`, detail);
+    if (row.hypothesis) text('p', row.hypothesis, detail);
+    if (row.gpu_job_seconds !== undefined && row.gpu_job_seconds !== null) text('p', `${Number(row.gpu_job_seconds).toFixed(2)} GPU-job seconds`, detail);
+    text('p', `Recipe: ${JSON.stringify(row.recipe || {})}`, detail);
+    if (row.error_type) text('p', `Failure: ${row.error_type}`, detail);
+  }
+  for (const decision of history.decisions || []) text('p', decision.reason || decision.hypothesis || JSON.stringify(decision), box);
+}
+
+async function openModel(version, parent) {
+  try {
+    modelList = await api('models');
+    const model = modelList.find(row => row.version === version);
+    if (!model) throw new Error('This model version is unavailable.');
+    parent.querySelector('.prediction-view')?.remove();
+    const box = document.createElement('section'); box.className = 'prediction-view'; parent.append(box);
+    const spec = model.task_spec;
+    text('h3', 'Try model', box);
+    text('small', 'Redistribution terms remain unresolved; see TERMS.md in the package.', box);
+    text('p', `Requires ${spec.width} × ${spec.height} pixels, ${spec.channels} bands in this order: ${spec.band_names.join(', ')}.`, box);
+    text('small', `Input scaling divisors: ${spec.input_divisors.join(', ')}. No resizing or band conversion.`, box);
+    text('p', `${model.validation.primary_name}: ${Number(model.validation.primary).toFixed(4)} on validation. Not final test evaluated.`, box);
+    const file = document.createElement('input'); file.type = 'file'; file.accept = '.png,.jpg,.jpeg,.tif,.tiff'; file.setAttribute('aria-label', 'Image for prediction'); box.append(file);
+    const label = document.createElement('label'); label.className = 'compatibility';
+    const check = document.createElement('input'); check.type = 'checkbox'; label.append(check, document.createTextNode(' My image matches the listed band order and units.')); box.append(label);
+    const resultBox = document.createElement('div'); box.append(resultBox);
+    async function run(example) {
+      resultBox.replaceChildren(); text('p', 'Predicting…', resultBox);
+      upload.disabled = exampleButton.disabled = true;
+      try {
+        const options = {method:'POST'};
+        if (!example) {
+          if (!file.files[0] || !check.checked) throw new Error('Choose an image and confirm its band order and units.');
+          if (file.files[0].size > 32 * 2 ** 20) throw new Error('Single images must be at most 32 MiB.');
+          const ext = file.files[0].name.split('.').pop().toLowerCase();
+          const media = {png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',tif:'image/tiff',tiff:'image/tiff'}[ext];
+          if (!media) throw new Error('Use PNG, JPEG or GeoTIFF.');
+          options.headers = {'Content-Type':media,'X-GoTrain-Input-Contract':JSON.stringify({band_names:spec.band_names,input_divisors:spec.input_divisors})};
+          options.body = file.files[0];
+        }
+        const prediction = await api(`models/${version}/${example ? 'example' : 'predict'}`, options);
+        resultBox.replaceChildren();
+        if (prediction.result.probabilities) {
+          text('p', `Prediction: ${prediction.result.class_name ?? `Class ${prediction.result.class_id}`}`, resultBox);
+          text('small', 'Class probabilities (not calibrated):', resultBox);
+          for (const [i, p] of prediction.result.probabilities.entries()) text('p', `${model.class_names[i] ?? `Class ${i}`}: ${(p * 100).toFixed(1)}%`, resultBox);
+        } else {
+          const imageUrl = name => `api/predictions/${prediction.id}/${name}`;
+          if (prediction.artifacts.includes('input-preview.png')) {
+            const layers = document.createElement('div'); layers.className = 'mask-layers'; resultBox.append(layers);
+            const base = text('img', '', layers); base.src = imageUrl('input-preview.png'); base.alt = 'Input display preview';
+            const overlay = text('img', '', layers); overlay.src = imageUrl('preview.png'); overlay.alt = 'Predicted class regions'; overlay.className = 'mask-overlay'; overlay.style.opacity = '.45';
+            const sliderLabel = document.createElement('label'); sliderLabel.textContent = 'Overlay opacity';
+            const slider = document.createElement('input'); slider.type = 'range'; slider.min = 0; slider.max = 100; slider.value = 45;
+            slider.addEventListener('input', () => { overlay.style.opacity = slider.value / 100; }); sliderLabel.append(slider); resultBox.append(sliderLabel);
+          } else { const preview = text('img', '', resultBox); preview.src = imageUrl('preview.png'); preview.alt = 'Predicted class regions'; }
+          const mask = text('a', 'Download class-ID mask', resultBox); mask.href = imageUrl(prediction.artifacts.includes('mask.tif') ? 'mask.tif' : 'mask.png'); mask.download = '';
+          for (const [i, color] of prediction.result.colors.entries()) {
+            const item = text('p', '', resultBox); const swatch = text('span', '■ ', item); swatch.style.color = `rgb(${color.join(',')})`;
+            item.append(document.createTextNode(`${i}: ${prediction.result.class_names[i] ?? `Class ${i}`}`));
+          }
+        }
+      } catch (error) { resultBox.replaceChildren(); text('p', error.message, resultBox); }
+      finally { upload.disabled = exampleButton.disabled = false; }
+    }
+    const upload = action('Predict image', () => run(false), box);
+    const exampleButton = action('Try validation example', () => run(true), box);
+    const download = text('a', 'Download model', box); download.href = `api/models/${version}/download`; download.download = '';
+    action('Model history', async () => { try { showHistory(await api(`models/${version}/history`), box); } catch (error) { status.textContent = error.message; } }, box);
+  } catch (error) { status.textContent = error.message; }
+}
+
+async function loadSavedOptions() {
+  extras.replaceChildren();
+  const datasets = await api('datasets');
+  const saved = document.createElement('details'); extras.append(saved); text('summary', 'Use saved or prepared data', saved);
+  const select = document.createElement('select'); select.setAttribute('aria-label', 'Saved dataset'); saved.append(select);
+  for (const row of datasets) {
+    const option = document.createElement('option'); option.value = row.id;
+    option.textContent = `${row.task.description || row.id} · ${row.task.kind} · ${row.counts.train} train / ${row.counts.valid} validation`; select.append(option);
+  }
+  action('Attach saved data', () => {
+    if (session.conversationId) { status.textContent = 'Start a new request to change the dataset.'; return; }
+    session.datasetId = select.value; session.datasetName = select.options[select.selectedIndex].textContent;
+    dataset.value = ''; showAttachment(); persist();
+  }, saved);
+  modelList = await api('models');
+  if (modelList.length) {
+    const use = document.createElement('details'); extras.append(use); text('summary', 'Use an existing model', use);
+    const models = document.createElement('select'); models.setAttribute('aria-label', 'Existing model'); use.append(models);
+    for (const row of modelList) {
+      const option = document.createElement('option'); option.value = row.version; option.textContent = `${row.label || row.task} · ${row.version}`; models.append(option);
+    }
+    action('Try model', () => openModel(models.value, use), use);
+  }
 }
 
 message.addEventListener('input', () => { updateSend(); status.textContent = ''; persist(); });
@@ -206,9 +332,10 @@ async function connect() {
   try {
     health = await api('health');
     connected = health.service === 'gotrain';
-    document.querySelector('#connection').textContent = health.preflight_enabled ? 'Request validation' : 'Service preview';
+    document.querySelector('#connection').textContent = health.preflight_enabled ? 'SageMaker connected' : 'Service preview';
     document.querySelector('#preview-note').textContent = 'Attach a labeled manifest ZIP, or name a prepared dataset. Sending checks the request before any training.';
     if (session.conversationId) showRecord(await api('conversations/' + encodeURIComponent(session.conversationId)));
+    await loadSavedOptions();
   } catch {
     document.querySelector('#connection').textContent = 'Design preview';
     document.querySelector('#preview-note').textContent = 'Preview only. Messages and selected files stay on this device until the service is connected.';

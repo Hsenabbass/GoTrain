@@ -13,7 +13,7 @@ import uuid
 from .requests import RequestError, Requests, atomic_json, benchmark_registry, opaque, read_json
 
 ROOT = Path(__file__).resolve().parents[2]
-TERMINAL = {'selected', 'stopped', 'failed'}
+TERMINAL = {'ready', 'selected', 'stopped', 'failed'}
 
 
 def identity(pid):
@@ -102,7 +102,7 @@ class Jobs:
                 state = {**state,'status':'stopping','stage':'Stopping after current experiment'}
         # Public view omits process IDs, paths and internal launch token.
         allowed = ('status','stage','job_id','best','runs','attempts','model_requests','gpu_seconds',
-                   'elapsed_seconds','usage','decisions','error','audit_required','updated_utc')
+                   'elapsed_seconds','usage','decisions','error','audit_required','updated_utc','package')
         return {k:v for k,v in state.items() if k in allowed}
 
     def stop(self, conversation):
@@ -202,8 +202,15 @@ class JobController:
             raise ValueError('A bounded hypothesis is required')
         self.state['stage'] = 'Preparing' if phase=='probe' else 'Refining' if phase=='tune' else 'Comparing'
         self.save()
+        before = len(self.runner.runs)
         try:
             return self.runner.run_trial(candidate,phase,settings,hypothesis)
+        except RequestError:
+            if len(self.runner.runs)==before and self.lease.owned()[1]['active_trial'] is None:
+                raise  # A rejected optional reservation must leave final training available.
+            self.state['fatal'] = True
+            self.save()
+            raise
         except Exception:
             self.state['fatal'] = True
             self.save()
@@ -246,7 +253,7 @@ class JobController:
         return result
 
 
-def supervise(root, store, conversation, nonce, *, agent_factory=None, runner_factory=None, verify_source=True):
+def supervise(root, store, conversation, nonce, *, agent_factory=None, runner_factory=None, verify_source=True, finalizer=None):
     """Test factories are private CPU fixtures; CLI always uses the real implementation."""
     from .admission import Admission
     folder = Jobs(root,store).folder(conversation)
@@ -290,9 +297,26 @@ def supervise(root, store, conversation, nonce, *, agent_factory=None, runner_fa
             except Exception as exc:
                 controller.state['error'] = type(exc).__name__+': '+str(exc)[:500]
                 final = 'failed'
+            if final in ('selected','stopped') and controller.runner.best:
+                try:
+                    if finalizer is None and runner_factory is None:
+                        from .delivery import finalize
+                        finalizer = finalize
+                    if finalizer is not None:
+                        controller.state['stage'] = 'Verifying and packaging'
+                        controller.save()
+                        controller.state['package'] = finalizer(root,controller)
+                        if not controller.state['package'].get('verification',{}).get('passed'):
+                            raise RuntimeError('Package verification did not pass')
+                        if final=='selected': final = 'ready'
+                except Exception as exc:
+                    controller.state.pop('package',None)
+                    controller.state['error'] = type(exc).__name__+': '+str(exc)[:500]
+                    final = 'failed'
+            if final=='ready': controller.state['stage']='Ready'
             controller.state.update(status=final,stage='Stopped' if final=='stopped' else 'Failed' if final=='failed' else controller.state['stage'])
             controller.save()
-            lease.finish('completed' if final=='selected' else final)
+            lease.finish('completed' if final in ('selected','ready') else final)
             signal.setitimer(signal.ITIMER_REAL,0)
     except Exception as exc:
         state = dict(controller.state) if controller else {'job_id':lease.job_id if lease else None}

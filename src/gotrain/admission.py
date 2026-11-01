@@ -79,6 +79,8 @@ class Admission:
             if record['status'] != 'ready_for_review' or record.get('questions'):
                 raise RequestError('Resolve the request before admission', 409)
             data = store.dataset(record['dataset_id'])
+            if data['counts']['train'] < 2:
+                raise RequestError('At least two training images are required by the supported recipes',409)
             summary = record['summary']
             if (data.get('status') != 'validated' or summary['dataset_version'] != data['sha256']
                     or summary['dataset_id'] != data['id'] or summary['task'] != data['task']

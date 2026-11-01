@@ -281,3 +281,33 @@ and leaves charges reserved for audit. The existing watchdog also kills/waits
 for workers on timeout or interrupted waiting. Supervisor state, trials, returned
 usage and selection live under `artifacts/service/jobs/<conversation>/`; the GPU
 ledger remains the authoritative charge record. No database or queue.
+
+
+## Remaining M4 delivery/workspace (implementation, verification pending)
+
+The user authorized all remaining M4 work. Selection now enters trusted CPU
+verification/export before Ready. Published versions reuse the 4.1 package
+contract; extracted output is compared against the originating checkpoint in a
+fresh process outside the checkout with network/cache access denied. Failure
+preserves selection/history and never publishes a ready package.
+
+The model registry contains only checksum-verified publications and the four
+retained 4.1 receipts. Download and prediction accept version IDs, never client
+paths. Read-only history exposes linked experiments, validation, settings and
+decisions. CPU image prediction has a 32 MiB upload / 128 MiB decoded sample /
+60-second worker limit, explicit band/unit declaration and native-shape checks.
+Classification returns uncalibrated probabilities; segmentation returns masks,
+aligned overlays/legend and geographic metadata where supplied. Every model has
+a validation-only example, without test access. One image operation runs at a time.
+
+Browser dataset import is deliberately capped at a verifiable operational 32 MiB,
+superseding the initial proposed 512 MiB ceiling. Its boundary transfer is pending
+verification. Larger prepared ZIPs already on SageMaker can use the operator-only
+`python scripts/register_dataset.py data/imports/<prepared>.zip` route (2 GiB
+compressed/expanded ceiling), which reuses the same import validation and protected
+registry. No cloud URL/path instruction from chat is executed.
+
+UI additions remain inline: saved data, existing models, prediction, history and
+verified download. No sidebar/dashboard. Models remain private research artifacts;
+public weight redistribution permission is unresolved. Training is still disabled
+until CPU verification passes and the authorized bounded live checks begin.
